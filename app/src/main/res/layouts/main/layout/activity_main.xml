@@ -29,6 +29,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </FrameLayout>
+        <FrameLayout
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
     </LinearLayout>
 
 

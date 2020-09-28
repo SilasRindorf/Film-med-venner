@@ -16,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Fragment frag = new main_btn_frag();
-        addFrag(frag);
+        addFrag(R.id.nav_bar,frag);
     }
 
-    private void addFrag(Fragment fragment){
+    private void addFrag(int id, Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.home_btn,fragment);
+        fragmentTransaction.add(id,fragment);
         fragmentTransaction.commit();
     }
 }
