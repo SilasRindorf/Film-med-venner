@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.film_med_venner.fragments.main_btn_frag;
+import com.example.film_med_venner.fragments.Nav_bar_frag;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,9 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Fragment frag = new main_btn_frag();
-        addFrag(R.id.nav_bar,frag);
-    }
+        Fragment frag = new Nav_bar_frag();
+        addFrag(R.id.home_btn,frag);
+        }
 
     private void addFrag(int id, Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
