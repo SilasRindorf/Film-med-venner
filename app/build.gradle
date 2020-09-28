@@ -20,10 +20,13 @@ android {
             aidl.srcDirs = ['/src/main/aidl', '.apt_generated']
             assets.srcDirs = ['/src/main/assets']
             res.srcDirs = [
-                    '/src/main/res/layout/profile',
-                    '/src/main/res/layout/settings',
-                    '/src/main/res/layout',
-                    '/src/main/res'
+                    '/src/main/res/layouts/chat',
+                    '/src/main/res/layouts/main',
+                    '/src/main/res/layouts/profile',
+                    '/src/main/res/layouts/search',
+                    '/src/main/res/layouts/settings',
+                    '/src/main/res/layouts',
+                    '/src/main/res/'
             ]
         }
     }
