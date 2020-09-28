@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Film-med-venner</string>
     <string name="welcome">Velkommen til film med venner app\'en!</string>
+    <string name="wantToWatch">Vil gerne se</string>
+    <string name="watched">Set</string>
+    <string name="profileName">Fornavn Efternavn</string>
+    <string name="profileInterests">Genre1, genre2, genre3</string>
 </resources>
