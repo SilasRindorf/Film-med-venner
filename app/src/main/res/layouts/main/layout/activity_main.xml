@@ -60,44 +60,40 @@
 
         <ImageButton
             android:id="@+id/home_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/home" />
-
         <ImageButton
             android:id="@+id/profile_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/profilepicture" />
-
         <ImageButton
             android:id="@+id/search_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/search" />
-
         <ImageButton
             android:id="@+id/chat_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/chat" />
-
         <ImageButton
             android:id="@+id/settings_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
