@@ -1,10 +1,13 @@
     <resources>
         <string name="app_name">Film-med-venner</string>
         <string name="welcome">Velkommen til film med venner app\'en!</string>
-        <string name="profileName">Fornavn Efternavn</string>
-        <string name="profileInterests">Genre1, genre2, genre3</string>
+        <string name="profileName">Christian Jensen</string>
+        <string name="profileInterests">Horror, Thriller, Action</string>
         <string name="wantToWatch">Want to watch</string>
         <string name="watched">Watched</string>
         <string name="reviewed">Reviewed</string>
         <string name="rated">Rated</string>
+            <string name="chatTitle">Chat</string>
+        <string name="search">Search</string>
+            <string name="profileMessage">Hey har du set den nye Druk film? Den skulle være mega fed. Ville du evt. være frisk på at se den sammen?</string>
     </resources>
