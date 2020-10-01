@@ -79,7 +79,7 @@
                 <TextView
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="279 movies and series"
+                    android:text="279 movies and series on watch later list"
                     />
             </LinearLayout>
 
@@ -111,7 +111,7 @@
                 <TextView
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="250 movies and series"
+                    android:text="250 movies and series watched"
                     />
             </LinearLayout>
 
@@ -127,11 +127,25 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/reviewed"/>
-            <TextView
-                android:id="@+id/text_reviewed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reviewed"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/text_reviewed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/reviewed"/>
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="25 movies and series reviewed"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -145,11 +159,25 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/rated"/>
-            <TextView
-                android:id="@+id/text_rated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rated"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/text_rated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/rated"/>
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="175 movies and series rated"
+                    />
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
