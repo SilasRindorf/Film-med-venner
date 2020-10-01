@@ -15,32 +15,10 @@
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="276dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/search"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <SearchView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView8"
         android:layout_width="171dp"
         android:layout_height="31dp"
-        android:text="@string/chatTitle"
+        android:text="Home"
         android:textAlignment="center"
         android:textSize="15sp"
         android:autoSizeTextType="uniform"
@@ -103,16 +81,14 @@
     <HorizontalScrollView
         android:layout_width="409dp"
         android:layout_height="560dp"
-        android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -124,36 +100,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/profileName1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Christian Jensen reviewed:"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/profileMessage1"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="I really liked this movie as it appeals to the injustice of an unfair world."
-                    />
+                    android:text="I really liked this movie as it appeals to the injustice of an unfair world." />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <ImageButton
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:scaleType="fitXY"
                         app:srcCompat="@drawable/wanttowatch" />
+
                     <ImageButton
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:scaleType="fitXY"
                         app:srcCompat="@drawable/reviewed" />
+
                     <ImageButton
                         android:layout_width="45dp"
                         android:layout_height="45dp"
@@ -163,7 +141,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
 
 
         </LinearLayout>
