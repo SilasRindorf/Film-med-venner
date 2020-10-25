@@ -15,4 +15,8 @@
         <string name="switch_ratings">See friends newly added movie/series ratings in home feed</string>
         <string name="switch_review">See friends newly added movie/series reviews in home feed</string>
         <string name="switch_watchList">See friends newly added movie/series to watch lists in home feed</string>
+            <string name="input_password">Enter password</string>
+        <string name="input_username">Enter username</string>
+        <string name="btn_login">Login</string>
+        <string name="btn_signup">Sign up</string>
     </resources>
