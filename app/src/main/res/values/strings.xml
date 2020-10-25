@@ -8,6 +8,11 @@
         <string name="reviewed">Reviewed</string>
         <string name="rated">Rated</string>
             <string name="chatTitle">Chat</string>
+        <string name="settings">Settings</string>
         <string name="search">Search</string>
             <string name="profileMessage">Hey har du set den nye Druk film? Den skulle være mega fed. Ville du evt. være frisk på at se den sammen?</string>
+        
+        <string name="switch_ratings">See friends newly added movie/series ratings in home feed</string>
+        <string name="switch_review">See friends newly added movie/series reviews in home feed</string>
+        <string name="switch_watchList">See friends newly added movie/series to watch lists in home feed</string>
     </resources>
