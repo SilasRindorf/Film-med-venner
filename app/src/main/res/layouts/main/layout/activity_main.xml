@@ -43,7 +43,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/home" />
+            app:srcCompat="@drawable/icon_home" />
 
         <ImageButton
             android:id="@+id/profile_btn"
@@ -52,7 +52,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profilepicture" />
+            app:srcCompat="@drawable/icon_profilepicture" />
 
         <ImageButton
             android:id="@+id/search_btn"
@@ -61,7 +61,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search" />
+            app:srcCompat="@drawable/icon_search" />
 
         <ImageButton
             android:id="@+id/settings_btn"
@@ -70,7 +70,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/settings" />
+            app:srcCompat="@drawable/icon_settings" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -90,7 +90,7 @@
                 android:id="@+id/img_profile1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:srcCompat="@drawable/batman_the_dark_knight" />
+                app:srcCompat="@drawable/mp_batman_the_dark_knight" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,19 +119,19 @@
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:scaleType="fitXY"
-                        app:srcCompat="@drawable/wanttowatch" />
+                        app:srcCompat="@drawable/icon_wanttowatch" />
 
                     <ImageButton
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:scaleType="fitXY"
-                        app:srcCompat="@drawable/reviewed" />
+                        app:srcCompat="@drawable/icon_reviewed" />
 
                     <ImageButton
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:scaleType="fitXY"
-                        app:srcCompat="@drawable/rated" />
+                        app:srcCompat="@drawable/icon_rated" />
 
                 </LinearLayout>
             </LinearLayout>
