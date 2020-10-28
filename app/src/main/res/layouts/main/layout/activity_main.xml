@@ -157,7 +157,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_FourStarRating"></ImageView>
+                app:srcCompat="@drawable/icon_fourstarrating"></ImageView>
 
             <LinearLayout
                 android:layout_width="match_parent"
