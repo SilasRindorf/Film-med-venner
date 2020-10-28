@@ -5,14 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageButton
-        android:id="@+id/return_btn"
-        android:layout_width="53dp"
-        android:layout_height="45dp"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+
     <TextView
         android:id="@+id/title_Settings"
         android:layout_width="171dp"
