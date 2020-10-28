@@ -66,7 +66,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/home" />
+            app:srcCompat="@drawable/icon_home" />
 
         <ImageButton
             android:id="@+id/profile_btn"
@@ -75,7 +75,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profilepicture" />
+            app:srcCompat="@drawable/icon_profilepicture" />
 
         <ImageButton
             android:id="@+id/search_btn"
@@ -84,7 +84,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search" />
+            app:srcCompat="@drawable/icon_search" />
 
         <ImageButton
             android:id="@+id/settings_btn"
@@ -93,7 +93,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/settings" />
+            app:srcCompat="@drawable/icon_settings" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
