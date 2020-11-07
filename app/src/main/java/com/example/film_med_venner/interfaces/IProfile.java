@@ -5,5 +5,5 @@ import java.util.ArrayList;
 public interface IProfile {
     int getID();
     String getName();
-    ArrayList getMvgPrefs();
+    ArrayList<String> getMvgPrefs();
 }
