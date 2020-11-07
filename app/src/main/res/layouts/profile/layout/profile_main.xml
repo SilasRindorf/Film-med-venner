@@ -7,17 +7,17 @@
 
     <ImageButton
         android:id="@+id/return_btn"
-        android:layout_width="58dp"
-        android:layout_height="51dp"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/returnimage" />
+        app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <ImageView
         android:id="@+id/image_profilePicture"
-        android:layout_width="102dp"
-        android:layout_height="92dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="@string/profileName"
+        android:textStyle="bold"
         android:layout_marginTop="25dp"
         app:layout_constraintBottom_toTopOf="@+id/text_profileInterests"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,13 +63,27 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/wanttowatch" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/text_wantToWatch"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wantToWatch"
+                    />
 
-            <TextView
-                android:id="@+id/text_wantToWatch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/wantToWatch"
-                />
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="279 movies and series on watch later list"
+                    />
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -81,11 +96,25 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/watched" />
-            <TextView
-                android:id="@+id/text_watched"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/watched" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/text_watched"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/watched"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="250 movies and series watched"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -98,11 +127,26 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/reviewed"/>
-            <TextView
-                android:id="@+id/text_reviewed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reviewed"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/text_reviewed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/reviewed"/>
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="25 movies and series reviewed"
+                    />
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -115,12 +159,76 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/rated"/>
-            <TextView
-                android:id="@+id/text_rated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rated"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/text_rated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/rated"/>
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="175 movies and series rated"
+                    />
+            </LinearLayout>
+
+
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/home_btn"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/home" />
+        <ImageButton
+            android:id="@+id/profile_btn"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/profilepicture" />
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/search" />
+        <ImageButton
+            android:id="@+id/chat_btn"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chat" />
+        <ImageButton
+            android:id="@+id/settings_btn"
+            android:layout_width="81.5dp"
+            android:layout_height="81.5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/settings" />
     </LinearLayout>
 
 

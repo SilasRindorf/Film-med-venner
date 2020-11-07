@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.act_frag,frag);
+        //addFrag(R.id.main,frag);
         }
 
     private void addFrag(int id, Fragment fragment){
