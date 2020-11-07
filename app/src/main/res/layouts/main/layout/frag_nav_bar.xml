@@ -14,44 +14,39 @@
 
         <ImageButton
             android:id="@+id/home_btn"
-            android:layout_width="81.5dp"
-            android:layout_height="81.5dp"
+            android:layout_width="102dp"
+            android:layout_height="102dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/home" />
+            app:srcCompat="@drawable/icon_home" />
+
         <ImageButton
             android:id="@+id/profile_btn"
-            android:layout_width="81.5dp"
-            android:layout_height="81.5dp"
+            android:layout_width="102dp"
+            android:layout_height="102dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profilepicture" />
+            app:srcCompat="@drawable/icon_profilepicture" />
+
         <ImageButton
             android:id="@+id/search_btn"
-            android:layout_width="81.5dp"
-            android:layout_height="81.5dp"
+            android:layout_width="102dp"
+            android:layout_height="102dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search" />
-        <ImageButton
-            android:id="@+id/chat_btn"
-            android:layout_width="81.5dp"
-            android:layout_height="81.5dp"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/chat" />
+            app:srcCompat="@drawable/icon_search" />
+
         <ImageButton
             android:id="@+id/settings_btn"
-            android:layout_width="81.5dp"
-            android:layout_height="81.5dp"
+            android:layout_width="102dp"
+            android:layout_height="102dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/settings" />
+            app:srcCompat="@drawable/icon_settings" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

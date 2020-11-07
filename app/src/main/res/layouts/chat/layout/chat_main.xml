@@ -65,7 +65,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/home" />
+            app:srcCompat="@drawable/icon_home" />
 
         <ImageButton
             android:id="@+id/profile_btn"
@@ -74,7 +74,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profilepicture" />
+            app:srcCompat="@drawable/icon_profilepicture" />
 
         <ImageButton
             android:id="@+id/search_btn"
@@ -83,7 +83,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search" />
+            app:srcCompat="@drawable/icon_search" />
 
         <ImageButton
             android:id="@+id/chat_btn"
@@ -92,7 +92,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/chat" />
+            app:srcCompat="@drawable/icon_chat" />
 
         <ImageButton
             android:id="@+id/settings_btn"
@@ -101,7 +101,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/settings" />
+            app:srcCompat="@drawable/icon_settings" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -123,7 +123,7 @@
                 android:id="@+id/img_profile1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:srcCompat="@drawable/profilepicture" />
+                app:srcCompat="@drawable/icon_profilepicture" />
 
             <LinearLayout
                 android:layout_width="match_parent"
