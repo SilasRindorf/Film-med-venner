@@ -9,5 +9,8 @@ public interface IMovie {
     String[] getGenres();
     //This is should return a picture
     String getPoster();
+    //example 0-5 stars
+    int getRating();
+    int getFriendsRating();
 
 }
