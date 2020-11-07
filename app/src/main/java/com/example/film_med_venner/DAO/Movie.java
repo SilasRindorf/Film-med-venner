@@ -10,13 +10,17 @@ public class Movie implements IMovie {
     private ArrayList<String> actors;
     private String[] genres;
     private String poster;
+    private int rating;
+    private int friendsRating;
 
-    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String poster) {
+    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String poster, int rating, int friendsRating) {
         this.title = title;
         this.info = info;
         this.actors = actors;
         this.genres = genres;
         this.poster = poster;
+        this.rating = rating;
+        this.friendsRating = friendsRating;
     }
 
     @Override
@@ -24,8 +28,7 @@ public class Movie implements IMovie {
         return title;
     }
 
-    @Override
-    public String info() {
+    public String getInfo() {
         return info;
     }
 
@@ -42,5 +45,15 @@ public class Movie implements IMovie {
     @Override
     public String getPoster() {
         return poster;
+    }
+
+    @Override
+    public int getRating() {
+        return rating;
+    }
+
+    @Override
+    public int getFriendsRating() {
+        return friendsRating;
     }
 }

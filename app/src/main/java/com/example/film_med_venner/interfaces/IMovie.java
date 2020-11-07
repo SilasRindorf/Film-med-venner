@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface IMovie {
     String getTitle();
-    String info();
+    String getInfo();
     ArrayList<String> getActors();
     String[] getGenres();
     //This is should return a picture
