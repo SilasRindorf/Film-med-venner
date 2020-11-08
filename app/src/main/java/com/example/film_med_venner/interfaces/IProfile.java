@@ -6,4 +6,5 @@ public interface IProfile {
     int getID();
     String getName();
     ArrayList<String> getMvgPrefs();
+    ArrayList<IProfile> getFriends();
 }

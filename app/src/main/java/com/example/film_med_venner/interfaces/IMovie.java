@@ -11,6 +11,8 @@ public interface IMovie {
     String getPoster();
     //example 0-5 stars
     int getRating();
+    //Average of friends rating
     int getFriendsRating();
+    IReview[] getRatings();
 
 }
