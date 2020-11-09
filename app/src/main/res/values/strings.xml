@@ -17,14 +17,20 @@
         <string name="switch_review">See friends newly added movie/series reviews in home feed</string>
         <string name="switch_watchList">See friends newly added movie/series to watch lists in home feed</string>
 
-        //Buttons
-        <string name="btn_login">Login</string>
-        <string name="btn_signup">Sign up</string>
+        // Buttons
+        <string name="btn_login_usign_mail">Login with mail</string>
+        <string name="btn_signup_using_mail">Sign up using mail</string>
+        <string name="btn_login_using_facebook">Login with Facebook</string>
+        <string name="btn_signup_using_facebook">Sign up using Facebook</string>
+        <string name="btn_go_back">Go back</string>
 
-        //Input
-        <string name="input_password">Enter password</string>
-        <string name="input_username">Enter username</string>
-        <string name="input_email">Enter email</string>
+        // Inputs for textviews above edittexts
+        <string name="input_password">Enter password: </string>
+        <string name="input_repeat_password">Repeat password: </string>
+        <string name="input_username">Enter username: </string>
+        <string name="input_email">Enter email: </string>
+        <string name="input_firstname">Enter firstname: </string>
+        <string name="input_surname">Enter surname: </string>
 
         // Sample text
         <string name="profileName">Christian Jensen</string>
