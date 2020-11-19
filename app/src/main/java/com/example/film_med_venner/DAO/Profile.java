@@ -34,6 +34,11 @@ public class Profile implements IProfile {
         return mvGPrefs;
     }
 
+    @Override
+    public ArrayList<IProfile> getFriends() {
+        return null;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

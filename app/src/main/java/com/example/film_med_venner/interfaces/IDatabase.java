@@ -5,4 +5,5 @@ public interface IDatabase {
     IProfile[] getProfiles();
     IMovie[] getMoviesWithGenre(String Genre);
     IMovie[] getMovies();
+    IDatabase getInstance();
 }

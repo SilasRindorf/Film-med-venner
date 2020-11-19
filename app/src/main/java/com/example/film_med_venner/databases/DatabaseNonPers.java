@@ -1,46 +1,60 @@
 package com.example.film_med_venner.databases;
 
+import android.provider.ContactsContract;
+
 import com.example.film_med_venner.DAO.Movie;
+import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.Generator;
+import com.example.film_med_venner.enums.Enums;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseNonPers implements IDatabase {
-    //private ArrayList<IMovie> movies;
-    //private HashMap<ArrayList<String>, IMovie> movies;
-    private IMovie[] movies;
+    private HashMap<Enums.Genre[], IMovie> movies;
     private IProfile[] profiles;
+    private DatabaseNonPers instance;
+    @Override
+    public IDatabase getInstance() {
+        if (instance == null){
+            instance = new DatabaseNonPers();
+        }
+        return instance;
+    }
 
-    public DatabaseNonPers(){
+    private DatabaseNonPers(){
         Generator gen = new Generator();
-        //movies = new ArrayList<>();
-        //movies = new HashMap<>();
-        movies = gen.generateMovies(10);
-
-
+        profiles = new Profile[10];
+        movies = new HashMap<>();
+        IMovie[] genMovies = gen.generateMovies(10);
+        for (IMovie mov : genMovies){
+            movies.put(mov.getGenres(),mov);
+        }
     }
 
     @Override
     public IProfile getProfile(int id) {
-        return null;
+        //Temporary return ID is tied to a profile not pos in array
+        return profiles[id];
     }
 
     @Override
     public IProfile[] getProfiles() {
-        return new IProfile[0];
+        return profiles;
     }
 
     @Override
     public IMovie[] getMoviesWithGenre(String Genre) {
-        return new IMovie[0];
+        return null;
     }
 
     @Override
-    public IMovie[] getMovies() {
-        return movies;
+    public IMovie[] getMovies() {   
+        System.out.println(movies.entrySet().toArray().toString());
+        return null;
     }
+
+
 }
