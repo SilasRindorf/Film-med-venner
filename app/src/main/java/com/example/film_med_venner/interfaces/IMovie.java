@@ -8,7 +8,7 @@ public interface IMovie {
     String getTitle();
     String getInfo();
     ArrayList<String> getActors();
-    Enums.Genre[] getGenres();
+    String[] getGenres();
 
     //This is should return a picture
     String getPoster();
