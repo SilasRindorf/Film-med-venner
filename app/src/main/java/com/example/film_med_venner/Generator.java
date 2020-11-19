@@ -7,7 +7,7 @@ public class Generator {
     public IMovie[] generateMovies(int amount){
         IMovie[] movies = new Movie[amount];
         for (int i = 0; i < amount; i++) {
-            Movie curMov  = new Movie("Movie " + 1,
+            Movie curMov  = new Movie("Movie " + i,
                     "",
                     null,
                     null,
