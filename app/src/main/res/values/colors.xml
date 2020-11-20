@@ -4,4 +4,7 @@
     <color name="colorToolbar">#3C1C0B</color>
     <color name="colorButton">#FF9800</color>
     <color name="colorTextView">#80FFFFFF</color>
+    <color name="colorPrimary">#900705</color>
+    <color name="colorPrimaryDark">#3C1C0B</color>
+    <color name="colorAccent">#80FFFFFF</color>
 </resources>

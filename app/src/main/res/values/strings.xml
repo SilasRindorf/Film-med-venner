@@ -23,6 +23,7 @@
         <string name="btn_login_using_facebook">Login with Facebook</string>
         <string name="btn_signup_using_facebook">Sign up using Facebook</string>
         <string name="btn_go_back">Go back</string>
+        <string name="btn_signup">Sign up</string>
 
         // Inputs for textviews above edittexts
         <string name="input_password">Enter password: </string>
