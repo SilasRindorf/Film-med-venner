@@ -17,6 +17,7 @@ public class Nav_bar_frag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.frag_nav_bar, container, false);
         int[] btnIDs = {R.id.home_btn};
+        Class[] classes;
         ImageButton btn;
         for (int btnID : btnIDs) {
             btn = (ImageButton) view.findViewById(btnID);
