@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 26
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.film_med_venner"
-        minSdkVersion 30
-        targetSdkVersion 30
+        minSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
