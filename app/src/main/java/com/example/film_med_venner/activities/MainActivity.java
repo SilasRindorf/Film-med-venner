@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
         //addFrag(R.id.main,frag);
         }
 
-    private void addFrag(int id, Fragment fragment){
+
+
+        private void addFrag(int id, Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(id,fragment);
