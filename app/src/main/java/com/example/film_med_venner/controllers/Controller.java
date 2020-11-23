@@ -16,8 +16,7 @@ public class Controller implements IController {
     }
 
     private Controller(){
-        database = new DatabaseNonPers();
-
+        //database = DatabaseNonPers;
     }
 
     public IMovie[] getMovies(){return null;}

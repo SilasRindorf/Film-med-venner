@@ -15,8 +15,8 @@ import java.util.HashMap;
 public class DatabaseNonPers implements IDatabase {
     private HashMap<Enums.Genre[], IMovie> movies;
     private IProfile[] profiles;
-    private DatabaseNonPers instance;
-    @Override
+    private IDatabase instance;
+
     public IDatabase getInstance() {
         if (instance == null){
             instance = new DatabaseNonPers();
@@ -30,7 +30,7 @@ public class DatabaseNonPers implements IDatabase {
         movies = new HashMap<>();
         IMovie[] genMovies = gen.generateMovies(10);
         for (IMovie mov : genMovies){
-            movies.put(mov.getGenres(),mov);
+            //movies.put(mov.getGenres(),mov);
         }
     }
 
