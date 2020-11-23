@@ -11,7 +11,9 @@
         android:layout_alignParentTop="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorNavBar"
+        >
 
         <ImageButton
             android:id="@+id/home_btn"
@@ -19,8 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/icon_home"
             android:adjustViewBounds="true"
+            app:srcCompat="@drawable/icon_home"
+            android:background="@color/colorNavBar"
             />
 
         <ImageButton
@@ -29,8 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/icon_profilepicture"
             android:adjustViewBounds="true"
+            app:srcCompat="@drawable/icon_profilepicture"
+            android:background="@color/colorNavBar"
             />
 
         <ImageButton
@@ -41,6 +45,7 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/icon_search"
             android:adjustViewBounds="true"
+            android:background="@color/colorNavBar"
             />
 
         <ImageButton
@@ -51,6 +56,7 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/icon_settings"
             android:adjustViewBounds="true"
+            android:background="@color/colorNavBar"
             />
     </LinearLayout>
 
