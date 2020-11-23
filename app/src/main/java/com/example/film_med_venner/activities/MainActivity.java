@@ -19,12 +19,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Fragment frag = new Nav_bar_frag();
-        //addFrag(R.id.main,frag);
+        addFrag(R.id.nav_bar_container,frag);
         }
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(id, fragment).commit();
+        fragmentTransaction.add(id, fragment);
+        fragmentTransaction.commit();
     }
 }
