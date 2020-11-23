@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.SettingsActivity">
+    tools:context=".UI.SettingsActivity"
+    android:background="@color/colorBackground">
 
     <TextView
         android:id="@+id/title_Settings"
@@ -21,32 +22,31 @@
 
     <Switch
         android:id="@+id/switch_ratings"
-        android:layout_width="196dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="152dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/switch_ratings"
+        app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_Settings" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
         android:id="@+id/switch_reviews"
-        android:layout_width="194dp"
-        android:layout_height="83dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:text="@string/switch_review"
         app:layout_constraintBottom_toTopOf="@+id/switch_watchList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_ratings" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Switch
         android:id="@+id/switch_watchList"
-        android:layout_width="194dp"
-        android:layout_height="83dp"
-        android:layout_marginBottom="104dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:text="@string/switch_watchList"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/switch_ratings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
@@ -55,6 +55,7 @@
         android:id="@+id/nav_bar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
