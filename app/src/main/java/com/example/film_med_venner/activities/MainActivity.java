@@ -17,9 +17,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_main);
-        addFrag(R.id.nav_bar_container, new Nav_bar_frag());
-    }
+        setContentView(R.layout.activity_main);
+        Fragment frag = new Nav_bar_frag();
+        //addFrag(R.id.main,frag);
+        }
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
