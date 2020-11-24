@@ -37,4 +37,6 @@
         <string name="profileName">Christian Jensen</string>
         <string name="profileInterests">Horror, Thriller, Action</string>
         <string name="profileMessage">Hey har du set den nye Druk film? Den skulle være mega fed. Ville du evt. være frisk på at se den sammen?</string>
+        <string name="sampletext_reviewed">I really liked this movie as it appeals to the injustice of an unfair world.</string>
+        <string name="sampletext_this_person_reviewed_this_movie">Christian Jensen reviewed "Batman The Dark Knight":</string>
     </resources>
