@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -24,7 +25,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
             <TextView
-                android:id="@+id/textView_profileName_rated_this_movie"
+                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_this_person_reviewed_this_movie"

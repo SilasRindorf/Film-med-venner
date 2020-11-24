@@ -1,10 +1,6 @@
 package com.example.film_med_venner.interfaces;
 
-public interface IRating {
-    //Reviewer
-    IProfile getProfile();
-    //Movie that got reviewed
-    IMovie getMovie();
+public interface IRating extends IHomeFeedItems {
     //fx 0-10 stars
     int getRating();
 }
