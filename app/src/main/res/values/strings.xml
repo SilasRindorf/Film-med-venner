@@ -40,4 +40,5 @@
         <string name="sampletext_reviewed">I really liked this movie as it appeals to the injustice of an unfair world.</string>
         <string name="sampletext_this_person_reviewed_this_movie">Christian Jensen reviewed "Batman The Dark Knight":</string>
         <string name="sampletext_this_person_rated_this_movie">Christian Jensen rated "Batman The Dark Knight":</string>
+            <string name="sampletext_this_person_added_this_movie_to_his_watch_list">Christian Jensen added "Batman The Dark Knight" to his to watch list.</string>
     </resources>
