@@ -88,7 +88,7 @@ public class HomeAdapter extends BaseAdapter {
 
             TextView description = gridView.findViewById(R.id.description);
 
-            description.setText(item.getUsername() + " has added " + item.getMovie().getTitle() + " to their watchlist.");
+            description.setText(item.getUsername() + " has added " + item.getMovie().getTitle() + " to their to watchlist.");
 
         }
         else {
