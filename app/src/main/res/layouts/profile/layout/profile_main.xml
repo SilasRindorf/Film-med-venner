@@ -7,61 +7,95 @@
     tools:context=".UI.ProfileActivity"
     android:background="@color/colorBackground">
 
-    <TextView
-        android:id="@+id/textview_profile_title"
-        android:layout_width="171dp"
-        android:layout_height="31dp"
-        android:text="Profile"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/profile_container"
-        android:padding="10dp"
+    <!--Linear layout for all the categories being shown-->
+    <ScrollView
+        android:id="@+id/scrollableView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/gridView"
-        app:layout_constraintTop_toBottomOf="@id/textview_profile_title"/>
+        app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_profile_title"
+        app:layout_constraintVertical_bias="1.0" >
+    <LinearLayout
+        android:id="@+id/category_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--Profile container-->
+        <LinearLayout
+            android:id="@+id/profile_container"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/imageView_profile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/icon_profilepicture"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/text_profileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profileName"
+                    />
+                <TextView
+                    android:id="@+id/profileDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profileInterests"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
     <!--Friends-->
     <LinearLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/imageView_friends"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/icon_friends"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:layout_weight="1"
+
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+           >
             <TextView
                 android:id="@+id/textView_friends_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/friends"
-                android:layout_weight="2"
+
                 />
             <TextView
                 android:id="@+id/textView_friends_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_friends_description"
-                android:layout_weight="2"
+
                 />
         </LinearLayout>
     </LinearLayout>
@@ -70,37 +104,34 @@
     <LinearLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/imageView_rated"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/icon_rated"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:layout_weight="1"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/textView_rated_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rated"
-                android:layout_weight="2"
                 />
             <TextView
                 android:id="@+id/textView_rated_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_rated_description"
-                android:layout_weight="2"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -109,37 +140,34 @@
     <LinearLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/imageView_reviewed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/icon_reviewed"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:layout_weight="1"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/textView_reviewed_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reviewed"
-                android:layout_weight="2"
                 />
             <TextView
                 android:id="@+id/textView_reviewed_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_reviewed_description"
-                android:layout_weight="2"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -148,37 +176,34 @@
     <LinearLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/imageView_to_watch_list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/icon_wanttowatch"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:layout_weight="1"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/textView_want_to_watch_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/wantToWatch"
-                android:layout_weight="2"
                 />
             <TextView
                 android:id="@+id/textView_want_to_watch_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_want_to_watch_description"
-                android:layout_weight="2"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -187,42 +212,43 @@
     <LinearLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/imageView_watched_list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/icon_watched"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:layout_weight="1"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/textView_watchedlist_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/watched"
-                android:layout_weight="2"
                 />
             <TextView
                 android:id="@+id/textView_watchedlist_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_watchedlist_description"
-                android:layout_weight="2"
                 />
         </LinearLayout>
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 
+    <!--Navbar-->
     <LinearLayout
+        android:padding="10dp"
         android:id="@+id/nav_bar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -232,7 +258,21 @@
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
 
-
+    <!--Title-->
+    <TextView
+        android:id="@+id/textview_profile_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:autoSizeTextType="uniform"
+        android:background="@color/colorNavBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,17 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <TextView
-        android:id="@+id/textview_home_title"
-        android:layout_width="171dp"
-        android:layout_height="31dp"
-        android:text="Home"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <GridView
         android:id="@+id/gridView"
@@ -43,4 +33,16 @@
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textview_home_title"
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:text="Home"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorNavBar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
