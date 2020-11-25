@@ -21,6 +21,7 @@ import com.example.film_med_venner.DAO.WatchlistItem;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.UI.Adapters.HomeAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.controllers.Controller;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IRating;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     GridView gridView;
     private HomeAdapter homeAdapter;
     private Context ctx;
+    Controller controller = Controller.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,24 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-
-                    // Dummy data
-                    IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
-                    IRating rating = new Rating(1000, "Kurger Bing", movie);
-                    IReview review = new Review("Very bee, much buzz", "Kurger Bing", movie);
-                    IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", movie);
-
-                    ArrayList<IHomeFeedItems> feedList = new ArrayList<IHomeFeedItems>();
-                    feedList.add(rating);
-                    feedList.add(review);
-                    feedList.add(watchlistItem);
-                    feedList.add(watchlistItem);
-                    feedList.add(watchlistItem);
-                    feedList.add(watchlistItem);
-
-
-
-                    items =  feedList;
+                    items = controller.getHomeFeedItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

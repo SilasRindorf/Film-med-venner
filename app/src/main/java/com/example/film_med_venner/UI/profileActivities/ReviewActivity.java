@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI;
+package com.example.film_med_venner.UI.profileActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

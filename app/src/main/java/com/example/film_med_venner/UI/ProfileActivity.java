@@ -12,9 +12,12 @@ import android.widget.LinearLayout;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.UI.profileActivities.ReviewActivity;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    LinearLayout l_layout_review = findViewById(R.id.linearLayout_review);
+    LinearLayout l_layout_review;
+    LinearLayout l_layout_rating;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
 
+        l_layout_review = findViewById(R.id.linearLayout_review);
         l_layout_review.setOnClickListener(this);
     }
 
