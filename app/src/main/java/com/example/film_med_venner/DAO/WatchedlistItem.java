@@ -12,11 +12,11 @@ public class WatchedlistItem implements IWatchedlistItem {
     }
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public IMovie getMovie() {
-        return null;
+        return movie;
     }
 }

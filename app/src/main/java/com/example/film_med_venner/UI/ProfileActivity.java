@@ -15,11 +15,13 @@ import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
 import com.example.film_med_venner.UI.profileActivities.RatingActivity;
 import com.example.film_med_venner.UI.profileActivities.ReviewActivity;
 import com.example.film_med_venner.UI.profileActivities.ToWatchlistActivity;
+import com.example.film_med_venner.UI.profileActivities.WatchedlistActivity;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout l_layout_review;
     LinearLayout l_layout_rating;
     LinearLayout l_layout_to_watchlist;
+    LinearLayout l_layout_watchedlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         l_layout_rating.setOnClickListener(this);
         l_layout_to_watchlist = findViewById(R.id.linearLayout_to_watchlist);
         l_layout_to_watchlist.setOnClickListener(this);
+        l_layout_watchedlist = findViewById(R.id.linearLayout_watchedlist);
+        l_layout_watchedlist.setOnClickListener(this);
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -59,6 +63,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         else if (view == l_layout_to_watchlist){
             setContentView(R.layout.activity_to_watchlist);
             Intent intent = new Intent(this, ToWatchlistActivity.class);
+            startActivity(intent);
+        }
+        else if (view == l_layout_watchedlist){
+            setContentView(R.layout.activity_watchedlist);
+            Intent intent = new Intent(this, WatchedlistActivity.class);
             startActivity(intent);
         }
     }

@@ -3,6 +3,7 @@ package com.example.film_med_venner.controllers;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.WatchedlistItem;
 import com.example.film_med_venner.DAO.WatchlistItem;
 import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -11,6 +12,7 @@ import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.IWatchedlistItem;
 import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 import java.util.ArrayList;
@@ -82,6 +84,19 @@ public class Controller implements IController {
         IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", movie);
 
         ArrayList<IWatchlistItem> feedList = new ArrayList<IWatchlistItem>();
+        feedList.add(watchlistItem);
+        feedList.add(watchlistItem);
+        feedList.add(watchlistItem);
+        feedList.add(watchlistItem);
+
+        return feedList;
+    }
+    public ArrayList<IWatchedlistItem> getWatchedlistItems(){
+        // Dummy data
+        IMovie movie = new Movie("Great Success the Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IWatchedlistItem watchlistItem = new WatchedlistItem("Hurr durr", movie);
+
+        ArrayList<IWatchedlistItem> feedList = new ArrayList<IWatchedlistItem>();
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
