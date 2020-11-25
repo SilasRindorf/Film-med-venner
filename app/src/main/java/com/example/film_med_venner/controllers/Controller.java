@@ -47,17 +47,5 @@ public class Controller implements IController {
 
         return feedList;
     }
-    public ArrayList<IReview> getReviewItems(){
-        // Dummy data
-        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
-        IReview review = new Review("Very bee, much buzz", "Kurger Bing", movie);
 
-        ArrayList<IReview> feedList = new ArrayList<IReview>();
-        feedList.add(review);
-        feedList.add(review);
-        feedList.add(review);
-        feedList.add(review);
-
-        return feedList;
-    }
 }

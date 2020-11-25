@@ -11,19 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 
-import com.example.film_med_venner.DAO.Movie;
-import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchlistItem;
+
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.UI.Adapters.ReviewAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.controllers.ReviewController;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.IMovie;
-import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +26,7 @@ public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
     private ReviewAdapter ReviewAdapter;
     private Context ctx;
-    Controller controller = Controller.getInstance();
+    ReviewController reviewController = ReviewController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +73,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getReviewItems();
+                    items = reviewController.getReviewItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
