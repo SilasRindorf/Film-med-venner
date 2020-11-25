@@ -76,5 +76,17 @@ public class Controller implements IController {
 
         return feedList;
     }
+    public ArrayList<IWatchlistItem> getToWatchlistItems(){
+        // Dummy data
+        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", movie);
 
+        ArrayList<IWatchlistItem> feedList = new ArrayList<IWatchlistItem>();
+        feedList.add(watchlistItem);
+        feedList.add(watchlistItem);
+        feedList.add(watchlistItem);
+        feedList.add(watchlistItem);
+
+        return feedList;
+    }
 }
