@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class Controller implements IController {
     private IDatabase database;
     private static Controller instance;
+    private static ReviewController reviewController;
     public static Controller getInstance(){
         if (instance == null){
             instance = new Controller();
@@ -46,6 +47,9 @@ public class Controller implements IController {
         feedList.add(watchlistItem);
 
         return feedList;
+    }
+    public ArrayList<IReview> getReviewItems(){
+        return reviewController.getReviewItems();
     }
 
 }

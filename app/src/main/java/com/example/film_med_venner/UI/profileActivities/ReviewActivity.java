@@ -15,6 +15,7 @@ import android.widget.GridView;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.UI.Adapters.ReviewAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.controllers.Controller;
 import com.example.film_med_venner.controllers.ReviewController;
 import com.example.film_med_venner.interfaces.IReview;
 
@@ -26,7 +27,7 @@ public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
     private ReviewAdapter ReviewAdapter;
     private Context ctx;
-    ReviewController reviewController = ReviewController.getInstance();
+    Controller controller = Controller.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = reviewController.getReviewItems();
+                    items = controller.getReviewItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
