@@ -28,6 +28,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
 
+        //TODO Vi skal lave det her på den smarte måde som Silas har vist og Sejr har glemt.
         l_layout_review = findViewById(R.id.linearLayout_review);
         l_layout_review.setOnClickListener(this);
         l_layout_rating = findViewById(R.id.linearLayout_rating);
