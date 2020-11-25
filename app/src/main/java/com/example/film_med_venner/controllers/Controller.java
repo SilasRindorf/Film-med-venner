@@ -19,6 +19,7 @@ public class Controller implements IController {
     private IDatabase database;
     private static Controller instance;
     private static ReviewController reviewController;
+    private static RatingController ratingController;
     public static Controller getInstance(){
         if (instance == null){
             instance = new Controller();
@@ -49,7 +50,31 @@ public class Controller implements IController {
         return feedList;
     }
     public ArrayList<IReview> getReviewItems(){
-        return reviewController.getReviewItems();
+        // Dummy data
+        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IReview review = new Review("Very bee, much buzz", "Kurger Bing", movie);
+
+        ArrayList<IReview> feedList = new ArrayList<IReview>();
+        feedList.add(review);
+        feedList.add(review);
+        feedList.add(review);
+        feedList.add(review);
+
+        return feedList;
+    }
+    public ArrayList<IRating> getRatingItems(){
+        // Dummy data
+        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IRating rating = new Rating(4, "Kurger Bing", movie);
+
+        ArrayList<IRating> feedList = new ArrayList<IRating>();
+        feedList.add(rating);
+        feedList.add(rating);
+        feedList.add(rating);
+        feedList.add(rating);
+
+
+        return feedList;
     }
 
 }
