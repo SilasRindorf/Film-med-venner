@@ -18,6 +18,7 @@ import com.example.film_med_venner.DAO.WatchlistItem;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.UI.Adapters.ReviewAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.controllers.Controller;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IRating;
@@ -31,6 +32,7 @@ public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
     private ReviewAdapter ReviewAdapter;
     private Context ctx;
+    Controller controller = Controller.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +79,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-
-                    // Dummy data
-                    IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
-                    IReview review = new Review("Very bee, much buzz", "Kurger Bing", movie);
-
-                    ArrayList<IReview> feedList = new ArrayList<IReview>();
-                    feedList.add(review);
-                    feedList.add(review);
-                    feedList.add(review);
-                    feedList.add(review);
-
-
-
-
-                    items =  feedList;
+                    items = controller.getReviewItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

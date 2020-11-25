@@ -26,7 +26,7 @@ public class Controller implements IController {
     }
 
     private Controller(){
-        //database = DatabaseNonPers;
+        database = IDatabase.getInstance();
     }
 
     public IMovie[] getMovies(){return null;}
@@ -44,6 +44,19 @@ public class Controller implements IController {
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
+
+        return feedList;
+    }
+    public ArrayList<IReview> getReviewItems(){
+        // Dummy data
+        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IReview review = new Review("Very bee, much buzz", "Kurger Bing", movie);
+
+        ArrayList<IReview> feedList = new ArrayList<IReview>();
+        feedList.add(review);
+        feedList.add(review);
+        feedList.add(review);
+        feedList.add(review);
 
         return feedList;
     }

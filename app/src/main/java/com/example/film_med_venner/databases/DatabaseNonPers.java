@@ -15,9 +15,9 @@ import java.util.HashMap;
 public class DatabaseNonPers implements IDatabase {
     private HashMap<Enums.Genre[], IMovie> movies;
     private IProfile[] profiles;
-    private IDatabase instance;
+    private static IDatabase instance;
 
-    public IDatabase getInstance() {
+    public static IDatabase getInstance() {
         if (instance == null){
             instance = new DatabaseNonPers();
         }
