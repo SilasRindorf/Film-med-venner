@@ -11,6 +11,7 @@
         <string name="watched">Watched</string>
         <string name="reviewed">Reviewed</string>
         <string name="rated">Rated</string>
+        <string name="friends">Friends</string>
 
         // Switches
         <string name="switch_ratings">See friends newly added movie/series ratings in home feed</string>
@@ -37,4 +38,16 @@
         <string name="profileName">Christian Jensen</string>
         <string name="profileInterests">Horror, Thriller, Action</string>
         <string name="profileMessage">Hey har du set den nye Druk film? Den skulle være mega fed. Ville du evt. være frisk på at se den sammen?</string>
+        <string name="sampletext_reviewed">I really liked this movie as it appeals to the injustice of an unfair world.</string>
+        <string name="sampletext_this_person_reviewed_this_movie">Christian Jensen reviewed "Batman The Dark Knight":</string>
+        <string name="sampletext_this_person_rated_this_movie">Christian Jensen rated "Batman The Dark Knight":</string>
+        <string name="sampletext_this_person_added_this_movie_to_his_watch_list">Christian Jensen added "Batman The Dark Knight" to his to watch list.</string>
+        <string name="sampletext_friends_description">60 friends are online and you have 1 new friend request</string>
+        <string name="sampletext_rated_description">175 movies and series rated</string>
+        <string name="sampletext_watchedlist_description">521 movies and series are on the watched list</string>
+        <string name="sampletext_reviewed_description">25 movies and series reviewed</string>
+        <string name="sampletext_want_to_watch_description">279 movies and series on watch later list</string>
+        <string name="sampletext_you_rated_this">You rated this movie</string>
+        <string name="sampletext_watchedlist_example">This movie is on your watchlist</string>
+        <string name="movie_category_title">Title of the category</string>
     </resources>

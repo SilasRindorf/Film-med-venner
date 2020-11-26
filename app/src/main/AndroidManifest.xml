@@ -9,6 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UI.profileActivities.FriendActivity"></activity>
+        <activity android:name=".UI.profileActivities.WatchedlistActivity" />
+        <activity android:name=".UI.profileActivities.ToWatchlistActivity" />
+        <activity android:name=".UI.profileActivities.RatingActivity" />
+        <activity android:name=".UI.profileActivities.ReviewActivity" />
+        <activity android:name=".UI.settingActivities.HomefeedSettingActivity" />
+        <activity android:name=".UI.settingActivities.ProfileSettingActivity" />
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".UI.ProfileActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
