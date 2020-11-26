@@ -1,20 +1,17 @@
 package com.example.film_med_venner.databases;
 
-import android.provider.ContactsContract;
-
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.Generator;
-import com.example.film_med_venner.enums.Enums;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 
-import java.util.HashMap;
 
 public class DatabaseNonPers implements IDatabase {
-    private HashMap<Enums.Genre[], IMovie> movies;
+    //private HashMap<Enums.Genre[], IMovie> movies;
     private IProfile[] profiles;
+    private IMovie[] movies;
     private static IDatabase instance;
 
     public static IDatabase getInstance() {
@@ -26,12 +23,8 @@ public class DatabaseNonPers implements IDatabase {
 
     private DatabaseNonPers(){
         Generator gen = new Generator();
-        profiles = new Profile[10];
-        movies = new HashMap<>();
-        IMovie[] genMovies = gen.generateMovies(10);
-        for (IMovie mov : genMovies){
-            //movies.put(mov.getGenres(),mov);
-        }
+        movies = gen.generateMovies(10);
+        profiles = gen.generateProfiles(10);
     }
 
     @Override
@@ -41,19 +34,22 @@ public class DatabaseNonPers implements IDatabase {
     }
 
     @Override
-    public IProfile[] getProfiles() {
-        return profiles;
-    }
-
-    @Override
     public IMovie[] getMoviesWithGenre(String Genre) {
         return null;
     }
 
     @Override
     public IMovie[] getMovies() {   
-        System.out.println(movies.entrySet().toArray().toString());
-        return null;
+        return movies;
+    }
+
+    @Override
+    public IProfile[] getProfiles() {
+        return profiles;
+    }
+    public IProfile[] getFriends(int ID) {
+        IProfile[] friends = new Profile[profiles[ID].getFriends().size()];
+        return profiles[ID].getFriends().toArray(friends);
     }
 
 

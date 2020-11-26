@@ -12,12 +12,11 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.ToWatchlistAdapter;
 import com.example.film_med_venner.UI.Adapters.WatchedlistAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.controllers.ProfileController;
+import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IWatchedlistItem;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class WatchedlistActivity extends AppCompatActivity {
     GridView gridView;
     private WatchedlistAdapter watchedlistAdapter;
     private Context ctx;
-    Controller controller = Controller.getInstance();
+    IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,7 @@ public class WatchedlistActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getWatchedlistItems();
+                    items = controller.getWatchedListItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

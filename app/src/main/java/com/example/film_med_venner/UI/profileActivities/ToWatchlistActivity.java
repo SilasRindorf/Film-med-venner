@@ -16,6 +16,8 @@ import com.example.film_med_venner.UI.Adapters.ReviewAdapter;
 import com.example.film_med_venner.UI.Adapters.ToWatchlistAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.controllers.ProfileController;
+import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.IWatchlistItem;
 
@@ -26,7 +28,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
     GridView gridView;
     private ToWatchlistAdapter toWatchlistAdapter;
     private Context ctx;
-    Controller controller = Controller.getInstance();
+    IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
