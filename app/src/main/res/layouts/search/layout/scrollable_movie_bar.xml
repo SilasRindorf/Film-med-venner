@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -20,20 +21,21 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_alignParentTop="true"
                 android:orientation="horizontal"
                 android:weightSum="10">
 
                 <ImageView
                     android:id="@+id/moviePoster1"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -41,8 +43,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster2"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -50,8 +53,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster3"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -59,8 +63,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster4"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -68,8 +73,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster5"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -77,8 +83,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster6"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -86,8 +93,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster7"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -95,8 +103,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster8"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -104,8 +113,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster9"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -113,8 +123,9 @@
 
                 <ImageView
                     android:id="@+id/moviePoster10"
+                    android:padding="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"

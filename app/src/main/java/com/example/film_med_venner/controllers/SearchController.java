@@ -19,10 +19,9 @@ public class SearchController {
         return instance;
     }
     public ArrayList<ISearch> getSearchItems(){
-        System.out.println("SearchController before doing stuff");
         // Dummy data
         ISearch search1 = new Search("Trending","");
-        ISearch search2 = new Search("Populaire","");
+        ISearch search2 = new Search("Popular","");
         ISearch search3 = new Search("Shocking","");
         ISearch search4 = new Search("Favourites","");
 
@@ -32,7 +31,6 @@ public class SearchController {
         feedList.add(search2);
         feedList.add(search3);
         feedList.add(search4);
-        System.out.println("SearchController after doing stuff");
 
         return feedList;
     }

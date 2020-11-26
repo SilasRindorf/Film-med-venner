@@ -39,7 +39,6 @@ public class SearchAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("SearchAdapter before doing stuff");
 
         View gridView = convertView;
         ISearch item = search.get(position);
@@ -71,8 +70,6 @@ public class SearchAdapter extends BaseAdapter {
         moviePoster8.setImageResource(R.drawable.mp_the_social_dilemma);
         moviePoster9.setImageResource(R.drawable.mp_the_wolf_of_wallstreet);
         moviePoster10.setImageResource(R.drawable.mp_watchmen);
-
-        System.out.println("SearchAdapter after doing stuff");
 
         return gridView;
     }

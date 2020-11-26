@@ -91,12 +91,9 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                System.out.println("SearchActivity before doing stuff");
-                System.out.println("search items: " + items);
                 searchAdapter = new SearchAdapter(ctx, items);
                 gridView.setAdapter(searchAdapter);
                 gridView.setVisibility(View.VISIBLE);
-                System.out.println("SearchActivity after doing grid");
             }
 
         };
