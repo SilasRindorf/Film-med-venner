@@ -49,4 +49,5 @@
         <string name="sampletext_want_to_watch_description">279 movies and series on watch later list</string>
         <string name="sampletext_you_rated_this">You rated this movie</string>
         <string name="sampletext_watchedlist_example">This movie is on your watchlist</string>
+        <string name="movie_category_title">Title of the category</string>
     </resources>
