@@ -1,5 +1,6 @@
 package com.example.film_med_venner.DAO;
 
+import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Profile implements IProfile {
     private ArrayList<IProfile> friends;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
     private int amountOfMoviesRated;
+    private ArrayList<IMovie> moviesRated;
     private int amountOfMoviesReviewed;
     private int amountOfFriends;
     private int amountOfMoviesOnToWatchList;
@@ -23,6 +25,8 @@ public class Profile implements IProfile {
         this.name = name;
         mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
+        moviesRated = new ArrayList<>();
+        amountOfMoviesRated = -1;
     }
     //TODO Den skal også hente profilbillede her
     public Profile(String name, int ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList){
@@ -45,7 +49,9 @@ public class Profile implements IProfile {
 
     @Override
     public int getAmountOfMoviesRated() {
-        return amountOfMoviesRated;
+        if (amountOfMoviesRated != -1)
+            return amountOfMoviesRated;
+        else return moviesRated.size();
     }
 
     @Override
