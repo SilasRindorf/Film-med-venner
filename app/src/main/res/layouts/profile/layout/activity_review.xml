@@ -7,8 +7,8 @@
     tools:context=".UI.profileActivities.ReviewActivity">
     <GridView
         android:id="@+id/gridView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:columnWidth="100dp"
         android:numColumns="1"
         android:stretchMode="columnWidth"

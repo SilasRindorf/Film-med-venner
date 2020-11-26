@@ -27,6 +27,7 @@ public class Nav_bar_frag extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.setClass(getActivity(),MainActivity.class);
                 startActivity(intent);
             }
@@ -40,6 +41,7 @@ public class Nav_bar_frag extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.setClass(getActivity(), ProfileActivity.class);
                 startActivity(intent);
             }
@@ -53,6 +55,7 @@ public class Nav_bar_frag extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.setClass(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }
@@ -66,6 +69,7 @@ public class Nav_bar_frag extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.setClass(getActivity(), SettingsActivity.class);
                 startActivity(intent);
             }

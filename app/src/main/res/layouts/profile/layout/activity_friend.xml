@@ -7,8 +7,8 @@
     tools:context=".UI.profileActivities.FriendActivity">
     <GridView
         android:id="@+id/gridView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:columnWidth="100dp"
         android:numColumns="1"
         android:stretchMode="columnWidth"
@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_your_ratings_title"
+        app:layout_constraintTop_toBottomOf="@+id/textview_your_friends_title"
         app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
