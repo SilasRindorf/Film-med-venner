@@ -37,7 +37,7 @@
         android:id="@+id/textview_home_title"
         android:layout_width="match_parent"
         android:layout_height="31dp"
-        android:text="Home"
+        android:text="Home // Gruppe C6 Film med venner"
         android:textAlignment="center"
         android:textSize="15sp"
         android:autoSizeTextType="uniform"

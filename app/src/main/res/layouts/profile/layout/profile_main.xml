@@ -267,7 +267,7 @@
         android:id="@+id/textview_profile_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Profile"
+        android:text="Profile // Gruppe C6 Film med venner"
         android:textAlignment="center"
         android:textSize="15sp"
         android:padding="10dp"
