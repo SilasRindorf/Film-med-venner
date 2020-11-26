@@ -14,6 +14,8 @@
         <activity android:name=".UI.profileActivities.ToWatchlistActivity" />
         <activity android:name=".UI.profileActivities.RatingActivity" />
         <activity android:name=".UI.profileActivities.ReviewActivity" />
+        <activity android:name=".UI.settingActivities.HomefeedSettingActivity" />
+        <activity android:name=".UI.settingActivities.ProfileSettingActivity" />
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

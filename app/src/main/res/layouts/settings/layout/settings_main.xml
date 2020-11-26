@@ -9,38 +9,35 @@
     android:background="@color/colorBackground">
 
 
+    <ScrollView
+        android:layout_width="411dp"
+        android:layout_height="729dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_Settings">
 
-    <Switch
-        android:id="@+id/switch_ratings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text="@string/switch_ratings"
-        app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Switch
-        android:id="@+id/switch_reviews"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text="@string/switch_review"
-        app:layout_constraintBottom_toTopOf="@+id/switch_watchList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/text_profile_settings"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Profile settings"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="#DD000000"
+                android:textSize="30sp" />
 
-    <Switch
-        android:id="@+id/switch_watchList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text="@string/switch_watchList"
-        app:layout_constraintBottom_toTopOf="@+id/switch_ratings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/text_homefeed_settings"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Homefeed settings"
+                android:textColor="#DD000000"
+                android:textSize="30sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
