@@ -10,11 +10,11 @@ public class Profile implements IProfile {
     private String name;
     private ArrayList<String> mvGPrefs;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
-    int amountOfMoviesRated;
-    int amountOfMoviesReviewed;
-    int amountOfFriends;
-    int amountOfMoviesOnToWatchList;
-    int amountOfMoviesOnWatchedList;
+    private int amountOfMoviesRated;
+    private int amountOfMoviesReviewed;
+    private int amountOfFriends;
+    private int amountOfMoviesOnToWatchList;
+    private int amountOfMoviesOnWatchedList;
 
     //TODO Den skal også hente profilbillede her
     public Profile(String name, int ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList){

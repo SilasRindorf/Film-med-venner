@@ -29,6 +29,7 @@ public class DatabaseNonPers implements IDatabase {
         profiles = new Profile[10];
         movies = new HashMap<>();
         IMovie[] genMovies = gen.generateMovies(10);
+        profiles = gen.generateProfiles(10);
         for (IMovie mov : genMovies){
             //movies.put(mov.getGenres(),mov);
         }
@@ -54,6 +55,11 @@ public class DatabaseNonPers implements IDatabase {
     public IMovie[] getMovies() {   
         System.out.println(movies.entrySet().toArray().toString());
         return null;
+    }
+
+    @Override
+    public IProfile[] getFriends() {
+        return new IProfile[0];
     }
 
 

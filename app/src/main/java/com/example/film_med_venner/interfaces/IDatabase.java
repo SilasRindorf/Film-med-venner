@@ -7,6 +7,7 @@ public interface IDatabase {
     IProfile[] getProfiles();
     IMovie[] getMoviesWithGenre(String Genre);
     IMovie[] getMovies();
+    IProfile[] getFriends();
 
     static IDatabase getInstance() {
         return DatabaseNonPers.getInstance();

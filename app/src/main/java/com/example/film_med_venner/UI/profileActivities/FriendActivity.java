@@ -13,11 +13,11 @@ import android.widget.GridView;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.UI.Adapters.FriendAdapter;
-import com.example.film_med_venner.UI.Adapters.RatingAdapter;
 import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.controllers.ProfileController;
+import com.example.film_med_venner.interfaces.IController.IController;
+import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IRating;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class FriendActivity extends AppCompatActivity {
     GridView gridView;
     private FriendAdapter friendAdapter;
     private Context ctx;
-    Controller controller = Controller.getInstance();
+    IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
