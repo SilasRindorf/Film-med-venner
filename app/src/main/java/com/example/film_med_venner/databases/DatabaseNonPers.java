@@ -1,8 +1,5 @@
 package com.example.film_med_venner.databases;
 
-import android.provider.ContactsContract;
-
-import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.Generator;
 import com.example.film_med_venner.enums.Enums;
@@ -29,6 +26,7 @@ public class DatabaseNonPers implements IDatabase {
         profiles = new Profile[10];
         movies = new HashMap<>();
         IMovie[] genMovies = gen.generateMovies(10);
+        profiles = gen.generateProfiles(10);
         for (IMovie mov : genMovies){
             //movies.put(mov.getGenres(),mov);
         }
@@ -41,19 +39,18 @@ public class DatabaseNonPers implements IDatabase {
     }
 
     @Override
-    public IProfile[] getProfiles() {
-        return profiles;
-    }
-
-    @Override
     public IMovie[] getMoviesWithGenre(String Genre) {
         return null;
     }
 
     @Override
     public IMovie[] getMovies() {   
-        System.out.println(movies.entrySet().toArray().toString());
         return null;
+    }
+
+    @Override
+    public IProfile[] getProfiles() {
+        return profiles;
     }
 
 
