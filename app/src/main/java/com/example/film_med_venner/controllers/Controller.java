@@ -117,7 +117,7 @@ public class Controller implements IController {
 
         ArrayList<IProfile> feedList = new ArrayList<IProfile>();
 
-        System.out.println("Profile " + profile1);
+        System.out.println("Profiles: \n" + profile1 + "\n" + profile2);
         feedList.add(profile1);
         feedList.add(profile2);
         feedList.add(profile3);
