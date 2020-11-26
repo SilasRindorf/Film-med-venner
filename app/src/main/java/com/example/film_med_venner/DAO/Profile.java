@@ -16,9 +16,15 @@ public class Profile implements IProfile {
     int amountOfMoviesOnToWatchList;
     int amountOfMoviesOnWatchedList;
 
-    public Profile(String name, int ID){
+    //TODO Den skal også hente profilbillede her
+    public Profile(String name, int ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList){
         this.ID = ID;
         this.name = name;
+        this.amountOfMoviesRated = amountOfMoviesRated;
+        this.amountOfMoviesReviewed = amountOfMoviesReviewed;
+        this.amountOfFriends = amountOfFriends;
+        this.amountOfMoviesOnToWatchList = amountOfMoviesOnToWatchList;
+        this.amountOfMoviesOnWatchedList = amountOfMoviesOnWatchedList;
         mvGPrefs = new ArrayList<>();
     }
 
