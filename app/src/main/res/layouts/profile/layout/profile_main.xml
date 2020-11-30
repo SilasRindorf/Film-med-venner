@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.ProfileActivity"
+    tools:context=".ui.ProfileActivity"
     android:background="@color/colorBackground">
 
     <!--Linear layout for all the categories being shown-->

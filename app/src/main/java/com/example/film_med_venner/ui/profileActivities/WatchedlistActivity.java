@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.profileActivities;
+package com.example.film_med_venner.ui.profileActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,25 +12,25 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.RatingAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.adapters.WatchedlistAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.ProfileController;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IWatchedlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RatingActivity extends AppCompatActivity {
+public class WatchedlistActivity extends AppCompatActivity {
     GridView gridView;
-    private RatingAdapter ratingAdapter;
+    private WatchedlistAdapter watchedlistAdapter;
     private Context ctx;
     IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rating);
+        setContentView(R.layout.activity_watchedlist);
 
         ctx = this;
 
@@ -62,7 +62,7 @@ public class RatingActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IRating> items = new ArrayList<IRating>();
+            List<IWatchedlistItem> items = new ArrayList<>();
             String errorMsg = null;
 
             @Override
@@ -72,7 +72,7 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getRatingItems();
+                    items = controller.getWatchedListItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -88,8 +88,8 @@ public class RatingActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                ratingAdapter = new RatingAdapter(ctx, items);
-                gridView.setAdapter(ratingAdapter);
+                watchedlistAdapter = new WatchedlistAdapter(ctx, items);
+                gridView.setAdapter(watchedlistAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
 

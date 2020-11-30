@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.fragments;
+package com.example.film_med_venner.ui.fragments;
 
 import androidx.fragment.app.Fragment;
 

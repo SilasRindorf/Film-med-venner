@@ -1,6 +1,5 @@
-package com.example.film_med_venner.UI;
+package com.example.film_med_venner.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +11,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.UI.profileActivities.ReviewActivity;
-import com.example.film_med_venner.UI.settingActivities.HomefeedSettingActivity;
-import com.example.film_med_venner.UI.settingActivities.ProfileSettingActivity;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.settingActivities.HomefeedSettingActivity;
+import com.example.film_med_venner.ui.settingActivities.ProfileSettingActivity;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 

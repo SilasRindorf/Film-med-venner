@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI;
+package com.example.film_med_venner.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -8,28 +8,17 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.Toast;
 
 
-import com.example.film_med_venner.DAO.Movie;
-import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchlistItem;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.HomeAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.adapters.HomeAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
-import com.example.film_med_venner.interfaces.IMovie;
-import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 

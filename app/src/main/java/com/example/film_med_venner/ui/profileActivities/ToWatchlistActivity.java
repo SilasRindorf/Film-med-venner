@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.profileActivities;
+package com.example.film_med_venner.ui.profileActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,25 +12,25 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.WatchedlistAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.adapters.ToWatchlistAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.ProfileController;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IWatchedlistItem;
+import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatchedlistActivity extends AppCompatActivity {
+public class ToWatchlistActivity extends AppCompatActivity {
     GridView gridView;
-    private WatchedlistAdapter watchedlistAdapter;
+    private ToWatchlistAdapter toWatchlistAdapter;
     private Context ctx;
     IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watchedlist);
+        setContentView(R.layout.activity_to_watchlist);
 
         ctx = this;
 
@@ -62,7 +62,7 @@ public class WatchedlistActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IWatchedlistItem> items = new ArrayList<>();
+            List<IWatchlistItem> items = new ArrayList<>();
             String errorMsg = null;
 
             @Override
@@ -72,7 +72,7 @@ public class WatchedlistActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getWatchedListItems();
+                    items = controller.getToWatchlistItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -88,8 +88,8 @@ public class WatchedlistActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                watchedlistAdapter = new WatchedlistAdapter(ctx, items);
-                gridView.setAdapter(watchedlistAdapter);
+                toWatchlistAdapter = new ToWatchlistAdapter(ctx, items);
+                gridView.setAdapter(toWatchlistAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
 

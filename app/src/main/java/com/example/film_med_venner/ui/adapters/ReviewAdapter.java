@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.Adapters;
+package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,24 +7,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.interfaces.IWatchedlistItem;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.List;
 
-public class WatchedlistAdapter extends BaseAdapter {
+public class ReviewAdapter extends BaseAdapter {
     private Context ctx;
-    private List<IWatchedlistItem> watchedlistItems;
+    private List<IReview> reviewItems;
 
-    public WatchedlistAdapter(Context ctx, List<IWatchedlistItem> watchlistItems) {
+    public ReviewAdapter(Context ctx, List<IReview> reviewItems) {
         this.ctx = ctx;
-        this.watchedlistItems = watchlistItems;
+        this.reviewItems = reviewItems;
     }
 
     @Override
     public int getCount() {
-        return watchedlistItems.size();
+        return reviewItems.size();
     }
 
     @Override
@@ -40,15 +40,17 @@ public class WatchedlistAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
-        IWatchedlistItem item = watchedlistItems.get(position);
+        IReview item = reviewItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //TODO item ting nedenunder
-            gridView = inflater.inflate(R.layout.profile_watchedlist_item, null);
+            gridView = inflater.inflate(R.layout.profile_review_item, null);
         }
 
-        TextView description = gridView.findViewById(R.id.description);
-        description.setText("You have " + item.getMovie().getTitle() + " to your watchedlist.");
+        TextView reviewText = gridView.findViewById(R.id.reviewtext);
+
+        reviewText.setText(((Review) item).getReview());
+
         return gridView;
     }
+
 }

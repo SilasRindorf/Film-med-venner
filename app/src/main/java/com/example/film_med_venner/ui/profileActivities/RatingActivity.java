@@ -1,39 +1,36 @@
-package com.example.film_med_venner.UI;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.GridView;
+package com.example.film_med_venner.ui.profileActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.GridView;
+
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.FriendAdapter;
-import com.example.film_med_venner.UI.Adapters.SearchAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
-import com.example.film_med_venner.controllers.SearchController;
-import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.ISearch;
+import com.example.film_med_venner.ui.adapters.RatingAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.controllers.ProfileController;
+import com.example.film_med_venner.interfaces.IController.IProfileController;
+import com.example.film_med_venner.interfaces.IRating;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class RatingActivity extends AppCompatActivity {
     GridView gridView;
-    private SearchAdapter searchAdapter;
+    private RatingAdapter ratingAdapter;
     private Context ctx;
-    SearchController controller = SearchController.getInstance();
+    IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_main);
+        setContentView(R.layout.activity_rating);
 
         ctx = this;
 
@@ -65,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<ISearch> items = new ArrayList<ISearch>();
+            List<IRating> items = new ArrayList<IRating>();
             String errorMsg = null;
 
             @Override
@@ -75,7 +72,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getSearchItems();
+                    items = controller.getRatingItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -91,8 +88,8 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                searchAdapter = new SearchAdapter(ctx, items);
-                gridView.setAdapter(searchAdapter);
+                ratingAdapter = new RatingAdapter(ctx, items);
+                gridView.setAdapter(ratingAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
 

@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI;
+package com.example.film_med_venner.ui;
 
 import android.app.Activity;
 import android.content.Intent;

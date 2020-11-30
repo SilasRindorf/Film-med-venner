@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.profileActivities;
+package com.example.film_med_venner.ui.profileActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,29 +11,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 
+
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.ReviewAdapter;
-import com.example.film_med_venner.UI.Adapters.ToWatchlistAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.ui.adapters.ReviewAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.ProfileController;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToWatchlistActivity extends AppCompatActivity {
+public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
-    private ToWatchlistAdapter toWatchlistAdapter;
+    private ReviewAdapter reviewAdapter;
     private Context ctx;
     IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_to_watchlist);
+        setContentView(R.layout.activity_review);
 
         ctx = this;
 
@@ -65,7 +64,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IWatchlistItem> items = new ArrayList<>();
+            List<IReview> items = new ArrayList<>();
             String errorMsg = null;
 
             @Override
@@ -75,7 +74,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getToWatchlistItems();
+                    items = controller.getReviewItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -91,8 +90,8 @@ public class ToWatchlistActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                toWatchlistAdapter = new ToWatchlistAdapter(ctx, items);
-                gridView.setAdapter(toWatchlistAdapter);
+                reviewAdapter = new ReviewAdapter(ctx, items);
+                gridView.setAdapter(reviewAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
 

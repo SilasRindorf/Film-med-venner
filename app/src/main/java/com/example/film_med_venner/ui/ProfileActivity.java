@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI;
+package com.example.film_med_venner.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.UI.profileActivities.FriendActivity;
-import com.example.film_med_venner.UI.profileActivities.RatingActivity;
-import com.example.film_med_venner.UI.profileActivities.ReviewActivity;
-import com.example.film_med_venner.UI.profileActivities.ToWatchlistActivity;
-import com.example.film_med_venner.UI.profileActivities.WatchedlistActivity;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.profileActivities.FriendActivity;
+import com.example.film_med_venner.ui.profileActivities.RatingActivity;
+import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
+import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
+import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout l_layout_review;

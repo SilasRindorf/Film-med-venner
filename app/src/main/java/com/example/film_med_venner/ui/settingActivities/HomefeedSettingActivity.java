@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.settingActivities;
+package com.example.film_med_venner.ui.settingActivities;
 
 import android.os.Bundle;
 
@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 public class HomefeedSettingActivity extends AppCompatActivity {
 

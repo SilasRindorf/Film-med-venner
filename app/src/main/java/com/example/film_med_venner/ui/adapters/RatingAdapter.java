@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.Adapters;
+package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,14 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.List;
 

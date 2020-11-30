@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.fragments;
+package com.example.film_med_venner.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.MainActivity;
-import com.example.film_med_venner.UI.ProfileActivity;
-import com.example.film_med_venner.UI.SearchActivity;
-import com.example.film_med_venner.UI.SettingsActivity;
+import com.example.film_med_venner.ui.MainActivity;
+import com.example.film_med_venner.ui.ProfileActivity;
+import com.example.film_med_venner.ui.SearchActivity;
+import com.example.film_med_venner.ui.SettingsActivity;
 
 public class Nav_bar_frag extends Fragment {
     @Override

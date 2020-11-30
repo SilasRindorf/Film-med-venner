@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.profileActivities;
+package com.example.film_med_venner.ui.profileActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,29 +11,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 
-
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.ReviewAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.ui.adapters.FriendAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.ProfileController;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IReview;
-
+import com.example.film_med_venner.interfaces.IProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewActivity extends AppCompatActivity {
+public class FriendActivity extends AppCompatActivity {
     GridView gridView;
-    private ReviewAdapter reviewAdapter;
+    private FriendAdapter friendAdapter;
     private Context ctx;
     IProfileController controller = ProfileController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review);
+        setContentView(R.layout.activity_friend);
 
         ctx = this;
 
@@ -65,7 +62,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IReview> items = new ArrayList<>();
+            List<IProfile> items = new ArrayList<IProfile>();
             String errorMsg = null;
 
             @Override
@@ -75,7 +72,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getReviewItems();
+                    items = controller.getFriendItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -91,8 +88,8 @@ public class ReviewActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                reviewAdapter = new ReviewAdapter(ctx, items);
-                gridView.setAdapter(reviewAdapter);
+                friendAdapter = new FriendAdapter(ctx, items);
+                gridView.setAdapter(friendAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
 

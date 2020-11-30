@@ -9,49 +9,49 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.profileActivities.FriendActivity"></activity>
-        <activity android:name=".UI.profileActivities.WatchedlistActivity" />
-        <activity android:name=".UI.profileActivities.ToWatchlistActivity" />
-        <activity android:name=".UI.profileActivities.RatingActivity" />
-        <activity android:name=".UI.profileActivities.ReviewActivity" />
-        <activity android:name=".UI.settingActivities.HomefeedSettingActivity" />
-        <activity android:name=".UI.settingActivities.ProfileSettingActivity" />
-        <activity android:name=".UI.MainActivity">
+        <activity android:name=".ui.profileActivities.FriendActivity"></activity>
+        <activity android:name=".ui.profileActivities.WatchedlistActivity" />
+        <activity android:name=".ui.profileActivities.ToWatchlistActivity" />
+        <activity android:name=".ui.profileActivities.RatingActivity" />
+        <activity android:name=".ui.profileActivities.ReviewActivity" />
+        <activity android:name=".ui.settingActivities.HomefeedSettingActivity" />
+        <activity android:name=".ui.settingActivities.ProfileSettingActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.ProfileActivity">
+        <activity android:name=".ui.ProfileActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".UI.ChatActivity">
+        <activity android:name=".ui.ChatActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".UI.LoginActivity">
+        <activity android:name=".ui.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".UI.SearchActivity">
+        <activity android:name=".ui.SearchActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".UI.SettingsActivity">
+        <activity android:name=".ui.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".UI.SignUpActivityWithMail">
+        <activity android:name=".ui.SignUpActivityWithMail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
     </application>
 

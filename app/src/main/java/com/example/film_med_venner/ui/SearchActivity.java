@@ -1,9 +1,4 @@
-package com.example.film_med_venner.UI.profileActivities;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+package com.example.film_med_venner.ui;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -11,26 +6,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.UI.Adapters.FriendAdapter;
-import com.example.film_med_venner.UI.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.ProfileController;
-import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.ui.adapters.SearchAdapter;
+import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.controllers.SearchController;
+import com.example.film_med_venner.interfaces.ISearch;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
     GridView gridView;
-    private FriendAdapter friendAdapter;
+    private SearchAdapter searchAdapter;
     private Context ctx;
-    IProfileController controller = ProfileController.getInstance();
+    SearchController controller = SearchController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend);
+        setContentView(R.layout.search_main);
 
         ctx = this;
 
@@ -62,7 +61,7 @@ public class FriendActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IProfile> items = new ArrayList<IProfile>();
+            List<ISearch> items = new ArrayList<ISearch>();
             String errorMsg = null;
 
             @Override
@@ -72,7 +71,7 @@ public class FriendActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getFriendItems();
+                    items = controller.getSearchItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -88,8 +87,8 @@ public class FriendActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                friendAdapter = new FriendAdapter(ctx, items);
-                gridView.setAdapter(friendAdapter);
+                searchAdapter = new SearchAdapter(ctx, items);
+                gridView.setAdapter(searchAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
 

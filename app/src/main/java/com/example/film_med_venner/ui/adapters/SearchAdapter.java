@@ -1,4 +1,4 @@
-package com.example.film_med_venner.UI.Adapters;
+package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

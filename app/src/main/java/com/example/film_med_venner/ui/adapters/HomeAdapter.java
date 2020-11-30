@@ -1,25 +1,18 @@
-package com.example.film_med_venner.UI.Adapters;
+package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchlistItem;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 
-import org.w3c.dom.Text;
-
-import java.util.Arrays;
 import java.util.List;
 
 public class HomeAdapter extends BaseAdapter {
