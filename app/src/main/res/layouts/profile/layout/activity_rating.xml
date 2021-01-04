@@ -16,9 +16,7 @@
         app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_your_ratings_title"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
@@ -29,18 +27,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textview_your_ratings_title"
-        android:layout_width="match_parent"
-        android:layout_height="31dp"
-        android:text="Your Ratings"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorNavBar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
