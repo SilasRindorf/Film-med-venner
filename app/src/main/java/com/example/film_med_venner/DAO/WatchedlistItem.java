@@ -1,14 +1,13 @@
 package com.example.film_med_venner.DAO;
 
-import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IWatchedlistItem;
 
 public class WatchedlistItem implements IWatchedlistItem {
     private String username;
-    private IMovie movie;
-    public WatchedlistItem(String username, IMovie movie){
+    private int movieID;
+    public WatchedlistItem(String username, int movieID){
         this.username = username;
-        this.movie = movie;
+        this.movieID = movieID;
     }
     @Override
     public String getUsername() {
@@ -16,7 +15,7 @@ public class WatchedlistItem implements IWatchedlistItem {
     }
 
     @Override
-    public IMovie getMovie() {
-        return movie;
+    public int getMovieID() {
+        return movieID;
     }
 }

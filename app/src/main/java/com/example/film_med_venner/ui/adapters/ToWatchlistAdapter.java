@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class ToWatchlistAdapter extends BaseAdapter {
         }
 
         TextView description = gridView.findViewById(R.id.description);
-        description.setText("You have " + item.getMovie().getTitle() + " on your to watchlist.");
+        description.setText("You have " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + " on your to watchlist.");
         return gridView;
     }
 }

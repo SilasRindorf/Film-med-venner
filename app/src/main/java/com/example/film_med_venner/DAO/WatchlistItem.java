@@ -5,11 +5,11 @@ import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 public class WatchlistItem implements IWatchlistItem {
     private String username;
-    private IMovie movie;
+    private int movieID;
 
-    public WatchlistItem(String username, IMovie movie){
+    public WatchlistItem(String username, int movieID){
         this.username = username;
-        this.movie = movie;
+        this.movieID = movieID;
     }
 
     @Override
@@ -18,8 +18,8 @@ public class WatchlistItem implements IWatchlistItem {
     }
 
     @Override
-    public IMovie getMovie() {
-        return movie;
+    public int getMovieID() {
+        return movieID;
     }
 
 }

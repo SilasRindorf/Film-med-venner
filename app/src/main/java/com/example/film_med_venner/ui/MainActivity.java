@@ -13,9 +13,12 @@ import android.widget.GridView;
 
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_HomeFeed;
+import com.example.film_med_venner.interfaces.IController.IController;
+import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller;
+import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     GridView gridView;
     private HomeAdapter homeAdapter;
     private Context ctx;
-    Controller controller = Controller.getInstance();
+    IController_HomeFeed controller = Controller_HomeFeed.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -48,7 +48,7 @@ public class RatingAdapter extends BaseAdapter {
         }
         TextView ratingText = gridView.findViewById(R.id.ratingtext);
         //TODO ((Rating) item).getMovie() Virker ikke optimalt. Når man kører den kommer der ikke det som forventes.
-        ratingText.setText("You rated " + ((Rating) item).getMovie() + " " + ((Rating) item).getRating() +" stars");
+        ratingText.setText("You rated " + ((Rating) item).getMovieID() + " " + ((Rating) item).getRating() +" stars");
 
         ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
         ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);

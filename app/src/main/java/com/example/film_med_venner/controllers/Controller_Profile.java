@@ -10,59 +10,31 @@ import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.IWatchedlistItem;
 import com.example.film_med_venner.interfaces.IWatchlistItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ProfileController implements IProfileController {
-    private static ProfileController instance;
+public class Controller_Profile implements IProfileController {
+    private static Controller_Profile instance;
     private IDatabase database;
 
-    private ProfileController(){
+    private Controller_Profile(){
         database = IDatabase.getInstance();
     }
-    public static ProfileController getInstance(){
+    public static Controller_Profile getInstance(){
         if (instance == null){
-            instance = new ProfileController();
+            instance = new Controller_Profile();
         }
         return instance;
     }
 
-    public ArrayList<IReview> getReviewItems(){
-        // Dummy data
-        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<>(), new String[3], "poster");
-        IReview review = new Review("Very bee, much buzz", "Kurger Bing", movie);
 
-        ArrayList<IReview> feedList = new ArrayList<>();
-        feedList.add(review);
-        feedList.add(review);
-        feedList.add(review);
-        feedList.add(review);
-
-        return feedList;
-    }
-    public ArrayList<IRating> getRatingItems(){
-        // Dummy data
-        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<>(), new String[3], "poster");
-        IRating rating = new Rating(4, "Kurger Bing", movie);
-
-        ArrayList<IRating> feedList = new ArrayList<IRating>();
-        feedList.add(rating);
-        feedList.add(rating);
-        feedList.add(rating);
-        feedList.add(rating);
-
-
-        return feedList;
-    }
     public ArrayList<IWatchlistItem> getToWatchlistItems(){
         // Dummy data
         IMovie movie = new Movie("Bee Movie", "info", new ArrayList<>(), new String[3], "poster");
-        IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", movie);
+        IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", 2);
 
         ArrayList<IWatchlistItem> feedList = new ArrayList<IWatchlistItem>();
         feedList.add(watchlistItem);
@@ -75,7 +47,7 @@ public class ProfileController implements IProfileController {
     public ArrayList<IWatchedlistItem> getWatchedListItems(){
         // Dummy data
         IMovie movie = new Movie("Great Success the Movie", "info", new ArrayList<>(), new String[3], "poster");
-        IWatchedlistItem watchlistItem = new WatchedlistItem("Hurr durr", movie);
+        IWatchedlistItem watchlistItem = new WatchedlistItem("Hurr durr", 3);
 
         ArrayList<IWatchedlistItem> feedList = new ArrayList<IWatchedlistItem>();
         feedList.add(watchlistItem);

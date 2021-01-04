@@ -1,36 +1,41 @@
 package com.example.film_med_venner.DAO;
-
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IReview;
-
 import java.util.ArrayList;
 
 public class Movie implements IMovie {
     private String title;
     private String info;
-    private ArrayList<String> actors;
-    private ArrayList<IReview> reviews;
+    private int ID;
     private String[] genres;
-    private String poster;
-    private int rating;
+    private String posterPos;
+
+    private ArrayList<String> actors;
+    private ArrayList<Integer> reviewIDs;
     private int friendsRating;
 
-    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String poster) {
+    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String posterPos) {
         this.title = title;
         this.info = info;
         this.actors = actors;
         this.genres = genres;
-        this.poster = poster;
-        reviews = new ArrayList<>();
+        this.posterPos = posterPos;
+        reviewIDs = new ArrayList<>();
     }
 
-    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String poster, int rating, int friendsRating) {
-        new  Movie(title,info,actors,genres,poster);
-        this.rating = rating;
+    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String posterPos, int friendsRating) {
+        this(title,info,actors,genres, posterPos);
         this.friendsRating = friendsRating;
-        reviews = new ArrayList<>();
     }
 
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -44,12 +49,8 @@ public class Movie implements IMovie {
         this.genres = genres;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setPosterPos(String posterPos) {
+        this.posterPos = posterPos;
     }
 
     public void setFriendsRating(int friendsRating) {
@@ -76,13 +77,13 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public String getPoster() {
-        return poster;
+    public String getPosterPos() {
+        return posterPos;
     }
 
     @Override
     public int getRating() {
-        return rating;
+        return 0;
     }
 
     @Override
@@ -91,7 +92,7 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public ArrayList<IReview> getReviews() {
-        return reviews;
+    public int[] getReviews() {
+        return reviewIDs.stream().mapToInt(i -> i).toArray();
     }
 }
