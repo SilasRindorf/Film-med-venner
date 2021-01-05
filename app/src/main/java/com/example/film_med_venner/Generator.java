@@ -46,10 +46,10 @@ public class Generator {
         return rat;
     }
 
-    public ArrayList<IRating> generateReviewItems(int amount){
-        ArrayList<IRating> reviews = new ArrayList<>();
+    public ArrayList<IReview> generateReview(int amount){
+        ArrayList<IReview> reviews = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            IRating rate  = new Review(i,"ursnam" + i, i, i,"gret movei");
+            IReview rate  = new Review(i,"ursnam" + i, i, i,"gret movei");
             reviews.add( rate);
         }
         return reviews;
