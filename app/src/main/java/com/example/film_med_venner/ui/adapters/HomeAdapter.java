@@ -56,7 +56,9 @@ public class HomeAdapter extends BaseAdapter {
 
             TextView description = gridView.findViewById(R.id.description);
 
-            description.setText(item.getUsername() + " has rated " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + " with " + ((Rating) item).getRating() + " stars.");
+            description.setText(item.getUsername() + " has rated " + Controller_Movie.getInstance()
+                    .getMovies()[item.getMovieID()].getTitle() + " with " +
+                    ((Rating) item).getRating() + " stars.");
 
         }
         else if (item instanceof Review){
@@ -69,7 +71,10 @@ public class HomeAdapter extends BaseAdapter {
             TextView description = gridView.findViewById(R.id.description);
             TextView reviewText = gridView.findViewById(R.id.reviewtext);
 
-            description.setText(item.getUsername() + " has reviewed " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + ":");
+            description.setText(item.getUsername() + " has reviewed " +
+                    Controller_Movie.getInstance().
+                            getMovies()[item.getMovieID()]
+                            .getTitle() + ":");
             reviewText.setText(((Review) item).getReview());
 
         }

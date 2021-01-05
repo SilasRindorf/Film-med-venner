@@ -56,4 +56,6 @@ public class Controller_Profile implements IProfileController {
     public ArrayList<IProfile> getFriendItems(){
         return new ArrayList<>(Arrays.asList(database.getProfiles())) ;
     }
+
+
 }
