@@ -5,19 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title_profile_settings"
-        android:layout_width="match_parent"
-        android:layout_height="31dp"
-        android:autoSizeTextType="uniform"
-        android:background="@color/colorNavBar"
-        android:text="Profile Settings"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/nav_bar_container"
         android:layout_width="match_parent"
