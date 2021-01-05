@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.film_med_venner.R;
@@ -24,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout l_layout_to_watchlist;
     LinearLayout l_layout_watchedlist;
     LinearLayout l_layout_friends;
+    ImageView imageView_settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         l_layout_watchedlist.setOnClickListener(this);
         l_layout_friends = findViewById(R.id.linearLayout_friends);
         l_layout_friends.setOnClickListener(this);
+        imageView_settings = findViewById(R.id.imageView_settings);
+        imageView_settings.setOnClickListener(this);
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -77,6 +81,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         else if (view == l_layout_friends){
             setContentView(R.layout.activity_friend);
             Intent intent = new Intent(this, FriendActivity.class);
+            startActivity(intent);
+        }
+        else if (view == imageView_settings){
+            setContentView(R.layout.settings_main);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
     }
