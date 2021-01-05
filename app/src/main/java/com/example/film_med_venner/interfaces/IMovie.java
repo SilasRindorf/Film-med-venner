@@ -8,11 +8,10 @@ public interface IMovie {
     ArrayList<String> getActors();
     String[] getGenres();
     //This is should return a picture
-    String getPoster();
+    String getPosterPos();
     //example 0-5 stars
-    int getRating();
     //Average of friends rating
-    int getFriendsRating();
-    ArrayList<IReview> getReviews();
-
+    //int getFriendsRating();
+    int[] getReviews();
+    int getID();
 }

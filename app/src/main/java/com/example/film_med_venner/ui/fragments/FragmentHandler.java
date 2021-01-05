@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.film_med_venner.interfaces.IFragmentHandler;
 
-public class FragmentHandler implements IFragmentHandler {
+public class FragmentHandler {
     //@Override
     public Fragment getFragment() {
         return null;

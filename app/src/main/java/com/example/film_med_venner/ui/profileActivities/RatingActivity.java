@@ -12,20 +12,22 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Rating;
 import com.example.film_med_venner.ui.adapters.RatingAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.ProfileController;
+import com.example.film_med_venner.controllers.Controller_Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IRating;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RatingActivity extends AppCompatActivity {
     GridView gridView;
     private RatingAdapter ratingAdapter;
     private Context ctx;
-    IProfileController controller = ProfileController.getInstance();
+    IProfileController controller = Controller_Profile.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getRatingItems();
+                    items = Arrays.asList(Controller_Rating.getInstance().getRatingItems());
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

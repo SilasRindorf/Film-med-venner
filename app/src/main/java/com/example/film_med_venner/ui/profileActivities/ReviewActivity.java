@@ -13,21 +13,23 @@ import android.widget.GridView;
 
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.ProfileController;
+import com.example.film_med_venner.controllers.Controller_Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IReview;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
     private ReviewAdapter reviewAdapter;
     private Context ctx;
-    IProfileController controller = ProfileController.getInstance();
+    IProfileController controller = Controller_Profile.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getReviewItems();
+                    items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

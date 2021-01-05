@@ -17,9 +17,7 @@ import com.example.film_med_venner.ui.settingActivities.ProfileSettingActivity;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView profSet, homeSet;
-
-
+    private TextView profSet, homeSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

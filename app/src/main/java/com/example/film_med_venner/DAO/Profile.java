@@ -1,21 +1,18 @@
 package com.example.film_med_venner.DAO;
 
-import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 
 import java.util.ArrayList;
 
 public class Profile implements IProfile {
 
-    private int ID;
+    private final int ID;
     private String name;
     private ArrayList<String> mvGPrefs;
-    private ArrayList<IProfile> friends;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
     private int amountOfMoviesRated;
-    private ArrayList<IMovie> moviesRated;
-    private int amountOfMoviesReviewed;
-    private int amountOfFriends;
+    private ArrayList<Integer> friends;
+    private ArrayList<Integer> moviesRatedIDs;
     private int amountOfMoviesOnToWatchList;
     private int amountOfMoviesOnWatchedList;
 
@@ -25,21 +22,15 @@ public class Profile implements IProfile {
         this.name = name;
         mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
-        moviesRated = new ArrayList<>();
+        moviesRatedIDs = new ArrayList<>();
         amountOfMoviesRated = -1;
     }
     //TODO Den skal også hente profilbillede her
     public Profile(String name, int ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList){
         this(name, ID);
         this.amountOfMoviesRated = amountOfMoviesRated;
-        this.amountOfMoviesReviewed = amountOfMoviesReviewed;
-        this.amountOfFriends = amountOfFriends;
         this.amountOfMoviesOnToWatchList = amountOfMoviesOnToWatchList;
         this.amountOfMoviesOnWatchedList = amountOfMoviesOnWatchedList;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     @Override
@@ -51,17 +42,27 @@ public class Profile implements IProfile {
     public int getAmountOfMoviesRated() {
         if (amountOfMoviesRated != -1)
             return amountOfMoviesRated;
-        else return moviesRated.size();
+        else return moviesRatedIDs.size();
+    }
+
+    @Override
+    public void addMoveRated(int movieID) {
+        moviesRatedIDs.add(movieID);
     }
 
     @Override
     public int getAmountOfMoviesReviewed() {
-        return amountOfMoviesReviewed;
+        return moviesRatedIDs.size();
     }
 
     @Override
     public int getAmountOfFriends() {
-        return amountOfFriends;
+        return friends.size();
+    }
+
+    @Override
+    public void addFriend(int id) {
+        friends.add(id);
     }
 
     @Override
@@ -79,20 +80,27 @@ public class Profile implements IProfile {
     }
 
     @Override
-    public ArrayList<String> getMvgPrefs() {
-        return mvGPrefs;
-    }
-
-    @Override
-    public ArrayList<IProfile> getFriends() {
-        return friends;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setMvGPrefs(ArrayList<String> mvGPrefs) {
+    @Override
+    public String[] getMvgPrefs() {
+        return (String[]) mvGPrefs.toArray();
+    }
+
+    @Override
+    public void addMvgPref(String pref) {
+        mvGPrefs.add(pref);
+    }
+
+    @Override
+    public int[] getFriendIDs() {
+        return friends.stream().mapToInt(i -> i).toArray();
+    }
+
+    @Override
+    public void setMvgPrefs(ArrayList<String> mvGPrefs) {
         this.mvGPrefs = mvGPrefs;
     }
 

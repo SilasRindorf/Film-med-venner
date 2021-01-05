@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.interfaces.IWatchedlistItem;
+import com.example.film_med_venner.controllers.Controller_Movie;
+import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.List;
 
 public class WatchedlistAdapter extends BaseAdapter {
     private Context ctx;
-    private List<IWatchedlistItem> watchedlistItems;
+    private List<IWatchItem> watchedlistItems;
 
-    public WatchedlistAdapter(Context ctx, List<IWatchedlistItem> watchlistItems) {
+    public WatchedlistAdapter(Context ctx, List<IWatchItem> watchlistItems) {
         this.ctx = ctx;
         this.watchedlistItems = watchlistItems;
     }
@@ -39,7 +40,7 @@ public class WatchedlistAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
-        IWatchedlistItem item = watchedlistItems.get(position);
+        IWatchItem item = watchedlistItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //TODO item ting nedenunder
@@ -47,7 +48,7 @@ public class WatchedlistAdapter extends BaseAdapter {
         }
 
         TextView description = gridView.findViewById(R.id.description);
-        description.setText("You have " + item.getMovie().getTitle() + " to your watchedlist.");
+        description.setText("You have " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + " to your watchedlist.");
         return gridView;
     }
 }
