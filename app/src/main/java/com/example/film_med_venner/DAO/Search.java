@@ -1,6 +1,5 @@
 package com.example.film_med_venner.DAO;
 
-import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.ISearch;
 
 public class Search implements ISearch {

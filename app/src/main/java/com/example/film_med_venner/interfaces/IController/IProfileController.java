@@ -9,7 +9,5 @@ public interface IProfileController extends IController {
     ArrayList<IProfile> getFriendItems();
     ArrayList<IWatchItem> getWatchedListItems();
     ArrayList<IWatchItem> getToWatchlistItems();
-    // Review / Rating
-    //ArrayList<IRating> getRatingItems();
-    //IRating[] getReviewItems();
+
 }
