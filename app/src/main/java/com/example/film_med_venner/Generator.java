@@ -4,13 +4,13 @@ import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchlistItem;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.ArrayList;
 
@@ -59,7 +59,7 @@ public class Generator {
         IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
         IRating rating = new Rating(1000, "Kurger Bing", amount,65);
         IReview review = new Review(2, "Kurger Bing", 1,5,"Very bee, much buzz");
-        IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", 1);
+        IWatchItem watchlistItem = new WatchItem("Tronald Dump", 1);
 
         ArrayList<IHomeFeedItems> feedList = new ArrayList<IHomeFeedItems>();
         feedList.add(rating);

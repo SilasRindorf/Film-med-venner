@@ -2,16 +2,12 @@ package com.example.film_med_venner.controllers;
 
 
 import com.example.film_med_venner.DAO.Movie;
-import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchedlistItem;
-import com.example.film_med_venner.DAO.WatchlistItem;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IWatchedlistItem;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,12 +27,12 @@ public class Controller_Profile implements IProfileController {
     }
 
 
-    public ArrayList<IWatchlistItem> getToWatchlistItems(){
+    public ArrayList<IWatchItem> getToWatchlistItems(){
         // Dummy data
         IMovie movie = new Movie("Bee Movie", "info", new ArrayList<>(), new String[3], "poster");
-        IWatchlistItem watchlistItem = new WatchlistItem("Tronald Dump", 2);
+        IWatchItem watchlistItem = new WatchItem("Tronald Dump", 2);
 
-        ArrayList<IWatchlistItem> feedList = new ArrayList<IWatchlistItem>();
+        ArrayList<IWatchItem> feedList = new ArrayList<IWatchItem>();
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
@@ -44,12 +40,12 @@ public class Controller_Profile implements IProfileController {
 
         return feedList;
     }
-    public ArrayList<IWatchedlistItem> getWatchedListItems(){
+    public ArrayList<IWatchItem> getWatchedListItems(){
         // Dummy data
         IMovie movie = new Movie("Great Success the Movie", "info", new ArrayList<>(), new String[3], "poster");
-        IWatchedlistItem watchlistItem = new WatchedlistItem("Hurr durr", 3);
+        IWatchItem watchlistItem = new WatchItem("Hurr durr", 3);
 
-        ArrayList<IWatchedlistItem> feedList = new ArrayList<IWatchedlistItem>();
+        ArrayList<IWatchItem> feedList = new ArrayList<IWatchItem>();
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);
         feedList.add(watchlistItem);

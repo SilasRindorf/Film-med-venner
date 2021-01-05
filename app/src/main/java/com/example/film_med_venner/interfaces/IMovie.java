@@ -10,9 +10,8 @@ public interface IMovie {
     //This is should return a picture
     String getPosterPos();
     //example 0-5 stars
-    int getRating();
     //Average of friends rating
-    int getFriendsRating();
+    //int getFriendsRating();
     int[] getReviews();
-
+    int getID();
 }

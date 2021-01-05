@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Movie;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.List;
 
 public class ToWatchlistAdapter extends BaseAdapter {
     private Context ctx;
-    private List<IWatchlistItem> watchlistItems;
+    private List<IWatchItem> watchlistItems;
 
-    public ToWatchlistAdapter(Context ctx, List<IWatchlistItem> watchlistItems) {
+    public ToWatchlistAdapter(Context ctx, List<IWatchItem> watchlistItems) {
         this.ctx = ctx;
         this.watchlistItems = watchlistItems;
     }
@@ -40,7 +40,7 @@ public class ToWatchlistAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
-        IWatchlistItem item = watchlistItems.get(position);
+        IWatchItem item = watchlistItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //TODO item ting nedenunder

@@ -13,7 +13,7 @@ import android.widget.GridView;
 
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.ReviewController;
+import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
@@ -76,7 +76,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = Arrays.asList(ReviewController.getInstance().getReviewItems());
+                    items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

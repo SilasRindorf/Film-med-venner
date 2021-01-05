@@ -1,6 +1,5 @@
 package com.example.film_med_venner.DAO;
 import com.example.film_med_venner.interfaces.IMovie;
-import com.example.film_med_venner.interfaces.IReview;
 import java.util.ArrayList;
 
 public class Movie implements IMovie {
@@ -12,6 +11,9 @@ public class Movie implements IMovie {
 
     private ArrayList<String> actors;
     private ArrayList<Integer> reviewIDs;
+
+
+
     private int friendsRating;
 
     public Movie(String title, String info, ArrayList<String> actors, String[] genres, String posterPos) {
@@ -21,6 +23,7 @@ public class Movie implements IMovie {
         this.genres = genres;
         this.posterPos = posterPos;
         reviewIDs = new ArrayList<>();
+        actors = new ArrayList<>();
     }
 
     public Movie(String title, String info, ArrayList<String> actors, String[] genres, String posterPos, int friendsRating) {
@@ -81,12 +84,6 @@ public class Movie implements IMovie {
         return posterPos;
     }
 
-    @Override
-    public int getRating() {
-        return 0;
-    }
-
-    @Override
     public int getFriendsRating() {
         return friendsRating;
     }

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchlistItem;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
@@ -73,7 +73,7 @@ public class HomeAdapter extends BaseAdapter {
             reviewText.setText(((Review) item).getReview());
 
         }
-        else if (item instanceof WatchlistItem){
+        else if (item instanceof WatchItem){
 
             if (gridView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

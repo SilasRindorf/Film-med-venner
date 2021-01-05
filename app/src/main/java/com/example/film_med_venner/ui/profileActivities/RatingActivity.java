@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.RatingController;
+import com.example.film_med_venner.controllers.Controller_Rating;
 import com.example.film_med_venner.ui.adapters.RatingAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
@@ -74,7 +74,7 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = Arrays.asList(RatingController.getInstance().getRatingItems());
+                    items = Arrays.asList(Controller_Rating.getInstance().getRatingItems());
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

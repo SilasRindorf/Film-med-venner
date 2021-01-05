@@ -16,7 +16,7 @@ import com.example.film_med_venner.ui.adapters.ToWatchlistAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IWatchlistItem> items = new ArrayList<>();
+            List<IWatchItem> items = new ArrayList<>();
             String errorMsg = null;
 
             @Override

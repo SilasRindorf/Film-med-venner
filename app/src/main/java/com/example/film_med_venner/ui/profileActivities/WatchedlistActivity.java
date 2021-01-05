@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,11 +13,11 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.ui.adapters.WatchedlistAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IWatchedlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class WatchedlistActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IWatchedlistItem> items = new ArrayList<>();
+            List<IWatchItem> items = new ArrayList<>();
             String errorMsg = null;
 
             @Override

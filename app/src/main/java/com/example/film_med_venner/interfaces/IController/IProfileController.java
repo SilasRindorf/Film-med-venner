@@ -1,16 +1,14 @@
 package com.example.film_med_venner.interfaces.IController;
 
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IWatchedlistItem;
-import com.example.film_med_venner.interfaces.IWatchlistItem;
+import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.ArrayList;
 
 public interface IProfileController extends IController {
     ArrayList<IProfile> getFriendItems();
-    ArrayList<IWatchedlistItem> getWatchedListItems();
-    ArrayList<IWatchlistItem> getToWatchlistItems();
+    ArrayList<IWatchItem> getWatchedListItems();
+    ArrayList<IWatchItem> getToWatchlistItems();
     // Review / Rating
     //ArrayList<IRating> getRatingItems();
     //IRating[] getReviewItems();
