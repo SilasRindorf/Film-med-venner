@@ -8,10 +8,10 @@
     tools:context=".ui.SettingsActivity"
     android:background="@color/colorBackground">
 
-
+<!-- TODO Ubehagelig fixed højde. Der er en midlertidig løsning pt. så den ikke gemmer sig bag ved navbar.-->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="550dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 <LinearLayout
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Profile settings"
+        android:text="Profile"
         android:textStyle="bold"
         android:textSize="24sp"
         android:textColor="#DD000000"></TextView>
@@ -125,6 +125,7 @@
             android:adjustViewBounds="true"
             android:layout_weight="1"></ImageView>
         <Button
+            android:id="@+id/change_profile_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Skift profilbillede"></Button>
@@ -134,7 +135,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Homefeed settings"
+        android:text="Homefeed"
         android:textStyle="bold"
         android:textSize="24sp"
         android:textColor="#DD000000"></TextView>
@@ -191,6 +192,77 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
     </LinearLayout>
+        <!-- SAFETY SETTINGS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sikkerheds indstillinger"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#DD000000"></TextView>
+
+    <!-- PASSWORD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Adgangskode: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="********"></EditText>
+        </LinearLayout>
+    <!-- NEW PASSWORD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Ny adgangskode: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_new_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="********"></EditText>
+    </LinearLayout>
+    <!-- REPEAT NEW PASSWORD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Gentag ny adgangskode: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_repeat_new_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="********"></EditText>
+    </LinearLayout>
+    <Button
+        android:id="@+id/save_password_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gem adgangskode"></Button>
 </LinearLayout>
     </ScrollView>
 
