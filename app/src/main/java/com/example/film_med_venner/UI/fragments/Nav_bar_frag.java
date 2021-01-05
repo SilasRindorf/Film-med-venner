@@ -62,19 +62,6 @@ public class Nav_bar_frag extends Fragment {
         });
 
         /**
-         * Creating the onClickListener for settings_btn and giving adding the intent for switching to another activity as well.
-         */
-        btn = (ImageButton) view.findViewById(R.id.settings_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.setClass(getActivity(), SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-        /**
          * Returning the view in case none of the buttons former buttons were those pushed.
          */
         return view;
