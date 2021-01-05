@@ -35,6 +35,7 @@ public class DatabaseNonPers implements IDatabase {
         movies = gen.generateMovies(10);
         profiles = gen.generateProfiles(10);
         homeFeedItems = gen.generateHomeFeedItems(10);
+        ratings = gen.generateRatings(10);
     }
 
     @Override

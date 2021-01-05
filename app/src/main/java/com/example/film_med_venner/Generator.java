@@ -37,20 +37,20 @@ public class Generator {
         }
         return profiles;
     }
-    public IRating[] generateRatings(int amount){
-        IRating[] profiles = new Rating[amount];
+    public ArrayList<IRating> generateRatings(int amount){
+        ArrayList<IRating> rat = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             IRating rate  = new Rating(i,"ursnam" + i, i, i);
-            profiles[i] = rate;
+            rat.add( rate);
         }
-        return profiles;
+        return rat;
     }
 
-    public IRating[] generateReviewItems(int amount){
-        IRating[] reviews = new Review[amount];
+    public ArrayList<IRating> generateReviewItems(int amount){
+        ArrayList<IRating> reviews = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             IRating rate  = new Review(i,"ursnam" + i, i, i,"gret movei");
-            reviews[i] = rate;
+            reviews.add( rate);
         }
         return reviews;
     }
