@@ -60,16 +60,16 @@ public class SearchAdapter extends BaseAdapter {
         ImageView moviePoster10 = gridView.findViewById(R.id.moviePoster10);
 
         category.setText(item.getCategory());
-        moviePoster1.setImageResource(R.drawable.mp_batman_begins);
-        moviePoster2.setImageResource(R.drawable.mp_batman_tdkr);
-        moviePoster3.setImageResource(R.drawable.mp_batman_the_dark_knight);
-        moviePoster4.setImageResource(R.drawable.mp_inception);
-        moviePoster5.setImageResource(R.drawable.mp_seven);
-        moviePoster6.setImageResource(R.drawable.mp_sherlock_holmes);
-        moviePoster7.setImageResource(R.drawable.mp_the_irishman);
-        moviePoster8.setImageResource(R.drawable.mp_the_social_dilemma);
-        moviePoster9.setImageResource(R.drawable.mp_the_wolf_of_wallstreet);
-        moviePoster10.setImageResource(R.drawable.mp_watchmen);
+        moviePoster1.setImageResource(R.drawable.mp);
+        moviePoster2.setImageResource(R.drawable.mp);
+        moviePoster3.setImageResource(R.drawable.mp);
+        moviePoster4.setImageResource(R.drawable.mp);
+        moviePoster5.setImageResource(R.drawable.mp);
+        moviePoster6.setImageResource(R.drawable.mp);
+        moviePoster7.setImageResource(R.drawable.mp);
+        moviePoster8.setImageResource(R.drawable.mp);
+        moviePoster9.setImageResource(R.drawable.mp);
+        moviePoster10.setImageResource(R.drawable.mp);
 
         return gridView;
     }
