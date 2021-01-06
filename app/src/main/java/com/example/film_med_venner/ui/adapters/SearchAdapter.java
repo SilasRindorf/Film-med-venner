@@ -1,6 +1,9 @@
 package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,9 @@ import android.widget.TextView;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.interfaces.ISearch;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 public class SearchAdapter extends BaseAdapter {
@@ -60,15 +66,15 @@ public class SearchAdapter extends BaseAdapter {
         ImageView moviePoster10 = gridView.findViewById(R.id.moviePoster10);
 
         category.setText(item.getCategory());
-        moviePoster1.setImageResource(R.drawable.mp);
-        moviePoster2.setImageResource(R.drawable.mp);
-        moviePoster3.setImageResource(R.drawable.mp);
-        moviePoster4.setImageResource(R.drawable.mp);
-        moviePoster5.setImageResource(R.drawable.mp);
-        moviePoster6.setImageResource(R.drawable.mp);
-        moviePoster7.setImageResource(R.drawable.mp);
-        moviePoster8.setImageResource(R.drawable.mp);
-        moviePoster9.setImageResource(R.drawable.mp);
+        moviePoster1.setImageResource((R.drawable.mp_batman_begins));
+        moviePoster2.setImageResource(R.drawable.mp_batman_the_dark_knight);
+        moviePoster3.setImageResource(R.drawable.mp_sherlock_holmes);
+        moviePoster4.setImageResource(R.drawable.mp_inception);
+        moviePoster5.setImageResource(R.drawable.mp_seven);
+        moviePoster6.setImageResource(R.drawable.mp_the_social_dilemma);
+        moviePoster7.setImageResource(R.drawable.mp_the_irishman);
+        moviePoster8.setImageResource(R.drawable.mp_the_wolf_of_wallstreet);
+        moviePoster9.setImageResource(R.drawable.mp_watchmen);
         moviePoster10.setImageResource(R.drawable.mp);
 
         return gridView;
