@@ -38,7 +38,6 @@ import static android.content.ContentValues.TAG;
 
 //TODO should be handled in thread
 public class Database implements IDatabase {
-    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private static Database instance;
     public static Database getInstance(){
@@ -50,7 +49,6 @@ public class Database implements IDatabase {
 
     private Database(){
         db =  FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
         //addUser("Bob Mclaren");
     }
 
@@ -86,46 +84,6 @@ public class Database implements IDatabase {
         return null;
     }
 
-    public boolean isLoggedIn(){
-        return mAuth.getCurrentUser() != null;
-    }
-
-    public void createUser(String email, String password) throws DatabaseException{
-        final String[] msg = new String[1];
-        final Exception[] ex = new Exception[1];
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task  -> {
-            if(task.isSuccessful()){
-                Log.d(TAG,"Create user with email: Success ");
-            }
-            else {
-                Log.d(TAG,"Create user with email: Failed ");
-                try {
-                    throw task.getException();
-                }
-                catch(FirebaseAuthWeakPasswordException e) {
-                    msg[0] = "Weak Password";
-                    ex[0] = e;
-
-                } catch(FirebaseAuthInvalidCredentialsException e) {
-                    msg[0] = "Invalid Credentials";
-                    ex[0] = e;
-                } catch(FirebaseAuthUserCollisionException e) {
-                    msg[0] = "Another user exists already";
-                    ex[0] = e;
-                } catch(Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-            }
-
-        }
-        );
-        System.out.println(msg[0]);
-        if (msg[0] != null){
-            throw new DatabaseException(msg[0],ex[0]);
-        }
-
-    }
 
 
     @Override
