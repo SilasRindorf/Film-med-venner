@@ -21,6 +21,11 @@ public class Rating implements IRating {
     }
 
     @Override
+    public int getFriendsAverageRating() {
+        return 0;
+    }
+
+    @Override
     public String getUsername() {
         return username;
     }
