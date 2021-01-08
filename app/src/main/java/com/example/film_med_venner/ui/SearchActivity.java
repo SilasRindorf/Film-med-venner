@@ -20,7 +20,7 @@ import com.example.film_med_venner.interfaces.ISearch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
     GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
@@ -37,6 +37,10 @@ public class SearchActivity extends AppCompatActivity {
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
+
+    }
+    @Override
+    public void onClick(View v) {
 
     }
 
@@ -100,4 +104,6 @@ public class SearchActivity extends AppCompatActivity {
             asyncTask.cancel(true);
         }
     }
+
+
 }

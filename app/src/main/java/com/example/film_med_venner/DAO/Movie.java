@@ -65,6 +65,21 @@ public class Movie implements IMovie {
         return title;
     }
 
+    @Override
+    public String getSummary() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getDirectors() {
+        return null;
+    }
+
+    @Override
+    public double getRuntime() {
+        return 0;
+    }
+
     public String getInfo() {
         return info;
     }
