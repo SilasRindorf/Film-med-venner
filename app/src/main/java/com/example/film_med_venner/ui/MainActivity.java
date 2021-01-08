@@ -1,10 +1,7 @@
 package com.example.film_med_venner.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,14 +14,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Auth;
-import com.example.film_med_venner.controllers.Controller_HomeFeed;
-import com.example.film_med_venner.databases.Database;
-import com.example.film_med_venner.interfaces.IDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+
 
 import static android.content.ContentValues.TAG;
 
@@ -38,7 +33,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
-        //SharedPreferences sp = SharedPreferences
+        if (isLoggedIn()){
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+
+
         EditText ete = findViewById(R.id.editTextTextEmailAddress);
         EditText etp = findViewById(R.id.editTextTextPassword);
         Button btn = findViewById(R.id.btn_login);
@@ -56,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
+    }
+
+    public boolean isEmptyStringArray(String [] array){
+        for(int i=0; i<array.length; i++){
+            if(array[i]!=null){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
