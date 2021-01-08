@@ -1,9 +1,13 @@
 package com.example.film_med_venner.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Auth;
+import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
+        //SharedPreferences sp = SharedPreferences
+        EditText ete = findViewById(R.id.editTextTextEmailAddress);
+        EditText etp = findViewById(R.id.editTextTextPassword);
+        Button btn = findViewById(R.id.btn_login);
+        btn.setOnClickListener(view ->{
+            logIn(ete.getText().toString(),etp.getText().toString());
+        });
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -56,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    public void logIn(String email, String password){
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task ->{
+            if (task.isSuccessful()){
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     public boolean isLoggedIn(){
         return mAuth.getCurrentUser() != null;
