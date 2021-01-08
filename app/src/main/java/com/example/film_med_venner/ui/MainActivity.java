@@ -45,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(view ->{
             logIn(ete.getText().toString(),etp.getText().toString());
         });
+
+        EditText etce = findViewById(R.id.createUserEmailAddress);
+        EditText etcp = findViewById(R.id.createUserPassword);
+        Button btnc = findViewById(R.id.btn_create_user);
+        btnc.setOnClickListener(view ->{
+            createUser(etce.getText().toString(),etcp.getText().toString());
+        });
     }
 
     private void addFrag(int id, Fragment fragment) {
