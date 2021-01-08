@@ -39,11 +39,11 @@ public class Database implements IDatabase {
     }
     private Database(){
         db =  FirebaseFirestore.getInstance();
-        addUser("Bob Mclaren");
+        //addUser("Bob Mclaren");
     }
-    public boolean  addUser(String name){
-        HashMap<String, Object> user = new HashMap();
-        user.put("name",name);
+    public boolean  addUser(String name, int userID){
+        HashMap<Integer, Object> user = new HashMap();
+        user.put(userID,name);
         db.collection("users").add(user)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
