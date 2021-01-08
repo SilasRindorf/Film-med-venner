@@ -31,7 +31,7 @@
                 android:orientation="horizontal"
                 android:weightSum="10">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster1"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -41,7 +41,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster2"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -51,7 +51,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster3"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -61,7 +61,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster4"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -71,7 +71,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster5"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -81,7 +81,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster6"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -91,7 +91,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster7"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -101,7 +101,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster8"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -111,7 +111,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster9"
                     android:padding="10dp"
                     android:layout_width="0dp"
@@ -121,7 +121,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mp" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/moviePoster10"
                     android:padding="10dp"
                     android:layout_width="0dp"

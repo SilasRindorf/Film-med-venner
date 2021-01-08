@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -27,6 +29,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
+    ImageButton imageButton;
     SearchController controller = SearchController.getInstance();
 
     @Override
@@ -40,15 +43,31 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
+        gridView.setOnItemClickListener(this);
 
+    }
+    public void setAllButtonListener(ViewGroup viewGroup) {
+        View v;
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            v = viewGroup.getChildAt(i);
+            if (v instanceof ViewGroup) {
+                setAllButtonListener((ViewGroup) v);
+            } else if (v instanceof ImageButton) {
+                //((ImageButton) v).setOnClickListener(onItemClick(?,?,?,?));
+            }
+        }
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+    /*@Override
+    public void onItemClick(AdapterView<?> parent, View view, int position) {
         setContentView(R.layout.activity_movie_details);
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         startActivity(intent);
     }
-
+*/
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
