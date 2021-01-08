@@ -1,49 +1,39 @@
 package com.example.film_med_venner.ui;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.GridView;
-
-
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_HomeFeed;
-import com.example.film_med_venner.interfaces.IController.IController;
-import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
-import com.example.film_med_venner.ui.adapters.HomeAdapter;
-import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Movie;
-import com.example.film_med_venner.interfaces.IHomeFeedItems;
+import com.example.film_med_venner.controllers.Controller_Auth;
+import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
-import java.util.ArrayList;
-import java.util.List;
+import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends AppCompatActivity {
-    GridView gridView;
-    private HomeAdapter homeAdapter;
-    private Context ctx;
-    IController_HomeFeed controller = Controller_HomeFeed.getInstance();
+    private Controller_Auth auth = Controller_Auth.getInstance();
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ctx = this;
-
-        Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
-
-        gridView = findViewById(R.id.gridView);
-
-        }
+        setContentView(R.layout.auth);
+        mAuth = FirebaseAuth.getInstance();
+    }
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -52,59 +42,54 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void onStart() {
+        super.onStart();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        setupHomeFeed(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        setupHomeFeed(false);
     }
 
-    void setupHomeFeed(boolean run) {
-        AsyncTask asyncTask = new AsyncTask() {
-            List<IHomeFeedItems> items = new ArrayList<>();
-            String errorMsg = null;
 
-            @Override
-            protected void onPreExecute() {
+    public boolean isLoggedIn(){
+        return mAuth.getCurrentUser() != null;
+    }
+    public void createUser(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task  -> {
+            if(task.isSuccessful()){
+                Log.d(TAG,"Create user with email: Success ");
             }
-
-            @Override
-            protected Object doInBackground(Object... arg0) {
+            else {
+                Log.d(TAG, "Create user with email: Failed ");
                 try {
-                    items = controller.getHomeFeedItems();
-                    return null;
+                    throw task.getException();
+                } catch (FirebaseAuthWeakPasswordException e) {
+                    Toast.makeText(MainActivity.this, "Password skal være mindst 6 karaktere", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, e.getMessage());
+                } catch (FirebaseAuthInvalidCredentialsException e) {
+                    Toast.makeText(MainActivity.this, "I", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, e.getMessage());
+
+                } catch (FirebaseAuthUserCollisionException e) {
+                    Toast.makeText(MainActivity.this, "Der eksistere allerede en bruger", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, e.getMessage());
+                } catch (FirebaseAuthEmailException e) {
+                    Toast.makeText(MainActivity.this, "Ikke valid email", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, e.getMessage());
+
                 } catch (Exception e) {
-                    //    errorMsg = e.getMessage();
-                    e.printStackTrace();
-                    return e;
+                    Log.e(TAG, e.getMessage());
                 }
+
             }
+        });
 
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(Object titler) {
-                homeAdapter = new HomeAdapter(ctx, items);
-                gridView.setAdapter(homeAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-        };
-
-        if (run) {
-            asyncTask.execute();
-        } else {
-            asyncTask.cancel(true);
-        }
     }
-
 
 }

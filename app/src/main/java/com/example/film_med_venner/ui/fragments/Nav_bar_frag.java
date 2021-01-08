@@ -9,10 +9,9 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.ui.MainActivity;
+import com.example.film_med_venner.ui.HomeActivity;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.example.film_med_venner.ui.SearchActivity;
-import com.example.film_med_venner.ui.SettingsActivity;
 
 public class Nav_bar_frag extends Fragment {
     @Override
@@ -28,7 +27,7 @@ public class Nav_bar_frag extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.setClass(getActivity(),MainActivity.class);
+                intent.setClass(getActivity(), HomeActivity.class);
                 startActivity(intent);
             }
         });

@@ -3,6 +3,7 @@ package com.example.film_med_venner.controllers;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.WatchItem;
+import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
@@ -23,6 +24,8 @@ public class Controller_Profile implements IProfileController {
         if (instance == null){
             instance = new Controller_Profile();
         }
+        Database database = Database.getInstance();
+        System.out.println("boooo");
         return instance;
     }
 
