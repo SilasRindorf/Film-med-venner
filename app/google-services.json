@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "147869736362",
+    "firebase_url": "https://film-med-venner-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "film-med-venner",
+    "storage_bucket": "film-med-venner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147869736362:android:122ab1dc7393d70a1b5fd3",
+        "android_client_info": {
+          "package_name": "com.example.film_med_venner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "147869736362-5odpc8d5pa3jbpdd101uh6jd0nib6b4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU7nTkGtSDQ0LDFsPjt7--ZL3ZSSXUD1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147869736362-5odpc8d5pa3jbpdd101uh6jd0nib6b4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
