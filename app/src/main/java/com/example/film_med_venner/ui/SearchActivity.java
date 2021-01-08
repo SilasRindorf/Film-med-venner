@@ -1,9 +1,11 @@
 package com.example.film_med_venner.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +18,12 @@ import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.SearchController;
 import com.example.film_med_venner.interfaces.ISearch;
+import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
@@ -40,9 +43,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     }
     @Override
-    public void onClick(View v) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        setContentView(R.layout.activity_movie_details);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        startActivity(intent);
     }
+
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -104,6 +110,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             asyncTask.cancel(true);
         }
     }
+
 
 
 }
