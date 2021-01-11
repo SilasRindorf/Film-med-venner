@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
 
-        
+        // id'et er ikke en firebase user :3
        Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
-
+           Log.d(TAG, "Hah my namevwwv" + profile.getName());
        });
 
         /*if (isLoggedIn()) {

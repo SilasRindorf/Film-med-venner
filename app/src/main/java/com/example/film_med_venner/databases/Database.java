@@ -71,7 +71,7 @@ public class Database implements IDatabase {
                     IProfile profile = new Profile("test create", "toot");;
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            if (doc.getData().containsKey(id)) {
+                            if (doc.getId().equals(id)) {
                                 profile = new Profile(doc.get("name").toString(),doc.getId());
                                 runnable.run(profile);
                             }
