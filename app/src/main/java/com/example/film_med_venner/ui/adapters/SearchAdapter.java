@@ -1,9 +1,7 @@
 package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.film_med_venner.API.OmdbWebServiceClient;
+import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.interfaces.ISearch;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.List;
 
 public class SearchAdapter extends BaseAdapter {
@@ -65,17 +63,23 @@ public class SearchAdapter extends BaseAdapter {
         ImageView moviePoster9 = gridView.findViewById(R.id.moviePoster9);
         ImageView moviePoster10 = gridView.findViewById(R.id.moviePoster10);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        List<Movie> movieList = OmdbWebServiceClient.searchMovieByTitle("my little pony", 1);
+
         category.setText(item.getCategory());
-        moviePoster1.setImageResource((R.drawable.mp_batman_begins));
-        moviePoster2.setImageResource(R.drawable.mp_batman_the_dark_knight);
-        moviePoster3.setImageResource(R.drawable.mp_sherlock_holmes);
-        moviePoster4.setImageResource(R.drawable.mp_inception);
-        moviePoster5.setImageResource(R.drawable.mp_seven);
-        moviePoster6.setImageResource(R.drawable.mp_the_social_dilemma);
-        moviePoster7.setImageResource(R.drawable.mp_the_irishman);
-        moviePoster8.setImageResource(R.drawable.mp_the_wolf_of_wallstreet);
-        moviePoster9.setImageResource(R.drawable.mp_watchmen);
-        moviePoster10.setImageResource(R.drawable.mp);
+
+        Picasso.get().load(movieList.get(0).getPoster()).into(moviePoster1);
+        Picasso.get().load(movieList.get(1).getPoster()).into(moviePoster2);
+        Picasso.get().load(movieList.get(2).getPoster()).into(moviePoster3);
+        Picasso.get().load(movieList.get(3).getPoster()).into(moviePoster4);
+        Picasso.get().load(movieList.get(4).getPoster()).into(moviePoster5);
+        Picasso.get().load(movieList.get(5).getPoster()).into(moviePoster6);
+        Picasso.get().load(movieList.get(6).getPoster()).into(moviePoster7);
+        Picasso.get().load(movieList.get(7).getPoster()).into(moviePoster8);
+        Picasso.get().load(movieList.get(8).getPoster()).into(moviePoster9);
+        Picasso.get().load(movieList.get(9).getPoster()).into(moviePoster10);
+
 
         return gridView;
     }

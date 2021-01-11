@@ -24,7 +24,7 @@ public class Controller_Movie implements IController_Movie {
     public int getMovieAvgRating(int movieID){
         int avgRating = 0;
         for (int i = 0; i <   database.getMovies().length; i++) {
-            avgRating += database.getRating()[database.getMovies()[i].getID()].getRating();
+//            avgRating += database.getRating()[database.getMovies()[i].getID()].getRating();
         }
         if (avgRating != 0)
             return avgRating / database.getMovies().length;

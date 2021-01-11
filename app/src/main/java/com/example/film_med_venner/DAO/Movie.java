@@ -1,110 +1,76 @@
 package com.example.film_med_venner.DAO;
+
 import com.example.film_med_venner.interfaces.IMovie;
-import java.util.ArrayList;
 
 public class Movie implements IMovie {
-    private String title;
-    private String info;
-    private int ID;
-    private String[] genres;
-    private String posterPos;
+    private String Title;
+    private String Year;
+    private String Runtime;
+    private String Genre;
+    private String Director;
+    private String Actors;
+    private String Plot;
+    private String imdbID;
+    private String Poster;
+    private String imdbRating;
 
-    private ArrayList<String> actors;
-    private ArrayList<Integer> reviewIDs;
-
-
-
-    private int friendsRating;
-
-    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String posterPos) {
-        this.title = title;
-        this.info = info;
-        this.actors = actors;
-        this.genres = genres;
-        this.posterPos = posterPos;
-        reviewIDs = new ArrayList<>();
-        actors = new ArrayList<>();
+    public Movie(String title, String year, String runtime, String genre, String director, String actors, String plot, String imdbID, String poster, String imdbRating) {
+        Title = title;
+        Year = year;
+        Runtime = runtime;
+        Genre = genre;
+        Director = director;
+        Actors = actors;
+        Plot = plot;
+        this.imdbID = imdbID;
+        Poster = poster;
+        this.imdbRating = imdbRating;
     }
 
-    public Movie(String title, String info, ArrayList<String> actors, String[] genres, String posterPos, int friendsRating) {
-        this(title,info,actors,genres, posterPos);
-        this.friendsRating = friendsRating;
+    public Movie(String title, String year, String genre, String director, String actors) {
+        Title = title;
+        Year = year;
+        Genre = genre;
+        Director = director;
+        Actors = actors;
     }
 
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public void setGenres(String[] genres) {
-        this.genres = genres;
-    }
-
-    public void setPosterPos(String posterPos) {
-        this.posterPos = posterPos;
-    }
-
-    public void setFriendsRating(int friendsRating) {
-        this.friendsRating = friendsRating;
-    }
-
-    @Override
     public String getTitle() {
-        return title;
+        return Title;
     }
 
-    @Override
-    public String getSummary() {
-        return null;
+    public String getYear() {
+        return Year;
     }
 
-    @Override
-    public ArrayList<String> getDirectors() {
-        return null;
+    public String getRuntime(){return Runtime;}
+
+    public String getGenre() {
+        return Genre;
     }
 
-    @Override
-    public double getRuntime() {
-        return 0;
+    public String getDirector() {
+        return Director;
     }
 
-    public String getInfo() {
-        return info;
+    public String getActors() {
+        return Actors;
     }
 
-    @Override
-    public ArrayList<String> getActors() {
-        return actors;
+    public String getPlot() {
+        return Plot;
     }
 
-    @Override
-    public String[] getGenres() {
-        return genres;
+    public String getImdbID() {
+        return imdbID;
     }
 
-    @Override
-    public String getPosterPos() {
-        return posterPos;
+    public String getPoster() {
+        return Poster;
     }
 
-    public int getFriendsRating() {
-        return friendsRating;
+    public String getImdbRating() {
+        return imdbRating;
     }
 
-    @Override
-    public int[] getReviews() {
-        return reviewIDs.stream().mapToInt(i -> i).toArray();
-    }
 }
