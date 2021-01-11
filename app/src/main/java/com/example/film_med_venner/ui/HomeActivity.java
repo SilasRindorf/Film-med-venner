@@ -22,6 +22,7 @@ import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
+import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        setContentView(R.layout.feed_rated_item_description);
+        Intent intent = new Intent(this, RatedItemActivity.class);
+        startActivity(intent);
     }
 
     private void addFrag(int id, Fragment fragment) {

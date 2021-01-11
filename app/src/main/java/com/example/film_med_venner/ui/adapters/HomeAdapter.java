@@ -18,11 +18,14 @@ import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.ui.HomeActivity;
 import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class HomeAdapter extends BaseAdapter {
     private Context ctx;
     private List<IHomeFeedItems> homeFeedItems;
+    private String reviewText;
 
     public HomeAdapter(Context ctx, List<IHomeFeedItems> items) {
         this.ctx = ctx;
@@ -61,6 +64,7 @@ public class HomeAdapter extends BaseAdapter {
             //moviePoster.setOnClickListener(this);
 
             TextView description = gridView.findViewById(R.id.description);
+            TextView textView_review_short = gridView.findViewById(R.id.textView_review_short);
 
             ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
             ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);
@@ -71,6 +75,18 @@ public class HomeAdapter extends BaseAdapter {
             description.setText(item.getUsername() + " has rated " + Controller_Movie.getInstance()
                     .getMovies()[item.getMovieID()].getTitle() + " with " +
                     ((Rating) item).getRating() + " stars.");
+
+            reviewText = item.getUsername() + " wrote a review for " + Controller_Movie.getInstance()
+                    .getMovies()[item.getMovieID()].getTitle() + ": \n \" " +
+                    ((Rating) item).getReview() + "\"";
+            if (reviewText.length() > 200){
+                textView_review_short.setText(reviewText.substring(0,200) + "...");
+                //textView_review_short.setOnClickListener((View.OnClickListener) this);
+            } else {
+                textView_review_short.setText(reviewText);
+            }
+
+
 
             if (((Rating) item).getRating() == 0){
                 star1.setImageResource(R.drawable.icon_empty_star);
