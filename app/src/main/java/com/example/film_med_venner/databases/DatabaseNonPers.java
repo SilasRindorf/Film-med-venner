@@ -38,10 +38,14 @@ public class DatabaseNonPers implements IDatabase {
         reviews = gen.generateReview(10);
     }
 
-    @Override
     public IProfile getProfile(int id) {
         //Temporary return ID is tied to a profile not pos in array
         return profiles[id];
+    }
+
+    @Override
+    public IProfile getProfile(String id) {
+        return null;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class DatabaseNonPers implements IDatabase {
 
 
     @Override
-    public IMovie[] getMovies() {   
+    public IMovie[] getMovies() {
         return movies;
     }
 

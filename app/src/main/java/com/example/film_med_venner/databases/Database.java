@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
@@ -44,7 +45,7 @@ public class Database implements IDatabase {
         return instance;
     }
 
-    public boolean addUser(String name, String userID) {
+    public void addUser(String name, String userID) {
         HashMap<String, Object> user = new HashMap();
         user.put("name", name);
         db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -59,21 +60,26 @@ public class Database implements IDatabase {
                 Log.w(TAG, "Error adding user", e);
             }
         });
-        return true;
     }
 
+    //TODO should be changed current run time is N
     @Override
-    public IProfile getProfile(int id) {
-        Log.d(TAG,"Users: " + db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot doc : task.getResult()){
-                        Log.d(TAG,"User: " + doc.getData());
+    public IProfile getProfile(String id) {
+        IProfile profile;
+        Log.d(TAG, "Users: " + db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                if (doc.getData().containsKey(id)) {
+                                    profile = new Profile();
+                                }
+                            }
+                        }
                     }
-                }
-            }
-        }));
+                }));
         return null;
     }
 

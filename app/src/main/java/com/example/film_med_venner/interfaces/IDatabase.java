@@ -5,7 +5,8 @@ import com.example.film_med_venner.databases.DatabaseNonPers;
 import java.util.ArrayList;
 
 public interface IDatabase {
-    IProfile getProfile(int id);
+    IProfile getProfile(String id);
+
     IMovie[] getMoviesWithGenre(String Genre);
     IMovie[] getMovies();
     IProfile[] getProfiles();
