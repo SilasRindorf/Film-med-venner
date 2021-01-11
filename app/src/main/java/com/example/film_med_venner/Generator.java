@@ -56,7 +56,7 @@ public class Generator {
     }
 
     public ArrayList<IHomeFeedItems> generateHomeFeedItems(int amount){
-        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IMovie movie = new Movie("Bee Movie", "info", "new ArrayList<String>()", "new String[3]", "poster");
         IRating rating = new Rating(1000, "Kurger Bing", 2,65);
         IReview review = new Review(2, "Kurger Bing", 1,5,"Very bee, much buzz");
         IWatchItem watchlistItem = new WatchItem("Tronald Dump", 1);

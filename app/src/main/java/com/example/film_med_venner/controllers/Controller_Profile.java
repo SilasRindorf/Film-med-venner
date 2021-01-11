@@ -32,7 +32,7 @@ public class Controller_Profile implements IProfileController {
 
     public ArrayList<IWatchItem> getToWatchlistItems(){
         // Dummy data
-        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<>(), new String[3], "poster");
+        IMovie movie = new Movie("Bee Movie", "info", "", "new String[3]", "poster");
         IWatchItem watchlistItem = new WatchItem("Tronald Dump", 2);
 
         ArrayList<IWatchItem> feedList = new ArrayList<IWatchItem>();
@@ -45,7 +45,7 @@ public class Controller_Profile implements IProfileController {
     }
     public ArrayList<IWatchItem> getWatchedListItems(){
         // Dummy data
-        IMovie movie = new Movie("Great Success the Movie", "info", new ArrayList<>(), new String[3], "poster");
+        IMovie movie = new Movie("Great Success the Movie", "info", "new ArrayList<>()", "new String[3]", "poster");
         IWatchItem watchlistItem = new WatchItem("Hurr durr", 3);
 
         ArrayList<IWatchItem> feedList = new ArrayList<IWatchItem>();
