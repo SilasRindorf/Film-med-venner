@@ -50,27 +50,26 @@ public class HomeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View gridView = convertView;
+        View listView = convertView;
 
         IHomeFeedItems item = homeFeedItems.get(position);
 
         if (item instanceof Rating){
 
-            if (gridView == null) {
+            if (listView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                gridView = inflater.inflate(R.layout.feed_rated_item, null);
+                listView = inflater.inflate(R.layout.feed_rated_item, null);
             }
-            ImageButton moviePoster = (ImageButton) gridView.findViewById(R.id.imageView_moviePoster);
-            //moviePoster.setOnClickListener(this);
+            
 
-            TextView description = gridView.findViewById(R.id.description);
-            TextView textView_review_short = gridView.findViewById(R.id.textView_review_short);
+            TextView description = listView.findViewById(R.id.description);
+            TextView textView_review_short = listView.findViewById(R.id.textView_review_short);
 
-            ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
-            ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);
-            ImageView star3 = gridView.findViewById(R.id.ImageView_star_3);
-            ImageView star4 = gridView.findViewById(R.id.ImageView_star_4);
-            ImageView star5 = gridView.findViewById(R.id.ImageView_star_5);
+            ImageView star1 = listView.findViewById(R.id.ImageView_star_1);
+            ImageView star2 = listView.findViewById(R.id.ImageView_star_2);
+            ImageView star3 = listView.findViewById(R.id.ImageView_star_3);
+            ImageView star4 = listView.findViewById(R.id.ImageView_star_4);
+            ImageView star5 = listView.findViewById(R.id.ImageView_star_5);
 
             description.setText(item.getUsername() + " has rated " + Controller_Movie.getInstance()
                     .getMovies()[item.getMovieID()].getTitle() + " with " +
@@ -134,12 +133,12 @@ public class HomeAdapter extends BaseAdapter {
         }
         /*else if (item instanceof WatchItem){
 
-            if (gridView == null) {
+            if (listView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                gridView = inflater.inflate(R.layout.feed_added_to_watch_list_item, null);
+                listView = inflater.inflate(R.layout.feed_added_to_watch_list_item, null);
             }
 
-            TextView description = gridView.findViewById(R.id.description);
+            TextView description = listView.findViewById(R.id.description);
 
 
             description.setText(item.getUsername() + " has added " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + " to their to watchlist.");
@@ -149,7 +148,7 @@ public class HomeAdapter extends BaseAdapter {
             // Throw error.
         }
 
-        return gridView;
+        return listView;
     }
 
 }

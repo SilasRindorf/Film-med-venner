@@ -10,26 +10,24 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.GridView;
-import android.widget.ImageButton;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
-import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
+import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
-import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
-    GridView gridView;
+    ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
     private View v;
@@ -45,14 +43,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
 
-        gridView = findViewById(R.id.gridView);
+        listView = findViewById(R.id.listView);
+        Intent intent = new Intent(this, RatedItemActivity.class);
+        listView.setAdapter(homeAdapter);
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("ITEM FESTEN VIRKER");
+                intent.putExtra("review",((IRating) items.get(position)).getReview());
+                setContentView(R.layout.feed_rated_item_description);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        setContentView(R.layout.feed_rated_item_description);
-        Intent intent = new Intent(this, RatedItemActivity.class);
-        startActivity(intent);
+
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -103,8 +111,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(Object titler) {
                 homeAdapter = new HomeAdapter(ctx, items);
-                gridView.setAdapter(homeAdapter);
-                gridView.setVisibility(View.VISIBLE);
+                listView.setAdapter(homeAdapter);
+                listView.setVisibility(View.VISIBLE);
             }
         };
 

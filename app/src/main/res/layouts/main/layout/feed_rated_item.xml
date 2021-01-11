@@ -85,6 +85,7 @@
                 android:id="@+id/textView_review_short"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:text="JEG KAN RIGTIG GODT LIDE BATMAN DET ER MIN YNGLINGS FILM JEG ELSKER DEN BARE SÅ MEGET!"/>
         </LinearLayout>
     </LinearLayout>
