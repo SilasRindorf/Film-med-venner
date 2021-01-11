@@ -1,5 +1,6 @@
 package com.example.film_med_venner.databases;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.runnable.RunUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,7 +37,6 @@ public class Database implements IDatabase {
     private Database() {
         db = FirebaseFirestore.getInstance();
         mAuh = FirebaseAuth.getInstance();
-        //addUser("Bob Mclaren");
     }
 
     public static Database getInstance() {
@@ -63,27 +64,28 @@ public class Database implements IDatabase {
     }
 
     //TODO should be changed current run time is N
-    @Override
-    public IProfile getProfile(String id) {
-        IProfile profile;
-        Log.d(TAG, "Users: " + db.collection("users")
+    public void getProfile(String id, RunUI runnable) {
+        db.collection("users")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                if (doc.getData().containsKey(id)) {
-                                    profile = new Profile();
-                                }
+                .addOnCompleteListener(task -> {
+                    IProfile profile = new Profile("test create", "toot");;
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            if (doc.getData().containsKey(id)) {
+                                profile = new Profile(doc.get("name").toString(),doc.getId());
+                                runnable.run(profile);
                             }
                         }
+                            Log.d(TAG, "Testing");
                     }
-                }));
-        return null;
+                });
     }
 
 
+    @Override
+    public IProfile getProfile(String id) {
+        return null;
+    }
 
     @Override
     public IMovie[] getMoviesWithGenre(String Genre) {

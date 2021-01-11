@@ -14,11 +14,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Auth;
+import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.runnable.RunUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;
 
@@ -32,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
+
+        
+       Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
+
+       });
+
         /*if (isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
