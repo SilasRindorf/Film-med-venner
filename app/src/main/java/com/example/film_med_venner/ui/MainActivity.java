@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
-        if (isLoggedIn()) {
+        /*if (isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }
+        }*/
 
 
         EditText ete = findViewById(R.id.editTextTextEmailAddress);
@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
         EditText etcp = findViewById(R.id.createUserPassword);
         Button btnc = findViewById(R.id.btn_create_user);
         btnc.setOnClickListener(view -> {
-            if (etce.getText().toString() == null || etcp.getText() == null)
-                createUser(etce.getText().toString(), etcp.getText().toString());
+            createUser(etce.getText().toString(), etcp.getText().toString());
         });
     }
 
@@ -93,34 +92,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Log.d(TAG, "Create user with email: Success ");
-            } else {
-                Log.d(TAG, "Create user with email: Failed ");
-                try {
-                    throw task.getException();
-                } catch (FirebaseAuthWeakPasswordException e) {
-                    Toast.makeText(MainActivity.this, "Password skal være mindst 6 karaktere", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, e.getMessage());
-                } catch (FirebaseAuthInvalidCredentialsException e) {
-                    Toast.makeText(MainActivity.this, "I", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, e.getMessage());
+        try {
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Create user with email: Success ");
+                    Controller_Auth.getInstance().addUser("name", mAuth.getCurrentUser().getUid());
+                } else {
+                    Log.d(TAG, "Create user with email: Failed ");
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthWeakPasswordException e) {
+                        Toast.makeText(MainActivity.this, "Password skal være mindst 6 karaktere", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.getMessage());
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        Toast.makeText(MainActivity.this, "I", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.getMessage());
 
-                } catch (FirebaseAuthUserCollisionException e) {
-                    Toast.makeText(MainActivity.this, "Der eksistere allerede en bruger", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, e.getMessage());
-                } catch (FirebaseAuthEmailException e) {
-                    Toast.makeText(MainActivity.this, "Ikke valid email", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, e.getMessage());
+                    } catch (FirebaseAuthUserCollisionException e) {
+                        Toast.makeText(MainActivity.this, "Der eksistere allerede en bruger", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.getMessage());
+                    } catch (FirebaseAuthEmailException e) {
+                        Toast.makeText(MainActivity.this, "Ikke valid email", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.getMessage());
 
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, "Der skete en fejl prøv igen", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, e.getMessage());
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "Der skete en fejl prøv igen", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.getMessage());
+                    }
+
                 }
-
-            }
-        });
+            });
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(MainActivity.this, "Email eller password må ikke være tomme!", Toast.LENGTH_LONG).show();
+        }
 
     }
 

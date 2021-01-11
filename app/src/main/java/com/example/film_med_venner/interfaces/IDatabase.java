@@ -13,6 +13,8 @@ public interface IDatabase {
     IReview[] getReviews();
     IRating[] getRating();
 
+    void sendFriendRequest(String id) throws DatabaseException;
+
     static IDatabase getInstance() {
         return DatabaseNonPers.getInstance();
     }

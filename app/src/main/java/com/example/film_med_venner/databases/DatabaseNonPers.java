@@ -1,6 +1,5 @@
 package com.example.film_med_venner.databases;
 
-import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.Generator;
@@ -16,21 +15,21 @@ import java.util.ArrayList;
 
 public class DatabaseNonPers implements IDatabase {
     //private HashMap<Enums.Genre[], IMovie> movies;
-    private IProfile[] profiles;
-    private IMovie[] movies;
-    private ArrayList<IHomeFeedItems> homeFeedItems;
-    private ArrayList<IReview> reviews;
-    private ArrayList<IRating> ratings;
+    private final IProfile[] profiles;
+    private final IMovie[] movies;
+    private final ArrayList<IHomeFeedItems> homeFeedItems;
+    private final ArrayList<IReview> reviews;
+    private final ArrayList<IRating> ratings;
     private static IDatabase instance;
 
     public static IDatabase getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new DatabaseNonPers();
         }
         return instance;
     }
 
-    private DatabaseNonPers(){
+    private DatabaseNonPers() {
         Generator gen = new Generator();
         movies = gen.generateMovies(10);
         profiles = gen.generateProfiles(10);
@@ -68,22 +67,21 @@ public class DatabaseNonPers implements IDatabase {
 
     @Override
     public IReview[] getReviews() {
-        IReview[] rev  = new Review[reviews.size()];
+        IReview[] rev = new Review[reviews.size()];
         return reviews.toArray(rev);
     }
 
-    public IProfile[] getFriends(int ID) {
-        IProfile[] friends = new Profile[profiles[ID].getAmountOfFriends()];
-        int[] friendIDs = profiles[ID].getFriendIDs();
-        for (int i = 0; i < friendIDs.length; i++) {
-            friends[i] = profiles[friendIDs[i]];
-        }
-        return friends;
+    public IProfile[] getFriends(String ID) {
+        return profiles;
     }
 
     public IRating[] getRating() {
         IRating[] rat = new Rating[this.ratings.size()];
         return ratings.toArray(rat);
+    }
+
+    @Override
+    public void sendFriendRequest(String id) throws DatabaseException {
     }
 
 }

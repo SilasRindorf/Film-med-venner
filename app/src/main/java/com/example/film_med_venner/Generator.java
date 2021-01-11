@@ -32,7 +32,7 @@ public class Generator {
     public IProfile[] generateProfiles(int amount){
         IProfile[] profiles = new Profile[amount];
         for (int i = 0; i < amount; i++) {
-            IProfile prof  = new Profile("Profile " + i, i, i, i, i, i, i);
+            IProfile prof = new Profile("Profile " + i, i + "", i, i, i, i, i);
             profiles[i] = prof;
         }
         return profiles;

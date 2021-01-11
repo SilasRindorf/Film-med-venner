@@ -1,8 +1,6 @@
 package com.example.film_med_venner.databases;
 
-import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -12,53 +10,48 @@ import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.Executor;
 
 import static android.content.ContentValues.TAG;
 
 
 //TODO should be handled in thread
 public class Database implements IDatabase {
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
+    private final FirebaseAuth mAuh;
     private static Database instance;
-    public static Database getInstance(){
-        if (instance == null){
+
+    private Database() {
+        db = FirebaseFirestore.getInstance();
+        mAuh = FirebaseAuth.getInstance();
+        //addUser("Bob Mclaren");
+    }
+
+    public static Database getInstance() {
+        if (instance == null) {
             instance = new Database();
         }
         return instance;
     }
 
-    private Database(){
-        db =  FirebaseFirestore.getInstance();
-        //addUser("Bob Mclaren");
-    }
+    public boolean addUser(String name, String userID) {
+        HashMap<String, Object> user = new HashMap();
+        user.put("name", name);
+        db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
-    public boolean  addUser(String name, int userID){
-        HashMap<Integer, Object> user = new HashMap();
-        user.put(userID,name);
-        db.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "User added with ID: " + documentReference.getId());
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "User added with ID: " + user.toString());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -114,5 +107,31 @@ public class Database implements IDatabase {
     @Override
     public IRating[] getRating() {
         return new IRating[0];
+    }
+
+    @Override
+    public void sendFriendRequest(String id) throws DatabaseException {
+        HashMap<String, Object> user = new HashMap();
+        String selfID = mAuh.getUid();
+        user.put("userID", selfID);
+        user.put("requester", db.collection("users").document(selfID));
+        user.put("status", null);
+        try {
+            db.collection("users").document(id).collection("friends").document(selfID)
+                    .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "Friend request send to ID: " + id);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error sending friend request", e);
+                }
+            });
+        } catch (Exception e) {
+            throw new DatabaseException("Error adding user", e);
+        }
+
     }
 }
