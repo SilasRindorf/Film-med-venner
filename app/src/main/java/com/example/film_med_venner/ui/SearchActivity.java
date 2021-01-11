@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
@@ -15,7 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.API.OmdbWebServiceClient;
+import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.SearchController;
@@ -29,7 +33,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
-    ImageButton imageButton;
+    EditText search;
+    ImageButton searchButton;
     SearchController controller = SearchController.getInstance();
 
     @Override
@@ -39,24 +44,37 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         ctx = this;
 
+        search = findViewById(R.id.searchField);
+        searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(this);
+
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
-        for (int i = 0; i < gridView.getChildCount(); i++) {
-            View v = gridView.getChildAt(i);
-            if (v instanceof ImageButton){
-                v.setOnClickListener(this);
-                System.out.println("OnClickListener set for: " + v);
-            }
-        }
+//        for (int i = 0; i < gridView.getChildCount(); i++) {
+//            View v = gridView.getChildAt(i);
+//            if (v instanceof ImageButton){
+//                v.setOnClickListener(this);
+//                System.out.println("OnClickListener set for: " + v);
+//            }
+//        }
     }
     @Override
     public void onClick(View v) {
-        System.out.println("Something was clicked");
-        setContentView(R.layout.activity_movie_details);
-        Intent intent = new Intent(this, MovieDetailsActivity.class);
-        startActivity(intent);
+
+        if (searchButton == v) {
+            List<Movie> items = controller.getSearchItems(search.getText().toString());
+            searchAdapter = new SearchAdapter(ctx, items);
+            gridView.setAdapter(searchAdapter);
+            gridView.setVisibility(View.VISIBLE);
+        }
+
+
+//        System.out.println("Something was clicked");
+//        setContentView(R.layout.activity_movie_details);
+//        Intent intent = new Intent(this, MovieDetailsActivity.class);
+//        startActivity(intent);
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -69,18 +87,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        setupHomeFeed(true);
+        //setupHomeFeed(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        setupHomeFeed(false);
+        //setupHomeFeed(false);
     }
 
+    /*
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<ISearch> items = new ArrayList<ISearch>();
+            List<IMovie> items = new ArrayList<IMovie>();
             String errorMsg = null;
 
             @Override
@@ -90,7 +109,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getSearchItems();
+                    items = OmdbWebServiceClient.searchMovieByTitle("pippi", 1);
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -126,7 +145,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             asyncTask.cancel(true);
         }
     }
-
+*/
 
 
 }

@@ -7,6 +7,7 @@ public class Movie implements IMovie {
     private String Year;
     private String Runtime;
     private String Genre;
+    private String Type;
     private String Director;
     private String Actors;
     private String Plot;
@@ -14,11 +15,12 @@ public class Movie implements IMovie {
     private String Poster;
     private String imdbRating;
 
-    public Movie(String title, String year, String runtime, String genre, String director, String actors, String plot, String imdbID, String poster, String imdbRating) {
+    public Movie(String title, String year, String runtime, String genre, String type, String director, String actors, String plot, String imdbID, String poster, String imdbRating) {
         Title = title;
         Year = year;
         Runtime = runtime;
         Genre = genre;
+        Type = type;
         Director = director;
         Actors = actors;
         Plot = plot;
@@ -51,6 +53,10 @@ public class Movie implements IMovie {
 
     public String getDirector() {
         return Director;
+    }
+
+    public String getType() {
+        return Type;
     }
 
     public String getActors() {

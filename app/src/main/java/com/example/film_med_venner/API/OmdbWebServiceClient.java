@@ -2,6 +2,7 @@ package com.example.film_med_venner.API;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.MovieList;
+import com.example.film_med_venner.interfaces.IMovie;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -66,13 +67,13 @@ public class OmdbWebServiceClient {
         return movie;
     }
 
-    public static List<Movie> searchMovieByTitle(String title, int page) {
+    public static List<Movie> searchMovieByTitle(String title) {
         try {
             title = URLEncoder.encode(title, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String requestUrl = URL + "&s=" + title + "&page=" + page;
+        String requestUrl = URL + "&s=" + title;
         String response = sendGetRequest(requestUrl);
         return arrayParseJSON(response);
     }

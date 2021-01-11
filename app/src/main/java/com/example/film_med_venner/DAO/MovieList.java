@@ -1,5 +1,6 @@
 package com.example.film_med_venner.DAO;
 
+import com.example.film_med_venner.interfaces.IMovie;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class MovieList {
     List<Movie> movieList;
 
     public MovieList() {
-        movieList = new ArrayList<Movie>();
+        movieList = new ArrayList<>();
     }
 
     public List<Movie> getMovieList() {
