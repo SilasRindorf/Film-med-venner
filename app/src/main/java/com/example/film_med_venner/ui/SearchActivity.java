@@ -25,7 +25,7 @@ import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
     GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
@@ -43,31 +43,21 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
-        gridView.setOnItemClickListener(this);
-
-    }
-    public void setAllButtonListener(ViewGroup viewGroup) {
-        View v;
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            v = viewGroup.getChildAt(i);
-            if (v instanceof ViewGroup) {
-                setAllButtonListener((ViewGroup) v);
-            } else if (v instanceof ImageButton) {
-                //((ImageButton) v).setOnClickListener(onItemClick(?,?,?,?));
+        for (int i = 0; i < gridView.getChildCount(); i++) {
+            View v = gridView.getChildAt(i);
+            if (v instanceof ImageButton){
+                v.setOnClickListener(this);
+                System.out.println("OnClickListener set for: " + v);
             }
         }
     }
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-    /*@Override
-    public void onItemClick(AdapterView<?> parent, View view, int position) {
+    public void onClick(View v) {
+        System.out.println("Something was clicked");
         setContentView(R.layout.activity_movie_details);
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         startActivity(intent);
     }
-*/
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -119,6 +109,13 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 searchAdapter = new SearchAdapter(ctx, items);
                 gridView.setAdapter(searchAdapter);
                 gridView.setVisibility(View.VISIBLE);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent i = new Intent(SearchActivity.this,MovieDetailsActivity.class);
+                        startActivity(i);
+                    }
+                });
             }
 
         };
