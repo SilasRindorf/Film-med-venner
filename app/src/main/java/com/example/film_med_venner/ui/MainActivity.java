@@ -20,12 +20,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
-
 import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Controller_Auth auth = Controller_Auth.getInstance();
+    private final Controller_Auth auth = Controller_Auth.getInstance();
     private FirebaseAuth mAuth;
 
     @Override
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
-        if (isLoggedIn()){
+        if (isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }
@@ -42,15 +41,16 @@ public class MainActivity extends AppCompatActivity {
         EditText ete = findViewById(R.id.editTextTextEmailAddress);
         EditText etp = findViewById(R.id.editTextTextPassword);
         Button btn = findViewById(R.id.btn_login);
-        btn.setOnClickListener(view ->{
-            logIn(ete.getText().toString(),etp.getText().toString());
+        btn.setOnClickListener(view -> {
+            logIn(ete.getText().toString(), etp.getText().toString());
         });
 
         EditText etce = findViewById(R.id.createUserEmailAddress);
         EditText etcp = findViewById(R.id.createUserPassword);
         Button btnc = findViewById(R.id.btn_create_user);
-        btnc.setOnClickListener(view ->{
-            createUser(etce.getText().toString(),etcp.getText().toString());
+        btnc.setOnClickListener(view -> {
+            if (etce.getText().toString() == null || etcp.getText() == null)
+                createUser(etce.getText().toString(), etcp.getText().toString());
         });
     }
 
@@ -65,15 +65,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    public boolean isEmptyStringArray(String [] array){
-        for(int i=0; i<array.length; i++){
-            if(array[i]!=null){
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -84,24 +75,28 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    public void logIn(String email, String password){
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task ->{
-            if (task.isSuccessful()){
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
+    public void logIn(String email, String password) {
+        try {
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(MainActivity.this, "Email eller password må ikke være tomme!", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public boolean isLoggedIn(){
+    public boolean isLoggedIn() {
         return mAuth.getCurrentUser() != null;
     }
+
     public void createUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task  -> {
-            if(task.isSuccessful()){
-                Log.d(TAG,"Create user with email: Success ");
-            }
-            else {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Create user with email: Success ");
+            } else {
                 Log.d(TAG, "Create user with email: Failed ");
                 try {
                     throw task.getException();
@@ -120,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, e.getMessage());
 
                 } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, "Der skete en fejl prøv igen", Toast.LENGTH_LONG).show();
                     Log.e(TAG, e.getMessage());
                 }
 
