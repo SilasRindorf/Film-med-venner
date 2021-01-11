@@ -1,18 +1,22 @@
 package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
+import com.example.film_med_venner.ui.HomeActivity;
+import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
 import java.util.List;
 
@@ -53,32 +57,66 @@ public class HomeAdapter extends BaseAdapter {
                 LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 gridView = inflater.inflate(R.layout.feed_rated_item, null);
             }
+            ImageButton moviePoster = (ImageButton) gridView.findViewById(R.id.imageView_moviePoster);
+            //moviePoster.setOnClickListener(this);
 
             TextView description = gridView.findViewById(R.id.description);
+
+            ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
+            ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);
+            ImageView star3 = gridView.findViewById(R.id.ImageView_star_3);
+            ImageView star4 = gridView.findViewById(R.id.ImageView_star_4);
+            ImageView star5 = gridView.findViewById(R.id.ImageView_star_5);
 
             description.setText(item.getUsername() + " has rated " + Controller_Movie.getInstance()
                     .getMovies()[item.getMovieID()].getTitle() + " with " +
                     ((Rating) item).getRating() + " stars.");
 
-        }
-        else if (item instanceof Review){
-
-            if (gridView == null) {
-                LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                gridView = inflater.inflate(R.layout.feed_review_item, null);
+            if (((Rating) item).getRating() == 0){
+                star1.setImageResource(R.drawable.icon_empty_star);
+                star2.setImageResource(R.drawable.icon_empty_star);
+                star3.setImageResource(R.drawable.icon_empty_star);
+                star4.setImageResource(R.drawable.icon_empty_star);
+                star5.setImageResource(R.drawable.icon_empty_star);
+            }
+            else if (((Rating) item).getRating() == 1){
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_empty_star);
+                star3.setImageResource(R.drawable.icon_empty_star);
+                star4.setImageResource(R.drawable.icon_empty_star);
+                star5.setImageResource(R.drawable.icon_empty_star);
+            }
+            else if (((Rating) item).getRating() == 2){
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_empty_star);
+                star4.setImageResource(R.drawable.icon_empty_star);
+                star5.setImageResource(R.drawable.icon_empty_star);
+            }
+            else if (((Rating) item).getRating() == 3){
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_filled_star);
+                star4.setImageResource(R.drawable.icon_empty_star);
+                star5.setImageResource(R.drawable.icon_empty_star);
+            }
+            else if (((Rating) item).getRating() == 4){
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_filled_star);
+                star4.setImageResource(R.drawable.icon_filled_star);
+                star5.setImageResource(R.drawable.icon_empty_star);
+            }
+            else if (((Rating) item).getRating() == 5){
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_filled_star);
+                star4.setImageResource(R.drawable.icon_filled_star);
+                star5.setImageResource(R.drawable.icon_filled_star);
             }
 
-            TextView description = gridView.findViewById(R.id.description);
-            TextView reviewText = gridView.findViewById(R.id.reviewtext);
-
-            description.setText(item.getUsername() + " has reviewed " +
-                    Controller_Movie.getInstance().
-                            getMovies()[item.getMovieID()]
-                            .getTitle() + ":");
-            reviewText.setText(((Review) item).getReview());
-
         }
-        else if (item instanceof WatchItem){
+        /*else if (item instanceof WatchItem){
 
             if (gridView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -90,7 +128,7 @@ public class HomeAdapter extends BaseAdapter {
 
             description.setText(item.getUsername() + " has added " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + " to their to watchlist.");
 
-        }
+        }*/
         else {
             // Throw error.
         }

@@ -1,8 +1,6 @@
 package com.example.film_med_venner.databases;
 
-import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -11,8 +9,6 @@ import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +27,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.Executor;
 
 import static android.content.ContentValues.TAG;
 
@@ -104,11 +99,6 @@ public class Database implements IDatabase {
     @Override
     public ArrayList<IHomeFeedItems> getHomeFeed() {
         return null;
-    }
-
-    @Override
-    public IReview[] getReviews() {
-        return new IReview[0];
     }
 
     @Override

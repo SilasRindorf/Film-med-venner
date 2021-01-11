@@ -2,14 +2,12 @@ package com.example.film_med_venner.databases;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.Generator;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.ArrayList;
 
@@ -19,7 +17,6 @@ public class DatabaseNonPers implements IDatabase {
     private IProfile[] profiles;
     private IMovie[] movies;
     private ArrayList<IHomeFeedItems> homeFeedItems;
-    private ArrayList<IReview> reviews;
     private ArrayList<IRating> ratings;
     private static IDatabase instance;
 
@@ -36,7 +33,6 @@ public class DatabaseNonPers implements IDatabase {
         profiles = gen.generateProfiles(10);
         homeFeedItems = gen.generateHomeFeedItems(10);
         ratings = gen.generateRatings(10);
-        reviews = gen.generateReview(10);
     }
 
     @Override
@@ -64,12 +60,6 @@ public class DatabaseNonPers implements IDatabase {
     @Override
     public ArrayList<IHomeFeedItems> getHomeFeed() {
         return homeFeedItems;
-    }
-
-    @Override
-    public IReview[] getReviews() {
-        IReview[] rev  = new Review[reviews.size()];
-        return reviews.toArray(rev);
     }
 
     public IProfile[] getFriends(int ID) {

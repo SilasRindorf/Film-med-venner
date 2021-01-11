@@ -6,10 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
 
 
 import com.example.film_med_venner.R;
@@ -25,10 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     GridView gridView;
     private HomeAdapter homeAdapter;
     private Context ctx;
+    private View v;
     IController_HomeFeed controller = Controller_HomeFeed.getInstance();
 
     @Override
@@ -42,8 +45,12 @@ public class HomeActivity extends AppCompatActivity {
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
+    }
 
-        }
+    @Override
+    public void onClick(View v) {
+
+    }
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -96,7 +103,6 @@ public class HomeActivity extends AppCompatActivity {
                 gridView.setAdapter(homeAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }
-
         };
 
         if (run) {
@@ -105,6 +111,7 @@ public class HomeActivity extends AppCompatActivity {
             asyncTask.cancel(true);
         }
     }
+
 
 
 }

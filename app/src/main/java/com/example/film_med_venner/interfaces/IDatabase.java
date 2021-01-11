@@ -10,7 +10,6 @@ public interface IDatabase {
     IMovie[] getMovies();
     IProfile[] getProfiles();
     ArrayList<IHomeFeedItems> getHomeFeed();
-    IReview[] getReviews();
     IRating[] getRating();
 
     static IDatabase getInstance() {

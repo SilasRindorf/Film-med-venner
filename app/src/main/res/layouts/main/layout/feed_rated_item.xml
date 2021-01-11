@@ -9,7 +9,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/imageView_moviePoster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

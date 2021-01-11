@@ -56,6 +56,7 @@ public class RatingAdapter extends BaseAdapter {
         ImageView star4 = gridView.findViewById(R.id.ImageView_star_4);
         ImageView star5 = gridView.findViewById(R.id.ImageView_star_5);
 
+        System.out.println("Rating er nu: "+((Rating) item).getRating());
         if (((Rating) item).getRating() == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
