@@ -1,36 +1,26 @@
 package com.example.film_med_venner.ui;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.film_med_venner.API.OmdbWebServiceClient;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
-import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.SearchController;
-import com.example.film_med_venner.interfaces.ISearch;
-import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,6 +30,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     EditText search;
     ImageButton searchButton;
     SearchController controller = SearchController.getInstance();
+    List<Movie> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +85,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 //        startActivity(intent);
     }
 
+    public void testOnClick(View view) {
+        int position = gridView.getPositionForView(view);
+        System.out.println(items.get(position).getTitle());
+    }
+
+
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -114,12 +111,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setupGridView() {
-        List<Movie> items = controller.getSearchItems(search.getText().toString());
+        items = controller.getSearchItems(search.getText().toString());
         searchAdapter = new SearchAdapter(ctx, items);
         gridView.setAdapter(searchAdapter);
         gridView.setVisibility(View.VISIBLE);
         Utility.hideKeyboard(SearchActivity.this);
     }
+
+
 
 
     /*
