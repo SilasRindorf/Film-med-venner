@@ -1,17 +1,18 @@
 package com.example.film_med_venner.DAO;
 
-import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IRating;
 
 public class Rating implements IRating {
     private int rating;
     private String username;
-    private IMovie movie;
+    private int movieID;
+    private int ratingID;
 
-    public Rating(int rating, String username, IMovie movie){
+    public Rating(int rating, String username, int movieID, int ratingID){
         this.rating = rating;
         this.username = username;
-        this.movie = movie;
+        this.movieID = movieID;
+        this.ratingID = ratingID;
     }
 
     @Override
@@ -20,12 +21,17 @@ public class Rating implements IRating {
     }
 
     @Override
+    public int getFriendsAverageRating() {
+        return 0;
+    }
+
+    @Override
     public String getUsername() {
         return username;
     }
 
     @Override
-    public IMovie getMovie() {
-        return movie;
+    public int getMovieID() {
+        return movieID;
     }
 }

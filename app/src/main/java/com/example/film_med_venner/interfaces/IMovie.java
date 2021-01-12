@@ -4,15 +4,19 @@ import java.util.ArrayList;
 
 public interface IMovie {
     String getTitle();
-    String getInfo();
-    ArrayList<String> getActors();
-    String[] getGenres();
+    String getYear();
+    String getPlot();
+    String getDirector();
+    String getRuntime();
+    String getActors();
+    String getGenre();
+    String getType();
     //This is should return a picture
     String getPoster();
-    //example 0-5 stars
-    int getRating();
-    //Average of friends rating
-    int getFriendsRating();
-    ArrayList<IReview> getReviews();
+    String getImdbID();
+    String getImdbRating();
 
+
+    //int[] getReviews();
+    //int getID();
 }

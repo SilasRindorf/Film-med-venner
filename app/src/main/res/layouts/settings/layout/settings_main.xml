@@ -5,39 +5,273 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.SettingsActivity"
+    tools:context=".ui.SettingsActivity"
     android:background="@color/colorBackground">
 
-
+<!-- TODO Ubehagelig fixed højde. Der er en midlertidig løsning pt. så den ikke gemmer sig bag ved navbar.-->
     <ScrollView
-        android:layout_width="411dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <!-- PROFILE SETTINGS -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#DD000000"></TextView>
 
-        <LinearLayout
+    <!-- NAVN -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Navn: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ole Wedel"></EditText>
+    </LinearLayout>
+    <!-- TELEFON -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Telefon: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="42424242"></EditText>
+    </LinearLayout>
+    <!-- MAIL -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Mail: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="snotabe@kageelsker.dk"></EditText>
+    </LinearLayout>
+    <!-- TOP GENRE -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Top genre: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_top_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documentaries, romance, thriller"></EditText>
+    </LinearLayout>
+    <!-- PROFILE PICTURE -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Profilbillede: "
+            android:textColor="#DD000000"></TextView>
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:srcCompat="@drawable/icon_profilepicture"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"></ImageView>
+        <Button
+            android:id="@+id/change_profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skift profilbillede"></Button>
+    </LinearLayout>
+
+    <!-- HOMEFEED SETTINGS -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Homefeed"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#DD000000"></TextView>
+        <Switch
+            android:id="@+id/switch_watchList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingBottom="10dp"
+            android:text="@string/switch_watchList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_reviews" />
 
-            <TextView
-                android:id="@+id/text_profile_settings"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Profile settings"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#DD000000"
-                android:textSize="30sp" />
+        <Switch
+            android:id="@+id/switch_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/switch_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_ratings" />
 
-            <TextView
-                android:id="@+id/text_homefeed_settings"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Homefeed settings"
-                android:textColor="#DD000000"
-                android:textSize="30sp" />
+        <Switch
+            android:id="@+id/switch_ratings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/switch_ratings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/text_mark_all"
+            android:layout_width="368dp"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="See posts from all your friends"
+            android:textColor="#DD000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
+
+        <CheckBox
+            android:id="@+id/checkBox_mark_all"
+            android:layout_width="43dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
+    </LinearLayout>
+        <!-- SAFETY SETTINGS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sikkerheds indstillinger"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#DD000000"></TextView>
+
+    <!-- PASSWORD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Adgangskode: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="********"></EditText>
         </LinearLayout>
+    <!-- NEW PASSWORD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Ny adgangskode: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_new_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="********"></EditText>
+    </LinearLayout>
+    <!-- REPEAT NEW PASSWORD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="fill_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Gentag ny adgangskode: "
+            android:textColor="#DD000000"></TextView>
+        <EditText
+            android:id="@+id/profile_repeat_new_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="********"></EditText>
+    </LinearLayout>
+    <Button
+        android:id="@+id/save_password_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gem adgangskode"></Button>
+    <Button
+        android:id="@+id/btn_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log ud"/>
+</LinearLayout>
+
     </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
@@ -48,5 +282,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

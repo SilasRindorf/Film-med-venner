@@ -4,19 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.profileActivities.ToWatchlistActivity">
-
+    tools:context=".ui.profileActivities.ToWatchlistActivity">
+    <!-- TODO Den har en fixet højde, og vil derfor ikke være pæn på alle skærme. Laver vi dog en dynamisk størrelse, så springer den ud af skærmen -->
+    <!-- TODO Kan godt have noget at gøre med HomeAdapter inflater med 2 parameter "null"-->
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="550dp"
+
         android:columnWidth="100dp"
         android:numColumns="1"
         android:stretchMode="columnWidth"
+
         app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:verticalSpacing="10dp"
+        />
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
@@ -27,5 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

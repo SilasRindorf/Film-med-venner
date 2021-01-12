@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.ProfileActivity"
+    tools:context=".ui.ProfileActivity"
     android:background="@color/colorBackground">
 
     <!--Linear layout for all the categories being shown-->
@@ -12,10 +12,11 @@
         android:id="@+id/scrollableView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/category_container"
@@ -59,6 +60,13 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profileInterests" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView_settings"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/icon_settings" />
             </LinearLayout>
 
             <!--Friends-->
