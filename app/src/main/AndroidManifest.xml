@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.MovieDetailsActivity" />
+        <activity android:name=".ui.RatedItemActivity"/>
         <activity android:name=".ui.profileActivities.FriendActivity" />
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
         <activity android:name=".ui.profileActivities.ToWatchlistActivity" />

@@ -10,19 +10,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.GridView;
-import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
-import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
@@ -31,7 +28,7 @@ import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
-    GridView gridView;
+    ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
     private View v;
@@ -46,8 +43,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
-
-        gridView = findViewById(R.id.gridView);
+        listView = findViewById(R.id.listView);
     }
 
     @Override
@@ -105,8 +101,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(Object titler) {
                 homeAdapter = new HomeAdapter(ctx, items);
-                gridView.setAdapter(homeAdapter);
-                gridView.setVisibility(View.VISIBLE);
+                listView.setAdapter(homeAdapter);
+                listView.setVisibility(View.VISIBLE);
             }
         };
 
@@ -125,10 +121,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void goToReview(View view){
-
         String clickedReviewText = getClickedReview(((TextView) view).getText().toString());
-
+        int clickedReviewRating = getClickedRating(((TextView) view).getText().toString());
         System.out.println(clickedReviewText);
+        setContentView(R.layout.feed_rated_item_description);
+        Intent intent = new Intent(this, RatedItemActivity.class);
+        intent.putExtra("reviewText",clickedReviewText);
+        System.out.println(clickedReviewRating);
+        intent.putExtra("starRating",clickedReviewRating);
+        startActivity(intent);
 
     }
 
@@ -147,4 +148,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         return "ERROR";
     }
 
+    public int getClickedRating(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.equals(clickedText)){
+                return ((Rating) item).getRating();
+            }
+        }
+        return 0;
+    }
 }
