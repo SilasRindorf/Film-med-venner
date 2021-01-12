@@ -10,24 +10,28 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 
+import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
+import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
-import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
+import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
-    ListView listView;
+    GridView gridView;
     private HomeAdapter homeAdapter;
     private Context ctx;
     private View v;
@@ -43,24 +47,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
 
-        listView = findViewById(R.id.listView);
-        Intent intent = new Intent(this, RatedItemActivity.class);
-        listView.setAdapter(homeAdapter);
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("ITEM FESTEN VIRKER");
-                intent.putExtra("review",((IRating) items.get(position)).getReview());
-                setContentView(R.layout.feed_rated_item_description);
-                startActivity(intent);
-            }
-        });
+        gridView = findViewById(R.id.gridView);
     }
 
     @Override
     public void onClick(View v) {
-
+        setContentView(R.layout.feed_rated_item_description);
+        Intent intent = new Intent(this, RatedItemActivity.class);
+        startActivity(intent);
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -111,8 +105,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(Object titler) {
                 homeAdapter = new HomeAdapter(ctx, items);
-                listView.setAdapter(homeAdapter);
-                listView.setVisibility(View.VISIBLE);
+                gridView.setAdapter(homeAdapter);
+                gridView.setVisibility(View.VISIBLE);
             }
         };
 
@@ -124,5 +118,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void onClickPoster(View view) {
+
+        System.out.println("DEEEEEEEET VIIIIIRKKKKEEEEEEEEEEER");
+
+    }
+
+    public void goToReview(View view){
+
+        String clickedReviewText = getClickedReview(((TextView) view).getText().toString());
+
+        System.out.println(clickedReviewText);
+
+    }
+
+    public String getClickedReview(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.length() > 200){
+                expectedReviewText = (expectedReviewText.substring(0,200) + "...");
+            }
+            if (expectedReviewText.equals(clickedText)){
+                return ((Rating) item).getReview();
+            }
+        }
+        return "ERROR";
+    }
 
 }

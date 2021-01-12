@@ -17,12 +17,14 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_weight="2"
+            android:onClick="onClickPoster"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            >
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
@@ -82,6 +84,7 @@
                     />
             </LinearLayout>
             <TextView
+                android:onClick="goToReview"
                 android:id="@+id/textView_review_short"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
