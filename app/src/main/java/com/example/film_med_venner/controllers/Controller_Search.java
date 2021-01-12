@@ -4,22 +4,16 @@ import android.os.StrictMode;
 
 import com.example.film_med_venner.API.OmdbWebServiceClient;
 import com.example.film_med_venner.DAO.Movie;
-import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Search;
-import com.example.film_med_venner.interfaces.IMovie;
-import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.ISearch;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SearchController {
-    private static SearchController instance;
+public class Controller_Search {
+    private static Controller_Search instance;
     private OmdbWebServiceClient omdb = new OmdbWebServiceClient();
 
-    public static SearchController getInstance(){
+    public static Controller_Search getInstance(){
         if (instance == null){
-            instance = new SearchController();
+            instance = new Controller_Search();
         }
         return instance;
     }
