@@ -114,6 +114,7 @@ public class Database implements IDatabase {
                                     //Create a Movie
                                     ArrayList<String> stringsOK = new ArrayList<>();
                                     doc.getData().get("actors");
+                                    //Not the full correct way, missing genre and
                                    Movie movie = new Movie( doc.get("title").toString(),  doc.get("info").toString(),stringsOK, new String[2], doc.get("posterPath").toString());
                                     movies.add(movie);
                                 }

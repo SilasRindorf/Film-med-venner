@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Auth;
 import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.runnable.RunUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,9 +39,21 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Method to showcase way to write a lambda
-        Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
-           Log.d(TAG, "Hah my namevwwv " + profile.getName());
-       });
+        try {
+            Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
+               Log.d(TAG, "Hah my namevwwv " + profile.getName());
+
+           });
+            //Lambda is overriding the run method
+            Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", new RunUI() {
+                @Override
+                public void run(IProfile profile) {
+
+                }
+            });
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+        }
 
         //Comment out to not skip log in screen
         /*if (isLoggedIn()) {
