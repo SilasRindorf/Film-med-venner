@@ -24,13 +24,13 @@ import com.example.film_med_venner.controllers.Controller_Search;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-    GridView gridView;
+    private GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
-    EditText search;
-    ImageButton searchButton;
-    Controller_Search controller = Controller_Search.getInstance();
-    List<Movie> items;
+    private EditText search;
+    private ImageButton searchButton;
+    private Controller_Search controller = Controller_Search.getInstance();
+    private List<Movie> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +40,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         ctx = this;
 
         search = findViewById(R.id.searchField);
-        search.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    switch (keyCode) {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-                            setupGridView();
-                            return true;
-                        default:
-                            break;
-                    }
+        search.setOnKeyListener((view, keyCode, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_CENTER:
+                    case KeyEvent.KEYCODE_ENTER:
+                        setupGridView();
+                        return true;
+                    default:
+                        break;
                 }
-                return false;
             }
+            return false;
         });
+
         searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(this);
 
@@ -63,36 +61,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
-//        for (int i = 0; i < gridView.getChildCount(); i++) {
-//            View v = gridView.getChildAt(i);
-//            if (v instanceof ImageButton){
-//                v.setOnClickListener(this);
-//                System.out.println("OnClickListener set for: " + v);
-//            }
-//        }
     }
+
     @Override
     public void onClick(View v) {
 
         if (searchButton == v) {
             setupGridView();
         }
-
-
-//        System.out.println("Something was clicked");
-//        setContentView(R.layout.activity_movie_details);
-//        Intent intent = new Intent(this, MovieDetailsActivity.class);
-//        startActivity(intent);
     }
 
-    public void testOnClick(View view) {
+    public void itemOnClick(View view) {
         int position = gridView.getPositionForView(view);
-        setContentView(R.layout.activity_movie_details);
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra("Title", items.get(position).getTitle());
         startActivity(intent);
     }
-
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -104,13 +88,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        //setupHomeFeed(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //setupHomeFeed(false);
     }
 
     private void setupGridView() {

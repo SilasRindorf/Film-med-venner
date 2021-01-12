@@ -22,16 +22,16 @@ import com.squareup.picasso.Picasso;
 public class MovieDetailsActivity extends AppCompatActivity {
 
 
-    GridView gridView;
+    private GridView gridView;
     private Context ctx;
-    Controller_MovieDetails controller = Controller_MovieDetails.getInstance();
-    Intent intent;
+    private Controller_MovieDetails controller = Controller_MovieDetails.getInstance();
+    private Intent intent;
 
 
-    TextView title, plot, director, runtime, actors, yourReview;
-    ImageView moviePoster, yourStar1, yourStar2, yourStar3, yourStar4, yourStar5,
+    private TextView title, plot, director, runtime, actors, yourReview;
+    private ImageView moviePoster, yourStar1, yourStar2, yourStar3, yourStar4, yourStar5,
               friendStar1, friendStar2, friendStar3, friendStar4, friendStar5;
-    ImageButton addToWatch, review, rate;
+    private ImageButton addToWatch, review, rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
