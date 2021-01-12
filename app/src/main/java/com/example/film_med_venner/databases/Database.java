@@ -15,8 +15,8 @@ import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.runnable.RunnableProfileUI;
 import com.example.film_med_venner.runnable.RunnableMovieUI;
+import com.example.film_med_venner.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.runnable.RunnableReviewUI;
-import com.example.film_med_venner.runnable.RunnableUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -137,7 +137,7 @@ public class Database implements IDatabase {
     public IProfile[] getProfiles() {
         return new IProfile[0];
     }
-    public void getProfiles(RunnableUI runnable) throws DatabaseException {
+    public void getProfiles(RunnableProfilesUI runnable) throws DatabaseException {
         //Get all users and check for user with ID id
         try {
             db.collection("users")
@@ -147,16 +147,12 @@ public class Database implements IDatabase {
                             IProfile[] profiles = new Profile[task.getResult().size()];
                             int i = 0;
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                //If the person exists in the database
-                                    //Create a Profile
-                                    profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
-                                    //Run the interface function void run (IProfile)
+                                //Create a Profile
+                                profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
                                 i++;
                             }
-                            runnable.addRunnableMovieUI(movies -> {
-
-                            });
-
+                            //Run the interface function void run (IProfile)
+                            runnable.run(profiles);
                         }
                     });
         } catch (Exception e) {

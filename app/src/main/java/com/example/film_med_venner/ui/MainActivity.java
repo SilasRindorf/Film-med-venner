@@ -17,7 +17,9 @@ import com.example.film_med_venner.controllers.Controller_Auth;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.runnable.RunnableMovieUI;
 import com.example.film_med_venner.runnable.RunnableProfileUI;
+import com.example.film_med_venner.runnable.RunnableUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -40,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         //Method to showcase way to write a lambda
 
         try {
-            Database.getInstance().getReviews(review -> {
-                Log.d(TAG, "Hah my review " + review[0].getReview());
+            Database.getInstance().getProfiles(profiles -> {
             });
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
