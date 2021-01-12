@@ -15,6 +15,7 @@ import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.runnable.RunnableProfileUI;
 import com.example.film_med_venner.runnable.RunnableMovieUI;
+import com.example.film_med_venner.runnable.RunnableReviewUI;
 import com.example.film_med_venner.runnable.RunnableUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
