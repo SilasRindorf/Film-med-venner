@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
+import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.interfaces.IController.IController;
@@ -116,5 +118,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void onClickPoster(View view) {
+
+        System.out.println("DEEEEEEEET VIIIIIRKKKKEEEEEEEEEEER");
+
+    }
+
+    public void goToReview(View view){
+
+        String clickedReviewText = getClickedReview(((TextView) view).getText().toString());
+
+        System.out.println(clickedReviewText);
+
+    }
+
+    public String getClickedReview(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.length() > 200){
+                expectedReviewText = (expectedReviewText.substring(0,200) + "...");
+            }
+            if (expectedReviewText.equals(clickedText)){
+                return ((Rating) item).getReview();
+            }
+        }
+        return "ERROR";
+    }
 
 }

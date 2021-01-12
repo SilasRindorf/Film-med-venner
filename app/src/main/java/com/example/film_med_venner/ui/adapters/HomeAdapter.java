@@ -76,9 +76,7 @@ public class HomeAdapter extends BaseAdapter {
                     .getMovies()[item.getMovieID()].getTitle() + " with " +
                     ((Rating) item).getRating() + " stars.");
 
-            reviewText = item.getUsername() + " wrote a review for " + Controller_Movie.getInstance()
-                    .getMovies()[item.getMovieID()].getTitle() + ": \n \" " +
-                    ((Rating) item).getReview() + "\"";
+            reviewText = ((Rating) item).getReview();
             if (reviewText.length() > 200){
                 textView_review_short.setText(reviewText.substring(0,200) + "...");
                 //textView_review_short.setOnClickListener((View.OnClickListener) this);
