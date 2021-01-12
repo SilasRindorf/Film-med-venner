@@ -45,7 +45,7 @@ public class Generator {
     }
 
     public ArrayList<IHomeFeedItems> generateHomeFeedItems(int amount){
-        IMovie movie = new Movie("Bee Movie", "info", new ArrayList<String>(), new String[3], "poster");
+        IMovie movie = new Movie("Bubbis Adult Movie", "2020", "Not porn", "Gruppe C6", "Bubbi");
 
         //IWatchItem watchlistItem = new WatchItem("Tronald Dump", 1);
 
