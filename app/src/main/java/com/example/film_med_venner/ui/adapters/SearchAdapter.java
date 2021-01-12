@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.SearchController;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.squareup.picasso.Picasso;
 
@@ -19,7 +18,6 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
     private Context ctx;
     private List<Movie> movie;
-    private static SearchController searchController;
 
     public SearchAdapter(Context ctx, List<Movie> search) {
         this.ctx = ctx;
