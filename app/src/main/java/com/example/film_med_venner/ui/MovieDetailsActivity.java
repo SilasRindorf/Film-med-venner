@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
-import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +23,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
 
     GridView gridView;
-    private ReviewAdapter reviewAdapter;
     private Context ctx;
     Controller_MovieDetails controller = Controller_MovieDetails.getInstance();
     Intent intent;
