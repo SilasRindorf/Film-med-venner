@@ -21,7 +21,10 @@ public class OmdbWebServiceClient {
 
     public static final String URL = "http://www.omdbapi.com/?apikey=a25b01e1";
 
-    public static String sendGetRequest(String requestUrl) {
+    public OmdbWebServiceClient() {
+    }
+
+    public String sendGetRequest(String requestUrl) {
         StringBuffer response = new StringBuffer();
 
         try {
@@ -49,7 +52,7 @@ public class OmdbWebServiceClient {
         return response.toString();
     }
 
-    public static Movie findMovieByTitle(String title) {
+    public Movie findMovieByTitle(String title) {
         try {
             title = URLEncoder.encode(title, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -61,13 +64,13 @@ public class OmdbWebServiceClient {
         return parseJSON(response);
     }
 
-    public static Movie parseJSON(String response) {
+    public Movie parseJSON(String response) {
         Gson gson = new GsonBuilder().create();
         Movie movie = gson.fromJson(response, Movie.class);
         return movie;
     }
 
-    public static List<Movie> searchMovieByTitle(String title) {
+    public List<Movie> searchMovieByTitle(String title) {
         try {
             title = URLEncoder.encode(title, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -78,14 +81,10 @@ public class OmdbWebServiceClient {
         return arrayParseJSON(response);
     }
 
-    public static List<Movie> arrayParseJSON(String response) {
+    public List<Movie> arrayParseJSON(String response) {
         Gson gson = new GsonBuilder().create();
         MovieList movieList = gson.fromJson(response, MovieList.class);
         return movieList.getMovieList();
     }
-
-
-
-
 
 }
