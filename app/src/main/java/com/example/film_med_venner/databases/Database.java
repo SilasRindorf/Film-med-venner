@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
@@ -106,7 +107,7 @@ public class Database implements IDatabase {
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            ArrayList<Movie> movies = new ArrayList<Movie>();
+                            ArrayList<IMovie> movies = new ArrayList<IMovie>();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 //If the movie has the specified genre
                                 if (doc.getData().get("genre").equals(genre)) {
@@ -170,6 +171,30 @@ public class Database implements IDatabase {
     @Override
     public IReview[] getReviews() {
         return new IReview[0];
+    }
+
+    public void getReviews(RunnableReviewUI runnableReviewUI) throws DatabaseException {
+        try {
+            db.collection("reviews")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            int i = 0;
+                            IReview[] reviews = new Review[task.getResult().size()];
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+
+
+                                ArrayList<String> stringsOK = new ArrayList<>();
+                                reviews[i] = new Review((int) doc.get("rating"), doc.get("username").toString(), doc.get("movieID").toString(), doc.get("reviewID").toString(), doc.get("review").toString());
+                                i++;
+                            }
+
+                            runnableReviewUI.run(reviews);
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting reviews", e);
+        }
     }
 
     @Override

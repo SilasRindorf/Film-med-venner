@@ -38,11 +38,20 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Method to showcase way to write a lambda
+
+        try {
+            Database.getInstance().getReviews(review -> {
+                Log.d(TAG, "Hah my review " + review[0].getReview());
+            });
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+        }
+
         try {
             Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
-               Log.d(TAG, "Hah my namevwwv " + profile.getName());
+                Log.d(TAG, "Hah my namevwwv " + profile.getName());
 
-           });
+            });
             //Lambda is overriding the run method
             //Meaning the lambda and this is essentially the same thing
             Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", new RunnableProfileUI() {
