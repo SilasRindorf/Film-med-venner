@@ -17,13 +17,12 @@ import com.example.film_med_venner.controllers.Controller_Auth;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.runnable.RunUI;
+import com.example.film_med_venner.runnable.RunnableProfileUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;
 
@@ -45,11 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
            });
             //Lambda is overriding the run method
-            Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", new RunUI() {
+            //Meaning the lambda and this is essentially the same thing
+            Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", new RunnableProfileUI() {
                 @Override
                 public void run(IProfile profile) {
 
                 }
+
+
             });
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();

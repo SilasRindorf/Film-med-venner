@@ -1,6 +1,5 @@
 package com.example.film_med_venner.databases;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,16 +12,14 @@ import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.runnable.RunUI;
+import com.example.film_med_venner.runnable.RunnableProfileUI;
 import com.example.film_med_venner.runnable.RunnableMovieUI;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.film_med_venner.runnable.RunnableUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +33,8 @@ public class Database implements IDatabase {
     private final FirebaseAuth mAuh;
     private static Database instance;
 
+
+    //Firebase methods  are all async
     private Database() {
         db = FirebaseFirestore.getInstance();
         mAuh = FirebaseAuth.getInstance();
@@ -71,7 +70,7 @@ public class Database implements IDatabase {
         return null;
     }
     //TODO should be changed current run time is N
-    public void getProfile(String id, RunUI runnable) throws DatabaseException {
+    public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
         //Get all users and check for user with ID id
         try {
             db.collection("users")
@@ -135,6 +134,32 @@ public class Database implements IDatabase {
     @Override
     public IProfile[] getProfiles() {
         return new IProfile[0];
+    }
+    public void getProfiles(RunnableUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            IProfile[] profiles = new Profile[task.getResult().size()];
+                            int i = 0;
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the person exists in the database
+                                    //Create a Profile
+                                    profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
+                                    //Run the interface function void run (IProfile)
+                                i++;
+                            }
+                            runnable.addRunnableMovieUI(movies -> {
+
+                            });
+
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting users", e);
+        }
     }
 
     @Override
