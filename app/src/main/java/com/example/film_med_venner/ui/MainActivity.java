@@ -3,6 +3,7 @@ package com.example.film_med_venner.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Auth;
+import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -23,7 +25,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import static android.content.ContentValues.TAG;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button bypass_login_btn;
     private final Controller_Auth auth = Controller_Auth.getInstance();
     private FirebaseAuth mAuth;
 
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
+        bypass_login_btn = findViewById(R.id.bypass_login_btn);
         mAuth = FirebaseAuth.getInstance();
         if (isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
@@ -124,4 +128,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == bypass_login_btn){
+            setContentView(R.layout.activity_main);
+            Intent i = new Intent(this, HomeActivity.class);
+            startActivity(i);
+        }
+    }
 }
