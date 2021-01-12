@@ -1,6 +1,5 @@
 package com.example.film_med_venner.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,7 +27,6 @@ import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.SearchController;
 import com.example.film_med_venner.interfaces.ISearch;
-import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 
 import java.util.ArrayList;
 import java.util.List;

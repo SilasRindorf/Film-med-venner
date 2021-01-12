@@ -10,15 +10,10 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Profile;
-import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.ISearch;
-import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     GridView gridView;
-    private ReviewAdapter reviewAdapter;
     private Context ctx;
 
     @Override

@@ -44,7 +44,7 @@ public class ToWatchlistAdapter extends BaseAdapter {
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //TODO item ting nedenunder
-            gridView = inflater.inflate(R.layout.profile_to_watchlist_item, null);
+            gridView = inflater.inflate(R.layout.movie_item, null);
         }
 
         TextView description = gridView.findViewById(R.id.description);
