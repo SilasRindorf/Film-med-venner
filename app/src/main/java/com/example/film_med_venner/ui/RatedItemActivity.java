@@ -17,9 +17,9 @@ import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 
 public class RatedItemActivity extends AppCompatActivity {
-    private TextView reviewText;
+    private TextView reviewText, descriptionText;
     private Intent intent;
-    private String review;
+    private String review, description;
     private int rating;
     private ImageView star1, star2, star3, star4, star5;
 
@@ -28,12 +28,17 @@ public class RatedItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_rated_item_description);
         intent = getIntent();
+
         review = intent.getStringExtra("reviewText");
         reviewText = findViewById(R.id.review_text);
         reviewText.setText(review);
 
         rating = intent.getIntExtra("starRating",0);
         setStars(rating);
+
+        description = intent.getStringExtra("reviewDescription");
+        descriptionText = findViewById(R.id.description);
+        descriptionText.setText(description);
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);

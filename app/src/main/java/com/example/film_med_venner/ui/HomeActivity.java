@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
+import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
@@ -123,19 +124,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void goToReview(View view){
         String clickedReviewText = getClickedReview(((TextView) view).getText().toString());
         int clickedReviewRating = getClickedRating(((TextView) view).getText().toString());
-        System.out.println(clickedReviewText);
+        String clickedReviewDescription = getClickedDescription(((TextView) view).getText().toString());
+
         setContentView(R.layout.feed_rated_item_description);
         Intent intent = new Intent(this, RatedItemActivity.class);
+
+        System.out.println(clickedReviewText);
         intent.putExtra("reviewText",clickedReviewText);
+
         System.out.println(clickedReviewRating);
         intent.putExtra("starRating",clickedReviewRating);
+
+        System.out.println(clickedReviewDescription);
+        intent.putExtra("reviewDescription",clickedReviewDescription);
+
         startActivity(intent);
 
     }
 
     public String getClickedReview(String clickedText){
         List<IHomeFeedItems> items = controller.getHomeFeedItems();
-
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Rating) item).getReview();
             if (expectedReviewText.length() > 200){
@@ -150,7 +158,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public int getClickedRating(String clickedText){
         List<IHomeFeedItems> items = controller.getHomeFeedItems();
-
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Rating) item).getReview();
             if (expectedReviewText.equals(clickedText)){
@@ -158,5 +165,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         return 0;
+    }
+
+    public String getClickedDescription(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.equals(clickedText)){
+                return (item.getUsername() + " has rated " + Controller_Movie.getInstance()
+                        .getMovies()[item.getMovieID()].getTitle() + " with " +
+                        ((Rating) item).getRating() + " stars.");
+            }
+        }
+        return "ERROR";
     }
 }
