@@ -68,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Comment out to not skip log in screen
-        /*if (isLoggedIn()) {
+        if (isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }*/
+        }
 
 
         EditText ete = findViewById(R.id.editTextTextEmailAddress);
