@@ -58,7 +58,7 @@ public class OmdbWebServiceClient {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String requestUrl = URL + "&plot=full&t=" + title;
+        String requestUrl = URL + "&t=" + title;
 
         String response = sendGetRequest(requestUrl);
         return parseJSON(response);

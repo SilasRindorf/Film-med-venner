@@ -1,13 +1,13 @@
 package com.example.film_med_venner.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -19,7 +19,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
 import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.SearchController;
+import com.example.film_med_venner.controllers.Controller_Search;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Context ctx;
     EditText search;
     ImageButton searchButton;
-    SearchController controller = SearchController.getInstance();
+    Controller_Search controller = Controller_Search.getInstance();
     List<Movie> items;
 
     @Override
@@ -87,7 +87,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     public void testOnClick(View view) {
         int position = gridView.getPositionForView(view);
-        System.out.println(items.get(position).getTitle());
+        setContentView(R.layout.activity_movie_details);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra("Title", items.get(position).getTitle());
+        startActivity(intent);
     }
 
 
