@@ -37,10 +37,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.auth);
         mAuth = FirebaseAuth.getInstance();
 
-       Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
-           Log.d(TAG, "Hah my namevwwv" + profile.getName());
+        //Method to showcase way to write a lambda
+        Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
+           Log.d(TAG, "Hah my namevwwv " + profile.getName());
        });
 
+        //Comment out to not skip log in screen
         /*if (isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         EditText etp = findViewById(R.id.editTextTextPassword);
         Button btn = findViewById(R.id.btn_login);
         btn.setOnClickListener(view -> {
+            //@MortenCKruuse vi kan flytte Auth ud af UI nu
             logIn(ete.getText().toString(), etp.getText().toString());
         });
 

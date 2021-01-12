@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
@@ -13,6 +14,7 @@ import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.runnable.RunUI;
+import com.example.film_med_venner.runnable.RunnableMovieUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,35 +65,67 @@ public class Database implements IDatabase {
         });
     }
 
-    //TODO should be changed current run time is N
-    public void getProfile(String id, RunUI runnable) {
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(task -> {
-                    IProfile profile = new Profile("test create", "toot");;
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot doc : task.getResult()) {
-                            if (doc.getId().equals(id)) {
-                                profile = new Profile(doc.get("name").toString(),doc.getId());
-                                runnable.run(profile);
-                            }
-                        }
-                            Log.d(TAG, "Testing");
-                    }
-                });
-    }
-
 
     @Override
     public IProfile getProfile(String id) {
         return null;
     }
+    //TODO should be changed current run time is N
+    public void getProfile(String id, RunUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the person exists in the database
+                                if (doc.getId().equals(id)) {
+                                    //Create a Profile
+                                    IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
+                                    //Run the interface function void run (IProfile)
+                                    runnable.run(profile);
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting user", e);
+        }
+    }
+
 
     @Override
     public IMovie[] getMoviesWithGenre(String Genre) {
         return new IMovie[0];
     }
-
+    //Doesn't work yet
+    public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws DatabaseException {
+        //Get all movies and check for movies with genrer
+        try {
+            db.collection("movies")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            ArrayList<Movie> movies = new ArrayList<Movie>();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the movie has the specified genre
+                                if (doc.getData().get("genre").equals(genre)) {
+                                    //Create a Movie
+                                    ArrayList<String> stringsOK = new ArrayList<>();
+                                    doc.getData().get("actors");
+                                   Movie movie = new Movie( doc.get("title").toString(),  doc.get("info").toString(),stringsOK, new String[2], doc.get("posterPath").toString());
+                                    movies.add(movie);
+                                }
+                            }
+                            IMovie[] mvs =  new Movie[movies.size()];
+                            runnable.run(movies.toArray(mvs));
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting moves with " + genre, e);
+        }
+    }
     @Override
     public IMovie[] getMovies() {
         return new IMovie[0];
