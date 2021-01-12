@@ -66,12 +66,13 @@ public class DatabaseNonPers implements IDatabase {
     }
 
     public IProfile[] getFriends(int ID) {
-        IProfile[] friends = new Profile[profiles[ID].getAmountOfFriends()];
-        int[] friendIDs = profiles[ID].getFriendIDs();
+        /*IProfile[] friends = new Profile[profiles[ID].getAmountOfFriends()];
+        String[] friendIDs = profiles[ID].getFriendIDs();
         for (int i = 0; i < friendIDs.length; i++) {
             friends[i] = profiles[friendIDs[i]];
-        }
-        return friends;
+        }*/
+        //return friends;
+        return null;
     }
 
     public IRating[] getRating() {

@@ -6,17 +6,16 @@ import androidx.annotation.NonNull;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.runnable.RunnableProfileUI;
 import com.example.film_med_venner.runnable.RunnableMovieUI;
 import com.example.film_med_venner.runnable.RunnableProfilesUI;
-import com.example.film_med_venner.runnable.RunnableReviewUI;
+import com.example.film_med_venner.runnable.RunnableRatingsUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -116,8 +115,8 @@ public class Database implements IDatabase {
                                     ArrayList<String> stringsOK = new ArrayList<>();
                                     doc.getData().get("actors");
                                     //Not the full correct way, missing genre and
-                                   Movie movie = new Movie( doc.get("title").toString(),  doc.get("info").toString(),stringsOK, new String[2], doc.get("posterPath").toString());
-                                    movies.add(movie);
+                                   //Movie movie = new Movie( doc.get("title").toString(),  doc.get("info").toString(),stringsOK, new String[2], doc.get("posterPath").toString());
+                                    //movies.add(movie);
                                 }
                             }
                             IMovie[] mvs =  new Movie[movies.size()];
@@ -165,28 +164,25 @@ public class Database implements IDatabase {
         return null;
     }
 
-    @Override
-    public IReview[] getReviews() {
-        return new IReview[0];
-    }
 
-    public void getReviews(RunnableReviewUI runnableReviewUI) throws DatabaseException {
+
+    public void getReviews(RunnableRatingsUI runnableRatingsUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             int i = 0;
-                            IReview[] reviews = new Review[task.getResult().size()];
+                            IRating[] ratings = new Rating[task.getResult().size()];
                             for (QueryDocumentSnapshot doc : task.getResult()) {
 
 
                                 ArrayList<String> stringsOK = new ArrayList<>();
-                                reviews[i] = new Review((int) doc.get("rating"), doc.get("username").toString(), doc.get("movieID").toString(), doc.get("reviewID").toString(), doc.get("review").toString());
+                                ratings[i] = new Rating((int) doc.get("rating"), doc.get("username").toString(), doc.get("movieID").toString(), doc.get("reviewID").toString(), doc.get("review").toString());
                                 i++;
                             }
 
-                            runnableReviewUI.run(reviews);
+                            runnableRatingsUI.run(ratings);
                         }
                     });
         } catch (Exception e) {
