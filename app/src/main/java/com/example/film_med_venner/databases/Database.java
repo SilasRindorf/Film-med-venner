@@ -1,64 +1,61 @@
 package com.example.film_med_venner.databases;
 
-import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.film_med_venner.DAO.Movie;
+import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.ui.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.film_med_venner.runnable.RunnableProfileUI;
+import com.example.film_med_venner.runnable.RunnableMovieUI;
+import com.example.film_med_venner.runnable.RunnableProfilesUI;
+import com.example.film_med_venner.runnable.RunnableRatingsUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.Executor;
 
 import static android.content.ContentValues.TAG;
 
 
 //TODO should be handled in thread
 public class Database implements IDatabase {
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
+    private final FirebaseAuth mAuh;
     private static Database instance;
-    public static Database getInstance(){
-        if (instance == null){
+
+
+    //Firebase methods  are all async
+    private Database() {
+        db = FirebaseFirestore.getInstance();
+        mAuh = FirebaseAuth.getInstance();
+    }
+
+    public static Database getInstance() {
+        if (instance == null) {
             instance = new Database();
         }
         return instance;
     }
 
-    private Database(){
-        db =  FirebaseFirestore.getInstance();
-        //addUser("Bob Mclaren");
-    }
+    public void addUser(String name, String userID) {
+        HashMap<String, Object> user = new HashMap();
+        user.put("name", name);
+        db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
-    public boolean  addUser(String name, int userID){
-        HashMap<Integer, Object> user = new HashMap();
-        user.put(userID,name);
-        db.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "User added with ID: " + documentReference.getId());
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "User added with ID: " + user.toString());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -66,31 +63,70 @@ public class Database implements IDatabase {
                 Log.w(TAG, "Error adding user", e);
             }
         });
-        return true;
     }
+
 
     @Override
-    public IProfile getProfile(int id) {
-        Log.d(TAG,"Users: " + db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot doc : task.getResult()){
-                        Log.d(TAG,"User: " + doc.getData());
-                    }
-                }
-            }
-        }));
+    public IProfile getProfile(String id) {
         return null;
     }
-
+    //TODO should be changed current run time is N
+    public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the person exists in the database
+                                if (doc.getId().equals(id)) {
+                                    //Create a Profile
+                                    IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
+                                    //Run the interface function void run (IProfile)
+                                    runnable.run(profile);
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting user", e);
+        }
+    }
 
 
     @Override
     public IMovie[] getMoviesWithGenre(String Genre) {
         return new IMovie[0];
     }
-
+    //Doesn't work yet
+    public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws DatabaseException {
+        //Get all movies and check for movies with genrer
+        try {
+            db.collection("movies")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            ArrayList<IMovie> movies = new ArrayList<IMovie>();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the movie has the specified genre
+                                if (doc.getData().get("genre").equals(genre)) {
+                                    //Create a Movie
+                                    ArrayList<String> stringsOK = new ArrayList<>();
+                                    doc.getData().get("actors");
+                                    //Not the full correct way, missing genre and
+                                   //Movie movie = new Movie( doc.get("title").toString(),  doc.get("info").toString(),stringsOK, new String[2], doc.get("posterPath").toString());
+                                    //movies.add(movie);
+                                }
+                            }
+                            IMovie[] mvs =  new Movie[movies.size()];
+                            runnable.run(movies.toArray(mvs));
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting moves with " + genre, e);
+        }
+    }
     @Override
     public IMovie[] getMovies() {
         return new IMovie[0];
@@ -100,19 +136,88 @@ public class Database implements IDatabase {
     public IProfile[] getProfiles() {
         return new IProfile[0];
     }
+    public void getProfiles(RunnableProfilesUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            IProfile[] profiles = new Profile[task.getResult().size()];
+                            int i = 0;
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //Create a Profile
+                                profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
+                                i++;
+                            }
+                            //Run the interface function void run (IProfile)
+                            runnable.run(profiles);
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting users", e);
+        }
+    }
 
     @Override
     public ArrayList<IHomeFeedItems> getHomeFeed() {
         return null;
     }
 
-    @Override
-    public IReview[] getReviews() {
-        return new IReview[0];
+
+
+    public void getReviews(RunnableRatingsUI runnableRatingsUI) throws DatabaseException {
+        try {
+            db.collection("reviews")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            int i = 0;
+                            IRating[] ratings = new Rating[task.getResult().size()];
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+
+
+                                ArrayList<String> stringsOK = new ArrayList<>();
+                                ratings[i] = new Rating((int) doc.get("rating"), doc.get("username").toString(), doc.get("movieID").toString(), doc.get("reviewID").toString(), doc.get("review").toString());
+                                i++;
+                            }
+
+                            runnableRatingsUI.run(ratings);
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting reviews", e);
+        }
     }
 
     @Override
     public IRating[] getRating() {
         return new IRating[0];
+    }
+
+    @Override
+    public void sendFriendRequest(String id) throws DatabaseException {
+        HashMap<String, Object> user = new HashMap();
+        String selfID = mAuh.getUid();
+        user.put("userID", selfID);
+        user.put("requester", db.collection("users").document(selfID));
+        user.put("status", null);
+        try {
+            db.collection("users").document(id).collection("friends").document(selfID)
+                    .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "Friend request send to ID: " + id);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error sending friend request", e);
+                }
+            });
+        } catch (Exception e) {
+            throw new DatabaseException("Error adding user", e);
+        }
+
     }
 }

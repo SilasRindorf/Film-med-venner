@@ -4,22 +4,30 @@ import java.util.ArrayList;
 
 public interface IProfile {
     //TODO Obs. på at det er ens egne reviews, ratings, to watch list, watched list, og friends man skal se når man klikker ind på en vilkårlig kategori.
-    int getID();
+    String getID();
 
     int getAmountOfMoviesRated();
     void addMoveRated(int movieID);
 
     int getAmountOfMoviesReviewed();
+
     int getAmountOfMoviesOnToWatchList();
+
     int getAmountOfMoviesOnWatchedList();
 
     String getName();
+
     void setName(String name);
 
     String[] getMvgPrefs();
+
     void addMvgPref(String pref);
+
     void setMvgPrefs(ArrayList<String> mvgPrefs);
-    int[] getFriendIDs();
+
+    String[] getFriendIDs();
+
     int getAmountOfFriends();
-    void addFriend(int id);
+
+    void addFriend(String id);
 }

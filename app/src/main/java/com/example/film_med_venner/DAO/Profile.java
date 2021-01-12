@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 public class Profile implements IProfile {
 
-    private final int ID;
+    private final String ID;
     private String name;
     private ArrayList<String> mvGPrefs;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
     private int amountOfMoviesRated;
-    private ArrayList<Integer> friends;
-    private ArrayList<Integer> moviesRatedIDs;
+    private final ArrayList<String> friends;
+    private final ArrayList<Integer> moviesRatedIDs;
     private int amountOfMoviesOnToWatchList;
     private int amountOfMoviesOnWatchedList;
 
 
-    public Profile(String name, int ID){
+    public Profile(String name, String ID) {
         this.ID = ID;
         this.name = name;
         mvGPrefs = new ArrayList<>();
@@ -25,8 +25,9 @@ public class Profile implements IProfile {
         moviesRatedIDs = new ArrayList<>();
         amountOfMoviesRated = -1;
     }
+
     //TODO Den skal også hente profilbillede her
-    public Profile(String name, int ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList){
+    public Profile(String name, String ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList) {
         this(name, ID);
         this.amountOfMoviesRated = amountOfMoviesRated;
         this.amountOfMoviesOnToWatchList = amountOfMoviesOnToWatchList;
@@ -34,7 +35,7 @@ public class Profile implements IProfile {
     }
 
     @Override
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
@@ -61,7 +62,7 @@ public class Profile implements IProfile {
     }
 
     @Override
-    public void addFriend(int id) {
+    public void addFriend(String id) {
         friends.add(id);
     }
 
@@ -95,8 +96,8 @@ public class Profile implements IProfile {
     }
 
     @Override
-    public int[] getFriendIDs() {
-        return friends.stream().mapToInt(i -> i).toArray();
+    public String[] getFriendIDs() {
+        return friends.toArray(new String[friends.size()]);
     }
 
     @Override

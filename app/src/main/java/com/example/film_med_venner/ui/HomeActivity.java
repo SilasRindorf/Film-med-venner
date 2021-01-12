@@ -6,29 +6,33 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
+import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
-import com.example.film_med_venner.interfaces.IController.IController;
+import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
+import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends AppCompatActivity {
-    GridView gridView;
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+    ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
+    private View v;
     IController_HomeFeed controller = Controller_HomeFeed.getInstance();
 
     @Override
@@ -40,10 +44,15 @@ public class HomeActivity extends AppCompatActivity {
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
+        listView = findViewById(R.id.listView);
+    }
 
-        gridView = findViewById(R.id.gridView);
-
-        }
+    @Override
+    public void onClick(View v) {
+        setContentView(R.layout.feed_rated_item_description);
+        Intent intent = new Intent(this, RatedItemActivity.class);
+        startActivity(intent);
+    }
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -93,10 +102,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Object titler) {
                 homeAdapter = new HomeAdapter(ctx, items);
-                gridView.setAdapter(homeAdapter);
-                gridView.setVisibility(View.VISIBLE);
+                listView.setAdapter(homeAdapter);
+                listView.setVisibility(View.VISIBLE);
             }
-
         };
 
         if (run) {
@@ -107,4 +115,68 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    public void onClickPoster(View view) {
+
+        System.out.println("DEEEEEEEET VIIIIIRKKKKEEEEEEEEEEER");
+
+    }
+
+    public void goToReview(View view){
+        String clickedReviewText = getClickedReview(((TextView) view).getText().toString());
+        int clickedReviewRating = getClickedRating(((TextView) view).getText().toString());
+        String clickedReviewDescription = getClickedDescription(((TextView) view).getText().toString());
+
+        setContentView(R.layout.feed_rated_item_description);
+        Intent intent = new Intent(this, RatedItemActivity.class);
+
+        System.out.println(clickedReviewText);
+        intent.putExtra("reviewText",clickedReviewText);
+
+        System.out.println(clickedReviewRating);
+        intent.putExtra("starRating",clickedReviewRating);
+
+        System.out.println(clickedReviewDescription);
+        intent.putExtra("reviewDescription",clickedReviewDescription);
+
+        startActivity(intent);
+
+    }
+
+    public String getClickedReview(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.length() > 200){
+                expectedReviewText = (expectedReviewText.substring(0,200) + "...");
+            }
+            if (expectedReviewText.equals(clickedText)){
+                return ((Rating) item).getReview();
+            }
+        }
+        return "ERROR";
+    }
+
+    public int getClickedRating(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.equals(clickedText)){
+                return ((Rating) item).getRating();
+            }
+        }
+        return 0;
+    }
+
+    public String getClickedDescription(String clickedText){
+        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        for (IHomeFeedItems item : items){
+            String expectedReviewText = ((Rating) item).getReview();
+            if (expectedReviewText.equals(clickedText)){
+                return (item.getUsername() + " has rated " + Controller_Movie.getInstance()
+                        .getMovies()[item.getMovieID()].getTitle() + " with " +
+                        ((Rating) item).getRating() + " stars.");
+            }
+        }
+        return "ERROR";
+    }
 }

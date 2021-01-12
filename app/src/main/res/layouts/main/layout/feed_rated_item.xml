@@ -9,7 +9,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/imageView_moviePoster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,12 +17,14 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_weight="2"
+            android:onClick="onClickPoster"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            >
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
@@ -81,38 +83,13 @@
                     android:layout_weight="3"
                     />
             </LinearLayout>
-            <LinearLayout
+            <TextView
+                android:onClick="goToReview"
+                android:id="@+id/textView_review_short"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2">
-                <ImageButton
-                    android:id="@+id/image_btn_add_to_watch_list"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_wanttowatch"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:layout_weight="3"
-                    />
-                <ImageButton
-                    android:id="@+id/image_btn_review"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_reviewed"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:layout_weight="3"
-                    />
-                <ImageButton
-                    android:id="@+id/image_btn_rate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_rated"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:layout_weight="3"
-                    />
-            </LinearLayout>
+                android:clickable="true"
+                android:text="JEG KAN RIGTIG GODT LIDE BATMAN DET ER MIN YNGLINGS FILM JEG ELSKER DEN BARE SÅ MEGET!"/>
         </LinearLayout>
     </LinearLayout>
 
