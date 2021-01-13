@@ -3,6 +3,7 @@ package com.example.film_med_venner.controllers;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 
 
@@ -21,19 +22,30 @@ public class Controller_User implements IController {
         return instance;
     }
 
-    public void addUser(String name, String userID) {
-        Database.getInstance().addUser(name, userID);
-    }
-
     public void logIn(String email, String password, RunnableUI runnableUI) throws IDatabase.DatabaseException {
         Database.getInstance().logIn(email, password, runnableUI);
     }
 
     public boolean isLoggedIn() {
-        //return Database.getInstance().getCurrentUser() != null;
-        return true;
+        return Database.getInstance().getCurrentUser() != null;
     }
 
 
+    public void createUser(String email, String password, String name) {
+        try {
+            Database.getInstance().createUser(email, password, name, new RunnableErrorUI() {
+                @Override
+                public void run() {
 
+                }
+
+                @Override
+                public void run(IDatabase.DatabaseException e) {
+
+                }
+            });
+        } catch (Exception ignored) {
+        }
+
+    }
 }
