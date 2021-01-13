@@ -40,7 +40,7 @@ public class Controller_User implements IController {
                 }
 
                 @Override
-                public void run(IDatabase.DatabaseException e) {
+                public void handleError(IDatabase.DatabaseException e) {
 
                 }
             });
