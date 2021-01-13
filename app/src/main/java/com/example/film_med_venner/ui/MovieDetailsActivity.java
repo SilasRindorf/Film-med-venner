@@ -1,13 +1,11 @@
 package com.example.film_med_venner.ui;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,8 +41,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        ctx = this;
-
         intent = getIntent();
 
         Movie movie = controller.getMovie(intent.getStringExtra("Title"));
@@ -67,19 +63,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         moviePoster = findViewById(R.id.moviePoster);
         Picasso.get().load(movie.getPoster()).into(moviePoster);
 
-        yourStar1 = findViewById(R.id.ImageView_star_1);
-        yourStar2 = findViewById(R.id.ImageView_star_2);
-        yourStar3 = findViewById(R.id.ImageView_star_3);
-        yourStar4 = findViewById(R.id.ImageView_star_4);
-        yourStar5 = findViewById(R.id.ImageView_star_5);
-        yourStar1.setOnClickListener(this);
-        yourStar2.setOnClickListener(this);
-        yourStar3.setOnClickListener(this);
-        yourStar4.setOnClickListener(this);
-        yourStar5.setOnClickListener(this);
-
-
-
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
@@ -99,38 +82,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         if (view == write_review_btn){
             Fragment review_frag = new Write_review_frag();
             addFrag(R.id.write_review_container, review_frag);
-
-        } else if (view == yourStar1) {
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar2);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar4);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar5);
-        } else if (view == yourStar2) {
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar4);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar5);
-        } else if (view == yourStar3) {
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar4);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar5);
-        } else if (view == yourStar4) {
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar4);
-            Picasso.get().load(R.drawable.icon_empty_star).into(yourStar5);
-        } else if (view == yourStar5) {
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar4);
-            Picasso.get().load(R.drawable.icon_filled_star).into(yourStar5);
         }
-
     }
 }
