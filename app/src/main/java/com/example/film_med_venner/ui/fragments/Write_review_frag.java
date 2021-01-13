@@ -114,7 +114,6 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("You just canceled your review. Good job!");
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setMessage("You just canceled your review. Good job!");
                 alertDialog.show();
@@ -129,14 +128,20 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO the methodb below is the review text to be sent to backend.
+                System.out.println("The submit button was clicked.");
+                if (rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5){
+                    //TODO the method below is the review text to be sent to backend.
                 /* EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
                 reviewInput.getText(); */
-                System.out.println("You just submitted your review. Good job!");
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setMessage("You just submitted your review. Good job!");
-                alertDialog.show();
-                closefragment();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setMessage("You just submitted your review. Good job!");
+                    alertDialog.show();
+                    closefragment();
+                } else {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setMessage("You haven't given any rating yet. Please do that before submitting");
+                    alertDialog.show();
+                }
             }
         });
         /**
@@ -145,7 +150,8 @@ public class Write_review_frag extends DialogFragment {
         return view;
     }
     private void closefragment() {
-        getActivity().onBackPressed();
+        getFragmentManager().beginTransaction().remove(Write_review_frag.this).commit();
+
     }
 
 }
