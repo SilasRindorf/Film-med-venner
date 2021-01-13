@@ -4,5 +4,5 @@
     <color name="colorToolbar">#000000</color>
     <color name="colorButton">#70C0FF</color>
     <color name="colorTextView">#80FFFFFF</color>
-    <color name="colorNavBar">#FBDDBA</color>
+    <color name="colorNavBar">#000000 </color>
 </resources>
