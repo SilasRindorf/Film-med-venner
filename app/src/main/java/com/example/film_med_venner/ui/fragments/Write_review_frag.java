@@ -138,7 +138,7 @@ public class Write_review_frag extends DialogFragment {
             public void onClick(View v) {
                 if (rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5){
                     EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
-                    IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString());
+                    IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
                     try {
                         Database.getInstance().createReview(newRating);
                     } catch (IDatabase.DatabaseException e) {

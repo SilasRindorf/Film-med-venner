@@ -21,8 +21,6 @@ public class Controller_Rating implements IController_Rating {
     }
 
     public void getUserRating(String userID, String movieID, RunnableRatingUI runnable) throws IDatabase.DatabaseException {
-
          database.getRating(userID, movieID, runnable);
-
     }
 }

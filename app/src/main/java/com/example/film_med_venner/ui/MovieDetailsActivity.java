@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -25,14 +27,17 @@ import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.fragments.Write_review_frag;
 import com.squareup.picasso.Picasso;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-
-
     private GridView gridView;
     private Context ctx;
     private Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private Controller_Rating rController = Controller_Rating.getInstance();
     private Intent intent;
+    private Executor bgThread = Executors.newSingleThreadExecutor();
+    private Handler uiThread = new Handler();
 
     private TextView title, plot, director, runtime, actors, yourReview;
     private ImageView moviePoster, star1, star2, star3, star4, star5;
@@ -49,12 +54,33 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         intent = getIntent();
 
         movie = mdController.getMovie(intent.getStringExtra("Title"));
+        yourReview = findViewById(R.id.textView_your_review);
+        star1 = findViewById(R.id.ImageView_star_1);
+        star2 = findViewById(R.id.ImageView_star_2);
+        star3 = findViewById(R.id.ImageView_star_3);
+        star4 = findViewById(R.id.ImageView_star_4);
+        star5 = findViewById(R.id.ImageView_star_5);
 
-        try {
-            rating = rController.getUserRating(Database.getInstance().getCurrentUser().getID(), movie.getImdbID());
-        } catch (IDatabase.DatabaseException e) {
-            e.printStackTrace();
-        }
+        bgThread.execute(() -> {
+            try {
+                System.out.println("Du er nu inde i bgThread");
+                Database.getInstance().getRating(Database.getInstance().getCurrentUser().toString(), movie.getImdbID(), rating1 -> {
+                    rating = (Rating) rating1;
+                    uiThread.post(() -> {
+                        if (rating != null){
+                            System.out.println("Du er nu inde i uiThread");
+                            starFest(rating.getRating());
+                            yourReview.setText(rating.getReview());
+                        } else {
+                            System.out.println("Du kom aldrig ind i uiThread");
+                        }
+                    });
+                });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        });
+
 
         write_review_btn = findViewById(R.id.image_btn_review);
         write_review_btn.setOnClickListener(this);
@@ -72,25 +98,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         runtime.setText(movie.getRuntime());
         actors = findViewById(R.id.textView_actors);
         actors.setText(movie.getActors());
-        yourReview = findViewById(R.id.textView_your_review);
-        star1 = findViewById(R.id.ImageView_star_1);
-        star2 = findViewById(R.id.ImageView_star_2);
-        star3 = findViewById(R.id.ImageView_star_3);
-        star4 = findViewById(R.id.ImageView_star_4);
-        star5 = findViewById(R.id.ImageView_star_5);
-        starFest();
-
-
-
 
 
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
-
-
-
     }
+
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -109,45 +123,43 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void starFest() {
-        int stars;
-
-        if (item.getRating() == 0){
+    private void starFest(int starRating) {
+        if (starRating == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 1){
+        else if (starRating == 1){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 2){
+        else if (starRating == 2){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 3){
+        else if (starRating == 3){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 4){
+        else if (starRating == 4){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 5){
+        else if (starRating == 5){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
