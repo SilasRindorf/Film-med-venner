@@ -26,10 +26,18 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
         EditText username = findViewById(R.id.input_username);
         EditText firstName = findViewById(R.id.input_firstname);
         EditText surname = findViewById(R.id.input_surname);
+        EditText email = findViewById(R.id.input_username);
         Button btnc = findViewById(R.id.btn_signup);
         btnc.setOnClickListener(view -> {
             try {
-                Database.getInstance().createUser("email", "pass", username.getText().toString(), new RunnableErrorUI() {
+                if ( !(
+                        ((EditText) findViewById(R.id.input_password)).getText().toString().equals(
+                        ((EditText) findViewById(R.id.input_repeat_password)).getText().toString())
+                )){
+                    throw new IDatabase.DatabaseException("Not matching passwords");
+                }
+                String pass =((EditText) findViewById(R.id.input_password)).getText().toString();
+                Database.getInstance().createUser(email.getText().toString(), pass, username.getText().toString(), new RunnableErrorUI() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(SignUpActivityWithMail.this, HomeActivity.class);
@@ -44,7 +52,7 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
                                 break;
                             case 102:
                                 Toast.makeText(SignUpActivityWithMail.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
-                                Log.e("SignUp",e.toString());
+                                e.printStackTrace();
                                 break;
                             case 103:
                                 Toast.makeText(SignUpActivityWithMail.this, "There already exists an user with that email!", Toast.LENGTH_LONG).show();
@@ -59,7 +67,7 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
-                Toast.makeText(SignUpActivityWithMail.this, "Try again!", Toast.LENGTH_LONG).show();
+                Toast.makeText(SignUpActivityWithMail.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -8,17 +8,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
-import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,16 +26,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Comment out to not skip log in screen
-        if (Controller_User.getInstance().isLoggedIn()) {
+        /*if (Controller_User.getInstance().isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }
+        }*/
 
         EditText ete = findViewById(R.id.input_username);
         EditText etp = findViewById(R.id.input_password);
         Button btn = findViewById(R.id.btn_login_using_mail);
         btn.setOnClickListener(view -> {
-            Log.d("Main ACt","wat");
             try {
                 auth.logIn(ete.getText().toString(), etp.getText().toString(), () -> {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
