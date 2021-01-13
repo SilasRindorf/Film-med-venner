@@ -172,8 +172,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Rating) item).getReview();
             if (expectedReviewText.equals(clickedText)){
-                return (item.getUsername() + " has rated " + Controller_Movie.getInstance()
-                        .getMovies()[item.getMovieID()].getTitle() + " with " +
+                return (item.getUsername() + " has rated " + item.getMovieIDStr() + " with " +
                         ((Rating) item).getRating() + " stars.");
             }
         }

@@ -70,9 +70,7 @@ public class HomeAdapter extends BaseAdapter {
             ImageView star3 = listView.findViewById(R.id.ImageView_star_3);
             ImageView star4 = listView.findViewById(R.id.ImageView_star_4);
             ImageView star5 = listView.findViewById(R.id.ImageView_star_5);
-
-            description.setText(item.getUsername() + " has rated " + Controller_Movie.getInstance()
-                    .getMovies()[item.getMovieID()].getTitle() + " with " +
+            description.setText(item.getUsername() + " has rated " + (item.getMovieIDStr()) + " with " +
                     ((Rating) item).getRating() + " stars.");
 
             reviewText = ((Rating) item).getReview();
