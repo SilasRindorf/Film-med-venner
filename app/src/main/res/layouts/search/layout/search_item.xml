@@ -10,7 +10,7 @@
         android:layout_height="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:contextClickable="true"
-        android:onClick="testOnClick">
+        android:onClick="itemOnClick">
 
         <ImageButton
             android:id="@+id/moviePoster"
@@ -38,17 +38,8 @@
                 android:text="Title"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:layout_marginTop="30dp" />
-
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Type"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                />
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp" />
 
             <TextView
                 android:id="@+id/year"
@@ -58,10 +49,19 @@
                 android:text="Year"
                 android:textAlignment="center"
                 android:textSize="16sp"
-                android:layout_marginBottom="30dp"/>
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Type"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="10dp" />
 
         </LinearLayout>
-
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
