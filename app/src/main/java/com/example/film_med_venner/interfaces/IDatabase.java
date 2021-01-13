@@ -20,9 +20,21 @@ public interface IDatabase {
     }
 
     class DatabaseException extends Exception{
+        //Put error ID's here
+        // -1 = unknown
+        // 0 = quit
+        // 1 =
+        // 100+  = users
+        // 200+ = movies
+        // 300+ = ratings
+        private int errorID = -1;
         public DatabaseException(String message) { super(message); }
         public DatabaseException(String message, Throwable cause) { super(message, cause); }
-
-
+        public DatabaseException(String message, Throwable cause, int errorID) { super(message, cause);
+        this.errorID = errorID;
+        }
+        public int getErrorID() {
+            return errorID;
+        }
     }
 }
