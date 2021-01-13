@@ -22,11 +22,13 @@ import com.example.film_med_venner.ui.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 /* Showcase how to use
@@ -57,9 +59,6 @@ public void run(IProfile profile) {
         }*/
 
 
-
-
-
 //TODO should be handled in thread
 public class Database implements IDatabase {
     private final FirebaseFirestore db;
@@ -80,9 +79,10 @@ public class Database implements IDatabase {
         return instance;
     }
 
-    /*public IProfile getCurrentUser() {
-        return
-    }*/
+    public IProfile getCurrentUser() {
+        FirebaseUser user = mAuh.getCurrentUser();
+        return new Profile(user.getDisplayName(),user.getUid());
+    }
 
     public void addUser(String name, String userID) {
         HashMap<String, Object> user = new HashMap();
@@ -101,7 +101,7 @@ public class Database implements IDatabase {
         });
     }
 
-    public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException{
+    public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException {
         try {
             mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -118,6 +118,7 @@ public class Database implements IDatabase {
     public IProfile getProfile(String id) {
         return null;
     }
+
     //TODO should be changed current run time is N
     public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
         //Get all users and check for user with ID id
@@ -147,6 +148,7 @@ public class Database implements IDatabase {
     public IMovie[] getMoviesWithGenre(String Genre) {
         return new IMovie[0];
     }
+
     //Doesn't work yet
     public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws DatabaseException {
         //Get all movies and check for movies with genrer
@@ -155,19 +157,15 @@ public class Database implements IDatabase {
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            ArrayList<IMovie> movies = new ArrayList<IMovie>();
+                            List<IMovie> movies = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 //If the movie has the specified genre
                                 if (doc.getData().get("genre").equals(genre)) {
-                                    //Create a Movie
-                                    ArrayList<String> stringsOK = new ArrayList<>();
-                                    doc.getData().get("actors");
-                                    //Not the full correct way, missing genre and
-                                   //Movie movie = new Movie( doc.get("title").toString(),  doc.get("info").toString(),stringsOK, new String[2], doc.get("posterPath").toString());
-                                    //movies.add(movie);
+                                    //Add a Movie
+                                    movies.add(doc.toObject(Movie.class));
                                 }
                             }
-                            IMovie[] mvs =  new Movie[movies.size()];
+                            IMovie[] mvs = new Movie[movies.size()];
                             runnable.run(movies.toArray(mvs));
                         }
                     });
@@ -175,6 +173,7 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting moves with " + genre, e);
         }
     }
+
     @Override
     public IMovie[] getMovies() {
         return new IMovie[0];
@@ -184,6 +183,7 @@ public class Database implements IDatabase {
     public IProfile[] getProfiles() {
         return new IProfile[0];
     }
+
     public void getProfiles(RunnableProfilesUI runnable) throws DatabaseException {
         //Get all users and check for user with ID id
         try {
@@ -191,15 +191,17 @@ public class Database implements IDatabase {
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            IProfile[] profiles = new Profile[task.getResult().size()];
+                            /*IProfile[] profiles = new Profile[task.getResult().size()];
                             int i = 0;
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 //Create a Profile
                                 profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
                                 i++;
-                            }
+                            }*/
+                            List<Profile> profiles2 = task.getResult().toObjects(Profile.class);
                             //Run the interface function void run (IProfile)
-                            runnable.run(profiles);
+                            IProfile[] profs = new Profile[profiles2.size()];
+                            runnable.run(profiles2.toArray(profs));
                         }
                     });
         } catch (Exception e) {
@@ -217,13 +219,7 @@ public class Database implements IDatabase {
         //Get all users and check for user with ID id
         try {
             db.collection("reviews")
-                    .add(rating)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-
-                            //Run the interface function void run (IProfile)
-                        }
-                    });
+                    .add(rating);
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
         }
@@ -236,14 +232,14 @@ public class Database implements IDatabase {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             int i = 0;
-                            IRating[] ratings = new Rating[task.getResult().size()];
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                            List<Rating> ratings = task.getResult().toObjects(Rating.class);
+                            /*for (QueryDocumentSnapshot doc : task.getResult()) {
                                 ArrayList<String> stringsOK = new ArrayList<>();
                                 ratings[i] = new Rating((int) doc.get("rating"), doc.get("username").toString(), doc.get("movieID").toString(), doc.get("reviewID").toString(), doc.get("review").toString());
                                 i++;
-                            }
-
-                            runnableRatingsUI.run(ratings);
+                            }*/
+                            IRating[] rats = new Rating[ratings.size()];
+                            runnableRatingsUI.run(ratings.toArray(rats));
                         }
                     });
         } catch (Exception e) {
