@@ -5,20 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.Write_review_frag">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent">
     <LinearLayout
         android:id="@+id/write_review_container"
         android:background="#CBFFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        app:layout_constraintTop_toTopOf="parent"
         >
+        <LinearLayout
+            android:id="@+id/linearLayout_your_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/ImageView_star_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_empty_star" />
+
+            <ImageView
+                android:id="@+id/ImageView_star_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_empty_star" />
+
+            <ImageView
+                android:id="@+id/ImageView_star_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_empty_star" />
+
+            <ImageView
+                android:id="@+id/ImageView_star_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_empty_star" />
+
+            <ImageView
+                android:id="@+id/ImageView_star_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_empty_star" />
+        </LinearLayout>
         <EditText
             android:id="@+id/review_input_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Write your review here:"/>
+            android:hint="Write your review here"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,5 +92,5 @@
                 android:text="Submit review"/>
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

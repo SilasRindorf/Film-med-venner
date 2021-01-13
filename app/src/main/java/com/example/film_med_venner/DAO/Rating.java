@@ -12,10 +12,9 @@ public class Rating implements IRating {
     private String ratingIDStr;
 
 
-    public Rating(int rating, String username, String movieIDstr, String ratingIDStr, String review) {
+    public Rating(int rating, String username, String movieIDstr, String review) {
         this.rating = rating;
         this.username = username;
-        this.ratingIDStr = ratingIDStr;
         this.movieIDStr = movieIDstr;
         this.review = review;
     }
