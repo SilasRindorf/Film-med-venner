@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         auth = Controller_User.getInstance();
 
         //Comment out to not skip log in screen
-        /*if (isLoggedIn()) {
+        if (Controller_User.getInstance().isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }*/
+        }
 
 
         EditText ete = findViewById(R.id.input_username);
