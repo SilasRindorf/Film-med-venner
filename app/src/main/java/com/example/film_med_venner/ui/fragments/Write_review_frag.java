@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.film_med_venner.R;
@@ -44,6 +45,9 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO the methodb below is the review text to be sent to backend.
+                /* EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
+                reviewInput.getText(); */
                 System.out.println("You just submitted your review. Good job!");
                 closefragment();
             }
