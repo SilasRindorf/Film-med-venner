@@ -33,6 +33,7 @@ public class Write_review_frag extends DialogFragment {
             @Override
             public void onClick(View v) {
                 System.out.println("You just canceled your review. Good job!");
+                closefragment();
             }
         });
 
@@ -44,12 +45,16 @@ public class Write_review_frag extends DialogFragment {
             @Override
             public void onClick(View v) {
                 System.out.println("You just submitted your review. Good job!");
+                closefragment();
             }
         });
         /**
          * Returning the view in case none of the buttons former buttons were those pushed.
          */
         return view;
+    }
+    private void closefragment() {
+        getActivity().onBackPressed();
     }
 
 }
