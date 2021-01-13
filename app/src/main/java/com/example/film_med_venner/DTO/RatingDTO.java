@@ -8,12 +8,15 @@ public class RatingDTO {
     private String username;
     private String review;
     private String movieIDStr;
+    private String userID;
+
 
     public RatingDTO(IRating rating){
         this.rating = rating.getRating();
         this.username = rating.getUsername();
         this.movieIDStr = rating.getMovieIDStr();
         this.review = rating.getReview();
+        this.userID = rating.getUserID();
     }
 
     public int getRating() {
@@ -30,5 +33,8 @@ public class RatingDTO {
 
     public String getMovieIDStr() {
         return movieIDStr;
+    }
+    public String getUserID() {
+        return userID;
     }
 }
