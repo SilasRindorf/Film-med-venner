@@ -17,7 +17,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableRatingsUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableRatingUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -231,7 +231,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getReviews(RunnableRatingsUI runnableRatingsUI) throws DatabaseException {
+    public void getReviews(RunnableRatingUI runnableRatingUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
@@ -244,7 +244,27 @@ public class Database implements IDatabase {
                                 ratings.add(crRating);
                             }
                             IRating[] rats = new Rating[ratings.size()];
-                            runnableRatingsUI.run(ratings.toArray(rats));
+                            runnableRatingUI.run(ratings.toArray(rats));
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting reviews", e);
+        }
+    }
+
+    public void getRating(String ratingID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
+        try {
+            db.collection("reviews")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                if (doc.getId().equals(ratingID)) {
+                                    Rating crRating = doc.toObject(Rating.class);
+                                    crRating.setRatingID(doc.getId());
+                                    runnableRatingUI.run(crRating);
+                                }
+                            }
                         }
                     });
         } catch (Exception e) {

@@ -2,7 +2,6 @@ package com.example.film_med_venner.DTO;
 
 import com.example.film_med_venner.interfaces.IRating;
 
-import java.util.ArrayList;
 
 public class RatingDTO {
     private int rating;
