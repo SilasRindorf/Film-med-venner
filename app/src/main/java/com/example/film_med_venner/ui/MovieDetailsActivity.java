@@ -35,6 +35,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView moviePoster, yourStar1, yourStar2, yourStar3, yourStar4, yourStar5,
               friendStar1, friendStar2, friendStar3, friendStar4, friendStar5;
     private ImageButton addToWatch, write_review_btn;
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         intent = getIntent();
 
-        Movie movie = controller.getMovie(intent.getStringExtra("Title"));
+        movie = controller.getMovie(intent.getStringExtra("Title"));
 
         write_review_btn = findViewById(R.id.image_btn_review);
         write_review_btn.setOnClickListener(this);
@@ -80,7 +81,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view == write_review_btn){
+            Bundle bundle = new Bundle();
+            bundle.putString("id", movie.getImdbID());
             Fragment review_frag = new Write_review_frag();
+            review_frag.setArguments(bundle);
             addFrag(R.id.write_review_container, review_frag);
         }
     }

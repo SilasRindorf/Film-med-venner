@@ -16,7 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.ui.HomeActivity;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.squareup.picasso.Picasso;
@@ -26,11 +29,13 @@ import javax.annotation.Nullable;
 public class Write_review_frag extends DialogFragment {
     private ImageView yourStar1, yourStar2, yourStar3, yourStar4, yourStar5;
     private int rating;
+    private String movieID;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.frag_write_review,container,false);
+        movieID = getArguments().getString("id");
         /**
          * Creating the onClickListener for ImageView_star_1 and giving a rating
          */
@@ -130,11 +135,11 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("The submit button was clicked.");
                 if (rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5){
-                    //TODO the method below is the review text to be sent to backend.
-                /* EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
-                reviewInput.getText(); */
+                    EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
+                    IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser(), movieID, reviewInput.getText());
+                    //Database.getInstance().createReview(newRating);
+
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage("You just submitted your review. Good job!");
                     alertDialog.show();

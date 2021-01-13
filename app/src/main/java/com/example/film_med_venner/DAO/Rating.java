@@ -13,14 +13,6 @@ public class Rating implements IRating {
     private String movieIDStr;
     private String ratingIDStr;
 
-    public Rating(int rating, String username, int movieID, int ratingID, String review){
-        this.rating = rating;
-        this.username = username;
-        this.movieID = movieID;
-        this.ratingID = ratingID;
-        this.review = review;
-
-    }
 
     public Rating(int rating, String username, String movieIDstr, String ratingIDStr, String review) {
         this.rating = rating;
