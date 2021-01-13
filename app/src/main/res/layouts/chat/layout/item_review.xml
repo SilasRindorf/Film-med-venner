@@ -54,7 +54,7 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/friend_star_1"
+                    android:id="@+id/ImageView_star_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -63,7 +63,7 @@
                     app:srcCompat="@drawable/icon_empty_star" />
 
                 <ImageView
-                    android:id="@+id/friend_star_2"
+                    android:id="@+id/ImageView_star_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -72,7 +72,7 @@
                     app:srcCompat="@drawable/icon_empty_star" />
 
                 <ImageView
-                    android:id="@+id/friend_star_3"
+                    android:id="@+id/ImageView_star_3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -81,7 +81,7 @@
                     app:srcCompat="@drawable/icon_empty_star" />
 
                 <ImageView
-                    android:id="@+id/friend_star_4"
+                    android:id="@+id/ImageView_star_4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -90,7 +90,7 @@
                     app:srcCompat="@drawable/icon_empty_star" />
 
                 <ImageView
-                    android:id="@+id/friend_star_5"
+                    android:id="@+id/ImageView_star_5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
