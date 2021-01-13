@@ -13,6 +13,7 @@ import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
@@ -22,6 +23,10 @@ import com.example.film_med_venner.ui.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -81,7 +86,7 @@ public class Database implements IDatabase {
 
     public IProfile getCurrentUser() {
         FirebaseUser user = mAuh.getCurrentUser();
-        return new Profile(user.getDisplayName(),user.getUid());
+        return new Profile(user.getDisplayName(), user.getUid());
     }
 
     public void addUser(String name, String userID) {
@@ -149,7 +154,6 @@ public class Database implements IDatabase {
         return new IMovie[0];
     }
 
-    //Doesn't work yet
     public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws DatabaseException {
         //Get all movies and check for movies with genrer
         try {
@@ -214,12 +218,43 @@ public class Database implements IDatabase {
         return null;
     }
 
+    public void createUser(String email, String password, String name, RunnableErrorUI runnableUI) throws DatabaseException {
+        try {
+            mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Create user with email: Success ");
+                    //addUser();
+                    runnableUI.run();
+                } else {
+                    Log.d(TAG, "Create user with email: Failed ");
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthWeakPasswordException e) {
+                        runnableUI.run(new DatabaseException("Weak Password", e, 101));
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        runnableUI.run(new DatabaseException("Invalid Credentials", e, 102));
+                    } catch (FirebaseAuthUserCollisionException e) {
+                        runnableUI.run(new DatabaseException("User Collision", e, 103));
+                    } catch (FirebaseAuthEmailException e) {
+
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                }
+            });
+        } catch (IllegalArgumentException e) {
+            throw new DatabaseException("Error creating user", e);
+        }
+
+    }
 
     public void createReview(IRating rating) throws DatabaseException {
-        //Get all users and check for user with ID id
         try {
             db.collection("reviews")
-                    .add(rating);
+                    .add(rating).addOnCompleteListener(task -> {
+                        rating.setRatingID(task.getResult().getId());
+            });
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
         }

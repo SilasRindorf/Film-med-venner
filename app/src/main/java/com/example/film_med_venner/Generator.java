@@ -38,7 +38,7 @@ public class Generator {
     public ArrayList<IRating> generateRatings(int amount){
         ArrayList<IRating> rat = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            IRating rate  = new Rating(i,"ursnam" + i, i, i,"review");
+            IRating rate  = new Rating(i,"ursnam" + i, "" + i, "" + i,"review");
             rat.add( rate);
         }
         return rat;
@@ -52,7 +52,7 @@ public class Generator {
         ArrayList<IHomeFeedItems> feedList = new ArrayList<IHomeFeedItems>();
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 5; j++) {
-                IRating rating = new Rating(j+1, "Kurger Bing", i,i+j,"Some review" + (10*i+j));
+                IRating rating = new Rating(j+1, "Kurger Bing", i +"","" +i+j,"Some review" + (10*i+j));
                 feedList.add(rating);
             }
         }

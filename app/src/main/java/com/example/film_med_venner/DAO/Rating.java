@@ -7,8 +7,6 @@ import java.util.ArrayList;
 public class Rating implements IRating {
     private int rating;
     private String username;
-    private int movieID;
-    private int ratingID;
     private String review;
     private String movieIDStr;
     private String ratingIDStr;
@@ -22,6 +20,9 @@ public class Rating implements IRating {
         this.review = review;
     }
 
+    public void setRatingID(String id){
+        this.ratingIDStr = id;
+    }
     @Override
     public int getRating() {
         return rating;
@@ -35,11 +36,6 @@ public class Rating implements IRating {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public int getMovieID() {
-        return movieID;
     }
 
     @Override
