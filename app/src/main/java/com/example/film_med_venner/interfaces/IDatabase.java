@@ -24,7 +24,7 @@ public interface IDatabase {
     }
 
     /**
-     * Put error ID's here
+     * error ID's here
      * -1 = unknown
      * 0 = quit
      * 1 =
@@ -36,14 +36,7 @@ public interface IDatabase {
      * 300+ = ratings
      */
     class DatabaseException extends Exception {
-        //Put error ID's here
-        // -1 = unknown
-        // 0 = quit
-        // 1 =
-        // 100+  = users
-        // 101 = Weak
-        // 200+ = movies
-        // 300+ = ratings
+
         private int errorID = -1;
 
         public DatabaseException(String message) {

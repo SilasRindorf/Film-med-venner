@@ -250,12 +250,10 @@ public class Database implements IDatabase {
     }
 
     public void createReview(IRating rating) throws DatabaseException {
-        //Get all users and check for user with ID id
-
         try {
             db.collection("reviews")
                     .add(rating).addOnCompleteListener(task -> {
-
+                        rating.setRatingID(task.getResult().getId());
             });
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
