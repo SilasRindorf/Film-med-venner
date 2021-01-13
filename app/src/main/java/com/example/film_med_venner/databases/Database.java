@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -58,10 +59,11 @@ public class Database implements IDatabase {
 
     public IProfile getCurrentUser() {
         FirebaseUser user = mAuh.getCurrentUser();
-
-        if (user.getDisplayName() != null && user.getUid() != null){
-            return new  Profile(user.getDisplayName(), user.getUid());
-        } else return null;
+        try {
+            return new Profile(user.getDisplayName(), user.getUid());
+        } catch (Exception ignored){
+            return null;
+        }
     }
 
     public void addUser(String name, String userID) {
@@ -198,8 +200,9 @@ public class Database implements IDatabase {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
-                    //addUser();
+                    addUser(name,mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -209,6 +212,7 @@ public class Database implements IDatabase {
                         runnableUI.handleError(new DatabaseException("Weak Password", e, 101));
                     } catch (FirebaseAuthInvalidCredentialsException e) {
                         runnableUI.handleError(new DatabaseException("Invalid Credentials", e, 102));
+
                     } catch (FirebaseAuthUserCollisionException e) {
                         runnableUI.handleError(new DatabaseException("User Collision", e, 103));
                     } catch (FirebaseAuthEmailException e) {
