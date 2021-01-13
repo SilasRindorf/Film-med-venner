@@ -18,6 +18,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableRatingUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableRatingsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -208,7 +209,7 @@ public class Database implements IDatabase {
                     } catch (FirebaseAuthUserCollisionException e) {
                         runnableUI.run(new DatabaseException("User Collision", e, 103));
                     } catch (FirebaseAuthEmailException e) {
-                        runnableUI.run(new DatabaseException("User Collision", e, 103));
+                        runnableUI.run(new DatabaseException("Invalid email", e, 104));
                     } catch (Exception e) {
                         Log.e(TAG, e.getMessage());
                     }
@@ -232,7 +233,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getRatings(RunnableRatingUI runnableRatingUI) throws DatabaseException {
+    public void getRatings(RunnableRatingsUI runnableRatingsUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
@@ -245,7 +246,7 @@ public class Database implements IDatabase {
                                 ratings.add(crRating);
                             }
                             IRating[] rats = new Rating[ratings.size()];
-                            runnableRatingUI.run(ratings.toArray(rats));
+                            runnableRatingsUI.run(ratings.toArray(rats));
                         }
                     });
         } catch (Exception e) {
