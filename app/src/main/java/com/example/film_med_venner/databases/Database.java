@@ -1,6 +1,7 @@
 package com.example.film_med_venner.databases;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -12,10 +13,12 @@ import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.runnable.RunnableProfileUI;
-import com.example.film_med_venner.runnable.RunnableMovieUI;
-import com.example.film_med_venner.runnable.RunnableProfilesUI;
-import com.example.film_med_venner.runnable.RunnableRatingsUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableRatingsUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.example.film_med_venner.ui.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +29,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
+/* Showcase how to use
+        try {
+                Database.getInstance().getProfiles(profiles -> {
+                });
+                } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+                }
+
+                try {
+                Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", profile -> {
+                Log.d(TAG, "Hah my namevwwv " + profile.getName());
+
+                });
+                //Lambda is overriding the run method
+                //Meaning the lambda and this is essentially the same thing
+                Database.getInstance().getProfile("wDE5liDVpHdaHaYWBh5wmOKf7O12", new RunnableProfileUI() {
+@Override
+public void run(IProfile profile) {
+
+        }
+
+
+        });
+        } catch (IDatabase.DatabaseException e) {
+        e.printStackTrace();
+        }*/
+
+
+
 
 
 //TODO should be handled in thread
@@ -48,6 +80,10 @@ public class Database implements IDatabase {
         return instance;
     }
 
+    /*public IProfile getCurrentUser() {
+        return
+    }*/
+
     public void addUser(String name, String userID) {
         HashMap<String, Object> user = new HashMap();
         user.put("name", name);
@@ -63,6 +99,18 @@ public class Database implements IDatabase {
                 Log.w(TAG, "Error adding user", e);
             }
         });
+    }
+
+    public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException{
+        try {
+            mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    runnableUI.run();
+                }
+            });
+        } catch (Exception e) {
+            throw new DatabaseException("Error logging in", e);
+        }
     }
 
 
@@ -165,6 +213,21 @@ public class Database implements IDatabase {
     }
 
 
+    public void createReview(IRating rating) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("reviews")
+                    .add(rating)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+
+                            //Run the interface function void run (IProfile)
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error creating review", e);
+        }
+    }
 
     public void getReviews(RunnableRatingsUI runnableRatingsUI) throws DatabaseException {
         try {
@@ -175,8 +238,6 @@ public class Database implements IDatabase {
                             int i = 0;
                             IRating[] ratings = new Rating[task.getResult().size()];
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-
-
                                 ArrayList<String> stringsOK = new ArrayList<>();
                                 ratings[i] = new Rating((int) doc.get("rating"), doc.get("username").toString(), doc.get("movieID").toString(), doc.get("reviewID").toString(), doc.get("review").toString());
                                 i++;

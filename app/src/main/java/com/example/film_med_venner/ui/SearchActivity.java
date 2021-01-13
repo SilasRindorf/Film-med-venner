@@ -24,7 +24,7 @@ import com.example.film_med_venner.controllers.Controller_Search;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-    GridView gridView;
+    private GridView gridView;
     private SearchAdapter searchAdapter;
     private Context ctx;
     EditText search;
