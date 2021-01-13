@@ -32,7 +32,7 @@
                 android:layout_weight="3"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_filled_star" />
+                app:srcCompat="@drawable/icon_empty_star" />
 
             <ImageView
                 android:id="@+id/ImageView_star_2"
@@ -41,7 +41,7 @@
                 android:layout_weight="3"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_filled_star" />
+                app:srcCompat="@drawable/icon_empty_star" />
 
             <ImageView
                 android:id="@+id/ImageView_star_3"
@@ -50,7 +50,7 @@
                 android:layout_weight="3"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_filled_star" />
+                app:srcCompat="@drawable/icon_empty_star" />
 
             <ImageView
                 android:id="@+id/ImageView_star_4"
@@ -59,7 +59,7 @@
                 android:layout_weight="3"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_filled_star" />
+                app:srcCompat="@drawable/icon_empty_star" />
 
             <ImageView
                 android:id="@+id/ImageView_star_5"

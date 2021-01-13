@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,7 @@ public class Write_review_frag extends DialogFragment {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setMessage("You just canceled your review. Good job!");
                 alertDialog.show();
+                delay(1.5, alertDialog);
                 closefragment();
             }
         });
@@ -136,11 +138,13 @@ public class Write_review_frag extends DialogFragment {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage("You just submitted your review. Good job!");
                     alertDialog.show();
+                    delay(1.5, alertDialog);
                     closefragment();
                 } else {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage("You haven't given any rating yet. Please do that before submitting");
                     alertDialog.show();
+                    delay(1.5, alertDialog);
                 }
             }
         });
@@ -152,6 +156,17 @@ public class Write_review_frag extends DialogFragment {
     private void closefragment() {
         getFragmentManager().beginTransaction().remove(Write_review_frag.this).commit();
 
+    }
+
+    private void delay(double seconds, AlertDialog alertDialog) {
+        new CountDownTimer((long) (seconds * 1000), 1000) {
+            public void onFinish() {
+                alertDialog.dismiss();
+            }
+            public void onTick(long millisUntilFinished) {
+                // millisUntilFinished    The amount of time until finished.
+            }
+        }.start();
     }
 
 }
