@@ -143,8 +143,11 @@ public class Write_review_frag extends DialogFragment {
                         Database.getInstance().createReview(newRating);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setMessage("Failed to create review. Bad devs!");
+                        alertDialog.show();
+                        delay(1.5, alertDialog);
                     }
-                    //Database.getInstance().createReview(newRating);
 
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage("You just submitted your review. Good job!");
