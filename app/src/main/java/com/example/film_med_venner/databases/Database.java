@@ -58,7 +58,10 @@ public class Database implements IDatabase {
 
     public IProfile getCurrentUser() {
         FirebaseUser user = mAuh.getCurrentUser();
-        return new Profile(user.getDisplayName(), user.getUid());
+
+        if (user.getDisplayName() != null && user.getUid() != null){
+            return new  Profile(user.getDisplayName(), user.getUid());
+        } else return null;
     }
 
     public void addUser(String name, String userID) {
@@ -203,13 +206,13 @@ public class Database implements IDatabase {
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        runnableUI.run(new DatabaseException("Weak Password", e, 101));
+                        runnableUI.handleError(new DatabaseException("Weak Password", e, 101));
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        runnableUI.run(new DatabaseException("Invalid Credentials", e, 102));
+                        runnableUI.handleError(new DatabaseException("Invalid Credentials", e, 102));
                     } catch (FirebaseAuthUserCollisionException e) {
-                        runnableUI.run(new DatabaseException("User Collision", e, 103));
+                        runnableUI.handleError(new DatabaseException("User Collision", e, 103));
                     } catch (FirebaseAuthEmailException e) {
-                        runnableUI.run(new DatabaseException("Invalid email", e, 104));
+                        runnableUI.handleError(new DatabaseException("Invalid email", e, 104));
                     } catch (Exception e) {
                         Log.e(TAG, e.getMessage());
                     }
