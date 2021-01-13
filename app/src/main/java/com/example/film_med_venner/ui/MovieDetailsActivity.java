@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.fragments.Write_review_frag;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,11 +31,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private Controller_MovieDetails controller = Controller_MovieDetails.getInstance();
     private Intent intent;
 
-
     private TextView title, plot, director, runtime, actors, yourReview;
     private ImageView moviePoster, yourStar1, yourStar2, yourStar3, yourStar4, yourStar5,
-            friendStar1, friendStar2, friendStar3, friendStar4, friendStar5;
-    private ImageButton addToWatch, review, rate;
+              friendStar1, friendStar2, friendStar3, friendStar4, friendStar5;
+    private ImageButton addToWatch, write_review_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         intent = getIntent();
 
         Movie movie = controller.getMovie(intent.getStringExtra("Title"));
+
+        write_review_btn = findViewById(R.id.image_btn_review);
+        write_review_btn.setOnClickListener(this);
 
         title = findViewById(R.id.textView_title);
         title.setText(movie.getTitle());
@@ -87,7 +92,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        if (view == yourStar1) {
+        if (view == write_review_btn){
+            Fragment review_frag = new Write_review_frag();
+            addFrag(R.id.write_review_container, review_frag);
+        } else if (view == yourStar1) {
             Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
             Picasso.get().load(R.drawable.icon_empty_star).into(yourStar2);
             Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
