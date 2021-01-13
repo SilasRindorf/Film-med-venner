@@ -189,6 +189,7 @@ public class Database implements IDatabase {
         return null;
     }
 
+
     public void createUser(String email, String password, String name, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -207,7 +208,7 @@ public class Database implements IDatabase {
                     } catch (FirebaseAuthUserCollisionException e) {
                         runnableUI.run(new DatabaseException("User Collision", e, 103));
                     } catch (FirebaseAuthEmailException e) {
-
+                        runnableUI.run(new DatabaseException("User Collision", e, 103));
                     } catch (Exception e) {
                         Log.e(TAG, e.getMessage());
                     }
@@ -231,7 +232,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getReviews(RunnableRatingUI runnableRatingUI) throws DatabaseException {
+    public void getRatings(RunnableRatingUI runnableRatingUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
@@ -271,6 +272,26 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting reviews", e);
         }
     }
+    public void getRating(String userID, String movieID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
+        try {
+            db.collection("reviews")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
+                                    Rating crRating = doc.toObject(Rating.class);
+                                    crRating.setRatingID(doc.getId());
+                                    runnableRatingUI.run(crRating);
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting reviews", e);
+        }
+    }
+
 
     @Override
     public IRating[] getRating() {
