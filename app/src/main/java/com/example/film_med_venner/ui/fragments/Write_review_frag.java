@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.ui.HomeActivity;
 import com.example.film_med_venner.ui.ProfileActivity;
@@ -138,6 +139,11 @@ public class Write_review_frag extends DialogFragment {
                 if (rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5){
                     EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
                     IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString());
+                    try {
+                        Database.getInstance().createReview(newRating);
+                    } catch (IDatabase.DatabaseException e) {
+                        e.printStackTrace();
+                    }
                     //Database.getInstance().createReview(newRating);
 
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
