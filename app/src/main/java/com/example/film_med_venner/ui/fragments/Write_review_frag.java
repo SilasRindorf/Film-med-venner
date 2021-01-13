@@ -1,9 +1,12 @@
 package com.example.film_med_venner.ui.fragments;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,16 +17,22 @@ import android.widget.ImageButton;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.ui.HomeActivity;
+import com.example.film_med_venner.ui.MovieDetailsActivity;
 import com.example.film_med_venner.ui.ProfileActivity;
 
 import javax.annotation.Nullable;
 
 public class Write_review_frag extends DialogFragment {
+
+    private Context ctx;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.frag_write_review,container,false);
+
+
 
         /**
          * Creating the onClickListener for cancel_review_btn and giving adding the intent for switching to another activity as well.
@@ -33,6 +42,9 @@ public class Write_review_frag extends DialogFragment {
             @Override
             public void onClick(View v) {
                 System.out.println("You just canceled your review. Good job!");
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setMessage("You just canceled your review. Good job!");
+                alertDialog.show();
             }
         });
 
@@ -44,6 +56,9 @@ public class Write_review_frag extends DialogFragment {
             @Override
             public void onClick(View v) {
                 System.out.println("You just submitted your review. Good job!");
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setMessage("You just submitted your review. Good job!");
+                alertDialog.show();
             }
         });
         /**
