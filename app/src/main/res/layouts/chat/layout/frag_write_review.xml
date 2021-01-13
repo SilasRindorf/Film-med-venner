@@ -5,20 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.Write_review_frag">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent">
     <LinearLayout
         android:id="@+id/write_review_container"
         android:background="#CBFFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        app:layout_constraintTop_toTopOf="parent"
         >
         <EditText
             android:id="@+id/review_input_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Write your review here:"/>
+            android:hint="Write your review here"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,5 +39,5 @@
                 android:text="Submit review"/>
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
