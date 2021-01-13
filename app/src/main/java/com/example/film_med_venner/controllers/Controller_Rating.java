@@ -1,13 +1,15 @@
 package com.example.film_med_venner.controllers;
 
-import com.example.film_med_venner.databases.DatabaseNonPers;
+import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IController.IController_Rating;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.runnable.RunnableRatingUI;
 
 public class Controller_Rating implements IController_Rating {
     private static Controller_Rating instance;
-    private IDatabase database = DatabaseNonPers.getInstance();
+    private Database database = Database.getInstance();
     public static Controller_Rating getInstance(){
         if (instance == null){
             instance = new Controller_Rating();
@@ -18,5 +20,9 @@ public class Controller_Rating implements IController_Rating {
         return database.getRating();
     }
 
+    public void getUserRating(String userID, String movieID, RunnableRatingUI runnable) throws IDatabase.DatabaseException {
 
+         database.getRating(userID, movieID, runnable);
+
+    }
 }
