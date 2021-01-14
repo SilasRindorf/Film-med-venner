@@ -144,6 +144,7 @@ public class Write_review_frag extends DialogFragment {
                     if (status == true){
                         try {
                             Database.getInstance().updateRatings(newRating);
+                            Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                         } catch (IDatabase.DatabaseException e){
                             e.printStackTrace();
                             Toast.makeText(getActivity(), "Failed to update review", Toast.LENGTH_LONG).show();

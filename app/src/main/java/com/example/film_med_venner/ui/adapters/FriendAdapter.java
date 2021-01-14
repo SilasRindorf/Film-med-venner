@@ -56,12 +56,16 @@ public class FriendAdapter extends BaseAdapter {
         TextView profileWatchedlist = gridView.findViewById(R.id.profile_watched_list);
 
         //TODO Det her skal hente profilbilledet senere, men i det at vi ikke implementeret noget SOME ish endnu giver det først mening at lave senere.
-        profilePicture.setImageResource(R.drawable.icon_profilepicture);
-        profileName.setText(((Profile) item).getName());
-        profileReviews.setText("- " + ((Profile) item).getAmountOfMoviesReviewed() + " reviewed movies.");
-        profileRatings.setText("- " + ((Profile) item).getAmountOfMoviesRated() + " rated movies.");
-        profileToWatchlist.setText("- " + ((Profile) item).getAmountOfMoviesOnToWatchList() + " movies on their to watchlist.");
-        profileWatchedlist.setText("- " + ((Profile) item).getAmountOfMoviesOnWatchedList() + " movies on their watched list.");
+        try {
+            profilePicture.setImageResource(R.drawable.icon_profilepicture);
+            profileName.setText(((Profile) item).getName());
+            profileReviews.setText("- " + ((Profile) item).getAmountOfMoviesReviewed() + " reviewed movies.");
+            profileRatings.setText("- " + ((Profile) item).getAmountOfMoviesRated() + " rated movies.");
+            profileToWatchlist.setText("- " + ((Profile) item).getAmountOfMoviesOnToWatchList() + " movies on their to watchlist.");
+            profileWatchedlist.setText("- " + ((Profile) item).getAmountOfMoviesOnWatchedList() + " movies on their watched list.");
+        } catch (NullPointerException e){
+            System.out.println(e);
+        }
         return gridView;
     }
 }
