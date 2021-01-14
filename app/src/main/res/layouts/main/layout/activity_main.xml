@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        android:verticalSpacing="10dp"
+        android:verticalSpacing="20dp"
         />
 
     <LinearLayout
