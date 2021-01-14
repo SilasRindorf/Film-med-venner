@@ -14,7 +14,6 @@
     </style>
 
     <style name="ShapeAppearance.App.CircleImageView" parent="">
-        <item name="backgroundTint">00ffff</item>
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>

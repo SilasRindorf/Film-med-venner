@@ -33,19 +33,21 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageView_profile"
-                    android:layout_width="3dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/icon_profilepicture" />
+                    app:srcCompat="@drawable/icon_profilepicture"
+                    app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -93,6 +95,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -134,6 +137,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -174,6 +178,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -213,6 +218,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -252,6 +258,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView

@@ -11,18 +11,7 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint=""
-            app:srcCompat="@drawable/icon_profilepicture"
-            app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
-
-    <!--    <ImageView
+        <!--    <ImageView
             android:id="@+id/imageView_fr_profile_pic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,12 +23,23 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="5dp"/>
     -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_weight="7"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"
+            app:srcCompat="@drawable/icon_profilepicture" />
+
         <TextView
             android:id="@+id/textView_fr_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="10"
+            android:layout_weight="11"
             android:text="Christian Jensen"
             android:textSize="18sp"
             android:layout_marginStart="10dp"
@@ -49,7 +49,7 @@
             android:id="@+id/btn_accept"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="6"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:backgroundTint="00ffffff"
@@ -61,7 +61,7 @@
             android:id="@+id/btn_decline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:backgroundTint="00ffffff"
             app:srcCompat="@android:drawable/ic_delete"
             android:layout_gravity="center_vertical"

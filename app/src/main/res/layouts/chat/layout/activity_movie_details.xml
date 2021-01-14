@@ -141,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:adjustViewBounds="true"
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@color/colorTransparent"
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/icon_wanttowatch" />
 
@@ -151,7 +151,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:adjustViewBounds="true"
-                            android:backgroundTint="#00FFFFFF"
+                            android:backgroundTint="@color/colorTransparent"
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/icon_reviewed" />
 
