@@ -1,19 +1,14 @@
 package com.example.film_med_venner.ui.fragments;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,23 +17,29 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.ui.HomeActivity;
-import com.example.film_med_venner.ui.MainActivity;
-import com.example.film_med_venner.ui.ProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
 public class Write_review_frag extends DialogFragment {
     private ImageView yourStar1, yourStar2, yourStar3, yourStar4, yourStar5;
-    private int rating;
+    private int starRating;
     private String movieID;
+    private String review;
+    private EditText reviewInput;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.frag_write_review,container,false);
+        System.out.println(getArguments().getString("review"));
+        /**
+         * Getting arguments from MovieDetailsActivity in the form of a "Bundle"
+         */
         movieID = getArguments().getString("id");
+        starRating = getArguments().getInt("starRating");
+        review = getArguments().getString("review");
+
         /**
          * Creating the onClickListener for ImageView_star_1 and giving a rating
          */
@@ -46,7 +47,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating = 1;
+                starRating = 1;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_empty_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
@@ -61,7 +62,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating = 2;
+                starRating = 2;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
@@ -76,7 +77,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating = 3;
+                starRating = 3;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
@@ -91,7 +92,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating = 4;
+                starRating = 4;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
@@ -106,7 +107,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating = 5;
+                starRating = 5;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
@@ -131,15 +132,15 @@ public class Write_review_frag extends DialogFragment {
         /**
          * Creating the onClickListener for submit_review_btn and giving adding the intent for switching to another activity as well.
          */
+        reviewInput = view.findViewById(R.id.review_input_editText);
         btn = (Button) view.findViewById(R.id.submit_review_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5){
-                    EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
-                    IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
+                if (starRating == 1 || starRating == 2 || starRating == 3 || starRating == 4 || starRating == 5){
+                    IRating newRating = new Rating(starRating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
                     try {
-                        Database.getInstance().createReview(newRating);
+                        Database.getInstance().createRating(newRating);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
                         Toast.makeText(getActivity(), "Failed to create review", Toast.LENGTH_LONG).show();
@@ -151,6 +152,13 @@ public class Write_review_frag extends DialogFragment {
                 }
             }
         });
+
+        /**
+         * Setting the review text and star rating to the previously given review and star rating
+         */
+        starFest(starRating);
+        reviewInput.setText(review);
+
         /**
          * Returning the view in case none of the buttons former buttons were those pushed.
          */
@@ -161,15 +169,50 @@ public class Write_review_frag extends DialogFragment {
 
     }
 
-    private void delay(double seconds, AlertDialog alertDialog) {
-        new CountDownTimer((long) (seconds * 1000), 1000) {
-            public void onFinish() {
-                alertDialog.dismiss();
-            }
-            public void onTick(long millisUntilFinished) {
-                // millisUntilFinished    The amount of time until finished.
-            }
-        }.start();
+    private void starFest(int starRating) {
+        if (starRating == 0){
+            yourStar1.setImageResource(R.drawable.icon_empty_star);
+            yourStar2.setImageResource(R.drawable.icon_empty_star);
+            yourStar3.setImageResource(R.drawable.icon_empty_star);
+            yourStar4.setImageResource(R.drawable.icon_empty_star);
+            yourStar5.setImageResource(R.drawable.icon_empty_star);
+        }
+        else if (starRating == 1){
+            yourStar1.setImageResource(R.drawable.icon_filled_star);
+            yourStar2.setImageResource(R.drawable.icon_empty_star);
+            yourStar3.setImageResource(R.drawable.icon_empty_star);
+            yourStar4.setImageResource(R.drawable.icon_empty_star);
+            yourStar5.setImageResource(R.drawable.icon_empty_star);
+        }
+        else if (starRating == 2){
+            yourStar1.setImageResource(R.drawable.icon_filled_star);
+            yourStar2.setImageResource(R.drawable.icon_filled_star);
+            yourStar3.setImageResource(R.drawable.icon_empty_star);
+            yourStar4.setImageResource(R.drawable.icon_empty_star);
+            yourStar5.setImageResource(R.drawable.icon_empty_star);
+        }
+        else if (starRating == 3){
+            yourStar1.setImageResource(R.drawable.icon_filled_star);
+            yourStar2.setImageResource(R.drawable.icon_filled_star);
+            yourStar3.setImageResource(R.drawable.icon_filled_star);
+            yourStar4.setImageResource(R.drawable.icon_empty_star);
+            yourStar5.setImageResource(R.drawable.icon_empty_star);
+        }
+        else if (starRating == 4){
+            yourStar1.setImageResource(R.drawable.icon_filled_star);
+            yourStar2.setImageResource(R.drawable.icon_filled_star);
+            yourStar3.setImageResource(R.drawable.icon_filled_star);
+            yourStar4.setImageResource(R.drawable.icon_filled_star);
+            yourStar5.setImageResource(R.drawable.icon_empty_star);
+        }
+        else if (starRating == 5){
+            yourStar1.setImageResource(R.drawable.icon_filled_star);
+            yourStar2.setImageResource(R.drawable.icon_filled_star);
+            yourStar3.setImageResource(R.drawable.icon_filled_star);
+            yourStar4.setImageResource(R.drawable.icon_filled_star);
+            yourStar5.setImageResource(R.drawable.icon_filled_star);
+        }
     }
+
 
 }
