@@ -3,7 +3,6 @@ package com.example.film_med_venner.databases;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
@@ -15,8 +14,8 @@ import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableRatingUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableRatingsUI;
@@ -27,7 +26,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
@@ -35,11 +33,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -185,6 +179,22 @@ public class Database implements IDatabase {
         } catch (Exception ignored) {
             return null;
         }
+    }
+
+    public void sendPasswordEmail(String email) {
+        mAuh.sendPasswordResetEmail(email)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Sent email for resetting password");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.w(TAG, "Error sending email ", e);
+            }
+        });
     }
 
     public void addUser(String name, String userID) {

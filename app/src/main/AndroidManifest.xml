@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.film_med_venner">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,14 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ui.ForgotPasswordActivity"></activity>
         <activity android:name=".ui.MovieDetailsActivity" />
         <activity android:name=".ui.RatedItemActivity" />
         <activity android:name=".ui.profileActivities.FriendActivity" />
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
         <activity android:name=".ui.profileActivities.ToWatchlistActivity" />
         <activity android:name=".ui.profileActivities.RatingActivity" />
-
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,5 +61,5 @@
                 android:value=".ui.HomeActivity" />
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

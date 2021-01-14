@@ -25,6 +25,7 @@
         <string name="btn_signup_using_facebook">Sign up using Facebook</string>
         <string name="btn_go_back">Go back</string>
         <string name="btn_signup">Sign up</string>
+        <string name="btn_reset_password">Reset Password</string>
 
         // Inputs for textviews above edittexts
         <string name="input_password">Enter password: </string>
@@ -33,6 +34,9 @@
         <string name="input_email">Enter email: </string>
         <string name="input_firstname">Enter firstname: </string>
         <string name="input_surname">Enter surname: </string>
+        <string name="forgot_password">Forgot Password</string>
+        <string name="forgot_password_text">Forgot your password?</string>
+        <string name="forgot_password_text_below">To reset password, enter your email, press the button and check email to follow instruction</string>
 
         // Sample text
         <string name="profileName">Christian Jensen</string>
@@ -53,7 +57,7 @@
         <string name="movie_category_title">Title of the category</string>
 
 
-            // Facebook
+        // Facebook
             <string name="facebook_app_id">[com.example.film_med_venner]</string>
             <string name="fb_login_protocol_scheme">fb[com.example.film_med_venner]</string>
     </resources>

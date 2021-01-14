@@ -2,9 +2,9 @@ package com.example.film_med_venner.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,14 +26,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Comment out to not skip log in screen
-        if (Controller_User.getInstance().isLoggedIn()) {
+       /* if (Controller_User.getInstance().isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }
 
+        */
+
         EditText ete = findViewById(R.id.input_username);
         EditText etp = findViewById(R.id.input_password);
         Button btn = findViewById(R.id.btn_login_using_mail);
+        TextView tv = findViewById(R.id.textview_forgot_password);
+
         btn.setOnClickListener(view -> {
             try {
                 auth.logIn(ete.getText().toString(), etp.getText().toString(), () -> {
@@ -50,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SignUpActivityWithMail.class);
             startActivity(intent);
 
+        });
+
+        tv.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
 
         btn = findViewById(R.id.btn_login_using_facebook);
