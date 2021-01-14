@@ -27,6 +27,7 @@ public class Write_review_frag extends DialogFragment {
     private String movieID;
     private String review;
     private EditText reviewInput;
+    private Boolean status;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState){
@@ -39,6 +40,7 @@ public class Write_review_frag extends DialogFragment {
         movieID = getArguments().getString("id");
         starRating = getArguments().getInt("starRating");
         review = getArguments().getString("review");
+        status = getArguments().getBoolean("status");
 
         /**
          * Creating the onClickListener for ImageView_star_1 and giving a rating
@@ -139,6 +141,14 @@ public class Write_review_frag extends DialogFragment {
             public void onClick(View v) {
                 if (starRating == 1 || starRating == 2 || starRating == 3 || starRating == 4 || starRating == 5){
                     IRating newRating = new Rating(starRating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
+                    if (status == true){
+                        try {
+                            Database.getInstance().updateRatings(newRating);
+                        } catch (IDatabase.DatabaseException e){
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), "Failed to update review", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
                     try {
                         Database.getInstance().createRating(newRating);
                     } catch (IDatabase.DatabaseException e) {
@@ -147,6 +157,7 @@ public class Write_review_frag extends DialogFragment {
                     }
                     Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                     closefragment();
+                    }
                 } else {
                     Toast.makeText(getActivity(), "No rating given", Toast.LENGTH_LONG).show();
                 }

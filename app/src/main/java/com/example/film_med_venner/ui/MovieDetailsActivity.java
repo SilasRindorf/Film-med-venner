@@ -117,6 +117,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             Bundle bundle = new Bundle();
             bundle.putString("id", movie.getImdbID());
             if (rating != null){
+                bundle.putBoolean("status",true);
                 bundle.putInt("starRating",rating.getRating());
                 bundle.putString("review",rating.getReview());
             }
