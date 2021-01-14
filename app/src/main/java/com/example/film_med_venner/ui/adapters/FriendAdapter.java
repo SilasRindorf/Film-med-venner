@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,25 +45,19 @@ public class FriendAdapter extends BaseAdapter {
         IProfile item = profileItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            gridView = inflater.inflate(R.layout.profile_friend_item, null);
+            gridView = inflater.inflate(R.layout.profile_friend_request_item, null);
         }
-        System.out.println(((Profile) item).getName());
 
+        TextView friend_request_name = gridView.findViewById(R.id.textView_fr_name);
+        ImageButton accept_btn = gridView.findViewById(R.id.btn_accept);
+        ImageButton decline_btn = gridView.findViewById(R.id.btn_decline);
         ImageView profilePicture = gridView.findViewById(R.id.imageView_profile);
-        TextView profileName = gridView.findViewById(R.id.profile_name);
-        TextView profileReviews = gridView.findViewById(R.id.profile_reviews);
-        TextView profileRatings = gridView.findViewById(R.id.profile_ratings);
-        TextView profileToWatchlist = gridView.findViewById(R.id.profile_to_watch_list);
-        TextView profileWatchedlist = gridView.findViewById(R.id.profile_watched_list);
+
 
         //TODO Det her skal hente profilbilledet senere, men i det at vi ikke implementeret noget SOME ish endnu giver det først mening at lave senere.
         try {
             profilePicture.setImageResource(R.drawable.icon_profilepicture);
-            profileName.setText(((Profile) item).getName());
-            profileReviews.setText("- " + ((Profile) item).getAmountOfMoviesReviewed() + " reviewed movies.");
-            profileRatings.setText("- " + ((Profile) item).getAmountOfMoviesRated() + " rated movies.");
-            profileToWatchlist.setText("- " + ((Profile) item).getAmountOfMoviesOnToWatchList() + " movies on their to watchlist.");
-            profileWatchedlist.setText("- " + ((Profile) item).getAmountOfMoviesOnWatchedList() + " movies on their watched list.");
+            friend_request_name.setText(((Profile) item).getName());
         } catch (NullPointerException e){
             System.out.println(e);
         }

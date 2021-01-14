@@ -58,7 +58,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         see_friendrequest_btn.setOnClickListener(this);
 
-        bgThread.execute(() -> {
+        /*bgThread.execute(() -> {
             try {
                 System.out.println("This is where you die the first time");
                 //TODO YOU DIE HERE. SILAS FIX <3 8===>
@@ -75,7 +75,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
-        });
+        });*/
 
         /*bgThread.execute(() -> {
             try {

@@ -13,12 +13,15 @@ import android.widget.GridView;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Profile;
+import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.ui.adapters.FriendRequestAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -45,15 +48,21 @@ public class FriendRequestActivity extends AppCompatActivity {
         ctx = this;
         gridView = findViewById(R.id.gridView);
 
-        bgThread.execute(() -> {
+       bgThread.execute(() -> {
             try {
-                items = controller.getFriendItems();
+                System.out.println("This is where you die the first time");
+                //TODO YOU DIE HERE. SILAS FIX <3 8===>
+                Database.getInstance().getFriendRequests(friendRequest -> {
+                    System.out.println("Det her er dine venneanmodninger " + friendRequest);
+                    List<IProfile> friendList = Arrays.asList(friendRequest);
                     uiThread.post(() -> {
-                        friendRequestAdapter = new FriendRequestAdapter(ctx, items);
+                        System.out.println("This is where you die: " + friendList.toString());
+                        friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
                         gridView.setAdapter(friendRequestAdapter);
                         gridView.setVisibility(View.VISIBLE);
-                        });
-            } catch (Exception e) {
+                    });
+                });
+            } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
         });
