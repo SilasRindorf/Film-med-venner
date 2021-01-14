@@ -2,10 +2,8 @@ package com.example.film_med_venner.ui.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.film_med_venner.DAO.Rating;
@@ -21,8 +18,6 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IRating;
-import com.example.film_med_venner.ui.HomeActivity;
-import com.example.film_med_venner.ui.ProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
@@ -140,7 +135,7 @@ public class Write_review_frag extends DialogFragment {
                     EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
                     IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString());
                     try {
-                        Database.getInstance().createReview(newRating);
+                        Database.getInstance().createRating(newRating);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
