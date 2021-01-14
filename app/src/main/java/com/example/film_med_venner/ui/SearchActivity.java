@@ -43,7 +43,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         search.setOnKeyListener((view, keyCode, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                 switch (keyCode) {
-                    case KeyEvent.KEYCODE_DPAD_CENTER:
                     case KeyEvent.KEYCODE_ENTER:
                         setupGridView();
                         return true;
