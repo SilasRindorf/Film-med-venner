@@ -405,6 +405,8 @@ public class Database implements IDatabase {
 
     public void getFriends(RunnableProfilesUI runnableUI) throws DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
+        //TODO Skal der ikke være et friendship ID ift. den path den lige ligesom tager? Jeg ser umiddelbart at at stykket mellem collectionpath "friends" og status tingelingen der er der et doc id som ikke bliver hentet
+        String friendshipID;
         try {
             db.collection("users").document(id).collection("friends").whereEqualTo("status",true).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){

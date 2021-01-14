@@ -63,6 +63,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                 System.out.println("This is where you die the first time");
                 //TODO YOU DIE HERE. SILAS FIX <3 8===>
                 Database.getInstance().getFriends(friends -> {
+                    System.out.println("Det her er dine venner " + friends);
                     List<IProfile> friendList = Arrays.asList(friends);
                     uiThread.post(() -> {
                         System.out.println("This is where you die: " + friendList.toString());
