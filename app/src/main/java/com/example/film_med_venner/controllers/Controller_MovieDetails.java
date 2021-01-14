@@ -7,8 +7,6 @@ import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
 
-import java.util.List;
-
 public class Controller_MovieDetails implements IController {
     private IDatabase database;
     private Controller_Movie controller_movie;
@@ -33,11 +31,11 @@ public class Controller_MovieDetails implements IController {
         controller_rating = Controller_Rating.getInstance();
     }
 
-    public Movie getMovie(String search){
+    public Movie getMovie(String id){
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Movie movie = omdb.findMovieByTitle(search);
+        Movie movie = omdb.findMovieById(id);
 
         return movie;
     }

@@ -52,13 +52,15 @@
                         android:id="@+id/text_profileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/profileName" />
+                        android:text="@string/profileName"
+                        android:textColor="@color/colorTextView"/>
 
                     <TextView
                         android:id="@+id/profileDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/profileInterests" />
+                        android:text="@string/profileInterests"
+                        android:textColor="@color/colorTextView"/>
                 </LinearLayout>
 
                 <ImageView
@@ -66,7 +68,8 @@
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/icon_settings" />
+                    app:srcCompat="@drawable/icon_settings"
+                    app:tint="@color/colorTextView" />
             </LinearLayout>
 
             <!--Friends-->
@@ -85,9 +88,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/icon_friends"
-
-                    />
+                    app:srcCompat="@drawable/icon_friends" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -99,17 +100,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/friends"
-
-                        />
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_friends_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sampletext_friends_description"
+                        android:textColor="@color/colorTextView" />
 
-                        />
                 </LinearLayout>
+
             </LinearLayout>
 
             <!--Rated-->
@@ -139,13 +140,15 @@
                         android:id="@+id/textView_rated_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/rated" />
+                        android:text="@string/rated"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_rated_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sampletext_rated_description" />
+                        android:text="@string/sampletext_rated_description"
+                        android:textColor="@color/colorTextView" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -167,6 +170,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/icon_reviewed" />
 
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -176,13 +180,15 @@
                         android:id="@+id/textView_reviewed_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/reviewed" />
+                        android:text="@string/reviewed"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_reviewed_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sampletext_reviewed_description" />
+                        android:text="@string/sampletext_reviewed_description"
+                        android:textColor="@color/colorTextView" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -213,13 +219,15 @@
                         android:id="@+id/textView_want_to_watch_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/wantToWatch" />
+                        android:text="@string/wantToWatch"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_want_to_watch_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sampletext_want_to_watch_description" />
+                        android:text="@string/sampletext_want_to_watch_description"
+                        android:textColor="@color/colorTextView" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -250,13 +258,16 @@
                         android:id="@+id/textView_watchedlist_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/watched" />
+                        android:text="@string/watched"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_watchedlist_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sampletext_watchedlist_description" />
+                        android:text="@string/sampletext_watchedlist_description"
+                        android:textColor="@color/colorTextView" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

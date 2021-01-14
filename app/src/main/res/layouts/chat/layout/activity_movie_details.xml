@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".ui.MovieDetailsActivity">
 
 
@@ -24,10 +25,11 @@
                 android:id="@+id/textView_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:text="Title"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:textColor="@color/colorTextView"
+                android:padding="10dp"
                 android:layout_gravity="center_horizontal"/>
 
             <LinearLayout
@@ -54,7 +56,8 @@
                         android:layout_height="wrap_content"
                         android:text="Summary :"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_plot"
@@ -62,7 +65,8 @@
                         android:layout_height="wrap_content"
                         android:text="Summary : "
                         android:layout_marginBottom="10dp"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView4"
@@ -70,7 +74,8 @@
                         android:layout_height="wrap_content"
                         android:text="Directors :"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_director"
@@ -78,7 +83,8 @@
                         android:layout_height="wrap_content"
                         android:text="Directors : "
                         android:layout_marginBottom="10dp"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView5"
@@ -86,7 +92,8 @@
                         android:layout_height="wrap_content"
                         android:text="Runtime :"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_runtime"
@@ -94,14 +101,16 @@
                         android:layout_height="wrap_content"
                         android:text="Runtime: "
                         android:layout_marginBottom="10dp"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Actors : "
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_actors"
@@ -109,7 +118,8 @@
                         android:layout_height="wrap_content"
                         android:text="Actors: "
                         android:layout_marginBottom="10dp"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorTextView" />
                 </LinearLayout>
 
                 <!-- RIGHT SIDE -->
@@ -131,6 +141,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:adjustViewBounds="true"
+                            android:backgroundTint="#00FFFFFF"
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/icon_wanttowatch" />
 
@@ -140,6 +151,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:adjustViewBounds="true"
+                            android:backgroundTint="#00FFFFFF"
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/icon_reviewed" />
 
@@ -149,7 +161,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Your rating :" />
+                        android:text="Your rating :"
+                        android:textColor="@color/colorTextView" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout_your_rating"
@@ -208,7 +221,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Average friend rating:" />
+                        android:text="Average friend rating:"
+                        android:textColor="@color/colorTextView" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout_friends_rating"
@@ -268,19 +282,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Your review: " />
+                        android:text="Your review: "
+                        android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:id="@+id/textView_your_review"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="You haven't written a review yet"/>
+                        android:hint="You haven't written a review yet"
+                        android:textColorHint="@color/colorTextView"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Friends reviews: " />
+                        android:text="Friends reviews: "
+                        android:textColor="@color/colorTextView" />
 
                     <GridView
                         android:id="@+id/gridView"
