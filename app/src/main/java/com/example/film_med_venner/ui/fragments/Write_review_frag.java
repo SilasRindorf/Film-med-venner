@@ -160,16 +160,4 @@ public class Write_review_frag extends DialogFragment {
         getFragmentManager().beginTransaction().remove(Write_review_frag.this).commit();
 
     }
-
-    private void delay(double seconds, AlertDialog alertDialog) {
-        new CountDownTimer((long) (seconds * 1000), 1000) {
-            public void onFinish() {
-                alertDialog.dismiss();
-            }
-            public void onTick(long millisUntilFinished) {
-                // millisUntilFinished    The amount of time until finished.
-            }
-        }.start();
-    }
-
 }
