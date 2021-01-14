@@ -371,7 +371,7 @@ public class Database implements IDatabase {
     @Override
     public void sendFriendRequest(String id) throws DatabaseException {
         HashMap<String, Object> user = new HashMap();
-        String selfID = mAuh.getUid();
+        String selfID = mAuh.getCurrentUser().getUid();
         user.put("userID", selfID);
         user.put("requester", db.collection("users").document(selfID));
         user.put("status", null);
