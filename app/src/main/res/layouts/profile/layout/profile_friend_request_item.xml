@@ -52,7 +52,7 @@
             android:layout_weight="6"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:backgroundTint="00ffffff"
+            android:backgroundTint="@color/colorTransparent"
             app:srcCompat="@drawable/check"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"/>
@@ -62,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:backgroundTint="00ffffff"
+            android:backgroundTint="@color/colorTransparent"
             app:srcCompat="@android:drawable/ic_delete"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"/>
