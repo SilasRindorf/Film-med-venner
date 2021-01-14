@@ -290,8 +290,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="You haven't written a review yet"
-                        android:textColorHint="@color/colorTextView"/>
+                        android:text="You haven't written a review yet"
+                        android:textColor="@color/colorTextView"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
