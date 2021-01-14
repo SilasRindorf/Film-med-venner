@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        android:background="#D9AC2A"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -29,35 +28,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profileName"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 />
             <TextView
                 android:id="@+id/profile_reviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_reviewed_description"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 />
             <TextView
                 android:id="@+id/profile_ratings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_rated_description"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 />
             <TextView
                 android:id="@+id/profile_to_watch_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_want_to_watch_description"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 />
             <TextView
                 android:id="@+id/profile_watched_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sampletext_watchedlist_description"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 />
 
         </LinearLayout>
