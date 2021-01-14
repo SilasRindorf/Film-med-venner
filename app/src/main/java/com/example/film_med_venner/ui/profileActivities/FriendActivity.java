@@ -6,9 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
@@ -21,10 +23,11 @@ import com.example.film_med_venner.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendActivity extends AppCompatActivity {
-    GridView gridView;
+public class FriendActivity extends AppCompatActivity implements View.OnClickListener {
+    private GridView gridView;
     private FriendAdapter friendAdapter;
     private Context ctx;
+    private Button see_friendrequest_btn;
     IProfileController controller = Controller_Profile.getInstance();
 
     @Override
@@ -38,6 +41,17 @@ public class FriendActivity extends AppCompatActivity {
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
+        see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
+        see_friendrequest_btn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == see_friendrequest_btn){
+            setContentView(R.layout.activity_friend_request);
+            Intent intent = new Intent(this, FriendRequestActivity.class);
+            startActivity(intent);
+        }
 
     }
 
@@ -101,4 +115,5 @@ public class FriendActivity extends AppCompatActivity {
             asyncTask.cancel(true);
         }
     }
+
 }
