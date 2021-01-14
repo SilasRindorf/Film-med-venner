@@ -283,7 +283,6 @@ public class Database implements IDatabase {
                     }
                 }
             });
-            db.collection("reviews").document().set(new RatingDTO(rating));
         } catch (Exception e) {
             throw new DatabaseException("Error updating review", e);
         }
