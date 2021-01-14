@@ -4,58 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profileActivities.FriendActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg"
+    tools:context=".ui.profileActivities.FriendActivity">
     <!-- TODO Den har en fixet højde, og vil derfor ikke være pæn på alle skærme. Laver vi dog en dynamisk størrelse, så springer den ud af skærmen -->
     <!-- TODO Kan godt have noget at gøre med HomeAdapter inflater med 2 parameter "null"-->
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout_friends_top"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
-        <Button
-            android:id="@+id/see_friendrequest_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="See fr"/>
-
-        <EditText
-            android:id="@+id/searchField"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:inputType="textAutoComplete"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="15dp"
-            android:background="#33FFFFFF"
-            android:hint="  Søg efter film eller serie  " />
-
-        <ImageButton
-            android:id="@+id/searchButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:padding="5dp"
-            app:srcCompat="?android:attr/actionModeWebSearchDrawable"
-            android:background="@color/colorBackground" />
-    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="550dp"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout_friends_top"
+        app:layout_constraintBottom_toTopOf="@+id/nav_bar_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_bar_container">
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="550dp"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/see_friendrequest_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="See fr" />
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="#33FFFFFF"
+                    android:hint="  Søg efter film eller serie  "
+                    android:inputType="textAutoComplete"
+                    android:text="" />
+
+                <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/colorBackground"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+            </LinearLayout>
+
             <GridView
                 android:id="@+id/gridView"
                 android:layout_width="match_parent"
@@ -66,7 +65,6 @@
                 android:stretchMode="columnWidth"
 
                 android:verticalSpacing="10dp"
-
 
                 app:layout_constraintTop_toBottomOf="@id/searchField" />
         </LinearLayout>
@@ -80,9 +78,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
