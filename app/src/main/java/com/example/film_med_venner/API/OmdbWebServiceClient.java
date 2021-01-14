@@ -52,13 +52,13 @@ public class OmdbWebServiceClient {
         return response.toString();
     }
 
-    public Movie findMovieByTitle(String title) {
+    public Movie findMovieById(String id) {
         try {
-            title = URLEncoder.encode(title, "UTF-8");
+            id = URLEncoder.encode(id, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String requestUrl = URL + "&t=" + title;
+        String requestUrl = URL + "&i=" + id;
 
         String response = sendGetRequest(requestUrl);
         return parseJSON(response);

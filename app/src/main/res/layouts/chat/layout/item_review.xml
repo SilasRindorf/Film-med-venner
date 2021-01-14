@@ -15,7 +15,8 @@
             android:id="@+id/friend_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="This person has rated the movie" />
+            android:text="This person has rated the movie"
+            android:textColor="@color/colorTextView" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,7 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz." />
+                android:text="The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz."
+                android:textColor="@color/colorTextView" />
         </LinearLayout>
 
         <LinearLayout

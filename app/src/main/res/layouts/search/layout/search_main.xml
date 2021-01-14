@@ -33,6 +33,8 @@
                     android:inputType="textAutoComplete"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="15dp"
+                    android:textColor="@color/colorTextView"
+                    android:textColorHint="@color/colorTextView"
                     android:hint="  Søg efter film eller serie  " />
 
                 <ImageButton
@@ -40,10 +42,11 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
+                    android:backgroundTint="#00FFFFFF"
                     android:padding="5dp"
-                    app:srcCompat="?android:attr/actionModeWebSearchDrawable"
-                    android:background="@color/colorBackground" />
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorTextView"
+                    app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
 
 
             </LinearLayout>
