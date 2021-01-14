@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@color/colorBackground"
+            android:backgroundTint="#00FFFFFF"
             android:padding="10dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/mp" />
@@ -38,6 +38,7 @@
                 android:text="Title"
                 android:textAlignment="center"
                 android:textSize="20sp"
+                android:textColor="@color/colorTextView"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="10dp" />
 
@@ -48,6 +49,7 @@
                 android:layout_weight="1"
                 android:text="Year"
                 android:textAlignment="center"
+                android:textColor="@color/colorTextView"
                 android:textSize="16sp"
                 android:layout_marginEnd="10dp" />
 
@@ -59,6 +61,7 @@
                 android:text="Type"
                 android:textAlignment="center"
                 android:textSize="16sp"
+                android:textColor="@color/colorTextView"
                 android:layout_marginBottom="30dp"
                 android:layout_marginEnd="10dp" />
 
