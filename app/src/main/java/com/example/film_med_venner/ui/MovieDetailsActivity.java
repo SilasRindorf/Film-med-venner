@@ -53,7 +53,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         intent = getIntent();
 
-        movie = mdController.getMovie(intent.getStringExtra("Title"));
+        movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
         star1 = findViewById(R.id.ImageView_star_1);
         star2 = findViewById(R.id.ImageView_star_2);
