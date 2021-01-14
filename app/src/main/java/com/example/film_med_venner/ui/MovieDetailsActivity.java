@@ -116,6 +116,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         if (view == write_review_btn){
             Bundle bundle = new Bundle();
             bundle.putString("id", movie.getImdbID());
+            if (rating != null){
+                bundle.putBoolean("status",true);
+                bundle.putInt("starRating",rating.getRating());
+                bundle.putString("review",rating.getReview());
+            }
             Fragment review_frag = new Write_review_frag();
             review_frag.setArguments(bundle);
             addFrag(R.id.write_review_container, review_frag);
