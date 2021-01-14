@@ -52,7 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
+        btn = findViewById(R.id.btn_login_using_facebook);
+        btn.setOnClickListener(view -> {
+            try {
+                auth.logInWithFaceBook(ete.getText().toString(), etp.getText().toString(), () -> {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Toast.makeText(MainActivity.this, "Prøv igen!", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 

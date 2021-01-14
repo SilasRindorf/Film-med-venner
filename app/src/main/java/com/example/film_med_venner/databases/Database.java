@@ -57,73 +57,10 @@ public class Database implements IDatabase {
         return instance;
     }
 
-    public IProfile getCurrentUser() {
-        FirebaseUser user = mAuh.getCurrentUser();
-        try {
-            return new Profile(user.getDisplayName(), user.getUid());
-        } catch (Exception ignored) {
-            return null;
-        }
-    }
-
-    public void addUser(String name, String userID) {
-        HashMap<String, Object> user = new HashMap();
-        user.put("name", name);
-        db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "User added with ID: " + user.toString());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error adding user", e);
-            }
-        });
-    }
-
-    public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException {
-        try {
-            mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    runnableUI.run();
-                }
-            });
-        } catch (Exception e) {
-            throw new DatabaseException("Error logging in", e);
-        }
-    }
 
 
-    @Override
-    public IProfile getProfile(String id) {
-        return null;
-    }
 
-    //TODO should be changed current run time is N
-    public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
-        //Get all users and check for user with ID id
-        try {
-            db.collection("users")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                //If the person exists in the database
-                                if (doc.getId().equals(id)) {
-                                    //Create a Profile
-                                    IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
-                                    //Run the interface function void run (IProfile)
-                                    runnable.run(profile);
-                                }
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            throw new DatabaseException("Error getting user", e);
-        }
-    }
+    //----------------------------------MOVIES----------------------------------
 
 
     @Override
@@ -160,6 +97,8 @@ public class Database implements IDatabase {
         return new IMovie[0];
     }
 
+
+    //----------------------------------PROFILES----------------------------------
     @Override
     public IProfile[] getProfiles() {
         return new IProfile[0];
@@ -189,6 +128,37 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting users", e);
         }
     }
+    @Override
+    public IProfile getProfile(String id) {
+        return null;
+    }
+
+    //TODO should be changed current run time is N
+    public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the person exists in the database
+                                if (doc.getId().equals(id)) {
+                                    //Create a Profile
+                                    IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
+                                    //Run the interface function void run (IProfile)
+                                    runnable.run(profile);
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting user", e);
+        }
+    }
+
+
+    //----------------------------------HOME FEED----------------------------------
 
     @Override
     public ArrayList<IHomeFeedItems> getHomeFeed() {
@@ -196,13 +166,52 @@ public class Database implements IDatabase {
     }
 
 
+    //----------------------------------USERS----------------------------------
+    public IProfile getCurrentUser() {
+        FirebaseUser user = mAuh.getCurrentUser();
+        try {
+            return new Profile(user.getDisplayName(), user.getUid());
+        } catch (Exception ignored){
+            return null;
+        }
+    }
+
+    public void addUser(String name, String userID) {
+        HashMap<String, Object> user = new HashMap();
+        user.put("name", name);
+        db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "User added with ID: " + user.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error adding user", e);
+            }
+        });
+    }
+
+    public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException {
+        try {
+            mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    runnableUI.run();
+                }
+            });
+        } catch (Exception e) {
+            throw new DatabaseException("Error logging in", e);
+        }
+    }
+
     public void createUser(String email, String password, String name, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
-                    addUser(name, mAuh.getCurrentUser().getUid());
+                    addUser(name,mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -229,11 +238,25 @@ public class Database implements IDatabase {
 
     }
 
-    public void createReview(IRating rating) throws DatabaseException {
+
+    //----------------------------------RATINGS----------------------------------
+
+
+    public void updateRatings(IRating rating) throws DatabaseException {
+        try {
+            String id = db.collection("reviews")
+                    .whereEqualTo("userID",rating.getUserID()).get().getResult().getDocuments().get(0).getId();
+            db.collection("reviews").document(id).set(new RatingDTO(rating));
+        } catch (Exception e) {
+            throw new DatabaseException("Error updating review", e);
+        }
+    }
+
+    public void createRating(IRating rating) throws DatabaseException {
         try {
             db.collection("reviews")
                     .add(new RatingDTO(rating)).addOnCompleteListener(task -> {
-                rating.setRatingID(task.getResult().getId());
+                        rating.setRatingID(task.getResult().getId());
             });
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
@@ -248,7 +271,7 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             List<Rating> ratings = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                Rating crRating = doc.toObject(Rating.class);
+                                Rating crRating  = doc.toObject(Rating.class);
                                 crRating.setRatingID(doc.getId());
                                 ratings.add(crRating);
                             }
@@ -280,7 +303,6 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting reviews", e);
         }
     }
-
     public void getRating(String userID, String movieID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
         try {
             db.collection("reviews")
@@ -288,14 +310,10 @@ public class Database implements IDatabase {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                try {
-                                    if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
-                                        Rating crRating = doc.toObject(Rating.class);
-                                        crRating.setRatingID(doc.getId());
-                                        runnableRatingUI.run(crRating);
-                                    }
-                                } catch (NullPointerException ignored){
-
+                                if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
+                                    Rating crRating = doc.toObject(Rating.class);
+                                    crRating.setRatingID(doc.getId());
+                                    runnableRatingUI.run(crRating);
                                 }
                             }
                         }
@@ -311,6 +329,8 @@ public class Database implements IDatabase {
         return new IRating[0];
     }
 
+
+    //----------------------------------FRIENDS----------------------------------
     @Override
     public void sendFriendRequest(String id) throws DatabaseException {
         HashMap<String, Object> user = new HashMap();
