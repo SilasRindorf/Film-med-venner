@@ -3,6 +3,7 @@ package com.example.film_med_venner.databases;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
@@ -20,8 +21,14 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableRatingUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableRatingsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -29,8 +36,12 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -205,6 +216,23 @@ public class Database implements IDatabase {
         }
     }
 
+    public void logInWithFaceBook(String email, String password, RunnableUI runnableUI) throws DatabaseException {
+        try {
+            AuthCredential authCredential = FacebookAuthProvider.getCredential("token");
+            mAuh.signInWithCredential(authCredential).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        runnableUI.run();
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error logging in", e);
+        }
+    }
+
     public void createUser(String email, String password, String name, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -244,9 +272,18 @@ public class Database implements IDatabase {
 
     public void updateRatings(IRating rating) throws DatabaseException {
         try {
-            String id = db.collection("reviews")
-                    .whereEqualTo("userID",rating.getUserID()).get().getResult().getDocuments().get(0).getId();
-            db.collection("reviews").document(id).set(new RatingDTO(rating));
+            db.collection("reviews")
+                    .whereEqualTo("userID",rating.getUserID()).whereEqualTo("movieIDStr",rating.getMovieIDStr()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot doc : task.getResult()){
+                            db.collection("reviews").document(doc.getId()).set(new RatingDTO(rating));
+                        }
+                    }
+                }
+            });
+            db.collection("reviews").document().set(new RatingDTO(rating));
         } catch (Exception e) {
             throw new DatabaseException("Error updating review", e);
         }

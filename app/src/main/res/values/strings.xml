@@ -51,4 +51,9 @@
         <string name="sampletext_you_rated_this">You rated this movie</string>
         <string name="sampletext_watchedlist_example">This movie is on your watchlist</string>
         <string name="movie_category_title">Title of the category</string>
+
+
+            // Facebook
+            <string name="facebook_app_id">[com.example.film_med_venner]</string>
+            <string name="fb_login_protocol_scheme">fb[com.example.film_med_venner]</string>
     </resources>

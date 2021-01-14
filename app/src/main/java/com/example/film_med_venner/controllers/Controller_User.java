@@ -50,6 +50,6 @@ public class Controller_User implements IController {
     }
 
     public void logInWithFaceBook(String email, String password, RunnableUI runnableUI) throws IDatabase.DatabaseException  {
-
+        Database.getInstance().logInWithFaceBook(email,password,runnableUI);
     }
 }
