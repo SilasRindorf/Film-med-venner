@@ -64,18 +64,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         bgThread.execute(() -> {
             try {
-                System.out.println("Du er nu inde i bgThread");
-                //TODO Vi kan ikke hente reviews på linjen nedenunder.
                 Database.getInstance().getRating(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
-                    System.out.println("Du er kommet forbi den farlige del af bgThread");
                     rating = (Rating) rating1;
                     uiThread.post(() -> {
                         if (rating != null){
-                            System.out.println("Du er nu inde i uiThread");
                             starFest(rating.getRating());
                             yourReview.setText(rating.getReview());
                         } else {
-                            System.out.println("Du kom aldrig ind i uiThread");
+                            return;
                         }
                     });
                 });
