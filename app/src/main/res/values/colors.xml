@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorBackground">#FFF6EB</color>
-    <color name="colorToolbar">#3C1C0B</color>
+    <color name="colorToolbar">#000000</color>
     <color name="colorButton">#70C0FF</color>
     <color name="colorTextView">#80FFFFFF</color>
     <color name="colorNavBar">#000000 </color>
