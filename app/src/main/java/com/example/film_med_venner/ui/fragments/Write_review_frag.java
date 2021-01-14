@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Rating;
 import com.example.film_med_venner.R;
@@ -22,6 +23,7 @@ import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IRating;
 import com.example.film_med_venner.ui.HomeActivity;
+import com.example.film_med_venner.ui.MainActivity;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.squareup.picasso.Picasso;
 
@@ -121,10 +123,7 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setMessage("You just canceled your review. Good job!");
-                alertDialog.show();
-                delay(1.5, alertDialog);
+                Toast.makeText(getActivity(), "Review cancelled", Toast.LENGTH_LONG).show();
                 closefragment();
             }
         });
@@ -138,27 +137,17 @@ public class Write_review_frag extends DialogFragment {
             public void onClick(View v) {
                 if (rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5){
                     EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
-                    IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString());
+                    IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
                     try {
                         Database.getInstance().createReview(newRating);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
-                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                        alertDialog.setMessage("Failed to create review. Bad devs!");
-                        alertDialog.show();
-                        delay(1.5, alertDialog);
+                        Toast.makeText(getActivity(), "Failed to create review", Toast.LENGTH_LONG).show();
                     }
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setMessage("You just submitted your review. Good job!");
-                    alertDialog.show();
-                    delay(1.5, alertDialog);
+                    Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                     closefragment();
                 } else {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setMessage("You haven't given any rating yet. Please do that before submitting");
-                    alertDialog.show();
-                    delay(1.5, alertDialog);
+                    Toast.makeText(getActivity(), "No rating given", Toast.LENGTH_LONG).show();
                 }
             }
         });
