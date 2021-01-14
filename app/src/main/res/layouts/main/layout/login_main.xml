@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.LoginActivity"
-    android:background="@color/colorBackground">
+    android:background="@drawable/bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textAlignment="center"
             android:inputType="textEmailAddress" />
 
         <TextView
@@ -36,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:text="@string/input_password" />
+            android:textAlignment="center"
+            android:hint="@string/input_password" />
 
         <EditText
             android:id="@+id/input_password"
@@ -44,7 +46,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="" />
+            android:textAlignment="center"
+            android:hint="" />
 
         <LinearLayout
             android:layout_width="wrap_content"

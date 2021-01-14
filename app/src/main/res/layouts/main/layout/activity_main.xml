@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@drawable/bg">
 
 
     <!-- TODO Den har en fixet højde, og vil derfor ikke være pæn på alle skærme. Laver vi dog en dynamisk størrelse, så springer den ud af skærmen -->
@@ -24,11 +24,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        android:verticalSpacing="10dp"
+        android:verticalSpacing="20dp"
         />
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
+        android:background="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

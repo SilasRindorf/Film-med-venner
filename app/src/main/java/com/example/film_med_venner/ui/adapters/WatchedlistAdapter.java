@@ -48,7 +48,7 @@ public class WatchedlistAdapter extends BaseAdapter {
         }
 
         TextView description = gridView.findViewById(R.id.description);
-        description.setText("You have " + Controller_Movie.getInstance().getMovies()[item.getMovieID()].getTitle() + " to your watchedlist.");
+        description.setText("You have " + item.getMovieIDStr() + " to your watchedlist.");
         return gridView;
     }
 }

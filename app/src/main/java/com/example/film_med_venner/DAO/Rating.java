@@ -7,34 +7,60 @@ import java.util.ArrayList;
 public class Rating implements IRating {
     private int rating;
     private String username;
-    private int movieID;
-    private int ratingID;
+    private String userID;
     private String review;
     private String movieIDStr;
     private String ratingIDStr;
 
-    public Rating(int rating, String username, int movieID, int ratingID, String review){
-        this.rating = rating;
-        this.username = username;
-        this.movieID = movieID;
-        this.ratingID = ratingID;
-        this.review = review;
+    public Rating(){
 
     }
 
-    public Rating(int rating, String username, String movieIDstr, String ratingIDStr, String review) {
+    public Rating(int rating, String username, String movieIDstr, String review) {
         this.rating = rating;
         this.username = username;
-        this.ratingIDStr = ratingIDStr;
         this.movieIDStr = movieIDstr;
         this.review = review;
     }
+    public Rating(int rating, String username, String movieIDstr, String review, String userID) {
+        this(rating,username,movieIDstr,review);
+        this.userID = userID;
+    }
 
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public void setMovieIDStr(String movieIDStr) {
+        this.movieIDStr = movieIDStr;
+    }
+
+    public void setRatingIDStr(String ratingIDStr) {
+        this.ratingIDStr = ratingIDStr;
+    }
+
+    public void setRatingID(String id){
+        this.ratingIDStr = id;
+    }
     @Override
     public int getRating() {
         return rating;
     }
-
+    public String getUserID() {
+        return userID;
+    }
     @Override
     public int getFriendsAverageRating() {
         return 0;
@@ -43,11 +69,6 @@ public class Rating implements IRating {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public int getMovieID() {
-        return movieID;
     }
 
     @Override

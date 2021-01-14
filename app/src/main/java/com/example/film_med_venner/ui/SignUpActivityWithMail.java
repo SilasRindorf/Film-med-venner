@@ -3,11 +3,17 @@ package com.example.film_med_venner.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 
 public class SignUpActivityWithMail extends Activity implements OnClickListener{
     Button sign_up_btn, go_back_btn;
@@ -16,6 +22,54 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_using_mail);
+
+        EditText username = findViewById(R.id.input_username);
+        EditText firstName = findViewById(R.id.input_firstname);
+        EditText surname = findViewById(R.id.input_surname);
+        EditText email = findViewById(R.id.input_username);
+        Button btnc = findViewById(R.id.btn_signup);
+        btnc.setOnClickListener(view -> {
+            try {
+                if ( !(
+                        ((EditText) findViewById(R.id.input_password)).getText().toString().equals(
+                        ((EditText) findViewById(R.id.input_repeat_password)).getText().toString())
+                )){
+                    throw new IDatabase.DatabaseException("Not matching passwords");
+                }
+                String pass =((EditText) findViewById(R.id.input_password)).getText().toString();
+                Database.getInstance().createUser(email.getText().toString(), pass, username.getText().toString(), new RunnableErrorUI() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(SignUpActivityWithMail.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void handleError(IDatabase.DatabaseException e) {
+                        switch (e.getErrorID()) {
+                            case 101:
+                                Toast.makeText(SignUpActivityWithMail.this, "Password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
+                                break;
+                            case 102:
+                                Toast.makeText(SignUpActivityWithMail.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                                break;
+                            case 103:
+                                Toast.makeText(SignUpActivityWithMail.this, "There already exists an user with that email!", Toast.LENGTH_LONG).show();
+                                break;
+                            case 104:
+                                Toast.makeText(SignUpActivityWithMail.this, "Invalid email!", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Log.e("SignUp",e.toString());
+                                break;
+                        }
+                    }
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Toast.makeText(SignUpActivityWithMail.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

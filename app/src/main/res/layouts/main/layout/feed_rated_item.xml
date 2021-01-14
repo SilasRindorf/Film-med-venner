@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
+        android:background="#66000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -13,22 +14,23 @@
             android:id="@+id/imageView_moviePoster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/mp_batman_the_dark_knight"
+            app:srcCompat="@drawable/mp"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:onClick="onClickPoster"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1"
+            android:layout_weight="3"
             >
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorBackground"
                 android:text="@string/sampletext_this_person_reviewed_this_movie"
                 android:layout_weight="2"
                 />
@@ -41,7 +43,7 @@
                     android:id="@+id/ImageView_star_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_filled_star"
+                    app:srcCompat="@drawable/icon_empty_star"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_weight="3"
@@ -50,7 +52,7 @@
                     android:id="@+id/ImageView_star_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_filled_star"
+                    app:srcCompat="@drawable/icon_empty_star"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_weight="3"
@@ -59,7 +61,7 @@
                     android:id="@+id/ImageView_star_3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_filled_star"
+                    app:srcCompat="@drawable/icon_empty_star"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_weight="3"
@@ -68,7 +70,7 @@
                     android:id="@+id/ImageView_star_4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/icon_filled_star"
+                    app:srcCompat="@drawable/icon_empty_star"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_weight="3"
@@ -89,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:textColor="@color/colorBackground"
                 android:text="JEG KAN RIGTIG GODT LIDE BATMAN DET ER MIN YNGLINGS FILM JEG ELSKER DEN BARE SÅ MEGET!"/>
         </LinearLayout>
     </LinearLayout>

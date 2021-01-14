@@ -17,9 +17,10 @@ public class WatchItem implements IWatchItem {
     }
 
     @Override
-    public int getMovieID() {
-        return movieID;
+    public String getUserID() {
+        return null;
     }
+
 
     @Override
     public String getMovieIDStr() {

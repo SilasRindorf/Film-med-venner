@@ -30,8 +30,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text=""
-                    android:layout_marginRight="15dp"
-                    android:layout_marginLeft="30dp"
+                    android:inputType="textAutoComplete"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="15dp"
                     android:hint="  Søg efter film eller serie  " />
 
                 <ImageButton
@@ -67,6 +68,7 @@
         android:id="@+id/nav_bar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#000000"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
