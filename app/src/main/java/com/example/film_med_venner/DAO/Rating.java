@@ -12,6 +12,9 @@ public class Rating implements IRating {
     private String movieIDStr;
     private String ratingIDStr;
 
+    public Rating(){
+
+    }
 
     public Rating(int rating, String username, String movieIDstr, String review) {
         this.rating = rating;
@@ -22,6 +25,30 @@ public class Rating implements IRating {
     public Rating(int rating, String username, String movieIDstr, String review, String userID) {
         this(rating,username,movieIDstr,review);
         this.userID = userID;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public void setMovieIDStr(String movieIDStr) {
+        this.movieIDStr = movieIDStr;
+    }
+
+    public void setRatingIDStr(String ratingIDStr) {
+        this.ratingIDStr = ratingIDStr;
     }
 
     public void setRatingID(String id){

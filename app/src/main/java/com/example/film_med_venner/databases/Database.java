@@ -61,7 +61,7 @@ public class Database implements IDatabase {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
             return new Profile(user.getDisplayName(), user.getUid());
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
             return null;
         }
     }
@@ -202,7 +202,7 @@ public class Database implements IDatabase {
                 if (task.isSuccessful()) {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
-                    addUser(name,mAuh.getCurrentUser().getUid());
+                    addUser(name, mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -233,7 +233,7 @@ public class Database implements IDatabase {
         try {
             db.collection("reviews")
                     .add(new RatingDTO(rating)).addOnCompleteListener(task -> {
-                        rating.setRatingID(task.getResult().getId());
+                rating.setRatingID(task.getResult().getId());
             });
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
@@ -248,7 +248,7 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             List<Rating> ratings = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                Rating crRating  = doc.toObject(Rating.class);
+                                Rating crRating = doc.toObject(Rating.class);
                                 crRating.setRatingID(doc.getId());
                                 ratings.add(crRating);
                             }
@@ -280,6 +280,7 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting reviews", e);
         }
     }
+
     public void getRating(String userID, String movieID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
         try {
             db.collection("reviews")
@@ -287,10 +288,14 @@ public class Database implements IDatabase {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
-                                    Rating crRating = doc.toObject(Rating.class);
-                                    crRating.setRatingID(doc.getId());
-                                    runnableRatingUI.run(crRating);
+                                try {
+                                    if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
+                                        Rating crRating = doc.toObject(Rating.class);
+                                        crRating.setRatingID(doc.getId());
+                                        runnableRatingUI.run(crRating);
+                                    }
+                                } catch (NullPointerException ignored){
+
                                 }
                             }
                         }

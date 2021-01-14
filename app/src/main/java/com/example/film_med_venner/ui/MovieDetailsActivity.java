@@ -61,10 +61,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         star4 = findViewById(R.id.ImageView_star_4);
         star5 = findViewById(R.id.ImageView_star_5);
 
+
         bgThread.execute(() -> {
             try {
                 System.out.println("Du er nu inde i bgThread");
-                Database.getInstance().getRating(Database.getInstance().getCurrentUser().toString(), movie.getImdbID(), rating1 -> {
+                //TODO Vi kan ikke hente reviews på linjen nedenunder.
+                Database.getInstance().getRating(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
+                    System.out.println("Du er kommet forbi den farlige del af bgThread");
                     rating = (Rating) rating1;
                     uiThread.post(() -> {
                         if (rating != null){
