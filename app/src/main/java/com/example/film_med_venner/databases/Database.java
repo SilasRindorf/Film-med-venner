@@ -57,6 +57,116 @@ public class Database implements IDatabase {
         return instance;
     }
 
+
+
+
+    //----------------------------------MOVIES----------------------------------
+
+
+    @Override
+    public IMovie[] getMoviesWithGenre(String Genre) {
+        return new IMovie[0];
+    }
+
+    public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws DatabaseException {
+        //Get all movies and check for movies with genrer
+        try {
+            db.collection("movies")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            List<IMovie> movies = new ArrayList<>();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the movie has the specified genre
+                                if (doc.getData().get("genre").equals(genre)) {
+                                    //Add a Movie
+                                    movies.add(doc.toObject(Movie.class));
+                                }
+                            }
+                            IMovie[] mvs = new Movie[movies.size()];
+                            runnable.run(movies.toArray(mvs));
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting moves with " + genre, e);
+        }
+    }
+
+    @Override
+    public IMovie[] getMovies() {
+        return new IMovie[0];
+    }
+
+
+    //----------------------------------PROFILES----------------------------------
+    @Override
+    public IProfile[] getProfiles() {
+        return new IProfile[0];
+    }
+
+    public void getProfiles(RunnableProfilesUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            /*IProfile[] profiles = new Profile[task.getResult().size()];
+                            int i = 0;
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //Create a Profile
+                                profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
+                                i++;
+                            }*/
+                            List<Profile> profiles2 = task.getResult().toObjects(Profile.class);
+                            //Run the interface function void run (IProfile)
+                            IProfile[] profs = new Profile[profiles2.size()];
+                            runnable.run(profiles2.toArray(profs));
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting users", e);
+        }
+    }
+    @Override
+    public IProfile getProfile(String id) {
+        return null;
+    }
+
+    //TODO should be changed current run time is N
+    public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
+        //Get all users and check for user with ID id
+        try {
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the person exists in the database
+                                if (doc.getId().equals(id)) {
+                                    //Create a Profile
+                                    IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
+                                    //Run the interface function void run (IProfile)
+                                    runnable.run(profile);
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting user", e);
+        }
+    }
+
+
+    //----------------------------------HOME FEED----------------------------------
+
+    @Override
+    public ArrayList<IHomeFeedItems> getHomeFeed() {
+        return null;
+    }
+
+
+    //----------------------------------USERS----------------------------------
     public IProfile getCurrentUser() {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
@@ -95,107 +205,6 @@ public class Database implements IDatabase {
         }
     }
 
-
-    @Override
-    public IProfile getProfile(String id) {
-        return null;
-    }
-
-    //TODO should be changed current run time is N
-    public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {
-        //Get all users and check for user with ID id
-        try {
-            db.collection("users")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                //If the person exists in the database
-                                if (doc.getId().equals(id)) {
-                                    //Create a Profile
-                                    IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
-                                    //Run the interface function void run (IProfile)
-                                    runnable.run(profile);
-                                }
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            throw new DatabaseException("Error getting user", e);
-        }
-    }
-
-
-    @Override
-    public IMovie[] getMoviesWithGenre(String Genre) {
-        return new IMovie[0];
-    }
-
-    public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws DatabaseException {
-        //Get all movies and check for movies with genrer
-        try {
-            db.collection("movies")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            List<IMovie> movies = new ArrayList<>();
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                //If the movie has the specified genre
-                                if (doc.getData().get("genre").equals(genre)) {
-                                    //Add a Movie
-                                    movies.add(doc.toObject(Movie.class));
-                                }
-                            }
-                            IMovie[] mvs = new Movie[movies.size()];
-                            runnable.run(movies.toArray(mvs));
-                        }
-                    });
-        } catch (Exception e) {
-            throw new DatabaseException("Error getting moves with " + genre, e);
-        }
-    }
-
-    @Override
-    public IMovie[] getMovies() {
-        return new IMovie[0];
-    }
-
-    @Override
-    public IProfile[] getProfiles() {
-        return new IProfile[0];
-    }
-
-    public void getProfiles(RunnableProfilesUI runnable) throws DatabaseException {
-        //Get all users and check for user with ID id
-        try {
-            db.collection("users")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            /*IProfile[] profiles = new Profile[task.getResult().size()];
-                            int i = 0;
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                //Create a Profile
-                                profiles[i] = new Profile(doc.get("name").toString(), doc.getId());
-                                i++;
-                            }*/
-                            List<Profile> profiles2 = task.getResult().toObjects(Profile.class);
-                            //Run the interface function void run (IProfile)
-                            IProfile[] profs = new Profile[profiles2.size()];
-                            runnable.run(profiles2.toArray(profs));
-                        }
-                    });
-        } catch (Exception e) {
-            throw new DatabaseException("Error getting users", e);
-        }
-    }
-
-    @Override
-    public ArrayList<IHomeFeedItems> getHomeFeed() {
-        return null;
-    }
-
-
     public void createUser(String email, String password, String name, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -229,7 +238,21 @@ public class Database implements IDatabase {
 
     }
 
-    public void createReview(IRating rating) throws DatabaseException {
+
+    //----------------------------------RATINGS----------------------------------
+
+
+    public void updateRatings(IRating rating) throws DatabaseException {
+        try {
+            String id = db.collection("reviews")
+                    .whereEqualTo("userID",rating.getUserID()).get().getResult().getDocuments().get(0).getId();
+            db.collection("reviews").document(id).set(new RatingDTO(rating));
+        } catch (Exception e) {
+            throw new DatabaseException("Error updating review", e);
+        }
+    }
+
+    public void createRating(IRating rating) throws DatabaseException {
         try {
             db.collection("reviews")
                     .add(new RatingDTO(rating)).addOnCompleteListener(task -> {
@@ -306,6 +329,8 @@ public class Database implements IDatabase {
         return new IRating[0];
     }
 
+
+    //----------------------------------FRIENDS----------------------------------
     @Override
     public void sendFriendRequest(String id) throws DatabaseException {
         HashMap<String, Object> user = new HashMap();

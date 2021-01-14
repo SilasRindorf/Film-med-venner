@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Comment out to not skip log in screen
-        /*if (Controller_User.getInstance().isLoggedIn()) {
+        if (Controller_User.getInstance().isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }*/
+        }
 
         EditText ete = findViewById(R.id.input_username);
         EditText etp = findViewById(R.id.input_password);
@@ -52,7 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
+        btn = findViewById(R.id.btn_login_using_facebook);
+        btn.setOnClickListener(view -> {
+            try {
+                auth.logInWithFaceBook(ete.getText().toString(), etp.getText().toString(), () -> {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Toast.makeText(MainActivity.this, "Prøv igen!", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 

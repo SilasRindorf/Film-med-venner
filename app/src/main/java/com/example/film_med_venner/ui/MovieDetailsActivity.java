@@ -61,18 +61,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         star4 = findViewById(R.id.ImageView_star_4);
         star5 = findViewById(R.id.ImageView_star_5);
 
+
         bgThread.execute(() -> {
             try {
-                System.out.println("Du er nu inde i bgThread");
-                Database.getInstance().getRating(Database.getInstance().getCurrentUser().toString(), movie.getImdbID(), rating1 -> {
+                Database.getInstance().getRating(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
                     rating = (Rating) rating1;
                     uiThread.post(() -> {
                         if (rating != null){
-                            System.out.println("Du er nu inde i uiThread");
                             starFest(rating.getRating());
                             yourReview.setText(rating.getReview());
                         } else {
-                            System.out.println("Du kom aldrig ind i uiThread");
+                            return;
                         }
                     });
                 });
