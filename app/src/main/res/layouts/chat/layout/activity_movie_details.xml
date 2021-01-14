@@ -9,14 +9,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="615dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/nav_bar_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="615dp"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
 
@@ -161,7 +161,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_star_2"
@@ -170,7 +170,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_star_3"
@@ -179,7 +179,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_star_4"
@@ -188,7 +188,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_star_5"
@@ -220,7 +220,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_friend_star_2"
@@ -229,7 +229,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_friend_star_3"
@@ -238,7 +238,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_friend_star_4"
@@ -247,7 +247,7 @@
                         android:layout_weight="3"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/icon_filled_star" />
+                        app:srcCompat="@drawable/icon_empty_star" />
 
                     <ImageView
                         android:id="@+id/ImageView_friend_star_5"
@@ -270,8 +270,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Your review right here. Imagine it. What a great review. Everyone will see it and love it." />
-
+                    android:hint="You haven't written a review yet"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
