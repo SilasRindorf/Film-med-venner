@@ -139,7 +139,7 @@ public class Write_review_frag extends DialogFragment {
                     EditText reviewInput = (EditText) view.findViewById(R.id.review_input_editText);
                     IRating newRating = new Rating(rating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
                     try {
-                        Database.getInstance().createReview(newRating);
+                        Database.getInstance().createRating(newRating);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
                         Toast.makeText(getActivity(), "Failed to create review", Toast.LENGTH_LONG).show();
