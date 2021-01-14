@@ -42,6 +42,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +68,6 @@ public class Database implements IDatabase {
         }
         return instance;
     }
-
-
 
 
     //----------------------------------MOVIES----------------------------------
@@ -139,6 +138,7 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting users", e);
         }
     }
+
     @Override
     public IProfile getProfile(String id) {
         return null;
@@ -182,7 +182,7 @@ public class Database implements IDatabase {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
             return new Profile(user.getDisplayName(), user.getUid());
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
             return null;
         }
     }
@@ -219,10 +219,10 @@ public class Database implements IDatabase {
     public void logInWithFaceBook(String email, String password, RunnableUI runnableUI) throws DatabaseException {
         try {
             AuthCredential authCredential = FacebookAuthProvider.getCredential("token");
-            mAuh.signInWithCredential(authCredential).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+            mAuh.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         runnableUI.run();
                     }
                 }
@@ -239,7 +239,7 @@ public class Database implements IDatabase {
                 if (task.isSuccessful()) {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
-                    addUser(name,mAuh.getCurrentUser().getUid());
+                    addUser(name, mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -273,12 +273,12 @@ public class Database implements IDatabase {
     public void updateRatings(IRating rating) throws DatabaseException {
         try {
             db.collection("reviews")
-                    .whereEqualTo("userID",rating.getUserID()).whereEqualTo("movieIDStr",rating.getMovieIDStr()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    .whereEqualTo("userID", rating.getUserID()).whereEqualTo("movieIDStr", rating.getMovieIDStr()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()){
-                        for (QueryDocumentSnapshot doc : task.getResult()){
-                            db.collection("reviews").document(doc.getId()).set(new RatingDTO(rating));
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            db.collection("reviews").document(doc.getId()).set(new RatingDTO(rating), SetOptions.merge());
                         }
                     }
                 }
@@ -292,7 +292,7 @@ public class Database implements IDatabase {
         try {
             db.collection("reviews")
                     .add(new RatingDTO(rating)).addOnCompleteListener(task -> {
-                        rating.setRatingID(task.getResult().getId());
+                rating.setRatingID(task.getResult().getId());
             });
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
@@ -307,7 +307,7 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             List<Rating> ratings = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                Rating crRating  = doc.toObject(Rating.class);
+                                Rating crRating = doc.toObject(Rating.class);
                                 crRating.setRatingID(doc.getId());
                                 ratings.add(crRating);
                             }
@@ -339,6 +339,7 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting reviews", e);
         }
     }
+
     public void getRating(String userID, String movieID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
         try {
             db.collection("reviews")
@@ -376,20 +377,45 @@ public class Database implements IDatabase {
         user.put("status", null);
         try {
             db.collection("users").document(id).collection("friends").document(selfID)
-                    .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "Friend request send to ID: " + id);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error sending friend request", e);
-                }
-            });
+                    .set(user).addOnSuccessListener(aVoid ->
+                    Log.d(TAG, "Friend request send to ID: " + id))
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error sending friend request", e));
         } catch (Exception e) {
-            throw new DatabaseException("Error adding user", e);
+            throw new DatabaseException("Error adding friend", e);
         }
 
+    }
+
+    public void getFriendRequests(RunnableProfilesUI runnableUI) throws DatabaseException {
+        String id = mAuh.getCurrentUser().getUid();
+        try {
+            db.collection("users").document(id).collection("friends").whereEqualTo("status",null).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    IProfile[] friends = new Profile[task.getResult().size()];
+                    List<Profile> friendz = task.getResult().toObjects(Profile.class);
+                    runnableUI.run(friendz.toArray(friends));
+                }
+            });
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting friend request", e);
+        }
+    }
+
+    public void getFriends(RunnableProfilesUI runnableUI) throws DatabaseException {
+        String id = mAuh.getCurrentUser().getUid();
+        try {
+            db.collection("users").document(id).collection("friends").whereEqualTo("status",true).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    IProfile[] friends = new Profile[task.getResult().size()];
+                    List<Profile> friendz = task.getResult().toObjects(Profile.class);
+                    runnableUI.run(friendz.toArray(friends));
+                }
+            });
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting friends", e);
+        }
     }
 }
