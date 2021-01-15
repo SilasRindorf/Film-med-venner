@@ -27,6 +27,8 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private Controller_User auth;
+    private CallbackManager callbackManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         auth = Controller_User.getInstance();
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Boolean facebookLoggedIn = accessToken != null && !accessToken.isExpired();
+        boolean facebookLoggedIn = accessToken != null && !accessToken.isExpired();
 
 
         //Comment out to not skip log in screen
@@ -78,39 +80,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        callbackManager = CallbackManager.Factory.create();
         com.facebook.CallbackManager callbackManager = CallbackManager.Factory.create();
         LoginButton continue_using_fb_btn = findViewById(R.id.btn_signup_using_facebook);
         continue_using_fb_btn.setReadPermissions(Arrays.asList("email"));
         continue_using_fb_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
+        @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.e("MainActFjæsBog","Hey it succeed");
-                try {
-                    Database.getInstance().createFacebookUser(username_input_editText.getText().toString(),loginResult.getAccessToken(), () -> {
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                    });
-                } catch (IDatabase.DatabaseException e) {
-                    Toast.makeText(MainActivity.this,"Failed to log into Facebook",Toast.LENGTH_LONG).show();
-                }
+            try {
+                Database.getInstance().createFacebookUser(loginResult.getAccessToken(), () -> {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Toast.makeText(MainActivity.this,"Failed to log into Facebook",Toast.LENGTH_LONG).show();
             }
+        }
 
             @Override
             public void onCancel() {
-                Log.e("MainActFacebook","Facebook confirmed canceled");
+                Log.e("MainActFacebook","Facebook log in request canceled");
 
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.e("MainActFacebook","wat",error);
+                Log.e("MainActFacebook","Error on Facebook login",error);
             }
         });
 
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     public void onStart() {
         super.onStart();
     }

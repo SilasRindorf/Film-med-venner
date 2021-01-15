@@ -227,14 +227,14 @@ public class Database implements IDatabase {
         }
     }
 
-    public void createFacebookUser(String name, AccessToken token, RunnableUI runnableUI) throws DatabaseException {
+    public void createFacebookUser(AccessToken token, RunnableUI runnableUI) throws DatabaseException {
         try {
             AuthCredential authCredential = FacebookAuthProvider.getCredential(token.getToken());
 
             mAuh.signInWithCredential(authCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    addUser("FacebookUser",mAuh.getCurrentUser().getUid());
                     runnableUI.run();
-                    addUser(name,mAuh.getCurrentUser().getUid());
                 }
             });
 
