@@ -24,6 +24,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         editText = findViewById(R.id.edit_text_input_password_forgot_password);
         btnreset = findViewById(R.id.btn_resetPassword);
         btnback = findViewById(R.id.btn_PasswordBack);
+// Hej Bubbi
+        btnreset.setOnClickListener(this);
+        btnback.setOnClickListener(this);
 
     }
 
