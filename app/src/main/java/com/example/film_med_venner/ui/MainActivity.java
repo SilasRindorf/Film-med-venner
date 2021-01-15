@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        EditText ete = findViewById(R.id.input_username);
-        EditText etp = findViewById(R.id.input_password);
-        Button btn = findViewById(R.id.btn_login_using_mail);
+        EditText username_input_editText = findViewById(R.id.input_username);
+        EditText password_input_editText = findViewById(R.id.input_password);
+        Button login_using_mail_btn = findViewById(R.id.btn_login_using_mail);
         TextView tv = findViewById(R.id.textview_forgot_password);
 
-        btn.setOnClickListener(view -> {
+        login_using_mail_btn.setOnClickListener(view -> {
             try {
-                auth.logIn(ete.getText().toString(), etp.getText().toString(), () -> {
+                auth.logIn(username_input_editText.getText().toString(), password_input_editText.getText().toString(), () -> {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                 });
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn = findViewById(R.id.btn_signup_using_mail);
-        btn.setOnClickListener(v -> {
+        login_using_mail_btn = findViewById(R.id.btn_signup_using_mail);
+        login_using_mail_btn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignUpActivityWithMail.class);
             startActivity(intent);
 
@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         com.facebook.CallbackManager callbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = findViewById(R.id.btn_signup_using_facebook);
-        loginButton.setReadPermissions(Arrays.asList("email"));
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        LoginButton continue_using_fb_btn = findViewById(R.id.btn_signup_using_facebook);
+        continue_using_fb_btn.setReadPermissions(Arrays.asList("email"));
+        continue_using_fb_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.e("MainActFjæsBog","Hey it succeed");
                 try {
-                    Database.getInstance().createFacebookUser(ete.getText().toString(),loginResult.getAccessToken(), () -> {
+                    Database.getInstance().createFacebookUser(username_input_editText.getText().toString(),loginResult.getAccessToken(), () -> {
                         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(intent);
                     });
