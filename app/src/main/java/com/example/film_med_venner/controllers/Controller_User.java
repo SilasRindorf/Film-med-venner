@@ -5,6 +5,8 @@ import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.facebook.AccessToken;
+
 
 
 public class Controller_User implements IController {
@@ -49,7 +51,7 @@ public class Controller_User implements IController {
 
     }
 
-    public void logInWithFaceBook(String email, String password, RunnableUI runnableUI) throws IDatabase.DatabaseException  {
-        Database.getInstance().logInWithFaceBook(email,password,runnableUI);
+    public void logInWithFaceBook(AccessToken token, RunnableUI runnableUI) throws IDatabase.DatabaseException  {
+        Database.getInstance().logInWithFaceBook(token,runnableUI);
     }
 }

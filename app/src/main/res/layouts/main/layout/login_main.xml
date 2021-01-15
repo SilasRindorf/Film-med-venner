@@ -78,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_login_using_facebook" />
 
-            <Button
+            <com.facebook.login.widget.LoginButton
+
                 android:id="@+id/btn_signup_using_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

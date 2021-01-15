@@ -58,6 +58,6 @@
 
 
         // Facebook
-            <string name="facebook_app_id">[com.example.film_med_venner]</string>
-            <string name="fb_login_protocol_scheme">fb[com.example.film_med_venner]</string>
+            <string name="facebook_app_id">412664376620411</string>
+            <string name="fb_login_protocol_scheme">fb412664376620411</string>
     </resources>

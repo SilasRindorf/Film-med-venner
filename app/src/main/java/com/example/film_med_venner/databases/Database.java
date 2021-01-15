@@ -20,6 +20,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.facebook.AccessToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -226,15 +227,12 @@ public class Database implements IDatabase {
         }
     }
 
-    public void logInWithFaceBook(String email, String password, RunnableUI runnableUI) throws DatabaseException {
+    public void logInWithFaceBook(AccessToken token, RunnableUI runnableUI) throws DatabaseException {
         try {
-            AuthCredential authCredential = FacebookAuthProvider.getCredential("token");
-            mAuh.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        runnableUI.run();
-                    }
+            AuthCredential authCredential = FacebookAuthProvider.getCredential(token.getToken());
+            mAuh.signInWithCredential(authCredential).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    runnableUI.run();
                 }
             });
 
