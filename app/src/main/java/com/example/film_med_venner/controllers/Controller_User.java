@@ -51,7 +51,7 @@ public class Controller_User implements IController {
 
     }
 
-    public void logInWithFaceBook(AccessToken token, RunnableUI runnableUI) throws IDatabase.DatabaseException  {
-        Database.getInstance().logInWithFaceBook(token,runnableUI);
+    public void logInWithFaceBook(String name,AccessToken token, RunnableUI runnableUI) throws IDatabase.DatabaseException  {
+        Database.getInstance().createFacebookUser(name,token,runnableUI);
     }
 }
