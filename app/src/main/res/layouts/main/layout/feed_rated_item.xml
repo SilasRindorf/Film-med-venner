@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:backgroundTint="#00FFFFFF"
+            android:backgroundTint="@color/colorTransparent"
             android:onClick="onClickPoster"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/mp" />

@@ -8,17 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.List;
 
-public class RatingAdapter extends BaseAdapter {
+public class ReviewAdapter extends BaseAdapter {
     private Context ctx;
-    private List<IRating> ratingItems;
+    private List<IReview> ratingItems;
 
-    public RatingAdapter(Context ctx, List<IRating> ratingItems) {
+    public ReviewAdapter(Context ctx, List<IReview> ratingItems) {
         this.ctx = ctx;
         this.ratingItems = ratingItems;
     }
@@ -41,14 +41,14 @@ public class RatingAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
-        IRating item = ratingItems.get(position);
+        IReview item = ratingItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             gridView = inflater.inflate(R.layout.profile_rating_item, null);
         }
         TextView ratingText = gridView.findViewById(R.id.ratingtext);
-        //TODO ((Rating) item).getMovie() Virker ikke optimalt. Når man kører den kommer der ikke det som forventes.
-        ratingText.setText("You rated " + item.getMovieIDStr() + " " + ((Rating) item).getRating() +" stars");
+        //TODO ((Review) item).getMovie() Virker ikke optimalt. Når man kører den kommer der ikke det som forventes.
+        ratingText.setText("You rated " + item.getMovieIDStr() + " " + (item.getRating() +" stars"));
 
         ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
         ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);
@@ -56,43 +56,43 @@ public class RatingAdapter extends BaseAdapter {
         ImageView star4 = gridView.findViewById(R.id.ImageView_star_4);
         ImageView star5 = gridView.findViewById(R.id.ImageView_star_5);
 
-        System.out.println("Rating er nu: "+((Rating) item).getRating());
-        if (((Rating) item).getRating() == 0){
+        System.out.println("Rating er nu: "+item.getRating());
+        if (item.getRating() == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (((Rating) item).getRating() == 1){
+        else if (item.getRating() == 1){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (((Rating) item).getRating() == 2){
+        else if (item.getRating() == 2){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (((Rating) item).getRating() == 3){
+        else if (item.getRating() == 3){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (((Rating) item).getRating() == 4){
+        else if (item.getRating() == 4){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (((Rating) item).getRating() == 5){
+        else if (item.getRating() == 5){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);

@@ -2,12 +2,12 @@ package com.example.film_med_venner;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.ArrayList;
@@ -30,15 +30,15 @@ public class Generator {
     public IProfile[] generateProfiles(int amount){
         IProfile[] profiles = new Profile[amount];
         for (int i = 0; i < amount; i++) {
-            IProfile prof = new Profile("Profile " + i, i + "", i, i, i, i, i);
+            IProfile prof = new Profile("Profile " + i, "id" + i, i,i,i,i);
             profiles[i] = prof;
         }
         return profiles;
     }
-    public ArrayList<IRating> generateRatings(int amount){
-        ArrayList<IRating> rat = new ArrayList<>();
+    public ArrayList<IReview> generateReviews(int amount){
+        ArrayList<IReview> rat = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            IRating rate  = new Rating(i,"username" + i, "" + i, "review" + i);
+            IReview rate  = new Review(i,"username" + i, "" + i, "review" + i);
             rat.add( rate);
         }
         return rat;
@@ -52,7 +52,7 @@ public class Generator {
         ArrayList<IHomeFeedItems> feedList = new ArrayList<IHomeFeedItems>();
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 5; j++) {
-                IRating rating = new Rating(j+1, "Kurger Bing", "Bubbi part " + i,"Some review" +i+j);
+                IReview rating = new Review(j+1, "Kurger Bing", "Bubbi part " + i,"Some review" +i+j);
                 feedList.add(rating);
             }
         }

@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
-import com.example.film_med_venner.ui.profileActivities.RatingActivity;
+import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 
@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         if (view == l_layout_rating){
             setContentView(R.layout.activity_rating);
-            Intent intent = new Intent(this, RatingActivity.class);
+            Intent intent = new Intent(this, ReviewActivity.class);
             startActivity(intent);
         }
         else if (view == l_layout_to_watchlist){

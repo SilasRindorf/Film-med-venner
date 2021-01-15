@@ -5,4 +5,5 @@
     <color name="colorButton">#70C0FF</color>
     <color name="colorTextView">#FFF6EB</color>
     <color name="colorNavBar">#000000 </color>
+    <color name="colorTransparent">#00FFFFFF </color>
 </resources>

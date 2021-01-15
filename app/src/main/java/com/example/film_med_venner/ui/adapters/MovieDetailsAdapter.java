@@ -8,20 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.List;
 
 public class MovieDetailsAdapter extends BaseAdapter {
     private Context ctx;
-    private List<IRating> ratingItems;
+    private List<IReview> ratingItems;
     private TextView friend_name, review_text;
     private ImageView profile_pic;
 
-    public MovieDetailsAdapter(Context ctx, List<IRating> ratingItems) {
+    public MovieDetailsAdapter(Context ctx, List<IReview> ratingItems) {
         this.ctx = ctx;
         this.ratingItems = ratingItems;
     }
@@ -44,7 +44,7 @@ public class MovieDetailsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
-        IRating item = ratingItems.get(position);
+        IReview item = ratingItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             gridView = inflater.inflate(R.layout.item_review, null);

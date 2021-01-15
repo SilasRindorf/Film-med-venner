@@ -1,28 +1,28 @@
 package com.example.film_med_venner.DAO;
 
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.ArrayList;
 
-public class Rating implements IRating {
+public class Review implements IReview {
     private int rating;
     private String username;
     private String userID;
     private String review;
     private String movieIDStr;
-    private String ratingIDStr;
+    private String reviewIDStr;
 
-    public Rating(){
+    public Review(){
 
     }
 
-    public Rating(int rating, String username, String movieIDstr, String review) {
+    public Review(int rating, String username, String movieIDstr, String review) {
         this.rating = rating;
         this.username = username;
         this.movieIDStr = movieIDstr;
         this.review = review;
     }
-    public Rating(int rating, String username, String movieIDstr, String review, String userID) {
+    public Review(int rating, String username, String movieIDstr, String review, String userID) {
         this(rating,username,movieIDstr,review);
         this.userID = userID;
     }
@@ -47,12 +47,12 @@ public class Rating implements IRating {
         this.movieIDStr = movieIDStr;
     }
 
-    public void setRatingIDStr(String ratingIDStr) {
-        this.ratingIDStr = ratingIDStr;
+    public void setReviewIDStr(String reviewIDStr) {
+        this.reviewIDStr = reviewIDStr;
     }
 
-    public void setRatingID(String id){
-        this.ratingIDStr = id;
+    public void setReviewID(String id){
+        this.reviewIDStr = id;
     }
     @Override
     public int getRating() {
@@ -62,7 +62,7 @@ public class Rating implements IRating {
         return userID;
     }
     @Override
-    public int getFriendsAverageRating() {
+    public int getFriendsAverageReview() {
         return 0;
     }
 
@@ -77,7 +77,7 @@ public class Rating implements IRating {
     }
 
     @Override
-    public ArrayList<String> getRatings() {
+    public ArrayList<String> getReviews() {
         return null;
     }
 
