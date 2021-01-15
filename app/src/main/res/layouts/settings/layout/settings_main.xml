@@ -46,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Skriv dit navn her..."
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- TELEFON -->
             <LinearLayout
@@ -67,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Skriv dit telefon nr. her"
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- MAIL -->
             <LinearLayout
@@ -88,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Skriv din mail her"
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- TOP GENRE -->
             <LinearLayout
@@ -109,7 +112,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Documentaries, romance, thriller"
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- PROFILE PICTURE -->
             <LinearLayout
@@ -230,7 +234,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="********"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- NEW PASSWORD -->
             <LinearLayout
@@ -250,7 +255,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="********"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- REPEAT NEW PASSWORD -->
             <LinearLayout
@@ -270,7 +276,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="********"
-                    android:textColorHint="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
