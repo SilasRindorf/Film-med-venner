@@ -10,13 +10,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.ui.HomeActivity;
-import com.example.film_med_venner.ui.profileActivities.RatingActivity;
+import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 
 import org.w3c.dom.Text;
 
@@ -54,7 +54,7 @@ public class HomeAdapter extends BaseAdapter {
 
         IHomeFeedItems item = homeFeedItems.get(position);
 
-        if (item instanceof Rating){
+        if (item instanceof Review){
 
             if (listView == null) {
                 LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -71,9 +71,9 @@ public class HomeAdapter extends BaseAdapter {
             ImageView star4 = listView.findViewById(R.id.ImageView_star_4);
             ImageView star5 = listView.findViewById(R.id.ImageView_star_5);
             description.setText(item.getUsername() + " has rated " + (item.getMovieIDStr()) + " with " +
-                    ((Rating) item).getRating() + " stars.");
+                    ((Review) item).getRating() + " stars.");
 
-            reviewText = ((Rating) item).getReview();
+            reviewText = ((Review) item).getReview();
             if (reviewText.length() > 200){
                 textView_review_short.setText(reviewText.substring(0,200) + "...");
                 //textView_review_short.setOnClickListener((View.OnClickListener) this);
@@ -83,42 +83,42 @@ public class HomeAdapter extends BaseAdapter {
 
 
 
-            if (((Rating) item).getRating() == 0){
+            if (((Review) item).getRating() == 0){
                 star1.setImageResource(R.drawable.icon_empty_star);
                 star2.setImageResource(R.drawable.icon_empty_star);
                 star3.setImageResource(R.drawable.icon_empty_star);
                 star4.setImageResource(R.drawable.icon_empty_star);
                 star5.setImageResource(R.drawable.icon_empty_star);
             }
-            else if (((Rating) item).getRating() == 1){
+            else if (((Review) item).getRating() == 1){
                 star1.setImageResource(R.drawable.icon_filled_star);
                 star2.setImageResource(R.drawable.icon_empty_star);
                 star3.setImageResource(R.drawable.icon_empty_star);
                 star4.setImageResource(R.drawable.icon_empty_star);
                 star5.setImageResource(R.drawable.icon_empty_star);
             }
-            else if (((Rating) item).getRating() == 2){
+            else if (((Review) item).getRating() == 2){
                 star1.setImageResource(R.drawable.icon_filled_star);
                 star2.setImageResource(R.drawable.icon_filled_star);
                 star3.setImageResource(R.drawable.icon_empty_star);
                 star4.setImageResource(R.drawable.icon_empty_star);
                 star5.setImageResource(R.drawable.icon_empty_star);
             }
-            else if (((Rating) item).getRating() == 3){
+            else if (((Review) item).getRating() == 3){
                 star1.setImageResource(R.drawable.icon_filled_star);
                 star2.setImageResource(R.drawable.icon_filled_star);
                 star3.setImageResource(R.drawable.icon_filled_star);
                 star4.setImageResource(R.drawable.icon_empty_star);
                 star5.setImageResource(R.drawable.icon_empty_star);
             }
-            else if (((Rating) item).getRating() == 4){
+            else if (((Review) item).getRating() == 4){
                 star1.setImageResource(R.drawable.icon_filled_star);
                 star2.setImageResource(R.drawable.icon_filled_star);
                 star3.setImageResource(R.drawable.icon_filled_star);
                 star4.setImageResource(R.drawable.icon_filled_star);
                 star5.setImageResource(R.drawable.icon_empty_star);
             }
-            else if (((Rating) item).getRating() == 5){
+            else if (((Review) item).getRating() == 5){
                 star1.setImageResource(R.drawable.icon_filled_star);
                 star2.setImageResource(R.drawable.icon_filled_star);
                 star3.setImageResource(R.drawable.icon_filled_star);

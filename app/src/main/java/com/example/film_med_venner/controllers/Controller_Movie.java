@@ -21,13 +21,13 @@ public class Controller_Movie implements IController_Movie {
 
     public IMovie[] getMovies(){return database.getMovies();}
 
-    public int getMovieAvgRating(int movieID){
-        int avgRating = 0;
+    public int getMovieAvgReview(int movieID){
+        int avgReview = 0;
         for (int i = 0; i <   database.getMovies().length; i++) {
-//            avgRating += database.getRating()[database.getMovies()[i].getID()].getRating();
+//            avgReview += database.getReview()[database.getMovies()[i].getID()].getReview();
         }
-        if (avgRating != 0)
-            return avgRating / database.getMovies().length;
+        if (avgReview != 0)
+            return avgReview / database.getMovies().length;
         else return 0;
     }
 

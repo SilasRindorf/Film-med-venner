@@ -3,7 +3,7 @@ package com.example.film_med_venner.controllers;
 import com.example.film_med_venner.Generator;
 import com.example.film_med_venner.databases.DatabaseNonPers;
 import com.example.film_med_venner.interfaces.IController.IFrontPageController;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 
 public class Controller_FrontPage implements IFrontPageController {
     private IFrontPageController instance;
@@ -12,8 +12,8 @@ public class Controller_FrontPage implements IFrontPageController {
     }
 
     @Override
-    public IRating[] getFriendRatings() {
-        return DatabaseNonPers.getInstance().getRating();
+    public IReview[] getFriendReviews() {
+        return DatabaseNonPers.getInstance().getReview();
     }
 
     @Override

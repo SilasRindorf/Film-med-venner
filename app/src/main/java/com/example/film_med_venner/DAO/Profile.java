@@ -10,9 +10,9 @@ public class Profile implements IProfile {
     private String name;
     private ArrayList<String> mvGPrefs;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
-    private int amountOfMoviesRated;
+    private int amountOfMoviesReviewed;
     private final ArrayList<String> friends;
-    private final ArrayList<Integer> moviesRatedIDs;
+    private final ArrayList<Integer> moviesReviewedIDs;
     private int amountOfMoviesOnToWatchList;
     private int amountOfMoviesOnWatchedList;
 
@@ -22,14 +22,14 @@ public class Profile implements IProfile {
         this.name = name;
         mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
-        moviesRatedIDs = new ArrayList<>();
-        amountOfMoviesRated = -1;
+        moviesReviewedIDs = new ArrayList<>();
+        amountOfMoviesReviewed = -1;
     }
 
     //TODO Den skal også hente profilbillede her
-    public Profile(String name, String ID, int amountOfMoviesRated, int amountOfMoviesReviewed, int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList) {
+    public Profile(String name, String ID, int amountOfMoviesReviewed,  int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList) {
         this(name, ID);
-        this.amountOfMoviesRated = amountOfMoviesRated;
+        this.amountOfMoviesReviewed = amountOfMoviesReviewed;
         this.amountOfMoviesOnToWatchList = amountOfMoviesOnToWatchList;
         this.amountOfMoviesOnWatchedList = amountOfMoviesOnWatchedList;
     }
@@ -39,21 +39,11 @@ public class Profile implements IProfile {
         return ID;
     }
 
-    @Override
-    public int getAmountOfMoviesRated() {
-        if (amountOfMoviesRated != -1)
-            return amountOfMoviesRated;
-        else return moviesRatedIDs.size();
-    }
 
-    @Override
-    public void addMoveRated(int movieID) {
-        moviesRatedIDs.add(movieID);
-    }
 
     @Override
     public int getAmountOfMoviesReviewed() {
-        return moviesRatedIDs.size();
+        return moviesReviewedIDs.size();
     }
 
     @Override

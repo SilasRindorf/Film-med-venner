@@ -10,7 +10,7 @@
         <string name="wantToWatch">Want to watch</string>
         <string name="watched">Watched</string>
         <string name="reviewed">Reviewed</string>
-        <string name="rated">Rated</string>
+        <string name="rated">Reviewed</string>
         <string name="friends">Friends</string>
 
         // Switches

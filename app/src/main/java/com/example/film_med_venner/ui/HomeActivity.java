@@ -14,15 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
-import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
-import com.example.film_med_venner.ui.profileActivities.RatingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         setContentView(R.layout.feed_rated_item_description);
-        Intent intent = new Intent(this, RatedItemActivity.class);
+        Intent intent = new Intent(this, ReviewedItemActivity.class);
         startActivity(intent);
     }
 
@@ -127,13 +125,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         String clickedReviewDescription = getClickedDescription(((TextView) view).getText().toString());
 
         setContentView(R.layout.feed_rated_item_description);
-        Intent intent = new Intent(this, RatedItemActivity.class);
+        Intent intent = new Intent(this, ReviewedItemActivity.class);
 
         System.out.println(clickedReviewText);
         intent.putExtra("reviewText",clickedReviewText);
 
         System.out.println(clickedReviewRating);
-        intent.putExtra("starRating",clickedReviewRating);
+        intent.putExtra("starReview", clickedReviewRating);
 
         System.out.println(clickedReviewDescription);
         intent.putExtra("reviewDescription",clickedReviewDescription);
@@ -145,12 +143,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public String getClickedReview(String clickedText){
         List<IHomeFeedItems> items = controller.getHomeFeedItems();
         for (IHomeFeedItems item : items){
-            String expectedReviewText = ((Rating) item).getReview();
+            String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.length() > 200){
                 expectedReviewText = (expectedReviewText.substring(0,200) + "...");
             }
             if (expectedReviewText.equals(clickedText)){
-                return ((Rating) item).getReview();
+                return ((Review) item).getReview();
             }
         }
         return "ERROR";
@@ -159,9 +157,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public int getClickedRating(String clickedText){
         List<IHomeFeedItems> items = controller.getHomeFeedItems();
         for (IHomeFeedItems item : items){
-            String expectedReviewText = ((Rating) item).getReview();
+            String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.equals(clickedText)){
-                return ((Rating) item).getRating();
+                return (((Review) item).getRating());
             }
         }
         return 0;
@@ -170,10 +168,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public String getClickedDescription(String clickedText){
         List<IHomeFeedItems> items = controller.getHomeFeedItems();
         for (IHomeFeedItems item : items){
-            String expectedReviewText = ((Rating) item).getReview();
+            String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.equals(clickedText)){
                 return (item.getUsername() + " has rated " + item.getMovieIDStr() + " with " +
-                        ((Rating) item).getRating() + " stars.");
+                        ((Review) item).getRating() + " stars.");
             }
         }
         return "ERROR";

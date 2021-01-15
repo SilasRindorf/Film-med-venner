@@ -15,7 +15,7 @@ public interface IDatabase {
 
     ArrayList<IHomeFeedItems> getHomeFeed();
 
-    IRating[] getRating();
+    IReview[] getReview();
 
     void sendFriendRequest(String id) throws DatabaseException;
 

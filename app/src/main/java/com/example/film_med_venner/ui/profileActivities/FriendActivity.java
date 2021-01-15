@@ -15,11 +15,11 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
@@ -58,7 +58,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         see_friendrequest_btn.setOnClickListener(this);
 
-        /*bgThread.execute(() -> {
+        bgThread.execute(() -> {
             try {
                 System.out.println("This is where you die the first time");
                 //TODO YOU DIE HERE. SILAS FIX <3 8===>
@@ -75,7 +75,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
-        });*/
+        });
 
         /*bgThread.execute(() -> {
             try {
@@ -85,7 +85,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                     Database.getInstance().getFriends(Database.getInstance().getCurrentUser().getID(),Database.getInstance().getFriends({
 
                     });
-                    IRating newRating = new Rating(starRating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
+                    IReview newReview = new Review(starReview, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
                     friends = Database.getInstance().getFriends(Database.getInstance().getCurrentUser());
 
                     });

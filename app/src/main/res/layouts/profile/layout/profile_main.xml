@@ -116,7 +116,7 @@
 
             </LinearLayout>
 
-            <!--Rated-->
+            <!--Reviewed-->
             <LinearLayout
                 android:id="@+id/linearLayout_rating"
                 android:layout_width="match_parent"

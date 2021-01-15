@@ -7,19 +7,19 @@ import androidx.annotation.Nullable;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Rating;
-import com.example.film_med_venner.DTO.RatingDTO;
+import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableRatingUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableRatingsUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -270,7 +270,7 @@ public class Database implements IDatabase {
     //----------------------------------RATINGS----------------------------------
 
 
-    public void updateRatings(IRating rating) throws DatabaseException {
+    public void updateReviews(IReview rating) throws DatabaseException {
         try {
             db.collection("reviews")
                     .whereEqualTo("userID", rating.getUserID()).whereEqualTo("movieIDStr", rating.getMovieIDStr()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -278,7 +278,7 @@ public class Database implements IDatabase {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            db.collection("reviews").document(doc.getId()).set(new RatingDTO(rating), SetOptions.merge());
+                            db.collection("reviews").document(doc.getId()).set(new ReviewDTO(rating), SetOptions.merge());
                         }
                     }
                 }
@@ -288,31 +288,31 @@ public class Database implements IDatabase {
         }
     }
 
-    public void createRating(IRating rating) throws DatabaseException {
+    public void createReview(IReview rating) throws DatabaseException {
         try {
             db.collection("reviews")
-                    .add(new RatingDTO(rating)).addOnCompleteListener(task -> {
-                rating.setRatingID(task.getResult().getId());
+                    .add(new ReviewDTO(rating)).addOnCompleteListener(task -> {
+                rating.setReviewID(task.getResult().getId());
             });
         } catch (Exception e) {
             throw new DatabaseException("Error creating review", e);
         }
     }
 
-    public void getRatings(RunnableRatingsUI runnableRatingsUI) throws DatabaseException {
+    public void getReviews(RunnableReviewsUI runnableReviewsUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            List<Rating> ratings = new ArrayList<>();
+                            List<Review> ratings = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                Rating crRating = doc.toObject(Rating.class);
-                                crRating.setRatingID(doc.getId());
-                                ratings.add(crRating);
+                                Review crReview = doc.toObject(Review.class);
+                                crReview.setReviewID(doc.getId());
+                                ratings.add(crReview);
                             }
-                            IRating[] rats = new Rating[ratings.size()];
-                            runnableRatingsUI.run(ratings.toArray(rats));
+                            IReview[] rats = new Review[ratings.size()];
+                            runnableReviewsUI.run(ratings.toArray(rats));
                         }
                     });
         } catch (Exception e) {
@@ -320,7 +320,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getRating(String ratingID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
+    public void getReview(String ratingID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
@@ -328,9 +328,9 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 if (doc.getId().equals(ratingID)) {
-                                    Rating crRating = doc.toObject(Rating.class);
-                                    crRating.setRatingID(doc.getId());
-                                    runnableRatingUI.run(crRating);
+                                    Review crReview = doc.toObject(Review.class);
+                                    crReview.setReviewID(doc.getId());
+                                    runnableReviewUI.run(crReview);
                                 }
                             }
                         }
@@ -340,7 +340,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getRating(String userID, String movieID, RunnableRatingUI runnableRatingUI) throws DatabaseException {
+    public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
         try {
             db.collection("reviews")
                     .get()
@@ -348,9 +348,9 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
-                                    Rating crRating = doc.toObject(Rating.class);
-                                    crRating.setRatingID(doc.getId());
-                                    runnableRatingUI.run(crRating);
+                                    Review crReview = doc.toObject(Review.class);
+                                    crReview.setReviewID(doc.getId());
+                                    runnableReviewUI.run(crReview);
                                 }
                             }
                         }
@@ -362,8 +362,8 @@ public class Database implements IDatabase {
 
 
     @Override
-    public IRating[] getRating() {
-        return new IRating[0];
+    public IReview[] getReview() {
+        return new IReview[0];
     }
 
 

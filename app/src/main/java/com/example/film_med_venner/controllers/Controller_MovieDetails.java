@@ -10,7 +10,7 @@ import com.example.film_med_venner.interfaces.IDatabase;
 public class Controller_MovieDetails implements IController {
     private IDatabase database;
     private Controller_Movie controller_movie;
-    private Controller_Rating controller_rating;
+    private Controller_Review controller_rating;
     private OmdbWebServiceClient omdb = new OmdbWebServiceClient();
 
     private static Controller_MovieDetails instance;
@@ -28,7 +28,7 @@ public class Controller_MovieDetails implements IController {
 
     private void getControllers() {
         controller_movie = Controller_Movie.getInstance();
-        controller_rating = Controller_Rating.getInstance();
+        controller_rating = Controller_Review.getInstance();
     }
 
     public Movie getMovie(String id){
