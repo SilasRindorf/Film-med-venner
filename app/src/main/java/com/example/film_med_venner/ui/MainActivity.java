@@ -14,12 +14,11 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -38,14 +37,17 @@ public class MainActivity extends AppCompatActivity {
 
         auth = Controller_User.getInstance();
 
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Boolean facebookLoggedIn = accessToken != null && !accessToken.isExpired();
+
 
         //Comment out to not skip log in screen
-       /* if (Controller_User.getInstance().isLoggedIn()) {
+       if (Controller_User.getInstance().isLoggedIn() || facebookLoggedIn) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }
 
-        */
+
 
         EditText ete = findViewById(R.id.input_username);
         EditText etp = findViewById(R.id.input_password);
@@ -79,13 +81,12 @@ public class MainActivity extends AppCompatActivity {
         com.facebook.CallbackManager callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = findViewById(R.id.btn_signup_using_facebook);
         loginButton.setReadPermissions(Arrays.asList("email"));
-        Log.e("MainActF","I was here");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.e("MainActFjæsBog","Hey it succeed");
                 try {
-                    Database.getInstance().logInWithFaceBook(loginResult.getAccessToken(), () -> {
+                    Database.getInstance().createFacebookUser(ete.getText().toString(),loginResult.getAccessToken(), () -> {
                         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(intent);
                     });
