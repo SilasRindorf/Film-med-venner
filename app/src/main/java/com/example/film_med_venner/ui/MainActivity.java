@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     });
                 } catch (IDatabase.DatabaseException e) {
+                    Log.e("MainAct","Facebook log in request failed",e);
                     Toast.makeText(MainActivity.this,"Failed to log into Facebook",Toast.LENGTH_LONG).show();
                 }
             }

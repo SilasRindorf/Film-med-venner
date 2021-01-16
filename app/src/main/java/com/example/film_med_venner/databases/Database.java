@@ -26,7 +26,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
@@ -34,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,9 +46,9 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 public class Database implements IDatabase {
+    private static Database instance;
     private final FirebaseFirestore db;
     private final FirebaseAuth mAuh;
-    private static Database instance;
 
 
     //Firebase methods  are all async
@@ -233,7 +233,7 @@ public class Database implements IDatabase {
 
             mAuh.signInWithCredential(authCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    addUser("FacebookUser",mAuh.getCurrentUser().getUid());
+                    addUser("FacebookUser", mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 }
             });
@@ -399,9 +399,10 @@ public class Database implements IDatabase {
 
     public void getFriendRequests(RunnableProfilesUI runnableUI) throws DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
+
         try {
-            db.collection("users").document(id).collection("friends").whereEqualTo("status",null).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
+            db.collection("users").document(id).collection("friends").whereEqualTo("status", null).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
                     IProfile[] friends = new Profile[task.getResult().size()];
                     List<Profile> friendz = task.getResult().toObjects(Profile.class);
                     runnableUI.run(friendz.toArray(friends));
@@ -413,13 +414,36 @@ public class Database implements IDatabase {
         }
     }
 
+    public void respondToFriendRequest(String friendID, boolean accept,RunnableUI runnableUI) throws DatabaseException {
+        HashMap<String, Object> status = new HashMap();
+        String selfID = mAuh.getCurrentUser().getUid();
+        status.put("status", accept);
+        try {
+            db.collection("users").document(selfID).collection("friends").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String docID = "";
+                    for (DocumentSnapshot doc : task.getResult().getDocuments()){
+                        docID = doc.getId();
+                    }
+                    db.collection("users").document(selfID).collection("friends").document(docID).set(status);
+                    runnableUI.run();
+                }
+            });
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting friend request", e);
+        }
+    }
+
     public void getFriends(RunnableProfilesUI runnableUI) throws DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
         //TODO Skal der ikke være et friendship ID ift. den path den lige ligesom tager? Jeg ser umiddelbart at at stykket mellem collectionpath "friends" og status tingelingen der er der et doc id som ikke bliver hentet
+        //Doc ID'et er friendship ID'et
         String friendshipID;
+        //IE String friendshipID = doc.getID() //Fra et for each loop ( for (DocumentSnapshot doc : task.getResult().getDocuments()) )
         try {
-            db.collection("users").document(id).collection("friends").whereEqualTo("status",true).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
+            db.collection("users").document(id).collection("friends").whereEqualTo("status", true).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
                     IProfile[] friends = new Profile[task.getResult().size()];
                     List<Profile> friendz = task.getResult().toObjects(Profile.class);
                     runnableUI.run(friendz.toArray(friends));
