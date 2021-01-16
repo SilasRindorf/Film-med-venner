@@ -14,12 +14,12 @@
             android:id="@+id/imageView_moviePoster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/mp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/colorTransparent"
             android:onClick="onClickPoster"
-            />
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/mp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

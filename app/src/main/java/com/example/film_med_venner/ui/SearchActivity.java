@@ -73,7 +73,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void itemOnClick(View view) {
         int position = gridView.getPositionForView(view);
         Intent intent = new Intent(this, MovieDetailsActivity.class);
-        intent.putExtra("Title", items.get(position).getTitle());
+        intent.putExtra("Id", items.get(position).getImdbID());
         startActivity(intent);
     }
 

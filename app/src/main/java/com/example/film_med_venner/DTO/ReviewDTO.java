@@ -1,9 +1,9 @@
 package com.example.film_med_venner.DTO;
 
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 
 
-public class RatingDTO {
+public class ReviewDTO {
     private int rating;
     private String username;
     private String review;
@@ -11,7 +11,7 @@ public class RatingDTO {
     private String userID;
 
 
-    public RatingDTO(IRating rating){
+    public ReviewDTO(IReview rating){
         this.rating = rating.getRating();
         this.username = rating.getUsername();
         this.movieIDStr = rating.getMovieIDStr();

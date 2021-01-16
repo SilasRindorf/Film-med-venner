@@ -13,9 +13,9 @@ public class Movie implements IMovie {
     private String Plot;
     private String imdbID;
     private String Poster;
-    private String imdbRating;
+    private String imdbReview;
 
-    public Movie(String title, String year, String runtime, String genre, String type, String director, String actors, String plot, String imdbID, String poster, String imdbRating) {
+    public Movie(String title, String year, String runtime, String genre, String type, String director, String actors, String plot, String imdbID, String poster, String imdbReview) {
         Title = title;
         Year = year;
         Runtime = runtime;
@@ -26,7 +26,7 @@ public class Movie implements IMovie {
         Plot = plot;
         this.imdbID = imdbID;
         Poster = poster;
-        this.imdbRating = imdbRating;
+        this.imdbReview = imdbReview;
     }
 
     public Movie(String title, String year, String genre, String director, String actors) {
@@ -75,8 +75,8 @@ public class Movie implements IMovie {
         return Poster;
     }
 
-    public String getImdbRating() {
-        return imdbRating;
+    public String getImdbReview() {
+        return imdbReview;
     }
 
 }

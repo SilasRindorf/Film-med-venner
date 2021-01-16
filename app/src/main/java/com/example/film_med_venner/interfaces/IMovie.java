@@ -14,7 +14,7 @@ public interface IMovie {
     //This is should return a picture
     String getPoster();
     String getImdbID();
-    String getImdbRating();
+    String getImdbReview();
 
 
     //int[] getReviews();

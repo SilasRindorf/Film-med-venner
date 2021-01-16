@@ -22,6 +22,7 @@
             android:id="@+id/textview_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorTextView"
             android:text="@string/input_email" />
 
         <EditText
@@ -30,7 +31,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:textAlignment="center"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorTextView"/>
 
         <TextView
             android:id="@+id/textview_password"
@@ -38,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:textAlignment="center"
-            android:hint="@string/input_password" />
+            android:textColor="@color/colorTextView"
+            android:text="@string/input_password" />
 
         <EditText
             android:id="@+id/input_password"
@@ -47,12 +50,21 @@
             android:ems="10"
             android:inputType="textPassword"
             android:textAlignment="center"
-            android:hint="" />
+            android:textColor="@color/colorTextView" />
+        <TextView
+            android:id="@+id/textview_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/forgot_password"
+            android:textColor="@color/colorButton" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
             <Button
                 android:id="@+id/btn_login_using_mail"
                 android:layout_width="wrap_content"
@@ -68,20 +80,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_login_using_facebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_login_using_facebook" />
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <com.facebook.login.widget.LoginButton
 
-            <Button
                 android:id="@+id/btn_signup_using_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_signup_using_facebook" />
         </LinearLayout>
-
     </LinearLayout>
 
 

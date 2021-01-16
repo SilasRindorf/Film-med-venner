@@ -12,20 +12,20 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Rating;
-import com.example.film_med_venner.ui.adapters.RatingAdapter;
+import com.example.film_med_venner.controllers.Controller_Review;
+import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RatingActivity extends AppCompatActivity {
+public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
-    private RatingAdapter ratingAdapter;
+    private ReviewAdapter ratingAdapter;
     private Context ctx;
     IProfileController controller = Controller_Profile.getInstance();
 
@@ -64,7 +64,7 @@ public class RatingActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IRating> items = new ArrayList<IRating>();
+            List<IReview> items = new ArrayList<IReview>();
             String errorMsg = null;
 
             @Override
@@ -74,7 +74,7 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = Arrays.asList(Controller_Rating.getInstance().getRatingItems());
+                    items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -90,7 +90,7 @@ public class RatingActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                ratingAdapter = new RatingAdapter(ctx, items);
+                ratingAdapter = new ReviewAdapter(ctx, items);
                 gridView.setAdapter(ratingAdapter);
                 gridView.setVisibility(View.VISIBLE);
             }

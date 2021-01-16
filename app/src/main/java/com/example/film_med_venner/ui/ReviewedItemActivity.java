@@ -16,7 +16,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 
-public class RatedItemActivity extends AppCompatActivity {
+public class ReviewedItemActivity extends AppCompatActivity {
     private TextView reviewText, descriptionText;
     private Intent intent;
     private String review, description;
@@ -33,7 +33,7 @@ public class RatedItemActivity extends AppCompatActivity {
         reviewText = findViewById(R.id.review_text);
         reviewText.setText(review);
 
-        rating = intent.getIntExtra("starRating",0);
+        rating = intent.getIntExtra("starReview",0);
         setStars(rating);
 
         description = intent.getStringExtra("reviewDescription");
@@ -51,48 +51,48 @@ public class RatedItemActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void setStars(int starRating){
+    private void setStars(int starReview){
         star1 = findViewById(R.id.ImageView_star_1);
         star2 = findViewById(R.id.ImageView_star_2);
         star3 = findViewById(R.id.ImageView_star_3);
         star4 = findViewById(R.id.ImageView_star_4);
         star5 = findViewById(R.id.ImageView_star_5);
-        if (starRating == 0){
+        if (starReview == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 1){
+        else if (starReview == 1){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 2){
+        else if (starReview == 2){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 3){
+        else if (starReview == 3){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 4){
+        else if (starReview == 4){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 5){
+        else if (starReview == 5){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);

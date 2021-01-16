@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class FriendAdapter extends BaseAdapter {
         return i;
     }
 
+    //TODO Pt. henter den bare sample data. Den skal have fat på Databasen, og se hvem der har sent request til en.
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
@@ -46,7 +48,6 @@ public class FriendAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             gridView = inflater.inflate(R.layout.profile_friend_item, null);
         }
-        System.out.println(((Profile) item).getName());
 
         ImageView profilePicture = gridView.findViewById(R.id.imageView_profile);
         TextView profileName = gridView.findViewById(R.id.profile_name);
@@ -59,7 +60,8 @@ public class FriendAdapter extends BaseAdapter {
         profilePicture.setImageResource(R.drawable.icon_profilepicture);
         profileName.setText(((Profile) item).getName());
         profileReviews.setText("- " + ((Profile) item).getAmountOfMoviesReviewed() + " reviewed movies.");
-        profileRatings.setText("- " + ((Profile) item).getAmountOfMoviesRated() + " rated movies.");
+        //TODO Reviews og reviews er jo slået sammen så det her skal ændres både her og i xml
+        profileRatings.setText("SKAL FJERNES " + (42 + " rated movies."));
         profileToWatchlist.setText("- " + ((Profile) item).getAmountOfMoviesOnToWatchList() + " movies on their to watchlist.");
         profileWatchedlist.setText("- " + ((Profile) item).getAmountOfMoviesOnWatchedList() + " movies on their watched list.");
         return gridView;

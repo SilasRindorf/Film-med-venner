@@ -12,18 +12,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IRating;
+import com.example.film_med_venner.interfaces.IReview;
 import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
 public class Write_review_frag extends DialogFragment {
     private ImageView yourStar1, yourStar2, yourStar3, yourStar4, yourStar5;
-    private int starRating;
+    private int starReview;
     private String movieID;
     private String review;
     private EditText reviewInput;
@@ -38,7 +38,7 @@ public class Write_review_frag extends DialogFragment {
          * Getting arguments from MovieDetailsActivity in the form of a "Bundle"
          */
         movieID = getArguments().getString("id");
-        starRating = getArguments().getInt("starRating");
+        starReview = getArguments().getInt("starReview");
         review = getArguments().getString("review");
         status = getArguments().getBoolean("status");
 
@@ -49,7 +49,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating = 1;
+                starReview = 1;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_empty_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
@@ -64,7 +64,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating = 2;
+                starReview = 2;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_empty_star).into(yourStar3);
@@ -79,7 +79,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating = 3;
+                starReview = 3;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
@@ -94,7 +94,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating = 4;
+                starReview = 4;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
@@ -109,7 +109,7 @@ public class Write_review_frag extends DialogFragment {
         yourStar5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating = 5;
+                starReview = 5;
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar1);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar2);
                 Picasso.get().load(R.drawable.icon_filled_star).into(yourStar3);
@@ -139,18 +139,19 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (starRating == 1 || starRating == 2 || starRating == 3 || starRating == 4 || starRating == 5){
-                    IRating newRating = new Rating(starRating, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
+                if (starReview == 1 || starReview == 2 || starReview == 3 || starReview == 4 || starReview == 5){
+                    IReview newReview = new Review(starReview, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
                     if (status == true){
                         try {
-                            Database.getInstance().updateRatings(newRating);
+                            Database.getInstance().updateReviews(newReview);
+                            Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                         } catch (IDatabase.DatabaseException e){
                             e.printStackTrace();
                             Toast.makeText(getActivity(), "Failed to update review", Toast.LENGTH_LONG).show();
                         }
                     } else {
                     try {
-                        Database.getInstance().createRating(newRating);
+                        Database.getInstance().createReview(newReview);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
                         Toast.makeText(getActivity(), "Failed to create review", Toast.LENGTH_LONG).show();
@@ -167,7 +168,7 @@ public class Write_review_frag extends DialogFragment {
         /**
          * Setting the review text and star rating to the previously given review and star rating
          */
-        starFest(starRating);
+        starFest(starReview);
         reviewInput.setText(review);
 
         /**
@@ -180,43 +181,43 @@ public class Write_review_frag extends DialogFragment {
 
     }
 
-    private void starFest(int starRating) {
-        if (starRating == 0){
+    private void starFest(int starReview) {
+        if (starReview == 0){
             yourStar1.setImageResource(R.drawable.icon_empty_star);
             yourStar2.setImageResource(R.drawable.icon_empty_star);
             yourStar3.setImageResource(R.drawable.icon_empty_star);
             yourStar4.setImageResource(R.drawable.icon_empty_star);
             yourStar5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 1){
+        else if (starReview == 1){
             yourStar1.setImageResource(R.drawable.icon_filled_star);
             yourStar2.setImageResource(R.drawable.icon_empty_star);
             yourStar3.setImageResource(R.drawable.icon_empty_star);
             yourStar4.setImageResource(R.drawable.icon_empty_star);
             yourStar5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 2){
+        else if (starReview == 2){
             yourStar1.setImageResource(R.drawable.icon_filled_star);
             yourStar2.setImageResource(R.drawable.icon_filled_star);
             yourStar3.setImageResource(R.drawable.icon_empty_star);
             yourStar4.setImageResource(R.drawable.icon_empty_star);
             yourStar5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 3){
+        else if (starReview == 3){
             yourStar1.setImageResource(R.drawable.icon_filled_star);
             yourStar2.setImageResource(R.drawable.icon_filled_star);
             yourStar3.setImageResource(R.drawable.icon_filled_star);
             yourStar4.setImageResource(R.drawable.icon_empty_star);
             yourStar5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 4){
+        else if (starReview == 4){
             yourStar1.setImageResource(R.drawable.icon_filled_star);
             yourStar2.setImageResource(R.drawable.icon_filled_star);
             yourStar3.setImageResource(R.drawable.icon_filled_star);
             yourStar4.setImageResource(R.drawable.icon_filled_star);
             yourStar5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 5){
+        else if (starReview == 5){
             yourStar1.setImageResource(R.drawable.icon_filled_star);
             yourStar2.setImageResource(R.drawable.icon_filled_star);
             yourStar3.setImageResource(R.drawable.icon_filled_star);

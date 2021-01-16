@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Movie;
-import com.example.film_med_venner.DAO.Rating;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
-import com.example.film_med_venner.controllers.Controller_Rating;
+import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
@@ -34,7 +34,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private GridView gridView;
     private Context ctx;
     private Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
-    private Controller_Rating rController = Controller_Rating.getInstance();
+    private Controller_Review rController = Controller_Review.getInstance();
     private Intent intent;
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -44,7 +44,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageButton addToWatch, write_review_btn;
 
     private Movie movie;
-    private Rating rating;
+    private Review rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         intent = getIntent();
 
-        movie = mdController.getMovie(intent.getStringExtra("Title"));
+        movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
         star1 = findViewById(R.id.ImageView_star_1);
         star2 = findViewById(R.id.ImageView_star_2);
@@ -64,8 +64,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         bgThread.execute(() -> {
             try {
-                Database.getInstance().getRating(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
-                    rating = (Rating) rating1;
+                Database.getInstance().getReview(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
+                    rating = (Review) rating1;
                     uiThread.post(() -> {
                         if (rating != null){
                             starFest(rating.getRating());
@@ -118,7 +118,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             bundle.putString("id", movie.getImdbID());
             if (rating != null){
                 bundle.putBoolean("status",true);
-                bundle.putInt("starRating",rating.getRating());
+                bundle.putInt("starReview",rating.getRating());
                 bundle.putString("review",rating.getReview());
             }
             Fragment review_frag = new Write_review_frag();
@@ -127,43 +127,43 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void starFest(int starRating) {
-        if (starRating == 0){
+    private void starFest(int starReview) {
+        if (starReview == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 1){
+        else if (starReview == 1){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 2){
+        else if (starReview == 2){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 3){
+        else if (starReview == 3){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 4){
+        else if (starReview == 4){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (starRating == 5){
+        else if (starReview == 5){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
