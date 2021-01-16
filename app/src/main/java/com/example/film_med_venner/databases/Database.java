@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -15,6 +16,7 @@ import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
@@ -454,7 +456,18 @@ public class Database implements IDatabase {
     public IReview[] getReview() {
         return new IReview[0];
     }
-
+    //----------------------------------WATCHLIST----------------------------------
+    public void addToWatchList(IWatchItem watchItem) throws DatabaseException {
+        //TODO Something like a dis?
+        /*try {
+            db.collection("watchList").add(new WatchItem()).addOnCompleteListener(task -> {
+                watchItem.
+            });
+        } catch (Exception e) {
+            throw new DatabaseException("Error creating review", e);
+        }
+         */
+    }
 
     //----------------------------------FRIENDS----------------------------------
     @Override
@@ -533,4 +546,5 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting friends", e);
         }
     }
+
 }

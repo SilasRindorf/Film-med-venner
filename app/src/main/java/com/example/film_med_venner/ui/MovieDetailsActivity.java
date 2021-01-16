@@ -84,6 +84,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         write_review_btn = findViewById(R.id.image_btn_review);
         write_review_btn.setOnClickListener(this);
 
+        addToWatch = findViewById(R.id.image_btn_add_to_watch_list);
+        addToWatch.setOnClickListener(this);
+
         moviePoster = findViewById(R.id.moviePoster);
         Picasso.get().load(movie.getPoster()).into(moviePoster);
 
@@ -124,6 +127,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             Fragment review_frag = new Write_review_frag();
             review_frag.setArguments(bundle);
             addFrag(R.id.write_review_container, review_frag);
+        }
+        if (view == addToWatch){
+            //TODO DO SOMETHING PLEASE
         }
     }
 
