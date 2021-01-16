@@ -6,15 +6,14 @@ import java.util.ArrayList;
 
 public class Profile implements IProfile {
 
-    private final String ID;
+    private String ID;
     private String name;
     private ArrayList<String> mvGPrefs;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
-    private int amountOfMoviesReviewed;
-    private final ArrayList<String> friends;
-    private final ArrayList<Integer> moviesReviewedIDs;
-    private int amountOfMoviesOnToWatchList;
-    private int amountOfMoviesOnWatchedList;
+    private ArrayList<String> friends;
+    private ArrayList<String> movieReviewedIDs;
+    private ArrayList<String> moviesOnToWatchList;
+    private ArrayList<String> moviesOnWatchedList;
 
 
     public Profile(String name, String ID) {
@@ -22,16 +21,18 @@ public class Profile implements IProfile {
         this.name = name;
         mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
-        moviesReviewedIDs = new ArrayList<>();
-        amountOfMoviesReviewed = -1;
+        movieReviewedIDs = new ArrayList<>();
+    }
+
+    public Profile() {
+
     }
 
     //TODO Den skal også hente profilbillede her
-    public Profile(String name, String ID, int amountOfMoviesReviewed,  int amountOfFriends, int amountOfMoviesOnToWatchList, int amountOfMoviesOnWatchedList) {
+    public Profile(String name, String ID, ArrayList<String> moviesOnToWatchList, ArrayList<String> moviesOnWatchedList) {
         this(name, ID);
-        this.amountOfMoviesReviewed = amountOfMoviesReviewed;
-        this.amountOfMoviesOnToWatchList = amountOfMoviesOnToWatchList;
-        this.amountOfMoviesOnWatchedList = amountOfMoviesOnWatchedList;
+        this.moviesOnToWatchList = moviesOnToWatchList;
+        this.moviesOnWatchedList = moviesOnWatchedList;
     }
 
     @Override
@@ -39,31 +40,24 @@ public class Profile implements IProfile {
         return ID;
     }
 
-
-
-    @Override
-    public int getAmountOfMoviesReviewed() {
-        return moviesReviewedIDs.size();
-    }
-
-    @Override
-    public int getAmountOfFriends() {
-        return friends.size();
-    }
-
-    @Override
     public void addFriend(String id) {
         friends.add(id);
     }
 
-    @Override
-    public int getAmountOfMoviesOnToWatchList() {
-        return amountOfMoviesOnToWatchList;
+    public String[] getMoviesOnToWatchList() {
+        String[] size = new String[moviesOnToWatchList.size()];
+        return moviesOnToWatchList.toArray(size);
     }
 
     @Override
-    public int getAmountOfMoviesOnWatchedList() {
-        return amountOfMoviesOnWatchedList;
+    public String[] getMoviesOnWatchedList() {
+        String[] size = new String[moviesOnWatchedList.size()];
+        return moviesOnWatchedList.toArray(size);
+    }
+
+    public String[] getReviewedMovies() {
+        String[] size = new String[movieReviewedIDs.size()];
+        return movieReviewedIDs.toArray(size);
     }
 
     public String getName() {
