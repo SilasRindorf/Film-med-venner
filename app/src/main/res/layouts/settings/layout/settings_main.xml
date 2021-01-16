@@ -49,28 +49,7 @@
                     android:textColorHint="#DDFFFFFF"
                     android:textColor="#DDFFFFFF"/>
             </LinearLayout>
-            <!-- TELEFON -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_gravity="fill_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Telefon: "
-                    android:textColor="#DDFFFFFF"/>
-                <EditText
-                    android:id="@+id/profile_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Skriv dit telefon nr. her"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"
-                    android:textColor="#DDFFFFFF"/>
-            </LinearLayout>
+
             <!-- MAIL -->
             <LinearLayout
                 android:layout_width="match_parent"
