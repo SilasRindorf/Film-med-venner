@@ -4,7 +4,7 @@ import com.example.film_med_venner.interfaces.IProfile;
 
 import java.util.ArrayList;
 
-public class ProfileDTO implements IProfile {
+public class ProfileDTO {
     private String ID;
     private String name;
     private ArrayList<String> mvGPrefs;
@@ -13,65 +13,45 @@ public class ProfileDTO implements IProfile {
     private ArrayList<Integer> moviesReviewedIDs;
     private int amountOfMoviesOnToWatchList;
     private int amountOfMoviesOnWatchedList;
-    @Override
-    public String getID() {
-        return null;
+
+    public ProfileDTO() {
+    }
+    public ProfileDTO(IProfile profile) {
+        this.ID = profile.getID();
+        this.name = profile.getName();
+        this.mvGPrefs = new ArrayList<>();
+        this.friends = new ArrayList<>();
+        this.moviesReviewedIDs = new ArrayList<>();
+        this.amountOfMoviesReviewed = profile.getAmountOfMoviesReviewed();
+        this.amountOfMoviesOnToWatchList = profile.getAmountOfMoviesOnToWatchList();
+        this.amountOfMoviesOnWatchedList = profile.getAmountOfMoviesOnWatchedList();
     }
 
-
-
-    @Override
-    public int getAmountOfMoviesReviewed() {
-        return 0;
-    }
-
-    @Override
-    public int getAmountOfMoviesOnToWatchList() {
-        return 0;
-    }
-
-    @Override
-    public int getAmountOfMoviesOnWatchedList() {
-        return 0;
-    }
-
-    @Override
     public String getName() {
-        return null;
+        return name;
     }
 
-    @Override
-    public void setName(String name) {
-
+    public ArrayList<String> getMvGPrefs() {
+        return mvGPrefs;
     }
 
-    @Override
-    public String[] getMvgPrefs() {
-        return new String[0];
+    public int getAmountOfMoviesReviewed() {
+        return amountOfMoviesReviewed;
     }
 
-    @Override
-    public void addMvgPref(String pref) {
-
+    public ArrayList<String> getFriends() {
+        return friends;
     }
 
-    @Override
-    public void setMvgPrefs(ArrayList<String> mvgPrefs) {
-
+    public ArrayList<Integer> getMoviesReviewedIDs() {
+        return moviesReviewedIDs;
     }
 
-    @Override
-    public String[] getFriendIDs() {
-        return new String[0];
+    public int getAmountOfMoviesOnToWatchList() {
+        return amountOfMoviesOnToWatchList;
     }
 
-    @Override
-    public int getAmountOfFriends() {
-        return 0;
-    }
-
-    @Override
-    public void addFriend(String id) {
-
+    public int getAmountOfMoviesOnWatchedList() {
+        return amountOfMoviesOnWatchedList;
     }
 }
