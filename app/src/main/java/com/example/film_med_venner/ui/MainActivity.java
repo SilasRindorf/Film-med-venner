@@ -95,16 +95,13 @@ public class MainActivity extends AppCompatActivity {
                         public void onCompleted(JSONObject object, GraphResponse response) {
                             try {
                                 String id = object.getString("id");
-                                Log.e("TAG",object.getString("id"));
-                                String name = (object.getString("first_name") + " " + object.getString("last_name"));
-                                Log.e("TAG",object.getString("first_name") + " " + object.getString("last_name"));
+                                String name = object.getString("name");
+                                String email = object.getString("email");
                                 String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
-                                Log.e("TAG","http://graph.facebook.com/" + id + "/picture?type=large");
-                                String email = "N/A";
-                                if (object.has("email")) {
-                                    email = object.getString("email");
-                                }
-                                Log.e("TAG",object.getString("email"));
+                                Log.d("TAG",id);
+                                Log.d("TAG",name);
+                                Log.d("TAG",email);
+                                Log.d("TAG",image_url);
                             } catch (Exception e){
                                 Log.e("TAG", String.valueOf(e));
                             }
