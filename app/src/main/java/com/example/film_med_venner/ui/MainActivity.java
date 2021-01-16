@@ -104,26 +104,31 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TAG",name);
                                 Log.d("TAG",email);
                                 Log.d("TAG",image_url);
-                                FProfileDTO fbProfile = new FProfileDTO(id,name,email,image_url);
-                                Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
-                                    @Override
-                                    public void run() {
-
-                                    }
-
-                                    @Override
-                                    public void handleError(IDatabase.DatabaseException e) {
-                                        Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_LONG).show();
-                                    }
-                                });
                             } catch (Exception e){
                                 Log.e("TAG", e.toString());
                             }
                         }
                     });
-
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email,image_url");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                    FProfileDTO fbProfile = new FProfileDTO(
+                            request.getParameters().getString("id"),
+                            request.getParameters().getString("name"),
+                            request.getParameters().getString("email"),
+                            request.getParameters().getString("image_url"));
+                    Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }
+                        @Override
+                        public void handleError(IDatabase.DatabaseException e) {
+                            Toast.makeText(MainActivity.this, "Invalid Facebook Profile!", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 });
             } catch (IDatabase.DatabaseException e) {
                 Toast.makeText(MainActivity.this,"Failed to log into Facebook",Toast.LENGTH_LONG).show();
