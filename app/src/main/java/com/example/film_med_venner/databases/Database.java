@@ -1,5 +1,6 @@
 package com.example.film_med_venner.databases;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,9 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.example.film_med_venner.ui.MainActivity;
 import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -226,6 +229,13 @@ public class Database implements IDatabase {
         } catch (Exception e) {
             throw new DatabaseException("Error logging in", e);
         }
+    }
+
+    public void logOut(RunnableUI runnableUI){
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+        runnableUI.run();
+
     }
 
     public void loginWithFacebookUser(AccessToken token, RunnableUI runnableUI) throws DatabaseException {

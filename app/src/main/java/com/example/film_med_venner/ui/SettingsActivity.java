@@ -14,7 +14,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,9 +43,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view == log_out_btn){
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
-            startActivity(intent);
+            Database.getInstance().logOut(()->{
+                Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
+                startActivity(intent);
+            });
         }
     }
 
