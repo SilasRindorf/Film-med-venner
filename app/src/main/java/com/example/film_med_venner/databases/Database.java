@@ -43,6 +43,7 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -279,7 +280,7 @@ public class Database implements IDatabase {
     public void addFacebookUser(FProfileDTO facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             db.collection("users").document(facebookProfile.getID()).set(facebookProfile)
-                    .addOnCompleteListener((OnCompleteListener<Void>) task -> {
+                    .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             runnableUI.run();
                         }
@@ -291,8 +292,37 @@ public class Database implements IDatabase {
     }
 
     // TODO Det her skal implementeres for at brugeren kan ændre på sig selv fra settings activity.
-    public void updateUser(String name, String phone, String email, String topGenres, String password, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void updateUser(String name, String email, String topGenres, String password, RunnableErrorUI runnableUI) throws DatabaseException {
+        try {
+            Map<String, Object> docData = new HashMap<>();
+            docData.put("name", name);
+            docData.put("topGenres", topGenres);
+            db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    runnableUI.run();
+                    Log.d(TAG, "Error happened in updating name or top genres");
+                }
+            });
 
+            mAuh.getCurrentUser().updatePassword(password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    runnableUI.run();
+                } else {
+                    Log.d(TAG, "Error happened in updating password");
+                }
+            });
+
+            mAuh.getCurrentUser().updateEmail(email).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    runnableUI.run();
+                    Log.d(TAG, "Error happened in updating email");
+                }
+            });
+
+
+        } catch (Exception e) {
+
+        }
     }
 
 
