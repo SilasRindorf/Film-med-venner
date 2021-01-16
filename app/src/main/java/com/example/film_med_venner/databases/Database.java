@@ -1,6 +1,5 @@
 package com.example.film_med_venner.databases;
 
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DTO.FProfileDTO;
+import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
@@ -22,7 +21,6 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
-import com.example.film_med_venner.ui.MainActivity;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -287,9 +285,9 @@ public class Database implements IDatabase {
 
     }
 
-    public void addFacebookUser(FProfileDTO facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void addFacebookUser(IProfile facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
-            db.collection("users").document(facebookProfile.getID()).set(facebookProfile)
+            db.collection("users").document(facebookProfile.getID()).set(new ProfileDTO(facebookProfile))
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             runnableUI.run();
@@ -330,7 +328,7 @@ public class Database implements IDatabase {
             });
 
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
