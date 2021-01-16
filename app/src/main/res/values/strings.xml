@@ -59,5 +59,6 @@
 
         // Facebook
             <string name="facebook_app_id">412664376620411</string>
+            <string name="facebook_application_id">412664376620411</string>
             <string name="fb_login_protocol_scheme">fb412664376620411</string>
     </resources>

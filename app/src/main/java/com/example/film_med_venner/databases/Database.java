@@ -228,13 +228,12 @@ public class Database implements IDatabase {
         }
     }
 
-    public void createFacebookUser(AccessToken token, RunnableUI runnableUI) throws DatabaseException {
+    public void loginWithFacebookUser(AccessToken token, RunnableUI runnableUI) throws DatabaseException {
         try {
             AuthCredential authCredential = FacebookAuthProvider.getCredential(token.getToken());
 
             mAuh.signInWithCredential(authCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    addUser("FacebookUser", mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 }
             });
@@ -288,6 +287,11 @@ public class Database implements IDatabase {
         } catch (Exception e) {
             runnableUI.handleError(new DatabaseException("Error creating Facebook user",e));
         }
+
+    }
+
+    // TODO Det her skal implementeres for at brugeren kan ændre på sig selv fra settings activity.
+    public void updateUser(String name, String phone, String email, String topGenres, String password, RunnableErrorUI runnableUI) throws DatabaseException {
 
     }
 

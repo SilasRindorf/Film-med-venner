@@ -25,7 +25,7 @@
                 android:text="Profile"
                 android:textStyle="bold"
                 android:textSize="24sp"
-                android:textColor="#DD000000"></TextView>
+                android:textColor="#DDFFFFFF"/>
 
             <!-- NAVN -->
             <LinearLayout
@@ -39,12 +39,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Navn: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ole Wedel"></EditText>
+                    android:hint="Skriv dit navn her..."
+                    android:fontFamily="sans-serif-medium"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- TELEFON -->
             <LinearLayout
@@ -58,12 +61,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Telefon: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="42424242"></EditText>
+                    android:hint="Skriv dit telefon nr. her"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- MAIL -->
             <LinearLayout
@@ -77,12 +83,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Mail: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="snotabe@kageelsker.dk"></EditText>
+                    android:hint="Skriv din mail her"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- TOP GENRE -->
             <LinearLayout
@@ -96,12 +105,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Top genre: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Documentaries, romance, thriller"></EditText>
+                    android:hint="Documentaries, romance, thriller"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- PROFILE PICTURE -->
             <LinearLayout
@@ -115,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Profilbillede: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <ImageView
                     android:id="@+id/profile_picture"
                     android:layout_width="55dp"
@@ -123,12 +135,12 @@
                     app:srcCompat="@drawable/icon_profilepicture"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:layout_weight="1"></ImageView>
+                    android:layout_weight="1"/>
                 <Button
                     android:id="@+id/change_profile_picture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Skift profilbillede"></Button>
+                    android:text="Skift profilbillede"/>
             </LinearLayout>
 
             <!-- HOMEFEED SETTINGS -->
@@ -138,13 +150,14 @@
                 android:text="Homefeed"
                 android:textStyle="bold"
                 android:textSize="24sp"
-                android:textColor="#DD000000"></TextView>
+                android:textColor="#DDFFFFFF"/>
             <Switch
                 android:id="@+id/switch_watchList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:text="@string/switch_watchList"
+                android:textColor="#DDFFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
@@ -156,6 +169,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:text="@string/switch_review"
+                android:textColor="#DDFFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switch_ratings" />
@@ -166,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:text="@string/switch_ratings"
+                android:textColor="#DDFFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +196,7 @@
                     android:layout_height="40dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="See posts from all your friends"
-                    android:textColor="#DD000000"
+                    android:textColor="#DDFFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
 
@@ -199,7 +214,7 @@
                 android:text="Sikkerheds indstillinger"
                 android:textStyle="bold"
                 android:textSize="24sp"
-                android:textColor="#DD000000"></TextView>
+                android:textColor="#DDFFFFFF"/>
 
             <!-- PASSWORD -->
             <LinearLayout
@@ -213,12 +228,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Adgangskode: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="********"></EditText>
+                    android:hint="********"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- NEW PASSWORD -->
             <LinearLayout
@@ -232,12 +249,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Ny adgangskode: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_new_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="********"></EditText>
+                    android:hint="********"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- REPEAT NEW PASSWORD -->
             <LinearLayout
@@ -251,12 +270,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Gentag ny adgangskode: "
-                    android:textColor="#DD000000"></TextView>
+                    android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_repeat_new_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="********"></EditText>
+                    android:hint="********"
+                    android:textColorHint="#DDFFFFFF"
+                    android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
