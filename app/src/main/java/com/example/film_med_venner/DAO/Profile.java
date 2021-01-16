@@ -22,18 +22,24 @@ public class Profile implements IProfile {
         mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
         movieReviewedIDs = new ArrayList<>();
+        moviesOnWatchedList = new ArrayList<>();
+        moviesOnToWatchList = new ArrayList<>();
     }
 
     public Profile() {
-
+        mvGPrefs = new ArrayList<>();
+        friends = new ArrayList<>();
+        movieReviewedIDs = new ArrayList<>();
+        moviesOnWatchedList = new ArrayList<>();
+        moviesOnToWatchList = new ArrayList<>();
     }
 
     //TODO Den skal også hente profilbillede her
-    public Profile(String name, String ID, ArrayList<String> moviesOnToWatchList, ArrayList<String> moviesOnWatchedList) {
+    /*public Profile(String name, String ID, ArrayList<String> moviesOnToWatchList, ArrayList<String> moviesOnWatchedList) {
         this(name, ID);
         this.moviesOnToWatchList = moviesOnToWatchList;
         this.moviesOnWatchedList = moviesOnWatchedList;
-    }
+    }*/
 
     @Override
     public String getID() {
@@ -89,5 +95,23 @@ public class Profile implements IProfile {
         this.mvGPrefs = mvGPrefs;
     }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
+    public void setFriends(ArrayList<String> friends) {
+        this.friends = friends;
+    }
+
+    public void setMovieReviewedIDs(ArrayList<String> movieReviewedIDs) {
+        this.movieReviewedIDs = movieReviewedIDs;
+    }
+
+    public void setMoviesOnToWatchList(ArrayList<String> moviesOnToWatchList) {
+        this.moviesOnToWatchList = moviesOnToWatchList;
+    }
+
+    public void setMoviesOnWatchedList(ArrayList<String> moviesOnWatchedList) {
+        this.moviesOnWatchedList = moviesOnWatchedList;
+    }
 }

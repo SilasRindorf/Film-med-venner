@@ -60,8 +60,8 @@ public class FriendAdapter extends BaseAdapter {
         // profileReviews.setText("- " + ((Profile) item).getAmountOfMoviesReviewed() + " reviewed movies.");
         //TODO Reviews og reviews er jo slået sammen så det her skal ændres både her og i xml
         // profileRatings.setText("SKAL FJERNES " + (42 + " rated movies."));
-        profileToWatchlist.setText("- " + item.getMoviesOnToWatchList() + " movies on their to watchlist.");
-        profileWatchedlist.setText("- " + item.getMoviesOnWatchedList() + " movies on their watched list.");
+        profileToWatchlist.setText("- " + item.getMoviesOnToWatchList().length + " movies on their to watchlist.");
+        profileWatchedlist.setText("- " + item.getMoviesOnWatchedList().length + " movies on their watched list.");
         return gridView;
     }
 }
