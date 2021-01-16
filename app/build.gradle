@@ -63,7 +63,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
+    implementation 'com.facebook.android:facebook-android-sdk:7.1.0'
     implementation 'com.facebook.android:facebook-login:5.15.3'
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.film_med_venner">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            tools:replace="android:value"
+            android:value="@string/facebook_app_id"/>
 
         <activity android:name=".ui.profileActivities.FriendRequestActivity"></activity>
         <activity android:name=".ui.ForgotPasswordActivity"></activity>
