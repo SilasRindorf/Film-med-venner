@@ -10,13 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.film_med_venner.DTO.FProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
-import com.facebook.AccessToken;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -43,12 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         auth = Controller_User.getInstance();
 
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean facebookLoggedIn = accessToken != null && !accessToken.isExpired();
+
 
 
         //Comment out to not skip log in screen
-       if (Controller_User.getInstance().isLoggedIn() || facebookLoggedIn) {
+       if (Controller_User.getInstance().isLoggedIn() || Database.getInstance().isFacebookUserLoginValid()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }

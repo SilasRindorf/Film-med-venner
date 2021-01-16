@@ -342,6 +342,11 @@ public class Database implements IDatabase {
         }
     }
 
+    public boolean isFacebookUserLoginValid(){
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null && !accessToken.isExpired();
+    }
+
 
     //----------------------------------RATINGS----------------------------------
 
