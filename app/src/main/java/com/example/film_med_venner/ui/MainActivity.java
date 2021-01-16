@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         auth = Controller_User.getInstance();
 
-        /*AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean facebookLoggedIn = accessToken != null && !accessToken.isExpired();
 
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
        if (Controller_User.getInstance().isLoggedIn() || facebookLoggedIn) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }*/
+        }
 
 
 
