@@ -52,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         change_profile_picture_btn = findViewById(R.id.change_profile_picture);
         change_profile_picture_btn.setOnClickListener(this);
         save_password_btn = findViewById(R.id.save_password_btn);
-        save_changes_btn.setOnClickListener(this);
+        save_password_btn.setOnClickListener(this);
         save_changes_btn = findViewById(R.id.save_changes_btn);
         save_changes_btn.setOnClickListener(this);
         log_out_btn = findViewById(R.id.btn_log_out);
