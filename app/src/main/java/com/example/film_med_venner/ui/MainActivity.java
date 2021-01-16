@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         com.facebook.CallbackManager callbackManager = CallbackManager.Factory.create();
         LoginButton continue_using_fb_btn = findViewById(R.id.btn_signup_using_facebook);
-        continue_using_fb_btn.setReadPermissions(Arrays.asList("email"));
+        continue_using_fb_btn.setReadPermissions(Arrays.asList("public_profile  "));
         continue_using_fb_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
         @Override
             public void onSuccess(LoginResult loginResult) {
