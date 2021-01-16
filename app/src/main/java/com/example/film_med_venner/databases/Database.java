@@ -485,13 +485,9 @@ public class Database implements IDatabase {
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
         try {
-            db.collection("users").document(selfID).collection("friends").get().addOnCompleteListener(task -> {
+            db.collection("users").document(selfID).collection("friends").document(friendID).set(status,SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    String docID = "";
-                    for (DocumentSnapshot doc : task.getResult().getDocuments()){
-                        docID = doc.getId();
-                    }
-                    db.collection("users").document(selfID).collection("friends").document(docID).set(status,SetOptions.merge());
+                        db.collection("users").document(friendID).collection("friends").document(selfID).set(status,SetOptions.merge());
                     runnableUI.run();
                 }
             });

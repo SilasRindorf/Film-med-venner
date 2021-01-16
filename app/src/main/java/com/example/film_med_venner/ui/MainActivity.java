@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TAG",name);
                                 Log.d("TAG",email);
                                 Log.d("TAG",image_url);
-                                FProfileDTO fbProfile = new FProfileDTO(id,name,email,image_url);
+                                /*FProfileDTO fbProfile = new FProfileDTO(id,name,email,image_url);
                                 Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
                                     @Override
                                     public void run() {
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void handleError(IDatabase.DatabaseException e) {
                                         Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_LONG).show();
                                     }
-                                });
+                                });*/
                             } catch (Exception e){
                                 Log.e("TAG", e.toString());
                             }
