@@ -1,5 +1,6 @@
 package com.example.film_med_venner.databases;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -285,8 +287,15 @@ public class Database implements IDatabase {
 
     }
 
-    public void addFacebookUser(IProfile facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
+            FirebaseUser user = mAuh.getCurrentUser();
+            user.updateEmail(email);
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(facebookProfile.getName())
+                    .setPhotoUri(Uri.parse(profilePictureURL))
+                    .build();
+            mAuh.getCurrentUser().updateProfile(profileUpdates);
             db.collection("users").document(facebookProfile.getID()).set(new ProfileDTO(facebookProfile))
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
