@@ -1,5 +1,6 @@
 package com.example.film_med_venner.databases;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -222,11 +224,7 @@ public class Database implements IDatabase {
         try {
             mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    try {
-                        runnableUI.run();
-                    } catch (DatabaseException e) {
-                        e.printStackTrace();
-                    }
+                    runnableUI.run();
                 }
             });
         } catch (Exception e) {
@@ -234,7 +232,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void logOut(RunnableUI runnableUI) throws DatabaseException {
+    public void logOut(RunnableUI runnableUI){
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         runnableUI.run();
@@ -247,11 +245,7 @@ public class Database implements IDatabase {
 
             mAuh.signInWithCredential(authCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    try {
-                        runnableUI.run();
-                    } catch (DatabaseException e) {
-                        e.printStackTrace();
-                    }
+                    runnableUI.run();
                 }
             });
 
@@ -293,8 +287,15 @@ public class Database implements IDatabase {
 
     }
 
-    public void addFacebookUser(IProfile facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
+            FirebaseUser user = mAuh.getCurrentUser();
+            user.updateEmail(email);
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(facebookProfile.getName())
+                    .setPhotoUri(Uri.parse(profilePictureURL))
+                    .build();
+            mAuh.getCurrentUser().updateProfile(profileUpdates);
             db.collection("users").document(facebookProfile.getID()).set(new ProfileDTO(facebookProfile))
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -339,6 +340,11 @@ public class Database implements IDatabase {
         } catch (Exception ignored) {
 
         }
+    }
+
+    public boolean isFacebookUserLoginValid(){
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null && !accessToken.isExpired();
     }
 
 
@@ -484,18 +490,10 @@ public class Database implements IDatabase {
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
         try {
-            db.collection("users").document(selfID).collection("friends").get().addOnCompleteListener(task -> {
+            db.collection("users").document(selfID).collection("friends").document(friendID).set(status,SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    String docID = "";
-                    for (DocumentSnapshot doc : task.getResult().getDocuments()){
-                        docID = doc.getId();
-                    }
-                    db.collection("users").document(selfID).collection("friends").document(docID).set(status,SetOptions.merge());
-                    try {
-                        runnableUI.run();
-                    } catch (DatabaseException e) {
-                        e.printStackTrace();
-                    }
+                        db.collection("users").document(friendID).collection("friends").document(selfID).set(status,SetOptions.merge());
+                    runnableUI.run();
                 }
             });
 
