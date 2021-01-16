@@ -425,7 +425,7 @@ public class Database implements IDatabase {
                     for (DocumentSnapshot doc : task.getResult().getDocuments()){
                         docID = doc.getId();
                     }
-                    db.collection("users").document(selfID).collection("friends").document(docID).set(status);
+                    db.collection("users").document(selfID).collection("friends").document(docID).set(status,SetOptions.merge());
                     runnableUI.run();
                 }
             });
