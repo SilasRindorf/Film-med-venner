@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.film_med_venner.DTO.FProfileDTO;
+import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.databases.Database;
@@ -100,10 +100,10 @@ public class MainActivity extends AppCompatActivity {
                                 String name = object.getString("name");
                                 String email = object.getString("email");
                                 String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
-                                Log.d("TAG",id);
-                                Log.d("TAG",name);
-                                Log.d("TAG",email);
-                                Log.d("TAG",image_url);
+                                Log.e("TAG",id);
+                                Log.e("TAG",name);
+                                Log.e("TAG",email);
+                                Log.e("TAG",image_url);
                             } catch (Exception e){
                                 Log.e("TAG", e.toString());
                             }
@@ -113,11 +113,16 @@ public class MainActivity extends AppCompatActivity {
                     parameters.putString("fields", "id,name,email,image_url");
                     request.setParameters(parameters);
                     request.executeAsync();
-                    FProfileDTO fbProfile = new FProfileDTO(
+
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    /*ProfileDTO fbProfile = new ProfileDTO(
                             request.getParameters().getString("id"),
                             request.getParameters().getString("name"),
-                            request.getParameters().getString("email"),
-                            request.getParameters().getString("image_url"));
+                            0, 0, 0, 0, 0, 0
+                            //request.getParameters().getString("email"),
+                            //request.getParameters().getString("image_url")
+                    );
                     Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
                         @Override
                         public void run() {
@@ -128,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                         public void handleError(IDatabase.DatabaseException e) {
                             Toast.makeText(MainActivity.this, "Invalid Facebook Profile!", Toast.LENGTH_LONG).show();
                         }
-                    });
+                    });*/
                 });
             } catch (IDatabase.DatabaseException e) {
                 Toast.makeText(MainActivity.this,"Failed to log into Facebook",Toast.LENGTH_LONG).show();
