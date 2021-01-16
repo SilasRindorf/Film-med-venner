@@ -62,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         log_out_btn.setOnClickListener(this);
         // EDITTEXT
         profile_name_edit_text = findViewById(R.id.profile_name);
-        profile_phone_edit_text = findViewById(R.id.profile_phone);
         profile_mail_edit_text = findViewById(R.id.profile_mail);
         profile_top_genre_edit_text = findViewById(R.id.profile_top_genre);
         profile_password_edit_text = findViewById(R.id.profile_password);

@@ -51,11 +51,20 @@
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textColor="@color/colorTextView" />
+        <TextView
+            android:id="@+id/textview_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/forgot_password"
+            android:textColor="@color/colorButton" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
             <Button
                 android:id="@+id/btn_login_using_mail"
                 android:layout_width="wrap_content"
@@ -71,13 +80,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_login_using_facebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_login_using_facebook" />
-
+            android:orientation="horizontal"
+            android:padding="10dp">
             <com.facebook.login.widget.LoginButton
 
                 android:id="@+id/btn_signup_using_facebook"
@@ -85,15 +89,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_signup_using_facebook" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textview_forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/forgot_password"
-            android:textColor="@color/colorButton" />
     </LinearLayout>
 
 

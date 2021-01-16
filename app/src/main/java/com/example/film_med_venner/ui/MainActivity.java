@@ -10,10 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.film_med_venner.DTO.FProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         auth = Controller_User.getInstance();
 
-        /*AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean facebookLoggedIn = accessToken != null && !accessToken.isExpired();
 
 
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
        if (Controller_User.getInstance().isLoggedIn() || facebookLoggedIn) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }*/
+        }
 
 
 
@@ -87,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         continue_using_fb_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
         @Override
             public void onSuccess(LoginResult loginResult) {
-            //TODO Den når aldrig herind
             try {
                 Database.getInstance().loginWithFacebookUser(loginResult.getAccessToken(), () -> {
                     GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -102,15 +104,24 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TAG",name);
                                 Log.d("TAG",email);
                                 Log.d("TAG",image_url);
+                                FProfileDTO fbProfile = new FProfileDTO(id,name,email,image_url);
+                                Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+
+                                    @Override
+                                    public void handleError(IDatabase.DatabaseException e) {
+                                        Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             } catch (Exception e){
-                                Log.e("TAG", String.valueOf(e));
+                                Log.e("TAG", e.toString());
                             }
                         }
                     });
-                    Bundle fbUserData = new Bundle();
-                    fbUserData.putString("fiels","id, name, image_url, email");
-                    request.setParameters(fbUserData);
-                    request.executeAsync();
+
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                 });
