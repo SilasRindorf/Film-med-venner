@@ -31,28 +31,25 @@
                     android:id="@+id/see_friendrequest_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="See fr" />
+                    android:layout_weight="1"
+                    android:text="See friend requests" />
 
                 <EditText
                     android:id="@+id/searchField"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_height="wrap_content"
                     android:background="#33FFFFFF"
-                    android:hint="  Søg efter film eller serie  "
+                    android:hint="Friend mail "
                     android:inputType="textAutoComplete"
+                    android:layout_weight="1"
                     android:text="" />
 
-                <ImageButton
+                <Button
                     android:id="@+id/searchButton"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:adjustViewBounds="true"
-                    android:background="@color/colorBackground"
-                    android:padding="5dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Add friend"/>
             </LinearLayout>
 
             <GridView
