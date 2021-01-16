@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DTO.FProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
@@ -199,7 +200,7 @@ public class Database implements IDatabase {
     }
 
     public void addUser(String name, String userID) {
-        HashMap<String, Object> user = new HashMap();
+        HashMap<String, Object> user = new HashMap<>();
         user.put("name", name);
         db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
@@ -271,6 +272,20 @@ public class Database implements IDatabase {
             });
         } catch (IllegalArgumentException e) {
             throw new DatabaseException("Error creating user", e);
+        }
+
+    }
+
+    public void addFacebookUser(FProfileDTO facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
+        try {
+            db.collection("users").document(facebookProfile.getID()).set(facebookProfile)
+                    .addOnCompleteListener((OnCompleteListener<Void>) task -> {
+                        if (task.isSuccessful()) {
+                            runnableUI.run();
+                        }
+                    });
+        } catch (Exception e) {
+            runnableUI.handleError(new DatabaseException("Error creating Facebook user",e));
         }
 
     }
@@ -384,7 +399,7 @@ public class Database implements IDatabase {
     //----------------------------------FRIENDS----------------------------------
     @Override
     public void sendFriendRequest(String id) throws DatabaseException {
-        HashMap<String, Object> user = new HashMap();
+        HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("userID", selfID);
         user.put("requester", db.collection("users").document(selfID));
@@ -419,7 +434,7 @@ public class Database implements IDatabase {
     }
 
     public void respondToFriendRequest(String friendID, boolean accept,RunnableUI runnableUI) throws DatabaseException {
-        HashMap<String, Object> status = new HashMap();
+        HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
         try {
