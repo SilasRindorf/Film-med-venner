@@ -224,7 +224,11 @@ public class Database implements IDatabase {
         try {
             mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    runnableUI.run();
+                    try {
+                        runnableUI.run();
+                    } catch (DatabaseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (Exception e) {
@@ -232,7 +236,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void logOut(RunnableUI runnableUI){
+    public void logOut(RunnableUI runnableUI) throws DatabaseException {
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         runnableUI.run();
@@ -245,7 +249,11 @@ public class Database implements IDatabase {
 
             mAuh.signInWithCredential(authCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    runnableUI.run();
+                    try {
+                        runnableUI.run();
+                    } catch (DatabaseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -493,7 +501,11 @@ public class Database implements IDatabase {
             db.collection("users").document(selfID).collection("friends").document(friendID).set(status,SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                         db.collection("users").document(friendID).collection("friends").document(selfID).set(status,SetOptions.merge());
-                    runnableUI.run();
+                    try {
+                        runnableUI.run();
+                    } catch (DatabaseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
