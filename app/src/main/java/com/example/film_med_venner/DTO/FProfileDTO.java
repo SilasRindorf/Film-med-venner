@@ -5,16 +5,18 @@ public class FProfileDTO {
 
     private String ID;
     private String name;
+    private String email;
+    private String profilePictureURL;
 
     FProfileDTO(){
 
     }
 
-    public FProfileDTO(String ID, String name, String email, String profileURL) {
+    public FProfileDTO(String ID, String name, String email, String profilePictureURL) {
         this.ID = ID;
         this.name = name;
         this.email = email;
-        this.profileURL = profileURL;
+        this.profilePictureURL = profilePictureURL;
     }
 
     public String getID() {
@@ -41,19 +43,13 @@ public class FProfileDTO {
         this.email = email;
     }
 
-    public String getProfileURL() {
-        return profileURL;
+    public String getProfilePictureURL() {
+        return profilePictureURL;
     }
 
-    public void setProfileURL(String profileURL) {
-        this.profileURL = profileURL;
+    public void setProfilePictureURL(String profilePictureURL) {
+        this.profilePictureURL = profilePictureURL;
     }
-
-    private String email;
-    private String profileURL;
-
-
-
 
 
 }
