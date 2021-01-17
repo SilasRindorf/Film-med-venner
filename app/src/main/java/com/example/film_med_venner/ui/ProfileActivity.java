@@ -69,9 +69,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         watchList = findViewById(R.id.textView_want_to_watch_description);
         watched = findViewById(R.id.textView_watchedlist_description);
 
+        //TODO userID skal også kunne være en af dine venners
+        String userID = Database.getInstance().getCurrentUser().getID();
+
+        // Virker åbenbart ikke :/
         bgThread.execute(() -> {
             try {
-                Database.getInstance().getProfile(Database.getInstance().getCurrentUser().getID(), profile1 -> {
+                Database.getInstance().getProfile(userID, profile1 -> {
                     profile = (Profile) profile1;
                     uiThread.post(() -> {
                         if (profile != null){
