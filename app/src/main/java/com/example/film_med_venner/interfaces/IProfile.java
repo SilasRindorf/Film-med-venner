@@ -6,11 +6,12 @@ public interface IProfile {
     //TODO Obs. på at det er ens egne reviews, ratings, to watch list, watched list, og friends man skal se når man klikker ind på en vilkårlig kategori.
     String getID();
 
-    int getAmountOfMoviesReviewed();
 
-    int getAmountOfMoviesOnToWatchList();
+    String[] getMoviesOnToWatchList();
 
-    int getAmountOfMoviesOnWatchedList();
+    String[] getMoviesOnWatchedList();
+
+    String[] getReviewedMovies();
 
     String getName();
 
@@ -24,7 +25,5 @@ public interface IProfile {
 
     String[] getFriendIDs();
 
-    int getAmountOfFriends();
 
-    void addFriend(String id);
 }

@@ -8,34 +8,40 @@ public class ProfileDTO {
     private String ID;
     private String name;
     private ArrayList<String> mvGPrefs;
-    private int amountOfMoviesReviewed;
+    private String[] amountOfMoviesReviewed;
     private ArrayList<String> friends;
     private ArrayList<Integer> moviesReviewedIDs;
-    private int amountOfMoviesOnToWatchList;
-    private int amountOfMoviesOnWatchedList;
+    private String[] amountOfMoviesOnToWatchList;
+    private String[] amountOfMoviesOnWatchedList;
 
     public ProfileDTO() {
     }
+
+
     public ProfileDTO(IProfile profile) {
         this.ID = profile.getID();
         this.name = profile.getName();
         this.mvGPrefs = new ArrayList<>();
         this.friends = new ArrayList<>();
         this.moviesReviewedIDs = new ArrayList<>();
-        this.amountOfMoviesReviewed = profile.getAmountOfMoviesReviewed();
-        this.amountOfMoviesOnToWatchList = profile.getAmountOfMoviesOnToWatchList();
-        this.amountOfMoviesOnWatchedList = profile.getAmountOfMoviesOnWatchedList();
+        this.amountOfMoviesReviewed = profile.getReviewedMovies();
+        this.amountOfMoviesOnToWatchList = profile.getMoviesOnToWatchList();
+        this.amountOfMoviesOnWatchedList = profile.getMoviesOnWatchedList();
     }
 
     public String getName() {
         return name;
     }
 
+    public String getID() {
+        return ID;
+    }
+
     public ArrayList<String> getMvGPrefs() {
         return mvGPrefs;
     }
 
-    public int getAmountOfMoviesReviewed() {
+    public String[] getAmountOfMoviesReviewed() {
         return amountOfMoviesReviewed;
     }
 
@@ -47,11 +53,11 @@ public class ProfileDTO {
         return moviesReviewedIDs;
     }
 
-    public int getAmountOfMoviesOnToWatchList() {
+    public String[] getAmountOfMoviesOnToWatchList() {
         return amountOfMoviesOnToWatchList;
     }
 
-    public int getAmountOfMoviesOnWatchedList() {
+    public String[] getAmountOfMoviesOnWatchedList() {
         return amountOfMoviesOnWatchedList;
     }
 }

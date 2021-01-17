@@ -3,12 +3,10 @@ package com.example.film_med_venner;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.IWatchItem;
 
 import java.util.ArrayList;
 
@@ -30,7 +28,7 @@ public class Generator {
     public IProfile[] generateProfiles(int amount){
         IProfile[] profiles = new Profile[amount];
         for (int i = 0; i < amount; i++) {
-            IProfile prof = new Profile("Profile " + i, "id" + i, i,i,i,i);
+            IProfile prof = new Profile("Profile " + i, "id" + i);
             profiles[i] = prof;
         }
         return profiles;
