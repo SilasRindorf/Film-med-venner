@@ -9,6 +9,7 @@ import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -18,6 +19,7 @@ import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
@@ -190,22 +192,32 @@ public class Database implements IDatabase {
         }
     }
 
+
+    public void getCurrentUser(RunnableFullProfileUI runnableFullProfileUI) {
+        FirebaseUser user = mAuh.getCurrentUser();
+        try {
+            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    runnableFullProfileUI.run(task.getResult().toObject(FullProfileDTO.class));
+                }
+            });
+        } catch (Exception ignored) {
+        }
+    }
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error sending email ", e));
     }
 
-    public void addUser(String name, String userID) {
-        HashMap<String, Object> user = new HashMap<>();
-        user.put("name", name);
+    public void addUser(IProfile profile, String userID) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
+                .setDisplayName(profile.getName())
                 .build();
         mAuh.getCurrentUser().updateProfile(profileUpdates);
 
-        db.collection("users").document(userID).set(user)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + user.toString()))
+        db.collection("users").document(userID).set(new ProfileDTO(profile))
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + profile.getID()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
     }
 
@@ -251,13 +263,13 @@ public class Database implements IDatabase {
         }
     }
 
-    public void createUser(String email, String password, String name, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void createUser(String email, String password, IProfile profile, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
-                    addUser(name, mAuh.getCurrentUser().getUid());
+                    addUser(profile, mAuh.getCurrentUser().getUid());
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -351,16 +363,13 @@ public class Database implements IDatabase {
     public void updateReviews(IReview rating) throws DatabaseException {
         try {
             db.collection("reviews")
-                    .whereEqualTo("userID", rating.getUserID()).whereEqualTo("movieIDStr", rating.getMovieIDStr()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot doc : task.getResult()) {
-                            db.collection("reviews").document(doc.getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
+                    .whereEqualTo("userID", rating.getUserID()).whereEqualTo("movieIDStr", rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                db.collection("reviews").document(doc.getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
+                            }
                         }
-                    }
-                }
-            });
+                    });
         } catch (Exception e) {
             throw new DatabaseException("Error updating review", e);
         }
@@ -452,9 +461,7 @@ public class Database implements IDatabase {
                                 ids[i] = doc.getId();
                                 i++;
                             }
-
-                            for (String id :
-                                    ids) {
+                            for (String id : ids) {
                                 db.collection("reviews").orderBy("creationDate").whereEqualTo("userID",id).get().addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()){
                                         //Could be split to multiple lines for easier readability. But I'm lazy
