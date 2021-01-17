@@ -202,13 +202,13 @@ public class Database implements IDatabase {
                                 .document(user.getUid()).collection("friends")
                                 .get().addOnCompleteListener(task1 -> {
                             fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
+                            db.collection("users")
+                                    .document(user.getUid()).collection("reviews")
+                                    .get().addOnCompleteListener(task2 -> {
+                                fullProfileDTO.setReviews(task2.getResult().toObjects(ReviewDTO.class));
+                                runnableFullProfileUI.run(fullProfileDTO);
+                            });
                         });
-                        db.collection("users")
-                                .document(user.getUid()).collection("reviews")
-                                .get().addOnCompleteListener(task1 -> {
-                            fullProfileDTO.setReviews(task1.getResult().toObjects(ReviewDTO.class));
-                        });
-                        runnableFullProfileUI.run(fullProfileDTO);
                     });
                     newThread.start();
                 }
@@ -462,7 +462,7 @@ public class Database implements IDatabase {
         try {
             db.collection("users").document(userID)
                     .collection("reviews")
-                    .whereEqualTo("movieIDStr",movieID)
+                    .whereEqualTo("movieIDStr", movieID)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
