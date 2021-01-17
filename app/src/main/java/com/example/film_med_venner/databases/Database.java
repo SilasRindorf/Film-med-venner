@@ -312,7 +312,8 @@ public class Database implements IDatabase {
                     .setPhotoUri(Uri.parse(profilePictureURL))
                     .build();
             mAuh.getCurrentUser().updateProfile(profileUpdates);
-            db.collection("users").document(facebookProfile.getID()).set(new ProfileDTO(facebookProfile))
+            db.collection("users")
+                    .document(mAuh.getCurrentUser().getUid()).set(new ProfileDTO(facebookProfile))
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             runnableUI.run();
