@@ -328,7 +328,7 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             Map<String, Object> data = new HashMap<>();
                             data.put("id", mAuh.getCurrentUser().getUid());
-                            data.put("pictureURL", mAuh.getCurrentUser().getUid());
+                            data.put("pictureURL", profilePictureURL);
                             db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
                             runnableUI.run();
                         }
