@@ -316,6 +316,9 @@ public class Database implements IDatabase {
                     .document(mAuh.getCurrentUser().getUid()).set(new ProfileDTO(facebookProfile))
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("id",mAuh.getCurrentUser().getUid());
+                            db.collection("users").document(mAuh.getUid()).set(data,SetOptions.merge());
                             runnableUI.run();
                         }
                     });
