@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,11 +20,14 @@ import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.concurrent.Executor;
@@ -36,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout l_layout_watchedlist;
     LinearLayout l_layout_friends;
     ImageView imageView_settings;
+    ShapeableImageView profile_picture;
     TextView profileName, genrePref, friends, rated, watchList, watched;
     Profile profile;
 
@@ -62,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         l_layout_friends.setOnClickListener(this);
         imageView_settings = findViewById(R.id.imageView_settings);
         imageView_settings.setOnClickListener(this);
+        profile_picture = findViewById(R.id.imageView_profile);
 
         profileName = findViewById(R.id.text_profileName);
         genrePref = findViewById(R.id.profileGenrePref);
@@ -71,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         watched = findViewById(R.id.textView_watchedlist_description);
 
         //TODO userID skal også kunne være en af dine venners
-        String userID = Database.getInstance().getCurrentUser().getID();
 
         /* if (bundle(userID) != null)
                 userID = bundle(userID);
@@ -83,6 +88,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         // Virker åbenbart ikke :/
         bgThread.execute(() -> {
+            Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
+                String url = RunnableFullProfileUI.getPictureURL();
+                uiThread.post(() -> {
+                    System.out.println("ImageURL: " + url);
+                    Picasso.get().load(url).into(profile_picture);
+                });
+            });
+            String userID = Database.getInstance().getCurrentUser().getID();
             try {
                 Database.getInstance().getProfile(userID, profile1 -> {
                     profile = (Profile) profile1;
