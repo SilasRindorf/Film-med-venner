@@ -455,17 +455,16 @@ public class Database implements IDatabase {
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
         Log.e("You are here: ", "RIGHT HERE!");
         try {
-            db.collection("users").document(userID).collection("reviews").document(movieID)
+            db.collection("users").document(userID).collection("reviews")
+                    .whereEqualTo("movieIDStr",movieID)
                     .get()
                     .addOnCompleteListener(task -> {
-                        try {
-                            if (task.isSuccessful()) {
-                                Review crReview = task.getResult().toObject(Review.class);
-                                crReview.setReviewID(task.getResult().getId());
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult()) {
+                                Review crReview = doc.toObject(Review.class);
+                                crReview.setReviewID(doc.getId());
                                 runnableReviewUI.run(crReview);
-
                             }
-                        } catch (NullPointerException ignored) {
                         }
                     });
         } catch (Exception e) {
