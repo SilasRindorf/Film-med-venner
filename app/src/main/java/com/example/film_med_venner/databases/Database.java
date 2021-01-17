@@ -3,12 +3,9 @@ package com.example.film_med_venner.databases;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
@@ -28,10 +25,6 @@ import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +37,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -204,7 +196,21 @@ public class Database implements IDatabase {
         try {
             db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    runnableFullProfileUI.run(task.getResult().toObject(FullProfileDTO.class));
+                    FullProfileDTO fullProfileDTO = task.getResult().toObject(FullProfileDTO.class);
+                    Thread newThread = new Thread(() -> {
+                        db.collection("users")
+                                .document(user.getUid()).collection("friends")
+                                .get().addOnCompleteListener(task1 -> {
+                            fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
+                        });
+                        db.collection("users")
+                                .document(user.getUid()).collection("reviews")
+                                .get().addOnCompleteListener(task1 -> {
+                            fullProfileDTO.setReviews(task1.getResult().toObjects(ReviewDTO.class));
+                        });
+                        runnableFullProfileUI.run(fullProfileDTO);
+                    });
+                    newThread.start();
                 }
             });
         } catch (Exception ignored) {
@@ -314,12 +320,15 @@ public class Database implements IDatabase {
                     .setPhotoUri(Uri.parse(profilePictureURL))
                     .build();
             mAuh.getCurrentUser().updateProfile(profileUpdates);
+            ProfileDTO u = new ProfileDTO(facebookProfile);
+            u.setPictureURL(profilePictureURL);
             db.collection("users")
-                    .document(mAuh.getCurrentUser().getUid()).set(new ProfileDTO(facebookProfile))
+                    .document(mAuh.getCurrentUser().getUid()).set(u)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Map<String, Object> data = new HashMap<>();
                             data.put("id", mAuh.getCurrentUser().getUid());
+                            data.put("pictureURL", mAuh.getCurrentUser().getUid());
                             db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
                             runnableUI.run();
                         }
@@ -493,7 +502,6 @@ public class Database implements IDatabase {
     public IReview[] getReview() {
         return new IReview[0];
     }
-
     //----------------------------------WATCHLIST----------------------------------
     public void addToWatchList(IWatchItem watchItem) throws DatabaseException {
         //TODO Something like a dis?
