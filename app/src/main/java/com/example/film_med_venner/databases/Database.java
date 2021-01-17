@@ -209,7 +209,6 @@ public class Database implements IDatabase {
     public void addUser(String name, String userID) {
         HashMap<String, Object> user = new HashMap<>();
         user.put("name", name);
-        FirebaseUser firebaseUser = mAuh.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
                 .build();
@@ -221,12 +220,7 @@ public class Database implements IDatabase {
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "User added with ID: " + user.toString());
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error adding user", e);
-            }
-        });
+        }).addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
     }
 
     public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException {
