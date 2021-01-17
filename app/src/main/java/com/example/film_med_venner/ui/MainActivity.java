@@ -98,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
                                     String name = object.getString("name");
                                     String email = object.getString("email");
                                     String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
-                                    Log.e("TAG", id);
-                                    Log.e("TAG", name);
-                                    Log.e("TAG", email);
-                                    Log.e("TAG", image_url);
+                                    Log.e("ID", id);
+                                    Log.e("NAME", name);
+                                    Log.e("EMAIL", email);
+                                    Log.e("IMAGE_URL", image_url);
                                     //TODO Tilføj fb bruger i db måske vha. param bundle?
                                     /*parameters.putString("id",id);
                         parameters.putString("name",name);
