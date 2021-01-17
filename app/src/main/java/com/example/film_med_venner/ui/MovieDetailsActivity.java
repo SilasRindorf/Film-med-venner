@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -65,6 +66,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             try {
                 Database.getInstance().getReview(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
                     rating = (Review) rating1;
+                    Log.e("uID: ",Database.getInstance().getCurrentUser().getID() );
+                    Log.e("movID: ", movie.getImdbID());
                     uiThread.post(() -> {
                         if (rating != null){
                             starFest(rating.getRating());

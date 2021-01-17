@@ -458,6 +458,7 @@ public class Database implements IDatabase {
     }
 
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
+        Log.e("You are here: ", "RIGHT HERE!");
         try {
             db.collection("users").document(userID)
                     .collection("reviews")
