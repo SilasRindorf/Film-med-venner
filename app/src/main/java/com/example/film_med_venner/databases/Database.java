@@ -385,9 +385,11 @@ public class Database implements IDatabase {
     public void updateReviews(IReview rating) throws DatabaseException {
         try {
             db.collection("users")
-                    .document(rating.getUserID()).collection("reviews").document(rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
+                    .document(rating.getUserID()).collection("reviews")
+                    .document(rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    db.collection("reviews").document(task.getResult().getId()).set(new ReviewDTO(rating, new Date()), SetOptions.merge());
+                    db.collection("reviews").document(task.getResult().getId())
+                            .set(new ReviewDTO(rating, new Date()), SetOptions.merge());
                 }
             });
         } catch (Exception e) {
@@ -397,7 +399,8 @@ public class Database implements IDatabase {
 
     public void createReview(IReview rating) throws DatabaseException {
         try {
-            db.collection("users").document(rating.getUserID()).collection("reviews")
+            db.collection("users").document(rating.getUserID())
+                    .collection("reviews")
                     .add(new ReviewDTO(rating, new Date())).addOnCompleteListener(task -> {
                 rating.setReviewID(task.getResult().getId());
             });
@@ -435,7 +438,9 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 try {
-                                    db.collection("users").document(doc.getId()).collection("reviews").document(reviewID).get().addOnCompleteListener(task1 -> {
+                                    db.collection("users")
+                                            .document(doc.getId()).collection("reviews")
+                                            .document(reviewID).get().addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             Review crReview = doc.toObject(Review.class);
                                             crReview.setReviewID(doc.getId());
@@ -455,7 +460,8 @@ public class Database implements IDatabase {
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
         Log.e("You are here: ", "RIGHT HERE!");
         try {
-            db.collection("users").document(userID).collection("reviews")
+            db.collection("users").document(userID)
+                    .collection("reviews")
                     .whereEqualTo("movieIDStr",movieID)
                     .get()
                     .addOnCompleteListener(task -> {
@@ -475,13 +481,15 @@ public class Database implements IDatabase {
     public void getFriendReviews(RunnableReviewsUI runnableReviewsUI) throws DatabaseException {
         try {
 
-            db.collection("users").document(mAuh.getCurrentUser().getUid())
+            db.collection("users")
+                    .document(mAuh.getCurrentUser().getUid())
                     .collection("friends")
                     .whereEqualTo("status", true)
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
-                        db.collection("users").document(doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
+                        db.collection("users").document(
+                                doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 //Could be split to multiple lines for easier readability. But I'm lazy
                                 runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
@@ -492,7 +500,7 @@ public class Database implements IDatabase {
             });
 
         } catch (Exception e) {
-            throw new DatabaseException("Error getting reviews", e);
+            throw new DatabaseException("Error getting friend reviews", e);
         }
     }
 
@@ -501,6 +509,7 @@ public class Database implements IDatabase {
     public IReview[] getReview() {
         return new IReview[0];
     }
+
     //----------------------------------WATCHLIST----------------------------------
     public void addToWatchList(IWatchItem watchItem) throws DatabaseException {
         //TODO Something like a dis?
