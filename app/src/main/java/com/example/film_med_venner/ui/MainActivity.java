@@ -87,27 +87,23 @@ public class MainActivity extends AppCompatActivity {
         continue_using_fb_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Bundle parameters = new Bundle();
+
                 try {
                     Database.getInstance().loginWithFacebookUser(loginResult.getAccessToken(), () -> {
                         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
+                                    Log.e("JSON", ""+response.getJSONObject().toString());
                                     String id = object.getString("id");
                                     String name = object.getString("name");
-                                    String email = object.getString("email");
+                                    String email = "N/A";
+                                    if (object.has("email")){
+                                        email = object.getString("email");
+                                    }
                                     String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
-                                    Log.e("ID", id);
-                                    Log.e("NAME", name);
-                                    Log.e("EMAIL", email);
                                     Log.e("IMAGE_URL", image_url);
                                     //TODO Tilføj fb bruger i db måske vha. param bundle?
-                                    /*parameters.putString("id",id);
-                        parameters.putString("name",name);
-                        parameters.putString("email",email);
-                        parameters.putString("image_url",image_url);*/
-
                                     /*ProfileDTO fbProfile = new ProfileDTO(id, name, email, image_url)
                                     Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
                                         @Override
@@ -126,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields","id, name, email");
                         request.setParameters(parameters);
                         request.executeAsync();
+                        Log.e("requestAsyncStuff",parameters.toString());
                         Toast.makeText(MainActivity.this, "Succesfully logged in with your Facebook account", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(intent);
