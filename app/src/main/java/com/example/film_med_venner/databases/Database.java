@@ -192,18 +192,8 @@ public class Database implements IDatabase {
 
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Sent email for resetting password");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Log.w(TAG, "Error sending email ", e);
-            }
-        });
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error sending email ", e));
     }
 
     public void addUser(String name, String userID) {
@@ -214,13 +204,9 @@ public class Database implements IDatabase {
                 .build();
         mAuh.getCurrentUser().updateProfile(profileUpdates);
 
-        db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "User added with ID: " + user.toString());
-            }
-        }).addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
+        db.collection("users").document(userID).set(user)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + user.toString()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
     }
 
     public void logIn(String email, String password, RunnableUI runnableUI) throws DatabaseException {
@@ -298,7 +284,7 @@ public class Database implements IDatabase {
 
     }
 
-    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI)   {
         try {
             FirebaseUser user = mAuh.getCurrentUser();
             user.updateEmail(email);
@@ -343,10 +329,10 @@ public class Database implements IDatabase {
             mAuh.getCurrentUser().updateEmail(email).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
+                } else {
                     Log.d(TAG, "Error happened in updating email");
                 }
             });
-
 
         } catch (Exception ignored) {
 
