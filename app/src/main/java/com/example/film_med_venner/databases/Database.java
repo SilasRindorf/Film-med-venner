@@ -79,6 +79,11 @@ public class Database implements IDatabase {
 
 
     @Override
+    public IProfile getProfile(String id) {
+        return null;
+    }
+
+    @Override
     public IMovie[] getMoviesWithGenre(String Genre) {
         return new IMovie[0];
     }
@@ -144,10 +149,10 @@ public class Database implements IDatabase {
         }
     }
 
-    @Override
+   /* @Override
     public IProfile getProfile(String id) {
         return null;
-    }
+    }*/
 
     //TODO should be changed current run time is N
     public void getProfile(String id, RunnableProfileUI runnable) throws DatabaseException {

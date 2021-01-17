@@ -58,7 +58,7 @@
                         android:textColor="@color/colorTextView"/>
 
                     <TextView
-                        android:id="@+id/profileDescription"
+                        android:id="@+id/profileGenrePref"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profileInterests"
