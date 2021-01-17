@@ -7,16 +7,26 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout l_layout_review;
@@ -25,6 +35,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout l_layout_watchedlist;
     LinearLayout l_layout_friends;
     ImageView imageView_settings;
+    TextView profileName, genrePref, friends, rated, watchList, watched;
+    Profile profile;
+
+    private Executor bgThread = Executors.newSingleThreadExecutor();
+    private Handler uiThread = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +61,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         l_layout_friends.setOnClickListener(this);
         imageView_settings = findViewById(R.id.imageView_settings);
         imageView_settings.setOnClickListener(this);
+
+        profileName = findViewById(R.id.text_profileName);
+        genrePref = findViewById(R.id.profileGenrePref);
+        friends = findViewById(R.id.textView_friends_description);
+        rated = findViewById(R.id.textView_rated_description);
+        watchList = findViewById(R.id.textView_want_to_watch_description);
+        watched = findViewById(R.id.textView_watchedlist_description);
+
+        bgThread.execute(() -> {
+
+            profile = (Profile) Database.getInstance().getCurrentUser();
+            uiThread.post(() -> {
+                if (profile != null){
+                    // code goes here
+                    profileName.setText(profile.getName());
+                } else {
+                    Toast.makeText(ProfileActivity.this, "kunne ikke finde navn", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            });
+
+        });
+
     }
 
     private void addFrag(int id, Fragment fragment) {

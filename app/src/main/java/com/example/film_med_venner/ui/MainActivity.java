@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Comment out to not skip log in screen
-        if (Controller_User.getInstance().isLoggedIn() || Database.getInstance().isFacebookUserLoginValid()) {
+        /*if (Controller_User.getInstance().isLoggedIn() || Database.getInstance().isFacebookUserLoginValid()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-        }
+        }*/
 
 
         EditText username_input_editText = findViewById(R.id.input_username);
