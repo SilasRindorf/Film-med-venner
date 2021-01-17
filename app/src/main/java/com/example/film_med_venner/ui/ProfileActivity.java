@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -29,6 +32,7 @@ import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -90,9 +94,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bgThread.execute(() -> {
             Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
                 String url = RunnableFullProfileUI.getPictureURL();
+                Bitmap picture = downloadPP(url);
                 uiThread.post(() -> {
                     System.out.println("ImageURL: " + url);
-                    Picasso.get().load(url).into(profile_picture);
+                    //Picasso.get().
+                    //TODO Set profile picture in profile
+                    profile_picture.setImageBitmap(picture);
                 });
             });
             String userID = Database.getInstance().getCurrentUser().getID();
@@ -191,5 +198,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             watched.setText("You have watched " + profile.getMoviesOnWatchedList().length + " movies");
         }
+    }
+
+    /**
+     * Credits to https://www.tutorialspoint.com/how-to-download-image-from-url-in-android
+     * @param URL
+     * @return
+     */
+    private Bitmap downloadPP(String... URL){
+        String imageURL = URL[0];
+        Bitmap bitmap = null;
+        try {
+            // Download Image from URL
+            InputStream input = new java.net.URL(imageURL).openStream();
+            // Decode Bitmap
+            bitmap = BitmapFactory.decodeStream(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }
