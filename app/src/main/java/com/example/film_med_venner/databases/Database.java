@@ -209,6 +209,12 @@ public class Database implements IDatabase {
     public void addUser(String name, String userID) {
         HashMap<String, Object> user = new HashMap<>();
         user.put("name", name);
+        FirebaseUser firebaseUser = mAuh.getCurrentUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+        mAuh.getCurrentUser().updateProfile(profileUpdates);
+
         db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
             @Override
@@ -471,6 +477,7 @@ public class Database implements IDatabase {
                                     ids) {
                                 db.collection("reviews").orderBy("creationDate").whereEqualTo("userID",id).get().addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()){
+                                        //Could be split to multiple lines for easier readability. But I'm lazy
                                         runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
                                     }
                                 });
