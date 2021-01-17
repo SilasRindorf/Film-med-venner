@@ -307,12 +307,14 @@ public class Database implements IDatabase {
         try {
             FirebaseUser user = mAuh.getCurrentUser();
             user.updateEmail(email);
+
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(facebookProfile.getName())
                     .setPhotoUri(Uri.parse(profilePictureURL))
                     .build();
             mAuh.getCurrentUser().updateProfile(profileUpdates);
-            db.collection("users").document(facebookProfile.getID()).set(new ProfileDTO(facebookProfile))
+            db.collection("users")
+                    .document(mAuh.getCurrentUser().getUid()).set(new ProfileDTO(facebookProfile))
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             runnableUI.run();
@@ -369,12 +371,10 @@ public class Database implements IDatabase {
 
     public void updateReviews(IReview rating) throws DatabaseException {
         try {
-            db.collection("reviews")
-                    .whereEqualTo("userID", rating.getUserID()).whereEqualTo("movieIDStr", rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
+            db.collection("users")
+                    .document(rating.getUserID()).collection("reviews").document(rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                db.collection("reviews").document(doc.getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
-                            }
+                                db.collection("reviews").document(task.getResult().getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
                         }
                     });
         } catch (Exception e) {
@@ -384,7 +384,7 @@ public class Database implements IDatabase {
 
     public void createReview(IReview rating) throws DatabaseException {
         try {
-            db.collection("reviews")
+            db.collection("users").document(rating.getUserID()).collection("reviews")
                     .add(new ReviewDTO(rating,new Date())).addOnCompleteListener(task -> {
                 rating.setReviewID(task.getResult().getId());
             });
@@ -395,7 +395,7 @@ public class Database implements IDatabase {
 
     public void getReviews(RunnableReviewsUI runnableReviewsUI) throws DatabaseException {
         try {
-            db.collection("reviews")
+            db.collection("users")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -414,18 +414,22 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getReview(String ratingID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
+    public void getReview(String reviewID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
         try {
-            db.collection("reviews")
+            db.collection("users")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                if (doc.getId().equals(ratingID)) {
-                                    Review crReview = doc.toObject(Review.class);
-                                    crReview.setReviewID(doc.getId());
-                                    runnableReviewUI.run(crReview);
-                                }
+                                try {
+                                db.collection("users").document(doc.getId()).collection("reviews").document(reviewID).get().addOnCompleteListener(task1 ->{
+                                    if (task1.isSuccessful()) {
+                                        Review crReview = doc.toObject(Review.class);
+                                        crReview.setReviewID(doc.getId());
+                                        runnableReviewUI.run(crReview);
+                                    }
+                                });} catch (Exception ignored){
+                                    }
                             }
                         }
                     });
@@ -436,17 +440,14 @@ public class Database implements IDatabase {
 
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
         try {
-            db.collection("reviews")
+            db.collection("users").document(userID).collection("review").document(movieID)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                if (doc.get("userID").equals(userID) && doc.get("movieIDStr").equals(movieID)) {
-                                    Review crReview = doc.toObject(Review.class);
-                                    crReview.setReviewID(doc.getId());
+                                    Review crReview = task.getResult().toObject(Review.class);
+                                    crReview.setReviewID(task.getResult().getId());
                                     runnableReviewUI.run(crReview);
-                                }
-                            }
+
                         }
                     });
         } catch (Exception e) {
@@ -462,14 +463,8 @@ public class Database implements IDatabase {
                     .whereEqualTo("status", true)
                     .get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()){
-                            String[] ids = new String[task.getResult().size()];
-                            int i = 0;
                             for (DocumentSnapshot doc : task.getResult()) {
-                                ids[i] = doc.getId();
-                                i++;
-                            }
-                            for (String id : ids) {
-                                db.collection("reviews").orderBy("creationDate").whereEqualTo("userID",id).get().addOnCompleteListener(task1 -> {
+                                db.collection("users").document(doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()){
                                         //Could be split to multiple lines for easier readability. But I'm lazy
                                         runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
