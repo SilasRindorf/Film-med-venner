@@ -202,6 +202,7 @@ public class Database implements IDatabase {
                                 .document(user.getUid()).collection("friends")
                                 .get().addOnCompleteListener(task1 -> {
                             fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
+
                             db.collection("users")
                                     .document(user.getUid()).collection("reviews")
                                     .get().addOnCompleteListener(task2 -> {

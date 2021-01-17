@@ -7,6 +7,7 @@ import java.util.List;
 public class FullProfileDTO extends ProfileDTO {
     List<ProfileDTO> friends;
     List<ReviewDTO> reviews;
+    String profilePicture;
 
 
     public List<ProfileDTO> getFriends() {
