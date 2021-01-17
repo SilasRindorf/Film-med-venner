@@ -7,64 +7,95 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:contextClickable="true"
-        android:onClick="itemOnClick">
-
-        <ImageButton
-            android:id="@+id/moviePoster"
-            android:layout_width="290dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:backgroundTint="#00FFFFFF"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/mp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="180dp"
+            android:contextClickable="true"
+            android:onClick="itemOnClick">
 
-
-            <TextView
-                android:id="@+id/searchTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/moviePoster"
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Title"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textColor="@color/colorTextView"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="10dp" />
+                android:adjustViewBounds="true"
+                android:backgroundTint="#00FFFFFF"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/mp" />
 
-            <TextView
-                android:id="@+id/year"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Year"
-                android:textAlignment="center"
-                android:textColor="@color/colorTextView"
-                android:textSize="16sp"
-                android:layout_marginEnd="10dp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Type"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@color/colorTextView"
-                android:layout_marginBottom="30dp"
-                android:layout_marginEnd="10dp" />
 
+                <TextView
+                    android:id="@+id/searchTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="Title"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextView"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="Year"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextView"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_weight="1"
+                    android:text="Type"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextView"
+                    android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="10dp">
+
+                    <ImageButton
+                        android:id="@+id/image_btn_add_to_watch_list"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:adjustViewBounds="true"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/icon_wanttowatch" />
+
+                    <ImageButton
+                        android:id="@+id/image_btn_review"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:adjustViewBounds="true"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/icon_reviewed" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
