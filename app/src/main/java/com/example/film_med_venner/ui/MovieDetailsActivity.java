@@ -61,7 +61,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         star4 = findViewById(R.id.ImageView_star_4);
         star5 = findViewById(R.id.ImageView_star_5);
 
-
         bgThread.execute(() -> {
             try {
                 Database.getInstance().getReview(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
