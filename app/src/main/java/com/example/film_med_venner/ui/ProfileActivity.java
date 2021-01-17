@@ -70,7 +70,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         watched = findViewById(R.id.textView_watchedlist_description);
 
         //TODO userID skal også kunne være en af dine venners
-
         String userID = Database.getInstance().getCurrentUser().getID();
         System.out.println(userID);
 
