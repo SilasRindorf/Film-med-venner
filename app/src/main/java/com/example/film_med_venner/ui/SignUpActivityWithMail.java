@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -37,7 +38,7 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
                     throw new IDatabase.DatabaseException("Not matching passwords");
                 }
                 String pass =((EditText) findViewById(R.id.input_password)).getText().toString();
-                Database.getInstance().createUser(email.getText().toString(), pass, firstName.getText().toString() + " " + surname.getText().toString(), new RunnableErrorUI() {
+                Database.getInstance().createUser(email.getText().toString(), pass, new Profile(firstName.getText().toString() + " " + surname.getText().toString(),""), new RunnableErrorUI() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(SignUpActivityWithMail.this, HomeActivity.class);

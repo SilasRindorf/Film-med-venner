@@ -3,6 +3,7 @@ package com.example.film_med_venner.controllers;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.facebook.AccessToken;
@@ -33,9 +34,9 @@ public class Controller_User implements IController {
     }
 
 
-    public void createUser(String email, String password, String name) {
+    public void createUser(String email, String password, IProfile profile) {
         try {
-            Database.getInstance().createUser(email, password, name, new RunnableErrorUI() {
+            Database.getInstance().createUser(email, password, profile, new RunnableErrorUI() {
                 @Override
                 public void run() {
 

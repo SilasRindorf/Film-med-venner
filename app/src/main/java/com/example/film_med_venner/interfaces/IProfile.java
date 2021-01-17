@@ -15,6 +15,8 @@ public interface IProfile {
 
     void setName(String name);
 
+    void setID(String id);
+
     String[] getMvgPrefs();
 
     void addMvgPref(String pref);

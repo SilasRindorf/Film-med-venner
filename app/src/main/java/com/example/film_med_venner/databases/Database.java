@@ -215,13 +215,13 @@ public class Database implements IDatabase {
                 .addOnFailureListener(e -> Log.w(TAG, "Error sending email ", e));
     }
 
-    public void addUser(IProfile profile, String userID) {
+    public void addUser(IProfile profile) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(profile.getName())
                 .build();
         mAuh.getCurrentUser().updateProfile(profileUpdates);
 
-        db.collection("users").document(userID).set(new ProfileDTO(profile))
+        db.collection("users").document(profile.getID()).set(new ProfileDTO(profile))
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + profile.getID()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
     }
@@ -274,7 +274,8 @@ public class Database implements IDatabase {
                 if (task.isSuccessful()) {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
-                    addUser(profile, mAuh.getCurrentUser().getUid());
+                    profile.setID(mAuh.getCurrentUser().getUid());
+                    addUser(profile);
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
