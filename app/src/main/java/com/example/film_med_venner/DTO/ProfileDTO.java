@@ -3,18 +3,21 @@ package com.example.film_med_venner.DTO;
 import com.example.film_med_venner.interfaces.IProfile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ProfileDTO {
     private String ID;
     private String name;
-    private ArrayList<String> mvGPrefs;
-    private String[] amountOfMoviesReviewed;
-    private ArrayList<String> friends;
-    private ArrayList<Integer> moviesReviewedIDs;
-    private String[] amountOfMoviesOnToWatchList;
-    private String[] amountOfMoviesOnWatchedList;
+    private List<String> mvGPrefs;
+    private List<String> amountOfMoviesReviewed;
+    private List<String> friends;
+    private List<Integer> moviesReviewedIDs;
+    private List<String> amountOfMoviesOnToWatchList;
+    private List<String> amountOfMoviesOnWatchedList;
 
     public ProfileDTO() {
+
     }
 
 
@@ -24,9 +27,9 @@ public class ProfileDTO {
         this.mvGPrefs = new ArrayList<>();
         this.friends = new ArrayList<>();
         this.moviesReviewedIDs = new ArrayList<>();
-        this.amountOfMoviesReviewed = profile.getReviewedMovies();
-        this.amountOfMoviesOnToWatchList = profile.getMoviesOnToWatchList();
-        this.amountOfMoviesOnWatchedList = profile.getMoviesOnWatchedList();
+        this.amountOfMoviesReviewed = Arrays.asList(profile.getReviewedMovies());
+        this.amountOfMoviesOnToWatchList = Arrays.asList(profile.getMoviesOnToWatchList());
+        this.amountOfMoviesOnWatchedList = Arrays.asList(profile.getMoviesOnWatchedList());
     }
 
     public String getName() {
@@ -37,27 +40,60 @@ public class ProfileDTO {
         return ID;
     }
 
-    public ArrayList<String> getMvGPrefs() {
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getMvGPrefs() {
         return mvGPrefs;
     }
 
-    public String[] getAmountOfMoviesReviewed() {
+    public void setMvGPrefs(List<String> mvGPrefs) {
+        this.mvGPrefs = mvGPrefs;
+    }
+
+    public List<String> getAmountOfMoviesReviewed() {
         return amountOfMoviesReviewed;
     }
 
-    public ArrayList<String> getFriends() {
+    public void setAmountOfMoviesReviewed(List<String> amountOfMoviesReviewed) {
+        this.amountOfMoviesReviewed = amountOfMoviesReviewed;
+    }
+
+    public List<String> getFriends() {
         return friends;
     }
 
-    public ArrayList<Integer> getMoviesReviewedIDs() {
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
+    }
+
+    public List<Integer> getMoviesReviewedIDs() {
         return moviesReviewedIDs;
     }
 
-    public String[] getAmountOfMoviesOnToWatchList() {
+    public void setMoviesReviewedIDs(List<Integer> moviesReviewedIDs) {
+        this.moviesReviewedIDs = moviesReviewedIDs;
+    }
+
+    public List<String> getAmountOfMoviesOnToWatchList() {
         return amountOfMoviesOnToWatchList;
     }
 
-    public String[] getAmountOfMoviesOnWatchedList() {
+    public void setAmountOfMoviesOnToWatchList(List<String> amountOfMoviesOnToWatchList) {
+        this.amountOfMoviesOnToWatchList = amountOfMoviesOnToWatchList;
+    }
+
+    public List<String> getAmountOfMoviesOnWatchedList() {
         return amountOfMoviesOnWatchedList;
     }
+
+    public void setAmountOfMoviesOnWatchedList(List<String> amountOfMoviesOnWatchedList) {
+        this.amountOfMoviesOnWatchedList = amountOfMoviesOnWatchedList;
+    }
 }
+

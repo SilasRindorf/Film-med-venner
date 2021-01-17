@@ -10,12 +10,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 
+import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -104,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                                     String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
                                     Log.e("IMAGE_URL", image_url);
                                     //TODO Tilføj fb bruger i db måske vha. param bundle?
-                                    /*ProfileDTO fbProfile = new ProfileDTO(id, name, email, image_url)
-                                    Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
+                                    IProfile profile = new Profile(name,id);
+                                    Database.getInstance().addFacebookUser(email, image_url, profile, new RunnableErrorUI() {
                                         @Override
                                         public void run() {
                                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
@@ -114,9 +117,27 @@ public class MainActivity extends AppCompatActivity {
 
                                         @Override
                                         public void handleError(IDatabase.DatabaseException e) {
-                                            Toast.makeText(MainActivity.this, "Invalid Facebook Profile!", Toast.LENGTH_LONG).show();
+                                            switch (e.getErrorID()) {
+                                                case 101:
+                                                    Toast.makeText(MainActivity.this, "Password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
+                                                    break;
+                                                case 102:
+                                                    Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
+                                                    e.printStackTrace();
+                                                    break;
+                                                case 103:
+                                                    Toast.makeText(MainActivity.this, "There already exists an user with that email!", Toast.LENGTH_LONG).show();
+                                                    break;
+                                                case 104:
+                                                    Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_LONG).show();
+                                                    break;
+                                                default:
+                                                    Log.e("SignUp",e.toString());
+                                                    e.printStackTrace();
+                                                    break;
+                                            }
                                         }
-                                    });*/
+                                    });
                                 } catch (Exception e) {
                                     Log.e("TAG", e.toString());
                                 }
@@ -128,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
                         request.executeAsync();
                         Log.e("requestAsyncStuff",parameters.toString());
                         Toast.makeText(MainActivity.this, "Succesfully logged in with your Facebook account", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(intent);
                     });
                 } catch (IDatabase.DatabaseException e) {
                     Toast.makeText(MainActivity.this, "Failed to log into Facebook", Toast.LENGTH_LONG).show();
