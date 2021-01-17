@@ -201,16 +201,20 @@ public class Database implements IDatabase {
                         db.collection("users")
                                 .document(user.getUid()).collection("friends")
                                 .get().addOnCompleteListener(task1 -> {
-                            fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
-
-                            db.collection("users")
-                                    .document(user.getUid()).collection("reviews")
-                                    .get().addOnCompleteListener(task2 -> {
-                                fullProfileDTO.setReviews(task2.getResult().toObjects(ReviewDTO.class));
-                                runnableFullProfileUI.run(fullProfileDTO);
-                            });
+                            if (task1.isSuccessful()) {
+                                fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
+                                db.collection("users")
+                                        .document(user.getUid()).collection("reviews")
+                                        .get().addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        fullProfileDTO.setReviews(task2.getResult().toObjects(ReviewDTO.class));
+                                        runnableFullProfileUI.run(fullProfileDTO);
+                                    }
+                                });
+                            }
                         });
                     });
+
                     newThread.start();
                 }
             });
