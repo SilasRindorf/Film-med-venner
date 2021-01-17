@@ -102,8 +102,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         // Det som den anden skal gøre (virker kun med currentUser)
 
-        profile = (Profile) Database.getInstance().getCurrentUser();
-        setupProfileInfo();
+        //profile = (Profile) Database.getInstance().getCurrentUser();
+        //setupProfileInfo();
 
 
     }
