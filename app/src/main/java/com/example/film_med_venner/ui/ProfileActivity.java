@@ -25,6 +25,7 @@ import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -70,7 +71,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         watched = findViewById(R.id.textView_watchedlist_description);
 
         //TODO userID skal også kunne være en af dine venners
+
         String userID = Database.getInstance().getCurrentUser().getID();
+
+        /* if (bundle(userID) != null)
+                userID = bundle(userID);
+           else
+                userID = Database.getInstance().getCurrentUser().getID();
+
+         */
+
 
         // Virker åbenbart ikke :/
         bgThread.execute(() -> {
@@ -90,6 +100,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        // Det som den anden skal gøre (virker kun med currentUser)
+
+        profile = (Profile) Database.getInstance().getCurrentUser();
+        setupProfileInfo();
 
 
     }
