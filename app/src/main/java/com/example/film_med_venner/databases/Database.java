@@ -3,12 +3,9 @@ package com.example.film_med_venner.databases;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
@@ -28,10 +25,6 @@ import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +37,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -203,13 +195,28 @@ public class Database implements IDatabase {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
             db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    runnableFullProfileUI.run(task.getResult().toObject(FullProfileDTO.class));
+                if (task.isSuccessful()) {
+                    FullProfileDTO fullProfileDTO = task.getResult().toObject(FullProfileDTO.class);
+                    Thread newThread = new Thread(() -> {
+                        db.collection("users")
+                                .document(user.getUid()).collection("friends")
+                                .get().addOnCompleteListener(task1 -> {
+                            fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
+                        });
+                        db.collection("users")
+                                .document(user.getUid()).collection("reviews")
+                                .get().addOnCompleteListener(task1 -> {
+                            fullProfileDTO.setReviews(task1.getResult().toObjects(ReviewDTO.class));
+                        });
+                        runnableFullProfileUI.run(fullProfileDTO);
+                    });
+                    newThread.start();
                 }
             });
         } catch (Exception ignored) {
         }
     }
+
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
@@ -303,7 +310,7 @@ public class Database implements IDatabase {
 
     }
 
-    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI)   {
+    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI) {
         try {
             FirebaseUser user = mAuh.getCurrentUser();
             user.updateEmail(email);
@@ -313,18 +320,21 @@ public class Database implements IDatabase {
                     .setPhotoUri(Uri.parse(profilePictureURL))
                     .build();
             mAuh.getCurrentUser().updateProfile(profileUpdates);
+            ProfileDTO u = new ProfileDTO(facebookProfile);
+            u.setPictureURL(profilePictureURL);
             db.collection("users")
-                    .document(mAuh.getCurrentUser().getUid()).set(new ProfileDTO(facebookProfile))
+                    .document(mAuh.getCurrentUser().getUid()).set(u)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Map<String, Object> data = new HashMap<>();
-                            data.put("id",mAuh.getCurrentUser().getUid());
-                            db.collection("users").document(mAuh.getUid()).set(data,SetOptions.merge());
+                            data.put("id", mAuh.getCurrentUser().getUid());
+                            data.put("pictureURL", mAuh.getCurrentUser().getUid());
+                            db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
                             runnableUI.run();
                         }
                     });
         } catch (Exception e) {
-            runnableUI.handleError(new DatabaseException("Error creating Facebook user",e));
+            runnableUI.handleError(new DatabaseException("Error creating Facebook user", e));
         }
 
     }
@@ -363,7 +373,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public boolean isFacebookUserLoginValid(){
+    public boolean isFacebookUserLoginValid() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && !accessToken.isExpired();
     }
@@ -376,10 +386,10 @@ public class Database implements IDatabase {
         try {
             db.collection("users")
                     .document(rating.getUserID()).collection("reviews").document(rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                                db.collection("reviews").document(task.getResult().getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
-                        }
-                    });
+                if (task.isSuccessful()) {
+                    db.collection("reviews").document(task.getResult().getId()).set(new ReviewDTO(rating, new Date()), SetOptions.merge());
+                }
+            });
         } catch (Exception e) {
             throw new DatabaseException("Error updating review", e);
         }
@@ -388,7 +398,7 @@ public class Database implements IDatabase {
     public void createReview(IReview rating) throws DatabaseException {
         try {
             db.collection("users").document(rating.getUserID()).collection("reviews")
-                    .add(new ReviewDTO(rating,new Date())).addOnCompleteListener(task -> {
+                    .add(new ReviewDTO(rating, new Date())).addOnCompleteListener(task -> {
                 rating.setReviewID(task.getResult().getId());
             });
         } catch (Exception e) {
@@ -425,14 +435,15 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 try {
-                                db.collection("users").document(doc.getId()).collection("reviews").document(reviewID).get().addOnCompleteListener(task1 ->{
-                                    if (task1.isSuccessful()) {
-                                        Review crReview = doc.toObject(Review.class);
-                                        crReview.setReviewID(doc.getId());
-                                        runnableReviewUI.run(crReview);
-                                    }
-                                });} catch (Exception ignored){
-                                    }
+                                    db.collection("users").document(doc.getId()).collection("reviews").document(reviewID).get().addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Review crReview = doc.toObject(Review.class);
+                                            crReview.setReviewID(doc.getId());
+                                            runnableReviewUI.run(crReview);
+                                        }
+                                    });
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
                     });
@@ -447,9 +458,9 @@ public class Database implements IDatabase {
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                                    Review crReview = task.getResult().toObject(Review.class);
-                                    crReview.setReviewID(task.getResult().getId());
-                                    runnableReviewUI.run(crReview);
+                            Review crReview = task.getResult().toObject(Review.class);
+                            crReview.setReviewID(task.getResult().getId());
+                            runnableReviewUI.run(crReview);
 
                         }
                     });
@@ -465,16 +476,16 @@ public class Database implements IDatabase {
                     .collection("friends")
                     .whereEqualTo("status", true)
                     .get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()){
-                            for (DocumentSnapshot doc : task.getResult()) {
-                                db.collection("users").document(doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()){
-                                        //Could be split to multiple lines for easier readability. But I'm lazy
-                                        runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
-                                    }
-                                });
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        db.collection("users").document(doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                //Could be split to multiple lines for easier readability. But I'm lazy
+                                runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
                             }
-                        }
+                        });
+                    }
+                }
             });
 
         } catch (Exception e) {
@@ -487,6 +498,7 @@ public class Database implements IDatabase {
     public IReview[] getReview() {
         return new IReview[0];
     }
+
     //----------------------------------WATCHLIST----------------------------------
     public void addToWatchList(IWatchItem watchItem) throws DatabaseException {
         //TODO Something like a dis?
@@ -537,14 +549,14 @@ public class Database implements IDatabase {
         }
     }
 
-    public void respondToFriendRequest(String friendID, boolean accept,RunnableUI runnableUI) throws DatabaseException {
+    public void respondToFriendRequest(String friendID, boolean accept, RunnableUI runnableUI) throws DatabaseException {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
         try {
-            db.collection("users").document(selfID).collection("friends").document(friendID).set(status,SetOptions.merge()).addOnCompleteListener(task -> {
+            db.collection("users").document(selfID).collection("friends").document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                        db.collection("users").document(friendID).collection("friends").document(selfID).set(status,SetOptions.merge());
+                    db.collection("users").document(friendID).collection("friends").document(selfID).set(status, SetOptions.merge());
                     try {
                         runnableUI.run();
                     } catch (DatabaseException e) {
