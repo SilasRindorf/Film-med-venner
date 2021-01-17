@@ -203,13 +203,14 @@ public class Database implements IDatabase {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
             db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     runnableFullProfileUI.run(task.getResult().toObject(FullProfileDTO.class));
                 }
             });
         } catch (Exception ignored) {
         }
     }
+
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
@@ -303,7 +304,7 @@ public class Database implements IDatabase {
 
     }
 
-    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI)   {
+    public void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI) {
         try {
             FirebaseUser user = mAuh.getCurrentUser();
             user.updateEmail(email);
@@ -318,13 +319,13 @@ public class Database implements IDatabase {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Map<String, Object> data = new HashMap<>();
-                            data.put("id",mAuh.getCurrentUser().getUid());
-                            db.collection("users").document(mAuh.getUid()).set(data,SetOptions.merge());
+                            data.put("id", mAuh.getCurrentUser().getUid());
+                            db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
                             runnableUI.run();
                         }
                     });
         } catch (Exception e) {
-            runnableUI.handleError(new DatabaseException("Error creating Facebook user",e));
+            runnableUI.handleError(new DatabaseException("Error creating Facebook user", e));
         }
 
     }
@@ -363,7 +364,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public boolean isFacebookUserLoginValid(){
+    public boolean isFacebookUserLoginValid() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && !accessToken.isExpired();
     }
@@ -376,10 +377,10 @@ public class Database implements IDatabase {
         try {
             db.collection("users")
                     .document(rating.getUserID()).collection("reviews").document(rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                                db.collection("reviews").document(task.getResult().getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
-                        }
-                    });
+                if (task.isSuccessful()) {
+                    db.collection("reviews").document(task.getResult().getId()).set(new ReviewDTO(rating, new Date()), SetOptions.merge());
+                }
+            });
         } catch (Exception e) {
             throw new DatabaseException("Error updating review", e);
         }
@@ -388,7 +389,7 @@ public class Database implements IDatabase {
     public void createReview(IReview rating) throws DatabaseException {
         try {
             db.collection("users").document(rating.getUserID()).collection("reviews")
-                    .add(new ReviewDTO(rating,new Date())).addOnCompleteListener(task -> {
+                    .add(new ReviewDTO(rating, new Date())).addOnCompleteListener(task -> {
                 rating.setReviewID(task.getResult().getId());
             });
         } catch (Exception e) {
@@ -425,14 +426,15 @@ public class Database implements IDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 try {
-                                db.collection("users").document(doc.getId()).collection("reviews").document(reviewID).get().addOnCompleteListener(task1 ->{
-                                    if (task1.isSuccessful()) {
-                                        Review crReview = doc.toObject(Review.class);
-                                        crReview.setReviewID(doc.getId());
-                                        runnableReviewUI.run(crReview);
-                                    }
-                                });} catch (Exception ignored){
-                                    }
+                                    db.collection("users").document(doc.getId()).collection("reviews").document(reviewID).get().addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Review crReview = doc.toObject(Review.class);
+                                            crReview.setReviewID(doc.getId());
+                                            runnableReviewUI.run(crReview);
+                                        }
+                                    });
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
                     });
@@ -442,15 +444,19 @@ public class Database implements IDatabase {
     }
 
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws DatabaseException {
+        Log.e("You are here: ", "RIGHT HERE!");
         try {
-            db.collection("users").document(userID).collection("review").document(movieID)
+            db.collection("users").document(userID).collection("reviews").document(movieID)
                     .get()
                     .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                                    Review crReview = task.getResult().toObject(Review.class);
-                                    crReview.setReviewID(task.getResult().getId());
-                                    runnableReviewUI.run(crReview);
+                        try {
+                            if (task.isSuccessful()) {
+                                Review crReview = task.getResult().toObject(Review.class);
+                                crReview.setReviewID(task.getResult().getId());
+                                runnableReviewUI.run(crReview);
 
+                            }
+                        } catch (NullPointerException ignored) {
                         }
                     });
         } catch (Exception e) {
@@ -465,16 +471,16 @@ public class Database implements IDatabase {
                     .collection("friends")
                     .whereEqualTo("status", true)
                     .get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()){
-                            for (DocumentSnapshot doc : task.getResult()) {
-                                db.collection("users").document(doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()){
-                                        //Could be split to multiple lines for easier readability. But I'm lazy
-                                        runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
-                                    }
-                                });
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        db.collection("users").document(doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                //Could be split to multiple lines for easier readability. But I'm lazy
+                                runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
                             }
-                        }
+                        });
+                    }
+                }
             });
 
         } catch (Exception e) {
@@ -487,6 +493,7 @@ public class Database implements IDatabase {
     public IReview[] getReview() {
         return new IReview[0];
     }
+
     //----------------------------------WATCHLIST----------------------------------
     public void addToWatchList(IWatchItem watchItem) throws DatabaseException {
         //TODO Something like a dis?
@@ -537,14 +544,14 @@ public class Database implements IDatabase {
         }
     }
 
-    public void respondToFriendRequest(String friendID, boolean accept,RunnableUI runnableUI) throws DatabaseException {
+    public void respondToFriendRequest(String friendID, boolean accept, RunnableUI runnableUI) throws DatabaseException {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
         try {
-            db.collection("users").document(selfID).collection("friends").document(friendID).set(status,SetOptions.merge()).addOnCompleteListener(task -> {
+            db.collection("users").document(selfID).collection("friends").document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                        db.collection("users").document(friendID).collection("friends").document(selfID).set(status,SetOptions.merge());
+                    db.collection("users").document(friendID).collection("friends").document(selfID).set(status, SetOptions.merge());
                     try {
                         runnableUI.run();
                     } catch (DatabaseException e) {
