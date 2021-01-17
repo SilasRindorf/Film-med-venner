@@ -2,8 +2,6 @@ package com.example.film_med_venner.DAO;
 
 import com.example.film_med_venner.interfaces.IReview;
 
-import java.util.ArrayList;
-
 public class Review implements IReview {
     private int rating;
     private String username;
@@ -61,10 +59,6 @@ public class Review implements IReview {
     public String getUserID() {
         return userID;
     }
-    @Override
-    public int getFriendsAverageReview() {
-        return 0;
-    }
 
     @Override
     public String getUsername() {
@@ -74,11 +68,6 @@ public class Review implements IReview {
     @Override
     public String getReview() {
         return review;
-    }
-
-    @Override
-    public ArrayList<String> getReviews() {
-        return null;
     }
 
     @Override

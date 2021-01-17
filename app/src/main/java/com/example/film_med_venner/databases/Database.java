@@ -46,6 +46,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,6 +214,12 @@ public class Database implements IDatabase {
     public void addUser(String name, String userID) {
         HashMap<String, Object> user = new HashMap<>();
         user.put("name", name);
+        FirebaseUser firebaseUser = mAuh.getCurrentUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+        mAuh.getCurrentUser().updateProfile(profileUpdates);
+
         db.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
             @Override
@@ -374,7 +381,7 @@ public class Database implements IDatabase {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            db.collection("reviews").document(doc.getId()).set(new ReviewDTO(rating), SetOptions.merge());
+                            db.collection("reviews").document(doc.getId()).set(new ReviewDTO(rating,new Date()), SetOptions.merge());
                         }
                     }
                 }
@@ -387,7 +394,7 @@ public class Database implements IDatabase {
     public void createReview(IReview rating) throws DatabaseException {
         try {
             db.collection("reviews")
-                    .add(new ReviewDTO(rating)).addOnCompleteListener(task -> {
+                    .add(new ReviewDTO(rating,new Date())).addOnCompleteListener(task -> {
                 rating.setReviewID(task.getResult().getId());
             });
         } catch (Exception e) {
@@ -451,6 +458,38 @@ public class Database implements IDatabase {
                             }
                         }
                     });
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting reviews", e);
+        }
+    }
+
+    public void getFriendReviews(RunnableReviewsUI runnableReviewsUI) throws DatabaseException {
+        try {
+
+            db.collection("users").document(mAuh.getCurrentUser().getUid())
+                    .collection("friends")
+                    .whereEqualTo("status", true)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+                            String[] ids = new String[task.getResult().size()];
+                            int i = 0;
+                            for (DocumentSnapshot doc : task.getResult()) {
+                                ids[i] = doc.getId();
+                                i++;
+                            }
+
+                            for (String id :
+                                    ids) {
+                                db.collection("reviews").orderBy("creationDate").whereEqualTo("userID",id).get().addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()){
+                                        //Could be split to multiple lines for easier readability. But I'm lazy
+                                        runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
+                                    }
+                                });
+                            }
+                        }
+            });
+
         } catch (Exception e) {
             throw new DatabaseException("Error getting reviews", e);
         }
