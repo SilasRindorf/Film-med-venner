@@ -32,13 +32,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    LinearLayout l_layout_rating;
-    LinearLayout l_layout_to_watchlist;
-    LinearLayout l_layout_watchedlist;
-    LinearLayout l_layout_friends;
-    ImageView imageView_profile, imageView_settings;
-    TextView profileName, genrePref, friends, rated, watchList, watched;
-    Profile profile;
+    private LinearLayout l_layout_rating;
+    private LinearLayout l_layout_to_watchlist;
+    private LinearLayout l_layout_watchedlist;
+    private LinearLayout l_layout_friends;
+    private ImageView imageView_profile, imageView_settings;
+    private TextView profileName, genrePref, friends, rated, watchList, watched;
+    private Profile profile;
+
+    private Intent intent;
 
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -70,18 +72,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         watched = findViewById(R.id.textView_watchedlist_description);
 
         //TODO userID skal også kunne være en af dine venners
-        String userID = Database.getInstance().getCurrentUser().getID();
-        System.out.println(userID);
 
-        /* if (bundle(userID) != null)
-                userID = bundle(userID);
-           else
-                userID = Database.getInstance().getCurrentUser().getID();
+        intent = getIntent();
 
-         */
+        String userID;
 
+        if (intent.getStringExtra("userID") != null)
+            userID = intent.getStringExtra("userID");
+        else
+            userID = Database.getInstance().getCurrentUser().getID();
 
-        // Virker åbenbart ikke :/
         bgThread.execute(() -> {
             try {
                 Database.getInstance().getProfile(userID, profile1 -> {
@@ -89,8 +89,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     uiThread.post(() -> {
                         if (profile != null){
                             setupProfileInfo();
-                        } else {
-                            return;
                         }
                     });
                 });
