@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -24,18 +25,18 @@ import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    LinearLayout l_layout_review;
     LinearLayout l_layout_rating;
     LinearLayout l_layout_to_watchlist;
     LinearLayout l_layout_watchedlist;
     LinearLayout l_layout_friends;
-    ImageView imageView_settings;
+    ImageView imageView_profile, imageView_settings;
     TextView profileName, genrePref, friends, rated, watchList, watched;
     Profile profile;
 
@@ -50,8 +51,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         addFrag(R.id.nav_bar_container,frag);
 
         //TODO Vi skal lave det her på den smarte måde som Silas har vist og Sejr har glemt.
-        l_layout_review = findViewById(R.id.linearLayout_review);
-        l_layout_review.setOnClickListener(this);
         l_layout_rating = findViewById(R.id.linearLayout_rating);
         l_layout_rating.setOnClickListener(this);
         l_layout_to_watchlist = findViewById(R.id.linearLayout_to_watchlist);
@@ -62,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         l_layout_friends.setOnClickListener(this);
         imageView_settings = findViewById(R.id.imageView_settings);
         imageView_settings.setOnClickListener(this);
-
+        imageView_profile = findViewById(R.id.imageView_profile);
         profileName = findViewById(R.id.text_profileName);
         genrePref = findViewById(R.id.profileGenrePref);
         friends = findViewById(R.id.textView_friends_description);
@@ -73,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //TODO userID skal også kunne være en af dine venners
 
         String userID = Database.getInstance().getCurrentUser().getID();
+        System.out.println(userID);
 
         /* if (bundle(userID) != null)
                 userID = bundle(userID);
@@ -99,12 +99,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
         });
-
-        // Det som den anden skal gøre (virker kun med currentUser)
-
-        //profile = (Profile) Database.getInstance().getCurrentUser();
-        //setupProfileInfo();
-
 
     }
 
@@ -147,6 +141,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void setupProfileInfo() {
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
+        Picasso.get().load("@drawable/test").into(imageView_profile);
 
         if (profile.getFriendIDs().length == 0) {
             friends.setText("You do not have any friends yet");
