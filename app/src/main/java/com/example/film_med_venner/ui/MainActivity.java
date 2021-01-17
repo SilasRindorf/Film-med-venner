@@ -90,39 +90,43 @@ public class MainActivity extends AppCompatActivity {
                 Bundle parameters = new Bundle();
                 try {
                     Database.getInstance().loginWithFacebookUser(loginResult.getAccessToken(), () -> {
-                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), (object, response) -> {
-                            try {
-                                String id = object.getString("id");
-                                String name = object.getString("name");
-                                String email = object.getString("email");
-                                String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
-                                Log.e("TAG", id);
-                                Log.e("TAG", name);
-                                Log.e("TAG", email);
-                                Log.e("TAG", image_url);
-                                //TODO Tilføj fb bruger i db måske vha. param bundle?
-
-                                /*ProfileDTO fbProfile = new ProfileDTO(id, name, email, image_url)
-                                Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
-                                    @Override
-                                    public void run() {
-                                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                        startActivity(intent);
-                                    }
-
-                                    @Override
-                                    public void handleError(IDatabase.DatabaseException e) {
-                                        Toast.makeText(MainActivity.this, "Invalid Facebook Profile!", Toast.LENGTH_LONG).show();
-                                    }
-                                });*/
-                            } catch (Exception e) {
-                                Log.e("TAG", e.toString());
-                            }
-                        });
-                        /*parameters.putString("id",id);
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                try {
+                                    String id = object.getString("id");
+                                    String name = object.getString("name");
+                                    String email = object.getString("email");
+                                    String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
+                                    Log.e("TAG", id);
+                                    Log.e("TAG", name);
+                                    Log.e("TAG", email);
+                                    Log.e("TAG", image_url);
+                                    //TODO Tilføj fb bruger i db måske vha. param bundle?
+                                    /*parameters.putString("id",id);
                         parameters.putString("name",name);
                         parameters.putString("email",email);
                         parameters.putString("image_url",image_url);*/
+
+                                    /*ProfileDTO fbProfile = new ProfileDTO(id, name, email, image_url)
+                                    Database.getInstance().addFacebookUser(fbProfile, new RunnableErrorUI() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void handleError(IDatabase.DatabaseException e) {
+                                            Toast.makeText(MainActivity.this, "Invalid Facebook Profile!", Toast.LENGTH_LONG).show();
+                                        }
+                                    });*/
+                                } catch (Exception e) {
+                                    Log.e("TAG", e.toString());
+                                }
+                            }
+                        });
+
                         request.setParameters(parameters);
                         request.executeAsync();
                         Toast.makeText(MainActivity.this, "Succesfully logged in with your Facebook account", Toast.LENGTH_LONG).show();
