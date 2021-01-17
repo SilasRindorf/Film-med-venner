@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -206,6 +207,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * @return
      */
     private Bitmap downloadPP(String... URL){
+        //TODO Farlige ting
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         String imageURL = URL[0];
         Bitmap bitmap = null;
         try {
