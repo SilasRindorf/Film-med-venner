@@ -70,19 +70,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         watched = findViewById(R.id.textView_watchedlist_description);
 
         bgThread.execute(() -> {
-
-            profile = (Profile) Database.getInstance().getCurrentUser();
-            uiThread.post(() -> {
-                if (profile != null){
-                    // code goes here
-                    profileName.setText(profile.getName());
-                } else {
-                    Toast.makeText(ProfileActivity.this, "kunne ikke finde navn", Toast.LENGTH_LONG).show();
-                    return;
-                }
-            });
-
+            try {
+                Database.getInstance().getProfile(Database.getInstance().getCurrentUser().getID(), profile1 -> {
+                    profile = (Profile) profile1;
+                    uiThread.post(() -> {
+                        if (profile != null){
+                            setupProfileInfo();
+                        } else {
+                            return;
+                        }
+                    });
+                });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
         });
+
+
 
     }
 
@@ -119,6 +123,43 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             setContentView(R.layout.settings_main);
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private void setupProfileInfo() {
+        profileName.setText(profile.getName());
+        //genrePref.setText(profile.getMvgPrefs().toString());
+
+        if (profile.getFriendIDs().length == 0) {
+            friends.setText("You do not have any friends yet");
+        } else if (profile.getFriendIDs().length == 1) {
+            friends.setText("You have " + profile.getFriendIDs().length + " friend");
+        } else {
+            friends.setText("You have " + profile.getFriendIDs().length + " friends");
+        }
+
+        if (profile.getReviewedMovies().length == 0) {
+            rated.setText("You have not rated any movies yet");
+        } else if (profile.getReviewedMovies().length == 1) {
+            rated.setText("You have rated " + profile.getReviewedMovies().length + " movie");
+        } else {
+            rated.setText("You have rated " + profile.getReviewedMovies().length + " movies");
+        }
+
+        if (profile.getMoviesOnToWatchList().length == 0) {
+            watchList.setText("You have 0 movies on your watch list");
+        } else if (profile.getMoviesOnToWatchList().length == 1) {
+            watchList.setText("You have " + profile.getMoviesOnToWatchList().length + " movie on your watch list");
+        } else {
+            watchList.setText("You have " + profile.getMoviesOnToWatchList().length + " movies on your watch list");
+        }
+
+        if (profile.getMoviesOnWatchedList().length == 0) {
+            watched.setText("You have 0 movies on your watch list");
+        } else if (profile.getMoviesOnWatchedList().length == 1) {
+            watched.setText("You have watched" + profile.getMoviesOnWatchedList().length + " movie");
+        } else {
+            watched.setText("You have watched " + profile.getMoviesOnWatchedList().length + " movies");
         }
     }
 }
