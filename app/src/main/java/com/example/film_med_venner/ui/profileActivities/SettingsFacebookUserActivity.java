@@ -33,9 +33,9 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
     private EditText profile_top_genre_edit_text;
     private TextView profile_name_textView, profile_mail_textView;
     private ImageView profile_picture;
-    private Executor bgThread = Executors.newSingleThreadExecutor();
-    private Handler uiThread = new Handler();
-    private String userID, profile_picture_url, profile_name;
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
+    private String userID, profile_picture_url, profile_name, profile_email;
     private FullProfileDTO profile;
 
     //TODO Switches i settings?
@@ -44,19 +44,23 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_facebook_user);
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
         findViews();
         userID = Controller_User.getInstance().getCurrentUser().getID();
+
         bgThread.execute(() -> {
             Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 profile_picture_url = profile.getPictureURL();
                 profile_name = profile.getName();
+                profile_email = Controller_User.getInstance().getCurrentUserEmail();
                 uiThread.post(() -> {
-                    if (profile_picture_url != null){
+                    if (profile_picture_url != null) {
                         //TODO Giv billedet runde kanter
                         Picasso.get().load(profile_picture_url).into(profile_picture);
                         profile_name_textView.setText(profile_name);
+                        profile_mail_textView.setText(profile_email);
+
                     }
                 });
             });
