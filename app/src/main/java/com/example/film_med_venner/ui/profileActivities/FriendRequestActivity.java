@@ -8,13 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Profile;
-import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
@@ -35,7 +33,7 @@ public class FriendRequestActivity extends AppCompatActivity {
     private Handler uiThread = new Handler();
     private Context ctx;
     private List<IProfile> items = new ArrayList<IProfile>();
-    private IProfileController controller = Controller_Profile.getInstance();
+    private IProfileController controller = Controller_Friends.getInstance();
 
 
     @Override

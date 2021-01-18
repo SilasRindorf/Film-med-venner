@@ -15,7 +15,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Profile;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IReview;
 
@@ -27,7 +27,7 @@ public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
     private ReviewAdapter ratingAdapter;
     private Context ctx;
-    IProfileController controller = Controller_Profile.getInstance();
+    IProfileController controller = Controller_Friends.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

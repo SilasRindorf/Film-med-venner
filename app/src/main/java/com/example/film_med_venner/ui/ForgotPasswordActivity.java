@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.databases.Database;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnreset;

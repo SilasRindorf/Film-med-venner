@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -16,22 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
-import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
-import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.ui.SearchActivity;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
-import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Profile;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IProfile;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -48,7 +40,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Bundle bundle = new Bundle();
 
 
-    IProfileController controller = Controller_Profile.getInstance();
+    IProfileController controller = Controller_Friends.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

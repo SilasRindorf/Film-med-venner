@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 
