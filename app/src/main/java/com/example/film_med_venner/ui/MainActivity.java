@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 
@@ -43,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         auth = Controller_User.getInstance();
-
+        // Force logout in case of error
+        /*try {
+            auth.logOut(() ->{});
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+        }*/
 
         //Comment out to not skip log in screen
         if (Controller_User.getInstance().getCurrentUser() != null || Controller_User.getInstance().isFacebookUserLoginValid()) {
