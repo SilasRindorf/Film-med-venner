@@ -2,10 +2,6 @@ package com.example.film_med_venner.interfaces;
 
 public interface IDatabase {
 
-    static IDatabase getInstance() {
-        return DatabaseNonPers.getInstance();
-    }
-
     /**
      * error ID's here
      * -1 = unknown
