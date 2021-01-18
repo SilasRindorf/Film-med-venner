@@ -82,6 +82,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 Controller_Friends.getInstance().getFriends(friends -> {
                     List<IProfile> friendList = Arrays.asList(friends);
+                    System.out.println("Friends" + Arrays.toString(friends));
                     uiThread.post(() -> {
                         friendAdapter = new FriendAdapter(ctx, friendList);
                         gridView.setAdapter(friendAdapter);
