@@ -13,6 +13,7 @@ import android.widget.GridView;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Friends;
+import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.ui.adapters.ToWatchlistAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
@@ -25,7 +26,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
     GridView gridView;
     private ToWatchlistAdapter toWatchlistAdapter;
     private Context ctx;
-    IProfileController controller = Controller_Friends.getInstance();
+    Controller_HomeFeed controller = Controller_HomeFeed.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

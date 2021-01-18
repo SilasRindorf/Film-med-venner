@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_User;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnreset;
@@ -35,7 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         if (view == btnreset) {
             try {
                 if (editText.getText().toString() != null) {
-                    Database.getInstance().sendPasswordEmail(editText.getText().toString());
+                    Controller_User.getInstance().sendPasswordEmail(editText.getText().toString());
                     Toast.makeText(ForgotPasswordActivity.this, "Email is sent", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {

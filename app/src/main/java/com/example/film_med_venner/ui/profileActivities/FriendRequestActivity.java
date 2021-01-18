@@ -16,6 +16,7 @@ import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.ui.adapters.FriendRequestAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
@@ -49,7 +50,7 @@ public class FriendRequestActivity extends AppCompatActivity {
 
        bgThread.execute(() -> {
             try {
-                Database.getInstance().getFriendRequests(friendRequest -> {
+                Controller_Friends.getInstance().getFriendRequests((RunnableProfileUI) friendRequest -> {
                     List<IProfile> friendList = Arrays.asList(friendRequest);
                     System.out.println("FriendRequest" + friendRequest);
                     uiThread.post(() -> {

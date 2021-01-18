@@ -85,8 +85,4 @@ public class Controller_HomeFeed implements IController_HomeFeed {
         }
     }
 
-    @Override
-    public ArrayList<IHomeFeedItems> getHomeFeedItems() {
-        return null;
-    }
 }

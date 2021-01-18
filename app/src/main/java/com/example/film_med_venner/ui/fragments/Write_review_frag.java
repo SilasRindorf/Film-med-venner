@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Review;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
 import com.squareup.picasso.Picasso;
@@ -139,10 +141,10 @@ public class Write_review_frag extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (starReview == 1 || starReview == 2 || starReview == 3 || starReview == 4 || starReview == 5){
-                    IReview newReview = new Review(starReview, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
+                    IReview newReview = new Review(starReview, Controller_User.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Controller_User.getInstance().getCurrentUser().getID());
                     if (status == true){
                         try {
-                            Database.getInstance().updateReviews(newReview);
+                            Controller_Review.getInstance().updateReviews(newReview);
                             Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                         } catch (IDatabase.DatabaseException e){
                             e.printStackTrace();
@@ -150,7 +152,7 @@ public class Write_review_frag extends DialogFragment {
                         }
                     } else {
                     try {
-                        Database.getInstance().createReview(newReview);
+                        Controller_Review.getInstance().createReview(newReview);
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
                         Toast.makeText(getActivity(), "Failed to create review", Toast.LENGTH_LONG).show();

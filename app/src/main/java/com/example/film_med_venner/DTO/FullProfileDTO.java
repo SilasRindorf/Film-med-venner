@@ -14,8 +14,6 @@ public class FullProfileDTO {
         return pictureURL;
     }
 
-
-
     public List<String> getMvGPrefs() {
         return mvGPrefs;
     }

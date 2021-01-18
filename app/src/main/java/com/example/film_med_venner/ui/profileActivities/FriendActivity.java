@@ -17,6 +17,7 @@ import android.widget.GridView;
 
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
@@ -79,7 +80,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
 
         bgThread.execute(() -> {
             try {
-                Database.getInstance().getFriends(friends -> {
+                Controller_Friends.getInstance().getFriends(friends -> {
                     List<IProfile> friendList = Arrays.asList(friends);
                     uiThread.post(() -> {
                         friendAdapter = new FriendAdapter(ctx, friendList);
@@ -117,7 +118,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         fragmentTransaction.commit();
     }
     private void AddFriend() throws IDatabase.DatabaseException {
-        Database.getInstance().sendFriendRequest(searchField.getText().toString());
+        Controller_Friends.getInstance().sendFriendRequest(searchField.getText().toString());
         searchField.setText("");
         Utility.hideKeyboard(FriendActivity.this);
     }

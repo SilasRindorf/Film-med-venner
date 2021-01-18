@@ -56,7 +56,7 @@ public class Controller_Friends implements IProfileController {
 
     }
 
-    public void getFriendRequests(RunnableProfilesUI runnableUI) throws IDatabase.DatabaseException {
+    public void getFriendRequests(RunnableProfilesUI runnableProfilesUI) throws IDatabase.DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
 
         try {
@@ -78,7 +78,7 @@ public class Controller_Friends implements IProfileController {
                     });
                     IProfile[] friends = new Profile[task.getResult().size()];
                     List<Profile> friendz = task.getResult().toObjects(Profile.class);
-                    runnableUI.run(friendz.toArray(friends));
+                    runnableProfilesUI.run(friendz.toArray(friends));
                 }
             });
 
@@ -102,7 +102,6 @@ public class Controller_Friends implements IProfileController {
                                     }
                                 });
                     }
-
                 }
             });
 

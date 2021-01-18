@@ -21,6 +21,7 @@ import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.controllers.Controller_Review;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.fragments.Write_review_frag;
@@ -62,9 +63,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         bgThread.execute(() -> {
             try {
-                Database.getInstance().getReview(Database.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
+                Controller_Review.getInstance().getReview(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
                     rating = (Review) rating1;
-                    Log.e("uID: ",Database.getInstance().getCurrentUser().getID() );
+                    Log.e("uID: ",Controller_User.getInstance().getCurrentUser().getID() );
                     Log.e("movID: ", movie.getImdbID());
                     uiThread.post(() -> {
                         if (rating != null){

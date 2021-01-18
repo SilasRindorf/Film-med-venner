@@ -19,12 +19,14 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,10 +86,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (intent.getStringExtra("userID") != null)
             userID = intent.getStringExtra("userID");
         else
-            userID = Database.getInstance().getCurrentUser().getID();
+            userID = Controller_User.getInstance().getCurrentUser().getID();
 
         bgThread.execute(() -> {
-            Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
+            Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 String url = profile.getPictureURL();
                 //Bitmap picture = getBitmapFromURL(url);

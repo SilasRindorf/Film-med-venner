@@ -39,32 +39,6 @@ public class DatabaseNonPers implements IDatabase {
         return profiles[id];
     }
 
-    @Override
-    public IProfile getProfile(String id) {
-        return null;
-    }
-
-    @Override
-    public IMovie[] getMoviesWithGenre(String Genre) {
-        return null;
-    }
-
-
-    @Override
-    public IMovie[] getMovies() {
-        return movies;
-    }
-
-    @Override
-    public IProfile[] getProfiles() {
-        return profiles;
-    }
-
-    @Override
-    public ArrayList<IHomeFeedItems> getHomeFeed() {
-        return homeFeedItems;
-    }
-
     public IProfile[] getFriends(int ID) {
         /*IProfile[] friends = new Profile[profiles[ID].getAmountOfFriends()];
         String[] friendIDs = profiles[ID].getFriendIDs();
@@ -80,8 +54,6 @@ public class DatabaseNonPers implements IDatabase {
         return ratings.toArray(rat);
     }
 
-    @Override
-    public void sendFriendRequest(String id) throws DatabaseException {
-    }
+
 
 }

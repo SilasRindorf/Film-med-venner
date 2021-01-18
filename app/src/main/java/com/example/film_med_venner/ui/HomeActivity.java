@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getHomeFeedItems();
+                    //items = controller.getHomeFeedItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
