@@ -27,11 +27,11 @@ import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
-    ListView listView;
+    private ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
     private View v;
-    IController_HomeFeed controller = Controller_HomeFeed.getInstance();
+    private IController_HomeFeed controller = Controller_HomeFeed.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public String getClickedReview(String clickedText){
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        List<IHomeFeedItems> items = null;//controller.getHomeFeedItems();
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.length() > 200){
@@ -155,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public int getClickedRating(String clickedText){
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        List<IHomeFeedItems> items = null; //controller.getHomeFeedItems();
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.equals(clickedText)){
@@ -166,7 +166,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public String getClickedDescription(String clickedText){
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        List<IHomeFeedItems> items = null; //controller.getHomeFeedItems();
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.equals(clickedText)){

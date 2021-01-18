@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
@@ -22,6 +22,7 @@ import java.util.List;
 
 public class FriendRequestAdapter extends BaseAdapter {
 private Context ctx;
+private Controller_Friends cf;
 private List<IProfile> profileItems;
 
 public FriendRequestAdapter(Context ctx, List<IProfile> profileItems) {
@@ -58,7 +59,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
         ImageButton accept_btn = gridView.findViewById(R.id.btn_accept);
         accept_btn.setOnClickListener(v -> {
                 try {
-                        Database.getInstance().respondToFriendRequest(item.getID(), 1, () ->
+                        cf.getInstance().respondToFriendRequest(item.getID(), 1, () ->
                                 Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show());
                 } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
@@ -69,7 +70,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
         ImageButton decline_btn = gridView.findViewById(R.id.btn_decline);
         decline_btn.setOnClickListener(v -> {
                 try {
-                        Database.getInstance().respondToFriendRequest(item.getID(), -1, () ->
+                        cf.getInstance().respondToFriendRequest(item.getID(), -1, () ->
                                 Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show());
                 } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();

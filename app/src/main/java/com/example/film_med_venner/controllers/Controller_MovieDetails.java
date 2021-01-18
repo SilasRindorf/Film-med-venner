@@ -23,7 +23,7 @@ public class Controller_MovieDetails implements IController {
     }
 
     private Controller_MovieDetails() {
-        database = IDatabase.getInstance();
+        //database = IDatabase.getInstance();
     }
 
     private void getControllers() {

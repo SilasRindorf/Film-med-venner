@@ -47,11 +47,13 @@ public class FriendRequestActivity extends AppCompatActivity {
 
         ctx = this;
         gridView = findViewById(R.id.gridView);
+        List<IProfile> friendList = new ArrayList<>();
 
-       bgThread.execute(() -> {
+        bgThread.execute(() -> {
+
             try {
                 Controller_Friends.getInstance().getFriendRequests((RunnableProfileUI) friendRequest -> {
-                    List<IProfile> friendList = Arrays.asList(friendRequest);
+                    friendList.add(friendRequest);
                     System.out.println("FriendRequest" + friendRequest);
                     uiThread.post(() -> {
                         friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);

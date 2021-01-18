@@ -1,16 +1,13 @@
 package com.example.film_med_venner.controllers;
 
 import com.example.film_med_venner.DTO.WatchItemDTO;
-import com.example.film_med_venner.Generator;
 import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.interfaces.runnable.RunnableWatchListUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

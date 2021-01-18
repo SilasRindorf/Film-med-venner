@@ -114,7 +114,6 @@ public class Controller_Review implements IController_Review {
     }
 
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws IDatabase.DatabaseException {
-        Log.e("You are here: ", "RIGHT HERE!");
         try {
             db.collection("users").document(userID)
                     .collection("reviews")

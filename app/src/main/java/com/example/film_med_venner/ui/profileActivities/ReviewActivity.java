@@ -24,10 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
-    GridView gridView;
+    private GridView gridView;
     private ReviewAdapter ratingAdapter;
     private Context ctx;
-    IProfileController controller = Controller_Friends.getInstance();
+    private IProfileController controller = Controller_Friends.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
+                    //items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();

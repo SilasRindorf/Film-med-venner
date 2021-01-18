@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WatchedlistActivity extends AppCompatActivity {
-    GridView gridView;
+    private GridView gridView;
     private WatchedlistAdapter watchedlistAdapter;
     private Context ctx;
-    IProfileController controller = Controller_Friends.getInstance();
+    private IProfileController controller = Controller_Friends.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class WatchedlistActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    items = controller.getWatchedListItems();
+                    //items = controller.getWatchedListItems();
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
