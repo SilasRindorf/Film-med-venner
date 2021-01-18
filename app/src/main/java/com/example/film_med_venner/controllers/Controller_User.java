@@ -30,6 +30,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +61,7 @@ public class Controller_User implements IController {
     public IProfile getCurrentUser() {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
-            return new Profile(user.getDisplayName(), user.getUid());
+            return new Profile(user.getDisplayName(), user.getUid(), db.collection("users").document(user.getUid()).get(Source.valueOf("mvGPrefs")).toString());
         } catch (Exception ignored) {
             return null;
         }
@@ -202,8 +203,9 @@ public class Controller_User implements IController {
     public void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI) throws IDatabase.DatabaseException {
         try {
             Map<String, Object> docData = new HashMap<>();
+            docData.put("id", Controller_User.getInstance().getCurrentUser().getID());
             docData.put("name", name);
-            docData.put("topGenres", topGenres);
+            docData.put("mvGPrefs", topGenres);
             db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();

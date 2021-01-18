@@ -33,8 +33,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
         findViews();
+        System.out.println(Controller_User.getInstance().getCurrentUser().getmvGPrefs());
         profile_name_edit_text.setText(Controller_User.getInstance().getCurrentUser().getName(), TextView.BufferType.EDITABLE);
-        profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUser().getEmail());
+        profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUserEmail(), TextView.BufferType.EDITABLE);
+        profile_top_genre_edit_text.setText(Controller_User.getInstance().getCurrentUser().getmvGPrefs(), TextView.BufferType.EDITABLE);
     }
 
     private void addFrag(int id, Fragment fragment) {

@@ -32,6 +32,18 @@ public class Profile implements IProfile {
         moviesOnToWatchList = new ArrayList<>();
     }
 
+
+    public Profile(String name, String ID, String mvGPrefs) {
+        this.ID = ID;
+        this.name = name;
+        this.mvGPrefs = mvGPrefs;
+        friends = new ArrayList<>();
+        movieReviewedIDs = new ArrayList<>();
+        moviesOnWatchedList = new ArrayList<>();
+        moviesOnToWatchList = new ArrayList<>();
+    }
+
+
     //TODO Den skal også hente profilbillede her
     /*public Profile(String name, String ID, ArrayList<String> moviesOnToWatchList, ArrayList<String> moviesOnWatchedList) {
         this(name, ID);
@@ -74,13 +86,13 @@ public class Profile implements IProfile {
     }
 
     @Override
-    public String getMvgPrefs() {
+    public String getmvGPrefs() {
         return mvGPrefs;
     }
 
     @Override
-    public void setMvgPrefs(String mvgPrefs) {
-        this.mvGPrefs = mvgPrefs;
+    public void setmvGPrefs(String mvGPrefs) {
+        this.mvGPrefs = mvGPrefs;
     }
 
     @Override

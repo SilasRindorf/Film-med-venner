@@ -17,7 +17,7 @@ public class ProfileDTO {
     public ProfileDTO(IProfile profile) {
         this.ID = profile.getID();
         this.name = profile.getName();
-        this.mvGPrefs = profile.getMvgPrefs();
+        this.mvGPrefs = profile.getmvGPrefs();
     }
 
     public String getPictureURL() {
@@ -44,11 +44,11 @@ public class ProfileDTO {
         this.name = name;
     }
 
-    public String getMvGPrefs() {
+    public String getmvGPrefs() {
         return mvGPrefs;
     }
 
-    public void setMvGPrefs(String mvGPrefs) {
+    public void setmvGPrefs(String mvGPrefs) {
         this.mvGPrefs = mvGPrefs;
     }
 

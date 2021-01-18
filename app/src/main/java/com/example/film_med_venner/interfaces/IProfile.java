@@ -15,9 +15,9 @@ public interface IProfile {
 
     void setID(String id);
 
-    String getMvgPrefs();
+    String getmvGPrefs();
 
-    void setMvgPrefs(String mvgPrefs);
+    void setmvGPrefs(String mvGPrefs);
 
     String[] getFriendIDs();
 
