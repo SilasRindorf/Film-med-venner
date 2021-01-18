@@ -224,6 +224,36 @@ public class Database implements IDatabase {
         }
     }
 
+    public void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI) {
+        try {
+            db.collection("users").document(uID).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    FullProfileDTO fullProfileDTO = task.getResult().toObject(FullProfileDTO.class);
+                    Thread newThread = new Thread(() -> {
+                        db.collection("users")
+                                .document(uID).collection("friends")
+                                .get().addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
+                                db.collection("users")
+                                        .document(uID).collection("reviews")
+                                        .get().addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        fullProfileDTO.setReviews(task2.getResult().toObjects(ReviewDTO.class));
+                                        runnableFullProfileUI.run(fullProfileDTO);
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    newThread.start();
+                }
+            });
+        } catch (Exception ignored) {
+        }
+    }
+
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
