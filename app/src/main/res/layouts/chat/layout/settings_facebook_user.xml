@@ -80,13 +80,13 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Top genre: "
                     android:textColor="#DDFFFFFF"/>
-                <TextView
+                <EditText
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Documentaries, romance, thriller"
+                    android:hint="Documentaries, romance, thriller"
                     android:fontFamily="sans-serif-medium"
-                    android:textColor="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"/>
             </LinearLayout>
             <!-- PROFILE PICTURE -->
             <LinearLayout
@@ -101,14 +101,15 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Profilbillede: "
                     android:textColor="#DDFFFFFF"/>
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profile_picture"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    app:srcCompat="@drawable/icon_profilepicture"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:layout_weight="1"/>
+                    app:srcCompat="@drawable/icon_profilepicture"
+                    app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
                 <Button
                     android:id="@+id/change_profile_picture"
                     android:layout_width="wrap_content"
