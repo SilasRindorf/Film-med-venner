@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.ui.adapters.WatchedlistAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Profile;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class WatchedlistActivity extends AppCompatActivity {
     GridView gridView;
     private WatchedlistAdapter watchedlistAdapter;
     private Context ctx;
-    IProfileController controller = Controller_Profile.getInstance();
+    IProfileController controller = Controller_Friends.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

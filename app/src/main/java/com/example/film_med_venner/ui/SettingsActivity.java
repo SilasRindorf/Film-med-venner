@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         if (view == log_out_btn) {
             try {
-                Database.getInstance().logOut(() -> {
+                Controller_User.getInstance().logOut(() -> {
                     Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
                     startActivity(intent);
                 });
@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else if (view == save_changes_btn) {
 
             try {
-                Database.getInstance().updateUser(profile_name_edit_text.getText().toString(), profile_mail_edit_text.getText().toString(), profile_top_genre_edit_text.getText().toString(), profile_password_edit_text.getText().toString(), new RunnableErrorUI() {
+                Controller_User.getInstance().updateUser(profile_name_edit_text.getText().toString(), profile_mail_edit_text.getText().toString(), profile_top_genre_edit_text.getText().toString(), new RunnableErrorUI() {
                     @Override
                     public void run() {
                         Toast.makeText(SettingsActivity.this, "Settings have been updated", Toast.LENGTH_LONG).show();
@@ -70,6 +70,23 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 Log.e("Error", "Error in updating user");
                 e.printStackTrace();
 
+            }
+
+        } else if (view == save_password_btn) {
+            if (profile_new_password_edit_text.getText().toString().equals(profile_repeat_new_password_edit_text.getText().toString())) {
+                Controller_User.getInstance().updateUserPassword(profile_password_edit_text.getText().toString(), profile_new_password_edit_text.getText().toString(), new RunnableErrorUI() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingsActivity.this, "Password has been updated", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void handleError(IDatabase.DatabaseException e) {
+                        Toast.makeText(SettingsActivity.this, "Something went wrong, check passwords and try again", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(SettingsActivity.this, "The new passwords need to be the same", Toast.LENGTH_LONG).show();
             }
 
         }

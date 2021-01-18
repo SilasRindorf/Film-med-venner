@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -17,15 +16,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.databases.Database;
-import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
@@ -38,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -50,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout l_layout_watchedlist;
     private LinearLayout l_layout_friends;
     private ImageView imageView_settings;
-    private ShapeableImageView profile_picture;
+    private ImageView profile_picture;
     private TextView profileName, genrePref, friends, rated, watchList, watched;
     private FullProfileDTO profile;
 
@@ -93,18 +86,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (intent.getStringExtra("userID") != null)
             userID = intent.getStringExtra("userID");
         else
-            userID = Database.getInstance().getCurrentUser().getID();
+            userID = Controller_User.getInstance().getCurrentUser().getID();
 
         bgThread.execute(() -> {
-            Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
+            Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 String url = profile.getPictureURL();
-                Bitmap picture = getBitmapFromURL(url);
+                //Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
-                    System.out.println("ImageURL: " + url);
+                    Log.e("ImageURL: ", url);
                     setupProfileInfo();
                     //TODO Set profile picture in profile
-                    profile_picture.setImageBitmap(picture);
+                    Picasso.get().load(url).into(profile_picture);
+                    //profile_picture.setImageBitmap(picture);
                 });
             });
         });
@@ -152,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //genrePref.setText(profile.getMvgPrefs().toString());
         String user;
 
-        if (profile.getID().equals(Database.getInstance().getCurrentUser().getID())) {
+        if (profile.getID().equals(Controller_User.getInstance().getCurrentUser().getID())) {
             user = "You have ";
         } else {
             user = profile.getName() + " has ";
@@ -191,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }*/
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
+    /*public static Bitmap getBitmapFromURL(String src) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         try {
@@ -214,8 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * Credits to https://www.tutorialspoint.com/how-to-download-image-from-url-in-android
      * @param URL
      * @return
-     */
-    /*private Bitmap downloadPP(String... URL){
+    private Bitmap downloadPP(String... URL){
         //TODO Farlige ting
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

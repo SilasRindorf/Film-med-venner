@@ -11,15 +11,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
-import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -49,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Comment out to not skip log in screen
-        if (Controller_User.getInstance().isLoggedIn() || Database.getInstance().isFacebookUserLoginValid()) {
+        if (Controller_User.getInstance().getCurrentUser() != null || Controller_User.getInstance().isFacebookUserLoginValid()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
 
                 try {
-                    Database.getInstance().loginWithFacebookUser(loginResult.getAccessToken(), () -> {
+                    Controller_User.getInstance().loginWithFacebookUser(loginResult.getAccessToken(), () -> {
                         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                                     Log.e("IMAGE_URL", image_url);
                                     //TODO Tilføj fb bruger i db måske vha. param bundle?
                                     IProfile profile = new Profile(name,id);
-                                    Database.getInstance().addFacebookUser(email, image_url, profile, new RunnableErrorUI() {
+                                    Controller_User.getInstance().addFacebookUser(email, image_url, profile, new RunnableErrorUI() {
                                         @Override
                                         public void run() {
                                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
