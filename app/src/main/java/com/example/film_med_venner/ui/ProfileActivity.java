@@ -33,7 +33,10 @@ import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -95,12 +98,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bgThread.execute(() -> {
             Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
                 String url = RunnableFullProfileUI.getPictureURL();
-                Bitmap picture = downloadPP(url);
                 uiThread.post(() -> {
-                    System.out.println("ImageURL: " + url);
-                    //Picasso.get().
-                    //TODO Set profile picture in profile
-                    profile_picture.setImageBitmap(picture);
+                    profile_picture.setImageBitmap(getBitmapFromURL(url));
                 });
             });
             String userID = Database.getInstance().getCurrentUser().getID();
@@ -201,12 +200,31 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    public static Bitmap getBitmapFromURL(String src) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        try {
+            Log.e("ProfilePictureSource: ",src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap","returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception",e.getMessage());
+            return null;
+        }
+    }
     /**
      * Credits to https://www.tutorialspoint.com/how-to-download-image-from-url-in-android
      * @param URL
      * @return
      */
-    private Bitmap downloadPP(String... URL){
+    /*private Bitmap downloadPP(String... URL){
         //TODO Farlige ting
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -221,5 +239,5 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
         return bitmap;
-    }
+    }*/
 }
