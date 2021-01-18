@@ -3,17 +3,18 @@ package com.example.film_med_venner.DTO;
 import java.util.List;
 
 public class FullProfileDTO {
-    List<ProfileDTO> friends;
-    List<ReviewDTO> reviews;
-    String pictureURL;
+    private List<ProfileDTO> friends;
+    private List<ReviewDTO> reviews;
+    private List<String> mvGPrefs;
+    private String pictureURL;
+    private String ID;
+    private String name;
 
     public String getPictureURL() {
         return pictureURL;
     }
-    private List<String> mvGPrefs;
 
-    private String ID;
-    private String name;
+
 
     public List<String> getMvGPrefs() {
         return mvGPrefs;

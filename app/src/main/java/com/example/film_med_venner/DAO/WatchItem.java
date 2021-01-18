@@ -4,9 +4,9 @@ import com.example.film_med_venner.interfaces.IWatchItem;
 
 public class WatchItem implements IWatchItem {
     private String username;
-    private int movieID;
+    private String movieID;
 
-    public WatchItem(String username, int movieID){
+    public WatchItem(String username, String movieID){
         this.username = username;
         this.movieID = movieID;
     }
@@ -24,7 +24,7 @@ public class WatchItem implements IWatchItem {
 
     @Override
     public String getMovieIDStr() {
-        return null;
+        return movieID;
     }
 
 }
