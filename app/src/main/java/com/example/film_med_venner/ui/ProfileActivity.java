@@ -98,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bgThread.execute(() -> {
             Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 String url = RunnableFullProfileUI.getPictureURL();
+                Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
                     System.out.println("ImageURL: " + url);
                     setupProfileInfo(RunnableFullProfileUI);
