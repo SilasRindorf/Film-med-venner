@@ -27,7 +27,7 @@
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
         <activity android:name=".ui.profileActivities.ToWatchlistActivity" />
         <activity android:name=".ui.profileActivities.ReviewActivity" />
-
+        <activity android:name=".ui.profileActivities.SettingsFacebookUserActivity"/>
         <activity android:name=".ui.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -134,7 +134,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 setContentView(R.layout.settings_main);
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
-            } else {
+            } else if (Controller_User.getInstance().isFacebookUserLoginValid() == true){
                 setContentView(R.layout.settings_facebook_user);
                 Intent intent = new Intent(this, SettingsFacebookUserActivity.class);
                 startActivity(intent);
