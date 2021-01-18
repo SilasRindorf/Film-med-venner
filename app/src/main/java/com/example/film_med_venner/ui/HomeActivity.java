@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public String getClickedReview(String clickedText){
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
+        List<IHomeFeedItems> items = controllergetHomeFeedItems();
         for (IHomeFeedItems item : items){
             String expectedReviewText = ((Review) item).getReview();
             if (expectedReviewText.length() > 200){
