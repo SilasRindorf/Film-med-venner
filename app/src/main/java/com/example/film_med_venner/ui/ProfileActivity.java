@@ -160,37 +160,43 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void setupProfileInfo() {
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
+        String user;
+        if (profile.getID() == Database.getInstance().getCurrentUser().getID()) {
+            user = "You have ";
+        } else {
+            user = profile.getName() + " has ";
+        }
 
         if (profile.getFriendIDs().length == 0) {
-            friends.setText("You do not have any friends yet");
+            friends.setText(user + "not gotten any friends yet");
         } else if (profile.getFriendIDs().length == 1) {
-            friends.setText("You have " + profile.getFriendIDs().length + " friend");
+            friends.setText(user + profile.getFriendIDs().length + " friend");
         } else {
-            friends.setText("You have " + profile.getFriendIDs().length + " friends");
+            friends.setText(user + profile.getFriendIDs().length + " friends");
         }
 
         if (profile.getReviewedMovies().length == 0) {
-            rated.setText("You have not rated any movies yet");
+            rated.setText(user + "not rated any movies yet");
         } else if (profile.getReviewedMovies().length == 1) {
-            rated.setText("You have rated " + profile.getReviewedMovies().length + " movie");
+            rated.setText(user + "rated " + profile.getReviewedMovies().length + " movie");
         } else {
             rated.setText("You have rated " + profile.getReviewedMovies().length + " movies");
         }
 
         if (profile.getMoviesOnToWatchList().length == 0) {
-            watchList.setText("You have 0 movies on your watch list");
+            watchList.setText(user + "not put any movies on watch list");
         } else if (profile.getMoviesOnToWatchList().length == 1) {
-            watchList.setText("You have " + profile.getMoviesOnToWatchList().length + " movie on your watch list");
+            watchList.setText(user + profile.getMoviesOnToWatchList().length + " movie on watch list");
         } else {
-            watchList.setText("You have " + profile.getMoviesOnToWatchList().length + " movies on your watch list");
+            watchList.setText(user + profile.getMoviesOnToWatchList().length + " movies on watch list");
         }
 
         if (profile.getMoviesOnWatchedList().length == 0) {
-            watched.setText("You have 0 movies on your watch list");
+            watched.setText(user + "not watched any movies yet");
         } else if (profile.getMoviesOnWatchedList().length == 1) {
-            watched.setText("You have watched" + profile.getMoviesOnWatchedList().length + " movie");
+            watched.setText(user + "watched " + profile.getMoviesOnWatchedList().length + " movie");
         } else {
-            watched.setText("You have watched " + profile.getMoviesOnWatchedList().length + " movies");
+            watched.setText(user + "watched " + profile.getMoviesOnWatchedList().length + " movies");
         }
     }
 
