@@ -10,17 +10,22 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.Utility;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.ui.SearchActivity;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
+import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
@@ -36,7 +41,8 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private GridView gridView;
     private FriendAdapter friendAdapter;
     private Context ctx;
-    private Button see_friendrequest_btn;
+    private Button see_friendrequest_btn, add_friend_btn;
+    private EditText searchField;
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
     private Bundle bundle = new Bundle();
@@ -52,21 +58,38 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         ctx = this;
 
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
 
         gridView = findViewById(R.id.gridView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         see_friendrequest_btn.setOnClickListener(this);
 
+        add_friend_btn = findViewById(R.id.add_friend_btn);
+        add_friend_btn.setOnClickListener(this);
+
+        searchField = findViewById(R.id.searchField);
+        searchField.setOnKeyListener((view, keyCode, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_ENTER:
+                        try {
+                            AddFriend();
+                        } catch (IDatabase.DatabaseException e) {
+                            e.printStackTrace();
+                        }
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
+
         bgThread.execute(() -> {
             try {
-                System.out.println("This is where you die the first time");
-                //TODO YOU DIE HERE. SILAS FIX <3 8===>
                 Database.getInstance().getFriends(friends -> {
-                    System.out.println("Det her er dine venner " + friends);
                     List<IProfile> friendList = Arrays.asList(friends);
                     uiThread.post(() -> {
-                        System.out.println("This is where you die: " + friendList.toString());
                         friendAdapter = new FriendAdapter(ctx, friendList);
                         gridView.setAdapter(friendAdapter);
                         gridView.setVisibility(View.VISIBLE);
@@ -76,35 +99,21 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         });
-
-        /*bgThread.execute(() -> {
-            try {
-                if (Database.getInstance().getCurrentUser().getFriendIDs().length > 0){
-                    return;
-                } else {
-                    Database.getInstance().getFriends(Database.getInstance().getCurrentUser().getID(),Database.getInstance().getFriends({
-
-                    });
-                    IReview newReview = new Review(starReview, Database.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Database.getInstance().getCurrentUser().getID());
-                    friends = Database.getInstance().getFriends(Database.getInstance().getCurrentUser());
-
-                    });
-                    uiThread.post(() -> {
-
-                    });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });*/
     }
 
     @Override
     public void onClick(View v) {
-        if (v == see_friendrequest_btn){
+        if (v == see_friendrequest_btn) {
             setContentView(R.layout.activity_friend_request);
             Intent intent = new Intent(this, FriendRequestActivity.class);
             startActivity(intent);
+        }
+        if (v == add_friend_btn){
+            try {
+                AddFriend();
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -115,59 +124,9 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        setupHomeFeed(true);
+    private void AddFriend() throws IDatabase.DatabaseException {
+        Database.getInstance().sendFriendRequest(searchField.getText().toString());
+        searchField.setText("");
+        Utility.hideKeyboard(FriendActivity.this);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setupHomeFeed(false);
-    }
-
-    void setupHomeFeed(boolean run) {
-        AsyncTask asyncTask = new AsyncTask() {
-            List<IProfile> items = new ArrayList<IProfile>();
-            String errorMsg = null;
-
-            @Override
-            protected void onPreExecute() {
-            }
-
-            @Override
-            protected Object doInBackground(Object... arg0) {
-                try {
-                    items = controller.getFriendItems();
-                    return null;
-                } catch (Exception e) {
-                    //    errorMsg = e.getMessage();
-                    e.printStackTrace();
-                    return e;
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(Object titler) {
-                friendAdapter = new FriendAdapter(ctx, items);
-                gridView.setAdapter(friendAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-        };
-
-        if (run) {
-            asyncTask.execute();
-        } else {
-            asyncTask.cancel(true);
-        }
-    }*/
-
 }
