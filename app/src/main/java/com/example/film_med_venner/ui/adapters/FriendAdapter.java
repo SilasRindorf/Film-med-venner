@@ -63,4 +63,9 @@ public class FriendAdapter extends BaseAdapter {
         profileWatchedlist.setText("- " + item.getMoviesOnWatchedList().length + " movies on their watched list.");
         return gridView;
     }
+
+    public void addItem(IProfile p) {
+        profileItems.add(p);
+        this.notifyDataSetChanged();
+    }
 }
