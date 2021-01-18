@@ -2,14 +2,11 @@ package com.example.film_med_venner.DTO;
 
 import com.example.film_med_venner.interfaces.IProfile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProfileDTO {
     private String ID;
     private String name;
     private String pictureURL;
-    private List<String> mvGPrefs;
+    private String mvGPrefs;
 
 
     public ProfileDTO() {
@@ -20,7 +17,7 @@ public class ProfileDTO {
     public ProfileDTO(IProfile profile) {
         this.ID = profile.getID();
         this.name = profile.getName();
-        this.mvGPrefs = new ArrayList<>();
+        this.mvGPrefs = profile.getMvgPrefs();
     }
 
     public String getPictureURL() {
@@ -47,11 +44,11 @@ public class ProfileDTO {
         this.name = name;
     }
 
-    public List<String> getMvGPrefs() {
+    public String getMvGPrefs() {
         return mvGPrefs;
     }
 
-    public void setMvGPrefs(List<String> mvGPrefs) {
+    public void setMvGPrefs(String mvGPrefs) {
         this.mvGPrefs = mvGPrefs;
     }
 

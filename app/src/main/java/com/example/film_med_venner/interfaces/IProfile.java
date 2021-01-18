@@ -1,7 +1,5 @@
 package com.example.film_med_venner.interfaces;
 
-import java.util.ArrayList;
-
 public interface IProfile {
     String getID();
 
@@ -17,11 +15,9 @@ public interface IProfile {
 
     void setID(String id);
 
-    String[] getMvgPrefs();
+    String getMvgPrefs();
 
-    void addMvgPref(String pref);
-
-    void setMvgPrefs(ArrayList<String> mvgPrefs);
+    void setMvgPrefs(String mvgPrefs);
 
     String[] getFriendIDs();
 

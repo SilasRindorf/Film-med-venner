@@ -159,7 +159,6 @@ public class Database implements IDatabase {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 //If the person exists in the database
                                 if (doc.getId().equals(id)) {
-                                    Log.e("test", "du er her");
                                     //Create a Profile
                                     IProfile profile = new Profile(doc.get("name").toString(), doc.getId());
                                     //Run the interface function void run (IProfile)
@@ -358,6 +357,8 @@ public class Database implements IDatabase {
             db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
+
+                } else {
                     Log.d(TAG, "Error happened in updating name or top genres");
                 }
             });
