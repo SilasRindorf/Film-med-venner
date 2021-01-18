@@ -5,9 +5,6 @@ import com.example.film_med_venner.databases.DatabaseNonPers;
 import java.util.ArrayList;
 
 public interface IDatabase {
-    IReview[] getReview();
-
-    void sendFriendRequest(String id) throws DatabaseException;
 
     static IDatabase getInstance() {
         return DatabaseNonPers.getInstance();
