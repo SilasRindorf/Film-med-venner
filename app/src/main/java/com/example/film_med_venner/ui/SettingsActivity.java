@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +31,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
         findViews();
+        profile_name_edit_text.setText(Controller_User.getInstance().getCurrentUser().getName(), TextView.BufferType.EDITABLE);
+        profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUser().getEmail());
     }
 
     private void addFrag(int id, Fragment fragment) {
