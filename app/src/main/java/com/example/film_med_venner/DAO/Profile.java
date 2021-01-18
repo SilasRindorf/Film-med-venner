@@ -3,17 +3,17 @@ package com.example.film_med_venner.DAO;
 import com.example.film_med_venner.interfaces.IProfile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Profile implements IProfile {
 
     private String ID;
     private String name;
     private String mvGPrefs;
-    //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
-    private ArrayList<String> friends;
-    private ArrayList<String> movieReviewedIDs;
-    private ArrayList<String> moviesOnToWatchList;
-    private ArrayList<String> moviesOnWatchedList;
+    private List<String> friends;
+    private List<String> movieReviewedIDs;
+    private List<String> moviesOnToWatchList;
+    private List<String> moviesOnWatchedList;
 
 
     public Profile(String name, String ID) {

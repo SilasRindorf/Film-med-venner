@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else if (view == save_changes_btn) {
 
             try {
-                Database.getInstance().updateUser(profile_name_edit_text.getText().toString(), profile_mail_edit_text.getText().toString(), profile_top_genre_edit_text.getText().toString(), profile_password_edit_text.getText().toString(), new RunnableErrorUI() {
+                Database.getInstance().updateUser(profile_name_edit_text.getText().toString(), profile_mail_edit_text.getText().toString(), profile_top_genre_edit_text.getText().toString(), new RunnableErrorUI() {
                     @Override
                     public void run() {
                         Toast.makeText(SettingsActivity.this, "Settings have been updated", Toast.LENGTH_LONG).show();
@@ -70,6 +70,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 Log.e("Error", "Error in updating user");
                 e.printStackTrace();
 
+            }
+
+        } else if (view == save_password_btn) {
+            if (profile_new_password_edit_text.getText().toString().equals(profile_repeat_new_password_edit_text.getText().toString())) {
+                Database.getInstance().updateUserPassword(profile_password_edit_text.getText().toString(), profile_new_password_edit_text.getText().toString());
             }
 
         }
