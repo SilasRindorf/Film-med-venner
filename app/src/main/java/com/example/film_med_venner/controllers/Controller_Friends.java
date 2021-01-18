@@ -15,7 +15,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,12 +57,18 @@ public class Controller_Friends implements IProfileController {
 
     }
 
-    public void getFriendRequests(RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
+    /**
+     *
+     * @param status Requester status
+     * @param runnableProfileUI
+     * @throws IDatabase.DatabaseException
+     */
+    public void getFriendRequest(int status, RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
 
         try {
             db.collection("users").document(id).collection("friends")
-                    .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
+                    .whereEqualTo("status", status).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                         for (DocumentSnapshot doc : task.getResult()) {
                             String uId = doc.get("requester").toString();
@@ -82,14 +87,17 @@ public class Controller_Friends implements IProfileController {
     }
 
 
-    public void respondToFriendRequest(String friendID, int accept, RunnableUI runnableUI) throws IDatabase.DatabaseException {
+    public void respondToFriendRequest(String friendID, int reqStatus, RunnableUI runnableUI) throws IDatabase.DatabaseException {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
-        status.put("status", accept);
+        status.put("status", reqStatus);
+        status.put("requester",mAuh.getCurrentUser().getUid());
+
         try {
             db.collection("users").document(selfID).collection("friends")
                     .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    status.replace("requester", mAuh.getCurrentUser().getUid());
                     db.collection("users").document(friendID).collection("friends")
                             .document(selfID).set(status, SetOptions.merge());
                     try {
