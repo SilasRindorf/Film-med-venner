@@ -19,6 +19,7 @@ public class Profile implements IProfile {
     public Profile(String name, String ID) {
         this.ID = ID;
         this.name = name;
+        this.mvGPrefs = "";
         friends = new ArrayList<>();
         movieReviewedIDs = new ArrayList<>();
         moviesOnWatchedList = new ArrayList<>();
@@ -32,16 +33,6 @@ public class Profile implements IProfile {
         moviesOnToWatchList = new ArrayList<>();
     }
 
-
-    public Profile(String name, String ID, String mvGPrefs) {
-        this.ID = ID;
-        this.name = name;
-        this.mvGPrefs = mvGPrefs;
-        friends = new ArrayList<>();
-        movieReviewedIDs = new ArrayList<>();
-        moviesOnWatchedList = new ArrayList<>();
-        moviesOnToWatchList = new ArrayList<>();
-    }
 
 
     //TODO Den skal også hente profilbillede her
