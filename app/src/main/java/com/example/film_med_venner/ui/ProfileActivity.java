@@ -99,12 +99,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 String url = profile.getPictureURL();
-                Bitmap picture = getBitmapFromURL(url);
+                //Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
-                    System.out.println("ImageURL: " + url);
+                    Log.e("ImageURL: ", url);
                     setupProfileInfo();
                     //TODO Set profile picture in profile
-                    profile_picture.setImageBitmap(picture);
+                    Picasso.get().load(url).into(profile_picture);
+                    //profile_picture.setImageBitmap(picture);
                 });
             });
         });
@@ -191,7 +192,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }*/
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
+    /*public static Bitmap getBitmapFromURL(String src) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         try {
@@ -214,8 +215,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * Credits to https://www.tutorialspoint.com/how-to-download-image-from-url-in-android
      * @param URL
      * @return
-     */
-    /*private Bitmap downloadPP(String... URL){
+    private Bitmap downloadPP(String... URL){
         //TODO Farlige ting
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
