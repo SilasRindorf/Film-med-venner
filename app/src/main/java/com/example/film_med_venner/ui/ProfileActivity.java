@@ -150,7 +150,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
         String user;
-        if (profile.getID() == Database.getInstance().getCurrentUser().getID()) {
+
+        if (profile.getID().equals(Database.getInstance().getCurrentUser().getID())) {
             user = "You have ";
         } else {
             user = profile.getName() + " has ";
