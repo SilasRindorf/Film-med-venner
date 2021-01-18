@@ -8,10 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.example.film_med_venner.ui.profileActivities.FriendRequestActivity;
 
 import java.util.List;
 
@@ -49,8 +54,29 @@ public View getView(int position, View convertView, ViewGroup parent) {
         }
 
         TextView friend_request_name = gridView.findViewById(R.id.textView_fr_name);
+        friend_request_name.setText(item.getName());
         ImageButton accept_btn = gridView.findViewById(R.id.btn_accept);
+        accept_btn.setOnClickListener(v -> {
+                try {
+                        Database.getInstance().respondToFriendRequest(item.getID(), 1, () ->
+                                Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show());
+                } catch (IDatabase.DatabaseException e) {
+                        e.printStackTrace();
+                        Toast.makeText(ctx, "Error accepting friend request", Toast.LENGTH_LONG).show();
+                }
+        });
+
         ImageButton decline_btn = gridView.findViewById(R.id.btn_decline);
+        decline_btn.setOnClickListener(v -> {
+                try {
+                        Database.getInstance().respondToFriendRequest(item.getID(), -1, () ->
+                                Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show());
+                } catch (IDatabase.DatabaseException e) {
+                        e.printStackTrace();
+                        Toast.makeText(ctx, "Error declining friend request", Toast.LENGTH_LONG).show();
+                }
+        });
+
         ImageView profilePicture = gridView.findViewById(R.id.imageView_profile);
 
 

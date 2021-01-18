@@ -49,7 +49,6 @@ public class FriendAdapter extends BaseAdapter {
 
         ImageView profilePicture = gridView.findViewById(R.id.imageView_profile);
         TextView profileName = gridView.findViewById(R.id.profile_name);
-        TextView profileReviews = gridView.findViewById(R.id.profile_reviews);
         TextView profileRatings = gridView.findViewById(R.id.profile_ratings);
         TextView profileToWatchlist = gridView.findViewById(R.id.profile_to_watch_list);
         TextView profileWatchedlist = gridView.findViewById(R.id.profile_watched_list);
