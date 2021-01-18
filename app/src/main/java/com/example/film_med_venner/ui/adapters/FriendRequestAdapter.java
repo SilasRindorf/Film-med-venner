@@ -15,14 +15,12 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.runnable.RunnableUI;
-import com.example.film_med_venner.ui.profileActivities.FriendRequestActivity;
 
 import java.util.List;
 
 public class FriendRequestAdapter extends BaseAdapter {
         private Context ctx;
-        private Controller_Friends cf;
+        private Controller_Friends controller_friends;
         private List<IProfile> profileItems;
 
         public FriendRequestAdapter(Context ctx, List<IProfile> profileItems) {
@@ -59,8 +57,10 @@ public class FriendRequestAdapter extends BaseAdapter {
                 ImageButton accept_btn = gridView.findViewById(R.id.btn_accept);
                 accept_btn.setOnClickListener(v -> {
                         try {
-                                cf.getInstance().respondToFriendRequest(item.getID(), 1, () ->
-                                        Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show());
+                                controller_friends.getInstance().respondToFriendRequest(item.getID(), 1, () -> {
+                                        removeItem(position);
+                                        Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show();
+                                });
                         } catch (IDatabase.DatabaseException e) {
                                 e.printStackTrace();
                                 Toast.makeText(ctx, "Error accepting friend request", Toast.LENGTH_LONG).show();
@@ -70,8 +70,10 @@ public class FriendRequestAdapter extends BaseAdapter {
                 ImageButton decline_btn = gridView.findViewById(R.id.btn_decline);
                 decline_btn.setOnClickListener(v -> {
                         try {
-                                cf.getInstance().respondToFriendRequest(item.getID(), -1, () ->
-                                        Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show());
+                                controller_friends.getInstance().respondToFriendRequest(item.getID(), -1, () -> {
+                                        removeItem(position);
+                                        Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show();
+                                });
                         } catch (IDatabase.DatabaseException e) {
                                 e.printStackTrace();
                                 Toast.makeText(ctx, "Error declining friend request", Toast.LENGTH_LONG).show();
@@ -93,6 +95,11 @@ public class FriendRequestAdapter extends BaseAdapter {
 
         public void addItem(IProfile p) {
                 profileItems.add(p);
+                this.notifyDataSetChanged();
+        }
+
+        private void removeItem(int position) {
+                profileItems.remove(position);
                 this.notifyDataSetChanged();
         }
 }

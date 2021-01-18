@@ -91,11 +91,12 @@ public class Controller_Friends implements IProfileController {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", reqStatus);
-        status.put("requester",mAuh.getCurrentUser().getUid());
+        status.put("requester", friendID);
         try {
             db.collection("users").document(selfID).collection("friends")
                     .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    status.replace("requester", mAuh.getCurrentUser().getUid());
                     db.collection("users").document(friendID).collection("friends")
                             .document(selfID).set(status, SetOptions.merge());
                     try {
