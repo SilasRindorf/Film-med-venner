@@ -15,7 +15,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -92,6 +91,7 @@ public class Controller_Friends implements IProfileController {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", reqStatus);
+        status.put("requester",mAuh.getCurrentUser().getUid());
         try {
             db.collection("users").document(selfID).collection("friends")
                     .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
