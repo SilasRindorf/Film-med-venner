@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout l_layout_watchedlist;
     private LinearLayout l_layout_friends;
     private ImageView imageView_settings;
-    private ShapeableImageView profile_picture;
+    private ImageView profile_picture;
     private TextView profileName, genrePref, friends, rated, watchList, watched;
     private FullProfileDTO profile;
 
@@ -146,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //genrePref.setText(profile.getMvgPrefs().toString());
         String user;
 
-        if (profile.getID().equals(Database.getInstance().getCurrentUser().getID())) {
+        if (profile.getID().equals(Controller_User.getInstance().getCurrentUser().getID())) {
             user = "You have ";
         } else {
             user = profile.getName() + " has ";
