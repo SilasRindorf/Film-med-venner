@@ -1,4 +1,4 @@
-package com.example.film_med_venner.ui;
+package com.example.film_med_venner.ui.profileActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
+import com.example.film_med_venner.ui.login.MainActivity;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
