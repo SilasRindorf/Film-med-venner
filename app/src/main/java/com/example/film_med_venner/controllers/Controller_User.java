@@ -18,6 +18,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
@@ -53,8 +54,6 @@ public class Controller_User implements IController {
         }
         return instance;
     }
-
-
 
 
     //----------------------------------USERS----------------------------------
@@ -191,8 +190,7 @@ public class Controller_User implements IController {
 
     }
 
-    // TODO Det her skal implementeres for at brugeren kan ændre på sig selv fra settings activity.
-    public void updateUser(String name, String email, String topGenres, String password, RunnableErrorUI runnableUI) throws IDatabase.DatabaseException {
+    public void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI) throws IDatabase.DatabaseException {
         try {
             Map<String, Object> docData = new HashMap<>();
             docData.put("name", name);
@@ -200,20 +198,10 @@ public class Controller_User implements IController {
             db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
-
                 } else {
                     Log.d(TAG, "Error happened in updating name or top genres");
                 }
             });
-
-            mAuh.getCurrentUser().updatePassword(password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    runnableUI.run();
-                } else {
-                    Log.d(TAG, "Error happened in updating password");
-                }
-            });
-
             mAuh.getCurrentUser().updateEmail(email).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
@@ -221,10 +209,32 @@ public class Controller_User implements IController {
                     Log.d(TAG, "Error happened in updating email");
                 }
             });
-
         } catch (Exception ignored) {
-
         }
+    }
+
+    public void updateUserPassword(String passwordOld, String passwordNew, RunnableErrorUI runnableUI) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+// Get auth credentials from the user for re-authentication. The example below shows
+// email and password credentials but there are multiple possible providers,
+// such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(user.getEmail(), passwordOld);
+
+// Prompt the user to re-provide their sign-in credentials
+        user.reauthenticate(credential)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        runnableUI.run();
+                        Log.d(TAG, "User re-authenticated.");
+                        user.updatePassword(passwordNew);
+                    } else {
+                        Log.d(TAG, "Error moine froiund");
+                    }
+
+                });
+
     }
 
     public boolean isFacebookUserLoginValid() {
