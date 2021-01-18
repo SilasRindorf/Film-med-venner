@@ -180,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else if (profile.getReviewedMovies().length == 1) {
             rated.setText(user + "rated " + profile.getReviewedMovies().length + " movie");
         } else {
-            rated.setText("You have rated " + profile.getReviewedMovies().length + " movies");
+            rated.setText(user + "rated " + profile.getReviewedMovies().length + " movies");
         }
 
         if (profile.getMoviesOnToWatchList().length == 0) {
