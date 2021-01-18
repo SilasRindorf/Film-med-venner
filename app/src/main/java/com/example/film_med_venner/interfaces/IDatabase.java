@@ -1,14 +1,6 @@
 package com.example.film_med_venner.interfaces;
 
-import com.example.film_med_venner.databases.DatabaseNonPers;
-
-import java.util.ArrayList;
-
 public interface IDatabase {
-
-    static IDatabase getInstance() {
-        return DatabaseNonPers.getInstance();
-    }
 
     /**
      * error ID's here

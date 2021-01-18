@@ -56,36 +56,6 @@ public class Controller_Friends implements IProfileController {
 
     }
 
-    public void getFriendRequests(RunnableProfilesUI runnableProfilesUI) throws IDatabase.DatabaseException {
-        String id = mAuh.getCurrentUser().getUid();
-
-        try {
-            db.collection("users").document(id).collection("friends")
-                    .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    String[] uIDs = new String[task.getResult().size()];
-                    int i = 0;
-                    for (DocumentSnapshot doc : task.getResult()) {
-                        uIDs[i] = (String) doc.get("requester");
-                        i++;
-                    }
-                    db.collection("users").document()
-                            .get().addOnCompleteListener(task1 -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot doc : task.getResult()) {
-                            }
-                        }
-                    });
-                    IProfile[] friends = new Profile[task.getResult().size()];
-                    List<Profile> friendz = task.getResult().toObjects(Profile.class);
-                    runnableProfilesUI.run(friendz.toArray(friends));
-                }
-            });
-
-        } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error getting friend request", e);
-        }
-    }
     public void getFriendRequests(RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
 

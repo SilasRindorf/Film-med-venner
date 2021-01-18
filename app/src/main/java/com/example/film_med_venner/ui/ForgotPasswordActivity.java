@@ -13,9 +13,9 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnreset;
-    Button btnback;
-    EditText editText;
+    private Button btnreset;
+    private Button btnback;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

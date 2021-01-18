@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WatchedlistActivity extends AppCompatActivity {
-    GridView gridView;
+    private GridView gridView;
     private WatchedlistAdapter watchedlistAdapter;
     private Context ctx;
-    IProfileController controller = Controller_Friends.getInstance();
+    private IProfileController controller = Controller_Friends.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

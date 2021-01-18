@@ -17,7 +17,7 @@ import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 
 public class SignUpActivityWithMail extends Activity implements OnClickListener{
-    Button sign_up_btn, go_back_btn;
+    private Button sign_up_btn, go_back_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
