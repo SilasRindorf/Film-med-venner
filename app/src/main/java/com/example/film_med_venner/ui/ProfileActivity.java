@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -94,29 +95,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             userID = Database.getInstance().getCurrentUser().getID();
 
         bgThread.execute(() -> {
-            Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
+            Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 String url = RunnableFullProfileUI.getPictureURL();
                 Bitmap picture = downloadPP(url);
                 uiThread.post(() -> {
                     System.out.println("ImageURL: " + url);
-                    //Picasso.get().
+                    setupProfileInfo(RunnableFullProfileUI);
                     //TODO Set profile picture in profile
                     profile_picture.setImageBitmap(picture);
                 });
             });
-
-            try {
-                Database.getInstance().getProfile(userID, profile1 -> {
-                    profile = (Profile) profile1;
-                    uiThread.post(() -> {
-                        if (profile != null){
-                            setupProfileInfo();
-                        }
-                    });
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-            }
         });
 
     }
@@ -157,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void setupProfileInfo() {
+    private void setupProfileInfo(FullProfileDTO profile) {
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
         String user;
@@ -167,23 +155,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             user = profile.getName() + " has ";
         }
 
-        if (profile.getFriendIDs().length == 0) {
+        if (profile.getFriends().size() == 0) {
             friends.setText(user + "not gotten any friends yet");
-        } else if (profile.getFriendIDs().length == 1) {
-            friends.setText(user + profile.getFriendIDs().length + " friend");
+        } else if (profile.getFriends().size() == 1) {
+            friends.setText(user + profile.getFriends().size() + " friend");
         } else {
-            friends.setText(user + profile.getFriendIDs().length + " friends");
+            friends.setText(user + profile.getFriends().size() + " friends");
         }
 
-        if (profile.getReviewedMovies().length == 0) {
+        if (profile.getReviews().size() == 0) {
             rated.setText(user + "not rated any movies yet");
-        } else if (profile.getReviewedMovies().length == 1) {
-            rated.setText(user + "rated " + profile.getReviewedMovies().length + " movie");
+        } else if (profile.getReviews().size() == 1) {
+            rated.setText(user + "rated " + profile.getReviews().size() + " movie");
         } else {
-            rated.setText(user + "rated " + profile.getReviewedMovies().length + " movies");
+            rated.setText(user + "rated " + profile.getReviews().size() + " movies");
         }
 
-        if (profile.getMoviesOnToWatchList().length == 0) {
+        /*if (profile.getMoviesOnToWatchList().length == 0) {
             watchList.setText(user + "not put any movies on watch list");
         } else if (profile.getMoviesOnToWatchList().length == 1) {
             watchList.setText(user + profile.getMoviesOnToWatchList().length + " movie on watch list");
@@ -197,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             watched.setText(user + "watched " + profile.getMoviesOnWatchedList().length + " movie");
         } else {
             watched.setText(user + "watched " + profile.getMoviesOnWatchedList().length + " movies");
-        }
+        }*/
     }
 
     /**
