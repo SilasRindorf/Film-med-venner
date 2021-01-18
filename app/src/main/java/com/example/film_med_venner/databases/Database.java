@@ -193,34 +193,7 @@ public class Database implements IDatabase {
 
 
     public void getCurrentUser(RunnableFullProfileUI runnableFullProfileUI) {
-        FirebaseUser user = mAuh.getCurrentUser();
-        try {
-            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    FullProfileDTO fullProfileDTO = task.getResult().toObject(FullProfileDTO.class);
-                    Thread newThread = new Thread(() -> {
-                        db.collection("users")
-                                .document(user.getUid()).collection("friends")
-                                .get().addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
-                                db.collection("users")
-                                        .document(user.getUid()).collection("reviews")
-                                        .get().addOnCompleteListener(task2 -> {
-                                    if (task2.isSuccessful()) {
-                                        fullProfileDTO.setReviews(task2.getResult().toObjects(ReviewDTO.class));
-                                        runnableFullProfileUI.run(fullProfileDTO);
-                                    }
-                                });
-                            }
-                        });
-                    });
-
-                    newThread.start();
-                }
-            });
-        } catch (Exception ignored) {
-        }
+        getFullProfile(mAuh.getCurrentUser().getUid(),runnableFullProfileUI);
     }
 
     public void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI) {
@@ -228,6 +201,7 @@ public class Database implements IDatabase {
             db.collection("users").document(uID).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     FullProfileDTO fullProfileDTO = task.getResult().toObject(FullProfileDTO.class);
+                    //No  need to be in a thread
                     Thread newThread = new Thread(() -> {
                         db.collection("users")
                                 .document(uID).collection("friends")
@@ -245,7 +219,6 @@ public class Database implements IDatabase {
                             }
                         });
                     });
-
                     newThread.start();
                 }
             });
@@ -594,12 +567,12 @@ public class Database implements IDatabase {
     public void sendFriendRequest(String friendID) throws DatabaseException {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
-        user.put("userID", selfID);
+        user.put("userID", friendID);
         user.put("requester", selfID);
         user.put("status", null);
         try {
             db.collection("users").document(friendID).collection("friends").document(selfID)
-                    .set(user).addOnSuccessListener(aVoid ->
+                    .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
                     Log.d(TAG, "Friend request send to ID: " + friendID))
                     .addOnFailureListener(e ->
                             Log.w(TAG, "Error sending friend request", e));
