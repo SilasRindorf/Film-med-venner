@@ -91,7 +91,8 @@ public class Controller_Friends implements IProfileController {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", reqStatus);
-        status.put("requester", friendID);
+        status.put("requester",mAuh.getCurrentUser().getUid());
+
         try {
             db.collection("users").document(selfID).collection("friends")
                     .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
