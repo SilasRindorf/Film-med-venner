@@ -22,9 +22,9 @@ public class Controller_MovieDetails implements IController {
         return instance;
     }
 
-    private Controller_MovieDetails() {
+    /*private Controller_MovieDetails() {
         database = IDatabase.getInstance();
-    }
+    }     */
 
     private void getControllers() {
         controller_movie = Controller_Movie.getInstance();
