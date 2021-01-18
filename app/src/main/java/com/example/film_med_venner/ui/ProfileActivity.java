@@ -19,12 +19,14 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout l_layout_watchedlist;
     private LinearLayout l_layout_friends;
     private ImageView imageView_settings;
-    private ShapeableImageView profile_picture;
+    private ImageView profile_picture;
     private TextView profileName, genrePref, friends, rated, watchList, watched;
     private FullProfileDTO profile;
 
@@ -84,10 +86,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (intent.getStringExtra("userID") != null)
             userID = intent.getStringExtra("userID");
         else
-            userID = Database.getInstance().getCurrentUser().getID();
+            userID = Controller_User.getInstance().getCurrentUser().getID();
 
         bgThread.execute(() -> {
-            Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
+            Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 String url = profile.getPictureURL();
                 //Bitmap picture = getBitmapFromURL(url);
@@ -144,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //genrePref.setText(profile.getMvgPrefs().toString());
         String user;
 
-        if (profile.getID().equals(Database.getInstance().getCurrentUser().getID())) {
+        if (profile.getID().equals(Controller_User.getInstance().getCurrentUser().getID())) {
             user = "You have ";
         } else {
             user = profile.getName() + " has ";
