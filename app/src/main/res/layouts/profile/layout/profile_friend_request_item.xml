@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="10"
-            android:text="Christian Jensen"
+            android:text="Ukendt bruger"
+            android:textColor="@color/colorBackground"
             android:textSize="18sp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"/>

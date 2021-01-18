@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
@@ -50,13 +51,10 @@ public class FriendRequestActivity extends AppCompatActivity {
 
        bgThread.execute(() -> {
             try {
-                System.out.println("This is where you die the first time");
-                //TODO YOU DIE HERE. SILAS FIX <3 8===>
                 Database.getInstance().getFriendRequests(friendRequest -> {
-                    System.out.println("Det her er dine venneanmodninger " + friendRequest);
                     List<IProfile> friendList = Arrays.asList(friendRequest);
+                    System.out.println("FriendRequest" + friendRequest);
                     uiThread.post(() -> {
-                        System.out.println("This is where you die: " + friendList.toString());
                         friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
                         gridView.setAdapter(friendRequestAdapter);
                         gridView.setVisibility(View.VISIBLE);
