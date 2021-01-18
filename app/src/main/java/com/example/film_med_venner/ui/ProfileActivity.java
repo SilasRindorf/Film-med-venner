@@ -7,8 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,27 +25,32 @@ import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.squareup.picasso.Picasso;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Intent intent;
     private LinearLayout l_layout_rating;
     private LinearLayout l_layout_to_watchlist;
     private LinearLayout l_layout_watchedlist;
     private LinearLayout l_layout_friends;
-    private ImageView imageView_profile, imageView_settings;
+    private ImageView imageView_settings;
+    private ShapeableImageView profile_picture;
     private TextView profileName, genrePref, friends, rated, watchList, watched;
     private Profile profile;
-
-    private Intent intent;
 
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -63,7 +73,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         l_layout_friends.setOnClickListener(this);
         imageView_settings = findViewById(R.id.imageView_settings);
         imageView_settings.setOnClickListener(this);
-        imageView_profile = findViewById(R.id.imageView_profile);
+        profile_picture = findViewById(R.id.imageView_profile);
+
         profileName = findViewById(R.id.text_profileName);
         genrePref = findViewById(R.id.profileGenrePref);
         friends = findViewById(R.id.textView_friends_description);
@@ -83,6 +94,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             userID = Database.getInstance().getCurrentUser().getID();
 
         bgThread.execute(() -> {
+            Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
+                String url = RunnableFullProfileUI.getPictureURL();
+                Bitmap picture = downloadPP(url);
+                uiThread.post(() -> {
+                    System.out.println("ImageURL: " + url);
+                    //Picasso.get().
+                    //TODO Set profile picture in profile
+                    profile_picture.setImageBitmap(picture);
+                });
+            });
+
             try {
                 Database.getInstance().getProfile(userID, profile1 -> {
                     profile = (Profile) profile1;
@@ -138,7 +160,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void setupProfileInfo() {
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
-        Picasso.get().load("@drawable/test").into(imageView_profile);
 
         if (profile.getFriendIDs().length == 0) {
             friends.setText("You do not have any friends yet");
@@ -171,5 +192,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             watched.setText("You have watched " + profile.getMoviesOnWatchedList().length + " movies");
         }
+    }
+
+    /**
+     * Credits to https://www.tutorialspoint.com/how-to-download-image-from-url-in-android
+     * @param URL
+     * @return
+     */
+    private Bitmap downloadPP(String... URL){
+        //TODO Farlige ting
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String imageURL = URL[0];
+        Bitmap bitmap = null;
+        try {
+            // Download Image from URL
+            InputStream input = new java.net.URL(imageURL).openStream();
+            // Decode Bitmap
+            bitmap = BitmapFactory.decodeStream(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }
