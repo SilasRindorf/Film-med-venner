@@ -35,7 +35,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
     private ImageView profile_picture;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private String userID, profile_picture_url, profile_name, profile_email;
+    private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
     private FullProfileDTO profile;
 
     //TODO Switches i settings?
@@ -54,13 +54,14 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                 profile_picture_url = profile.getPictureURL();
                 profile_name = profile.getName();
                 profile_email = Controller_User.getInstance().getCurrentUserEmail();
+                profile_mvgPref = profile.getmvGPrefs();
                 uiThread.post(() -> {
                     if (profile_picture_url != null) {
                         //TODO Giv billedet runde kanter
                         Picasso.get().load(profile_picture_url).into(profile_picture);
                         profile_name_textView.setText(profile_name);
                         profile_mail_textView.setText(profile_email);
-
+                        profile_top_genre_edit_text.setHint(profile_mvgPref);
                     }
                 });
             });

@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -26,6 +27,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
     private EditText profile_name_edit_text, profile_phone_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
     private ImageView profile_picture;
+    private FullProfileDTO profile;
+    private Intent intent;
+
     //TODO Switches i settings?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
         findViews();
-        profile_name_edit_text.setText(Controller_User.getInstance().getCurrentUser().getName(), TextView.BufferType.EDITABLE);
+
+        intent = getIntent();
+
+        profile = intent.getParcelableExtra("profile");
+        profile_name_edit_text.setText(profile.getName(), TextView.BufferType.EDITABLE);
         profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUserEmail(), TextView.BufferType.EDITABLE);
 
         try {

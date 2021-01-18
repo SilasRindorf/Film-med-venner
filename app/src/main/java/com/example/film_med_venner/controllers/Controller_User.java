@@ -221,7 +221,7 @@ public class Controller_User implements IController {
             docData.put("id", Controller_User.getInstance().getCurrentUser().getID());
             docData.put("name", name);
             docData.put("mvGPrefs", topGenres);
-            db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
+            db.collection("users").document(mAuh.getUid()).set(docData, SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
                 } else {

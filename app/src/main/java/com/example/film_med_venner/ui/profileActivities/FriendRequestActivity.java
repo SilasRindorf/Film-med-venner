@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Friends;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
@@ -44,6 +45,8 @@ public class FriendRequestActivity extends AppCompatActivity {
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
 
+        String userID = Controller_User.getInstance().getCurrentUser().getID();
+
         ctx = this;
         gridView = findViewById(R.id.gridView);
 
@@ -55,7 +58,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                 gridView.setVisibility(View.VISIBLE);
             });
             try {
-                Controller_Friends.getInstance().getFriendRequest(0, friendRequest -> {
+                Controller_Friends.getInstance().getFriendRequest(userID,0, friendRequest -> {
                     friendRequestAdapter.addItem(friendRequest);
                 });
             } catch (IDatabase.DatabaseException e) {

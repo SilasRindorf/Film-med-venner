@@ -22,43 +22,52 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layout_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center_horizontal">
 
-                <Button
-                    android:id="@+id/see_friendrequest_btn"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="See friend requests" />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/see_friendrequest_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="See friend requests" />
 
 
-                <Button
-                    android:id="@+id/add_friend_btn"
-                    android:layout_width="0dp"
+                    <Button
+                        android:id="@+id/add_friend_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="Add friend"/>
+                </LinearLayout>
+
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:background="#33FFFFFF"
+                    android:hint="Enter your friends mail here to add"
+                    android:inputType="textAutoComplete"
+                    android:layout_weight="4"
+                    android:padding="10dp"
                     android:layout_margin="10dp"
                     android:layout_gravity="center_vertical"
-                    android:text="Add friend"/>
+                    android:text="" />
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/searchField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#33FFFFFF"
-                android:hint="Enter your friends mail here to add"
-                android:inputType="textAutoComplete"
-                android:layout_weight="4"
-                android:padding="10dp"
-                android:layout_margin="10dp"
-                android:layout_gravity="center_vertical"
-                android:text="" />
 
             <GridView
                 android:id="@+id/gridView"

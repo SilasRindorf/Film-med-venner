@@ -65,11 +65,11 @@ public class Controller_Friends implements IProfileController {
      * @param runnableFullProfileUI
      * @throws IDatabase.DatabaseException
      */
-    public void getFriendRequest(int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
-        String id = mAuh.getCurrentUser().getUid();
+    public void getFriendRequest(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
+        //String id = mAuh.getCurrentUser().getUid();
 
         try {
-            db.collection("users").document(id).collection("friends")
+            db.collection("users").document(userID).collection("friends")
                     .whereEqualTo("status", status).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                         for (DocumentSnapshot doc : task.getResult()) {

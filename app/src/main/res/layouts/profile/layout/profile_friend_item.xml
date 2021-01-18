@@ -14,7 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:onClick="itemOnClick">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView_profile"
@@ -24,7 +25,11 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+
                 app:srcCompat="@drawable/icon_profilepicture"
                 app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
             <LinearLayout
