@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.profileActivities.SettingsActivity"
     android:background="@drawable/bg">
 
     <!-- TODO Ubehagelig fixed højde. Der er en midlertidig løsning pt. så den ikke gemmer sig bag ved navbar.-->
@@ -40,13 +37,12 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Navn: "
                     android:textColor="#DDFFFFFF"/>
-                <EditText
+                <TextView
                     android:id="@+id/profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Skriv dit navn her..."
+                    android:text="Skriv dit navn her..."
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"
                     android:textColor="#DDFFFFFF"/>
             </LinearLayout>
 
@@ -63,13 +59,12 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Mail: "
                     android:textColor="#DDFFFFFF"/>
-                <EditText
+                <TextView
                     android:id="@+id/profile_mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Skriv din mail her"
+                    android:text="Skriv din mail her"
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"
                     android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- TOP GENRE -->
@@ -85,13 +80,12 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Top genre: "
                     android:textColor="#DDFFFFFF"/>
-                <EditText
+                <TextView
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Documentaries, romance, thriller"
+                    android:text="Documentaries, romance, thriller"
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"
                     android:textColor="#DDFFFFFF"/>
             </LinearLayout>
             <!-- PROFILE PICTURE -->
@@ -186,87 +180,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
             </LinearLayout>
-            <!-- SAFETY SETTINGS -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sikkerheds indstillinger"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="#DDFFFFFF"/>
-
-            <!-- PASSWORD -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_gravity="fill_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Adgangskode: "
-                    android:textColor="#DDFFFFFF"/>
-                <EditText
-                    android:id="@+id/profile_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="********"
-                    android:textColorHint="#DDFFFFFF"
-                    android:textColor="#DDFFFFFF"/>
-            </LinearLayout>
-            <!-- NEW PASSWORD -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_gravity="fill_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Ny adgangskode: "
-                    android:textColor="#DDFFFFFF"/>
-                <EditText
-                    android:id="@+id/profile_new_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="********"
-                    android:textColorHint="#DDFFFFFF"
-                    android:textColor="#DDFFFFFF"/>
-            </LinearLayout>
-            <!-- REPEAT NEW PASSWORD -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_gravity="fill_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Gentag ny adgangskode: "
-                    android:textColor="#DDFFFFFF"/>
-                <EditText
-                    android:id="@+id/profile_repeat_new_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="********"
-                    android:textColorHint="#DDFFFFFF"
-                    android:textColor="#DDFFFFFF"/>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
-                    android:id="@+id/save_password_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gem adgangskode"/>
                 <Button
                     android:id="@+id/save_changes_btn"
                     android:layout_width="wrap_content"
@@ -292,8 +209,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
