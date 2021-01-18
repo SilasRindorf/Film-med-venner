@@ -39,15 +39,14 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    LinearLayout l_layout_review;
-    LinearLayout l_layout_rating;
-    LinearLayout l_layout_to_watchlist;
-    LinearLayout l_layout_watchedlist;
-    LinearLayout l_layout_friends;
-    ImageView imageView_settings;
-    ShapeableImageView profile_picture;
-    TextView profileName, genrePref, friends, rated, watchList, watched;
-    Profile profile;
+    private LinearLayout l_layout_rating;
+    private LinearLayout l_layout_to_watchlist;
+    private LinearLayout l_layout_watchedlist;
+    private LinearLayout l_layout_friends;
+    private ImageView imageView_settings;
+    private ShapeableImageView profile_picture;
+    private TextView profileName, genrePref, friends, rated, watchList, watched;
+    private Profile profile;
 
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -60,8 +59,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         addFrag(R.id.nav_bar_container,frag);
 
         //TODO Vi skal lave det her på den smarte måde som Silas har vist og Sejr har glemt.
-        l_layout_review = findViewById(R.id.linearLayout_review);
-        l_layout_review.setOnClickListener(this);
         l_layout_rating = findViewById(R.id.linearLayout_rating);
         l_layout_rating.setOnClickListener(this);
         l_layout_to_watchlist = findViewById(R.id.linearLayout_to_watchlist);
