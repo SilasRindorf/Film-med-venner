@@ -21,6 +21,7 @@ import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.SettingsActivity;
+import com.example.film_med_venner.ui.profileActivities.SettingsFacebookUserActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.squareup.picasso.Picasso;
@@ -134,7 +135,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
             } else {
-
+                setContentView(R.layout.settings_facebook_user);
+                Intent intent = new Intent(this, SettingsFacebookUserActivity.class);
+                startActivity(intent);
             }
         }
     }
