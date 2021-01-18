@@ -526,7 +526,36 @@ public class Database implements IDatabase {
         } catch (Exception e) {
             throw new DatabaseException("Error creating watch item", e);
         }
+    }
 
+    public void addWatchedList(IWatchItem watchItem) throws DatabaseException {
+        try {
+            db.collection("users").document(mAuh.getCurrentUser().getUid())
+                    .collection("watched_list")
+                    .add(new WatchItemDTO(watchItem));
+        } catch (Exception e) {
+            throw new DatabaseException("Error creating watch item", e);
+        }
+    }
+
+    public void getWatchedList(IWatchItem watchItem) throws DatabaseException {
+        try {
+            db.collection("users").document(mAuh.getCurrentUser().getUid())
+                    .collection("watched_list")
+                    .add(new WatchItemDTO(watchItem));
+        } catch (Exception e) {
+            throw new DatabaseException("Error creating watch item", e);
+        }
+    }
+
+    public void getToWatchList(IWatchItem watchItem) throws DatabaseException {
+        try {
+            db.collection("users").document(mAuh.getCurrentUser().getUid())
+                    .collection("watched_list")
+                    .add(new WatchItemDTO(watchItem));
+        } catch (Exception e) {
+            throw new DatabaseException("Error creating watch item", e);
+        }
     }
 
     //----------------------------------FRIENDS----------------------------------
@@ -535,7 +564,7 @@ public class Database implements IDatabase {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("userID", selfID);
-        user.put("requester", db.collection("users").document(selfID));
+        user.put("requester", selfID);
         user.put("status", null);
         try {
             db.collection("users").document(friendID).collection("friends").document(selfID)
