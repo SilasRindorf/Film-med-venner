@@ -8,7 +8,7 @@ public class Profile implements IProfile {
 
     private String ID;
     private String name;
-    private ArrayList<String> mvGPrefs;
+    private String mvGPrefs;
     //TODO Når vi har arraylists skifter vi ints ud med dem, i det at vi så bare kan hente længden af listerne. Dette er midlertidigt.
     private ArrayList<String> friends;
     private ArrayList<String> movieReviewedIDs;
@@ -19,7 +19,6 @@ public class Profile implements IProfile {
     public Profile(String name, String ID) {
         this.ID = ID;
         this.name = name;
-        mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
         movieReviewedIDs = new ArrayList<>();
         moviesOnWatchedList = new ArrayList<>();
@@ -27,7 +26,6 @@ public class Profile implements IProfile {
     }
 
     public Profile() {
-        mvGPrefs = new ArrayList<>();
         friends = new ArrayList<>();
         movieReviewedIDs = new ArrayList<>();
         moviesOnWatchedList = new ArrayList<>();
@@ -76,13 +74,13 @@ public class Profile implements IProfile {
     }
 
     @Override
-    public String[] getMvgPrefs() {
-        return (String[]) mvGPrefs.toArray();
+    public String getMvgPrefs() {
+        return mvGPrefs;
     }
 
     @Override
-    public void addMvgPref(String pref) {
-        mvGPrefs.add(pref);
+    public void setMvgPrefs(String mvgPrefs) {
+        this.mvGPrefs = mvgPrefs;
     }
 
     @Override
@@ -90,10 +88,6 @@ public class Profile implements IProfile {
         return friends.toArray(new String[friends.size()]);
     }
 
-    @Override
-    public void setMvgPrefs(ArrayList<String> mvGPrefs) {
-        this.mvGPrefs = mvGPrefs;
-    }
 
     public void setID(String ID) {
         this.ID = ID;

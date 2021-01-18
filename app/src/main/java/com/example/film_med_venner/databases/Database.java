@@ -348,6 +348,8 @@ public class Database implements IDatabase {
             db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
+
+                } else {
                     Log.d(TAG, "Error happened in updating name or top genres");
                 }
             });

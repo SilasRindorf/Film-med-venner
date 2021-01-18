@@ -2,11 +2,12 @@ package com.example.film_med_venner.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,9 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.facebook.login.LoginManager;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
@@ -43,15 +43,35 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (view == log_out_btn){
+        if (view == log_out_btn) {
             try {
-                Database.getInstance().logOut(()->{
+                Database.getInstance().logOut(() -> {
                     Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
                     startActivity(intent);
                 });
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
+        } else if (view == save_changes_btn) {
+
+            try {
+                Database.getInstance().updateUser(profile_name_edit_text.getText().toString(), profile_mail_edit_text.getText().toString(), profile_top_genre_edit_text.getText().toString(), profile_password_edit_text.getText().toString(), new RunnableErrorUI() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingsActivity.this, "Settings have been updated", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void handleError(IDatabase.DatabaseException e) {
+                        Toast.makeText(SettingsActivity.this, "An error has occured", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Log.e("Error", "Error in updating user");
+                e.printStackTrace();
+
+            }
+
         }
     }
 
