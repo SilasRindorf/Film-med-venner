@@ -1,4 +1,4 @@
-package com.example.film_med_venner.ui;
+package com.example.film_med_venner.ui.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
+import com.example.film_med_venner.ui.HomeActivity;
 
 public class SignUpActivityWithMail extends Activity implements OnClickListener{
     private Button sign_up_btn, go_back_btn;

@@ -26,12 +26,13 @@ public class Controller_Friends implements IProfileController {
     private final FirebaseFirestore db;
     private final FirebaseAuth mAuh;
 
-    private Controller_Friends(){
+    private Controller_Friends() {
         db = FirebaseFirestore.getInstance();
         mAuh = FirebaseAuth.getInstance();
     }
-    public static Controller_Friends getInstance(){
-        if (instance == null){
+
+    public static Controller_Friends getInstance() {
+        if (instance == null) {
             instance = new Controller_Friends();
         }
 
@@ -57,34 +58,22 @@ public class Controller_Friends implements IProfileController {
 
     }
 
-    public void getFriendRequests(RunnableProfilesUI runnableProfilesUI) throws IDatabase.DatabaseException {
+    public void getFriendRequests(RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
 
         try {
             db.collection("users").document(id).collection("friends")
                     .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    List<IProfile> profileList = new ArrayList<>();
-                    Thread newThread = new Thread(() -> {
                         for (DocumentSnapshot doc : task.getResult()) {
                             String uId = doc.get("requester").toString();
                             db.collection("users").document(uId).get()
                                     .addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            profileList.add(task1.getResult().toObject(Profile.class));
-                                            System.out.println("Profile : " + task1.getResult());
-                                        }
+                                        runnableProfileUI.run(task1.getResult().toObject(Profile.class));
                                     });
                         }
-                    });
-                    newThread.start();
-                    try {
-                        newThread.join();
-                    } catch (InterruptedException e) {
-                        Log.e("Thread","interrupted");
-                    }
-                    IProfile[] p = new Profile[profileList.size()];
-                    runnableProfilesUI.run(profileList.toArray(p));
+
+
                 }
             });
         } catch (Exception e) {
