@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
@@ -47,7 +48,7 @@ public class FriendRequestActivity extends AppCompatActivity {
         gridView = findViewById(R.id.gridView);
 
         bgThread.execute(() -> {
-            List<IProfile> friendList = new ArrayList<>();
+            List<FullProfileDTO> friendList = new ArrayList<>();
             uiThread.post(() -> {
                 friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
                 gridView.setAdapter(friendRequestAdapter);

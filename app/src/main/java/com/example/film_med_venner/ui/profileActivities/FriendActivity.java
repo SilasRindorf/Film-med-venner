@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -79,7 +80,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         bgThread.execute(() -> {
-            List<IProfile> friendList = new ArrayList<>();
+            List<FullProfileDTO> friendList = new ArrayList<>();
             uiThread.post(() -> {
                 friendAdapter = new FriendAdapter(ctx, friendList);
                 gridView.setAdapter(friendAdapter);

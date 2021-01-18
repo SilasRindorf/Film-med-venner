@@ -4,9 +4,11 @@ package com.example.film_med_venner.controllers;
 import android.util.Log;
 
 import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
@@ -60,10 +62,10 @@ public class Controller_Friends implements IProfileController {
     /**
      *
      * @param status Requester status
-     * @param runnableProfileUI
+     * @param runnableFullProfileUI
      * @throws IDatabase.DatabaseException
      */
-    public void getFriendRequest(int status, RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
+    public void getFriendRequest(int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
 
         try {
@@ -74,7 +76,8 @@ public class Controller_Friends implements IProfileController {
                             String uId = doc.get("requester").toString();
                             db.collection("users").document(uId).get()
                                     .addOnCompleteListener(task1 -> {
-                                        runnableProfileUI.run(task1.getResult().toObject(Profile.class));
+                                        Controller_User.getInstance().getFullProfile(uId, runnableFullProfileUI);
+                                        //runnableFullProfileUI.run(task1.getResult().toObject(FullProfileDTO.class));
                                     });
                         }
 
