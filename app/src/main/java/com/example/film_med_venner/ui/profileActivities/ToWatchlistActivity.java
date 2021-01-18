@@ -39,6 +39,21 @@ public class ToWatchlistActivity extends AppCompatActivity {
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
+        //TODO ToWatchListActivity not working
+        /*bgThread.execute(() -> {
+            try {
+                List<IWatchItem> items = new ArrayList<>();
+                items = controller.getToWatchlistItems();
+                    uiThread.post(() -> {
+                       toWatchlistAdapter = new ToWatchlistAdapter(ctx, items);
+                gridView.setAdapter(toWatchlistAdapter);
+                gridView.setVisibility(View.VISIBLE);
+                    });
+                });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        });*/
 
     }
 
@@ -63,7 +78,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
 
     void setupHomeFeed(boolean run) {
         AsyncTask asyncTask = new AsyncTask() {
-            List<IWatchItem> items = new ArrayList<>();
+
             String errorMsg = null;
 
             @Override
@@ -73,7 +88,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    //items = controller.getToWatchlistItems();
+
                     return null;
                 } catch (Exception e) {
                     //    errorMsg = e.getMessage();
@@ -89,9 +104,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object titler) {
-                toWatchlistAdapter = new ToWatchlistAdapter(ctx, items);
-                gridView.setAdapter(toWatchlistAdapter);
-                gridView.setVisibility(View.VISIBLE);
+
             }
 
         };

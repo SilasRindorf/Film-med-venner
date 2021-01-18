@@ -38,7 +38,21 @@ public class WatchedlistActivity extends AppCompatActivity {
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
-
+        //TODO ToWatchListActivity not working
+        /*bgThread.execute(() -> {
+            try {
+            List<IWatchItem> items = new ArrayList<>();
+                items = controller.getWatchedListItems();
+                    uiThread.post(() -> {
+                       watchedlistAdapter = new WatchedlistAdapter(ctx, items);
+                gridView.setAdapter(watchedlistAdapter);
+                gridView.setVisibility(View.VISIBLE);
+                    });
+                });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        });*/
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -46,59 +60,5 @@ public class WatchedlistActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setupHomeFeed(true);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setupHomeFeed(false);
-    }
-
-    void setupHomeFeed(boolean run) {
-        AsyncTask asyncTask = new AsyncTask() {
-            List<IWatchItem> items = new ArrayList<>();
-            String errorMsg = null;
-
-            @Override
-            protected void onPreExecute() {
-            }
-
-            @Override
-            protected Object doInBackground(Object... arg0) {
-                try {
-                    //items = controller.getWatchedListItems();
-                    return null;
-                } catch (Exception e) {
-                    //    errorMsg = e.getMessage();
-                    e.printStackTrace();
-                    return e;
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(Object titler) {
-                watchedlistAdapter = new WatchedlistAdapter(ctx, items);
-                gridView.setAdapter(watchedlistAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-        };
-
-        if (run) {
-            asyncTask.execute();
-        } else {
-            asyncTask.cancel(true);
-        }
     }
 }
