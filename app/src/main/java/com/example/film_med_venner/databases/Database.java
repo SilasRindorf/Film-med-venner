@@ -3,10 +3,11 @@ package com.example.film_med_venner.databases;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
@@ -28,7 +29,10 @@ import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableWatchListUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
@@ -352,7 +356,7 @@ public class Database implements IDatabase {
     }
 
     // TODO Det her skal implementeres for at brugeren kan ændre på sig selv fra settings activity.
-    public void updateUser(String name, String email, String topGenres, String password, RunnableErrorUI runnableUI) throws DatabaseException {
+    public void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI) throws DatabaseException {
         try {
             Map<String, Object> docData = new HashMap<>();
             docData.put("name", name);
@@ -363,14 +367,6 @@ public class Database implements IDatabase {
 
                 } else {
                     Log.d(TAG, "Error happened in updating name or top genres");
-                }
-            });
-
-            mAuh.getCurrentUser().updatePassword(password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    runnableUI.run();
-                } else {
-                    Log.d(TAG, "Error happened in updating password");
                 }
             });
 
@@ -385,6 +381,32 @@ public class Database implements IDatabase {
         } catch (Exception ignored) {
 
         }
+    }
+
+    public void updateUserPassword(String passwordOld, String passwordNew) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+// Get auth credentials from the user for re-authentication. The example below shows
+// email and password credentials but there are multiple possible providers,
+// such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(user.getEmail(), passwordOld);
+
+// Prompt the user to re-provide their sign-in credentials
+        user.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User re-authenticated.");
+                            user.updatePassword(passwordNew);
+                        } else {
+                            Log.d(TAG, "Error moine froiund");
+                        }
+
+                    }
+                });
+
     }
 
     public boolean isFacebookUserLoginValid() {
