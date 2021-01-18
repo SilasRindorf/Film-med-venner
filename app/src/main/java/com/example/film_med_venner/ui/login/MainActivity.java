@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * https://developers.facebook.com/docs/android/getting-started#sig
          * Søg på "KeyHash" i Run. Tag det key der er blevet lavet, og smæk det ind her: https://developers.facebook.com/settings/developer/sample-app/
+         * og derudover under "Key Hashes" her: https://developers.facebook.com/apps/412664376620411/settings/basic/
          */
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
