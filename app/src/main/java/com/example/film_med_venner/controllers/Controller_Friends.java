@@ -15,7 +15,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,13 +64,13 @@ public class Controller_Friends implements IProfileController {
             db.collection("users").document(id).collection("friends")
                     .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                        for (DocumentSnapshot doc : task.getResult()) {
-                            String uId = doc.get("requester").toString();
-                            db.collection("users").document(uId).get()
-                                    .addOnCompleteListener(task1 -> {
-                                        runnableProfileUI.run(task1.getResult().toObject(Profile.class));
-                                    });
-                        }
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        String uId = doc.get("requester").toString();
+                        db.collection("users").document(uId).get()
+                                .addOnCompleteListener(task1 -> {
+                                    runnableProfileUI.run(task1.getResult().toObject(Profile.class));
+                                });
+                    }
 
 
                 }
@@ -86,6 +85,7 @@ public class Controller_Friends implements IProfileController {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
+        status.put("requester",mAuh.getCurrentUser().getUid());
         try {
             db.collection("users").document(selfID).collection("friends")
                     .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {

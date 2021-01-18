@@ -44,6 +44,10 @@ public class Profile implements IProfile {
         return ID;
     }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
     public void addFriend(String id) {
         friends.add(id);
     }
@@ -53,10 +57,18 @@ public class Profile implements IProfile {
         return moviesOnToWatchList.toArray(size);
     }
 
+    public void setMoviesOnToWatchList(ArrayList<String> moviesOnToWatchList) {
+        this.moviesOnToWatchList = moviesOnToWatchList;
+    }
+
     @Override
     public String[] getMoviesOnWatchedList() {
         String[] size = new String[moviesOnWatchedList.size()];
         return moviesOnWatchedList.toArray(size);
+    }
+
+    public void setMoviesOnWatchedList(ArrayList<String> moviesOnWatchedList) {
+        this.moviesOnWatchedList = moviesOnWatchedList;
     }
 
     public String[] getReviewedMovies() {
@@ -88,24 +100,11 @@ public class Profile implements IProfile {
         return friends.toArray(new String[friends.size()]);
     }
 
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
     public void setFriends(ArrayList<String> friends) {
         this.friends = friends;
     }
 
     public void setMovieReviewedIDs(ArrayList<String> movieReviewedIDs) {
         this.movieReviewedIDs = movieReviewedIDs;
-    }
-
-    public void setMoviesOnToWatchList(ArrayList<String> moviesOnToWatchList) {
-        this.moviesOnToWatchList = moviesOnToWatchList;
-    }
-
-    public void setMoviesOnWatchedList(ArrayList<String> moviesOnWatchedList) {
-        this.moviesOnWatchedList = moviesOnWatchedList;
     }
 }
