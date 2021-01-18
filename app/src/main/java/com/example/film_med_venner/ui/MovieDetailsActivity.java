@@ -72,8 +72,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         if (rating != null){
                             starFest(rating.getRating());
                             yourReview.setText(rating.getReview());
-                        } else {
-                            return;
                         }
                     });
                 });
