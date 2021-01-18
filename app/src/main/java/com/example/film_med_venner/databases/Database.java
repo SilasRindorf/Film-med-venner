@@ -567,7 +567,6 @@ public class Database implements IDatabase {
     public void sendFriendRequest(String friendID) throws DatabaseException {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
-        user.put("userID", friendID);
         user.put("requester", selfID);
         user.put("status", null);
         try {
