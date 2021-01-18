@@ -6,9 +6,11 @@ import android.util.Log;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
+import com.example.film_med_venner.DTO.WatchItemDTO;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IHomeFeedItems;
 import com.example.film_med_venner.interfaces.IMovie;
@@ -517,29 +519,28 @@ public class Database implements IDatabase {
 
     //----------------------------------WATCHLIST----------------------------------
     public void addToWatchList(IWatchItem watchItem) throws DatabaseException {
-        //TODO Something like a dis?
-        /*try {
-            db.collection("watchList").add(new WatchItem()).addOnCompleteListener(task -> {
-                watchItem.
-            });
+        try {
+            db.collection("users").document(mAuh.getCurrentUser().getUid())
+                    .collection("to_watch_list")
+                    .add(new WatchItemDTO(watchItem));
         } catch (Exception e) {
-            throw new DatabaseException("Error creating review", e);
+            throw new DatabaseException("Error creating watch item", e);
         }
-         */
+
     }
 
     //----------------------------------FRIENDS----------------------------------
     @Override
-    public void sendFriendRequest(String id) throws DatabaseException {
+    public void sendFriendRequest(String friendID) throws DatabaseException {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("userID", selfID);
         user.put("requester", db.collection("users").document(selfID));
         user.put("status", null);
         try {
-            db.collection("users").document(id).collection("friends").document(selfID)
+            db.collection("users").document(friendID).collection("friends").document(selfID)
                     .set(user).addOnSuccessListener(aVoid ->
-                    Log.d(TAG, "Friend request send to ID: " + id))
+                    Log.d(TAG, "Friend request send to ID: " + friendID))
                     .addOnFailureListener(e ->
                             Log.w(TAG, "Error sending friend request", e));
         } catch (Exception e) {
