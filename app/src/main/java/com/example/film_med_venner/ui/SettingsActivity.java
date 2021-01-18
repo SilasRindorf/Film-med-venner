@@ -74,7 +74,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         } else if (view == save_password_btn) {
             if (profile_new_password_edit_text.getText().toString().equals(profile_repeat_new_password_edit_text.getText().toString())) {
-                Database.getInstance().updateUserPassword(profile_password_edit_text.getText().toString(), profile_new_password_edit_text.getText().toString());
+                Database.getInstance().updateUserPassword(profile_password_edit_text.getText().toString(), profile_new_password_edit_text.getText().toString(), new RunnableErrorUI() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingsActivity.this, "Password has been updated", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void handleError(IDatabase.DatabaseException e) {
+                        Toast.makeText(SettingsActivity.this, "Something went wrong, check passwords and try again", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(SettingsActivity.this, "The new passwords need to be the same", Toast.LENGTH_LONG).show();
             }
 
         }

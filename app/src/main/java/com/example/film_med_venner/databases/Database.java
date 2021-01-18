@@ -383,7 +383,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void updateUserPassword(String passwordOld, String passwordNew) {
+    public void updateUserPassword(String passwordOld, String passwordNew, RunnableErrorUI runnableUI) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 // Get auth credentials from the user for re-authentication. The example below shows
@@ -398,6 +398,7 @@ public class Database implements IDatabase {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            runnableUI.run();
                             Log.d(TAG, "User re-authenticated.");
                             user.updatePassword(passwordNew);
                         } else {
