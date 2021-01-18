@@ -25,6 +25,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableWatchListUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.AuthCredential;
@@ -237,8 +238,9 @@ public class Database implements IDatabase {
                 .setDisplayName(profile.getName())
                 .build();
         mAuh.getCurrentUser().updateProfile(profileUpdates);
-
-        db.collection("users").document(profile.getID()).set(new ProfileDTO(profile))
+        ProfileDTO prof = new ProfileDTO(profile);
+        prof.setPictureURL("https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png");
+        db.collection("users").document(profile.getID()).set(prof)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + profile.getID()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
     }
@@ -292,6 +294,7 @@ public class Database implements IDatabase {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
                     profile.setID(mAuh.getCurrentUser().getUid());
+
                     addUser(profile);
                     runnableUI.run();
                 } else {
@@ -542,21 +545,35 @@ public class Database implements IDatabase {
         }
     }
 
-    public void getWatchedList(IWatchItem watchItem) throws DatabaseException {
+    public void getWatchedList(RunnableWatchListUI runnableWatchListUI) throws DatabaseException {
         try {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
                     .collection("watched_list")
-                    .add(new WatchItemDTO(watchItem));
+                    .get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+
+                    IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
+                    List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
+                    runnableWatchListUI.run(watchItems.toArray(toWatchList));
+                }
+        });
         } catch (Exception e) {
             throw new DatabaseException("Error creating watch item", e);
         }
     }
 
-    public void getToWatchList(IWatchItem watchItem) throws DatabaseException {
+    public void getToWatchList(RunnableWatchListUI runnableWatchListUI) throws DatabaseException {
         try {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
-                    .collection("watched_list")
-                    .add(new WatchItemDTO(watchItem));
+                    .collection("to_watch_list")
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+
+                            IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
+                            List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
+                            runnableWatchListUI.run(watchItems.toArray(toWatchList));
+                        }
+            });
         } catch (Exception e) {
             throw new DatabaseException("Error creating watch item", e);
         }
@@ -604,9 +621,11 @@ public class Database implements IDatabase {
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
         try {
-            db.collection("users").document(selfID).collection("friends").document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
+            db.collection("users").document(selfID).collection("friends")
+                    .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    db.collection("users").document(friendID).collection("friends").document(selfID).set(status, SetOptions.merge());
+                    db.collection("users").document(friendID).collection("friends")
+                            .document(selfID).set(status, SetOptions.merge());
                     try {
                         runnableUI.run();
                     } catch (DatabaseException e) {
