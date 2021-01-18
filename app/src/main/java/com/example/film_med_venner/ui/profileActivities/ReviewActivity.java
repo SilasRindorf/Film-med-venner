@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
     GridView gridView;
-    private ReviewAdapter ratingAdapter;
+    private ReviewAdapter reviewAdapter;
     private Context ctx;
     IProfileController controller = Controller_Friends.getInstance();
 
@@ -40,6 +40,22 @@ public class ReviewActivity extends AppCompatActivity {
         addFrag(R.id.nav_bar_container,frag);
 
         gridView = findViewById(R.id.gridView);
+        //TODO Review Activity not working
+        /*bgThread.execute(() -> {
+            try {
+                List<IReview> items = new ArrayList<>();
+                controller.getReviews((RunnableReviewsUI) -> {
+                    items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
+                    uiThread.post(() -> {
+                       reviewAdapter = new ReviewAdapter(ctx, items);
+                gridView.setAdapter(reviewAdapter);
+                gridView.setVisibility(View.VISIBLE);
+                    });
+                });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        });*/
 
     }
 
@@ -50,57 +66,5 @@ public class ReviewActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setupHomeFeed(true);
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setupHomeFeed(false);
-    }
-
-    void setupHomeFeed(boolean run) {
-        AsyncTask asyncTask = new AsyncTask() {
-            List<IReview> items = new ArrayList<IReview>();
-            String errorMsg = null;
-
-            @Override
-            protected void onPreExecute() {
-            }
-
-            @Override
-            protected Object doInBackground(Object... arg0) {
-                try {
-                    items = Arrays.asList(Controller_Review.getInstance().getReviewItems());
-                    return null;
-                } catch (Exception e) {
-                    //    errorMsg = e.getMessage();
-                    e.printStackTrace();
-                    return e;
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(Object titler) {
-                ratingAdapter = new ReviewAdapter(ctx, items);
-                gridView.setAdapter(ratingAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-        };
-
-        if (run) {
-            asyncTask.execute();
-        } else {
-            asyncTask.cancel(true);
-        }
-    }
 }
