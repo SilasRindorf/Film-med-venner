@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView imageView_settings;
     private ShapeableImageView profile_picture;
     private TextView profileName, genrePref, friends, rated, watchList, watched;
-    private Profile profile;
+    private FullProfileDTO profile;
 
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -97,11 +97,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         bgThread.execute(() -> {
             Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
-                String url = RunnableFullProfileUI.getPictureURL();
+                profile = RunnableFullProfileUI;
+                String url = profile.getPictureURL();
                 Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
                     System.out.println("ImageURL: " + url);
-                    setupProfileInfo(RunnableFullProfileUI);
+                    setupProfileInfo();
                     //TODO Set profile picture in profile
                     profile_picture.setImageBitmap(picture);
                 });
@@ -146,7 +147,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void setupProfileInfo(FullProfileDTO profile) {
+    private void setupProfileInfo() {
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
         String user;
