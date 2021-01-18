@@ -17,6 +17,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -27,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -66,10 +68,24 @@ public class Controller_User implements IController {
         }
     }
 
+    public void getCurrentUserWithmvGPrefs(RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
+        FirebaseUser user = mAuh.getCurrentUser();
+        try {
+            db.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    runnableProfileUI.run(documentSnapshot.toObject(Profile.class));
+                }
+            });
+        } catch (Exception e) {
+            throw new IDatabase.DatabaseException("Could not get movie preferences", e);
+        }
+    }
+
     public String getCurrentUserEmail() {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
-            return  user.getEmail();
+            return user.getEmail();
         } catch (Exception ignored) {
             return null;
         }
@@ -202,8 +218,9 @@ public class Controller_User implements IController {
     public void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI) throws IDatabase.DatabaseException {
         try {
             Map<String, Object> docData = new HashMap<>();
+            docData.put("id", Controller_User.getInstance().getCurrentUser().getID());
             docData.put("name", name);
-            docData.put("topGenres", topGenres);
+            docData.put("mvGPrefs", topGenres);
             db.collection("users").document(mAuh.getUid()).set(docData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();

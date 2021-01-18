@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +19,8 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
-import com.example.film_med_venner.ui.login.MainActivity;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.login.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
@@ -31,8 +32,20 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
         findViews();
+        profile_name_edit_text.setText(Controller_User.getInstance().getCurrentUser().getName(), TextView.BufferType.EDITABLE);
+        profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUserEmail(), TextView.BufferType.EDITABLE);
+
+        try {
+            Controller_User.getInstance().getCurrentUserWithmvGPrefs(profile -> {
+                profile_top_genre_edit_text.setText(profile.getmvGPrefs(), TextView.BufferType.EDITABLE);
+            });
+
+        } catch (NullPointerException | IDatabase.DatabaseException ignored) {
+
+        }
+
     }
 
     private void addFrag(int id, Fragment fragment) {

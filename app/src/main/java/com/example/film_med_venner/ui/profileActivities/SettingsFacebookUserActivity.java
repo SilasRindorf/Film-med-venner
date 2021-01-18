@@ -2,6 +2,7 @@ package com.example.film_med_venner.ui.profileActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,26 +16,55 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.login.MainActivity;
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SettingsFacebookUserActivity extends AppCompatActivity implements View.OnClickListener {
     private Button change_profile_picture_btn, save_changes_btn, log_out_btn;
     private EditText profile_top_genre_edit_text;
     private TextView profile_name_textView, profile_mail_textView;
     private ImageView profile_picture;
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
+    private String userID, profile_picture_url, profile_name, profile_email;
+    private FullProfileDTO profile;
+
     //TODO Switches i settings?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_facebook_user);
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
         findViews();
+        userID = Controller_User.getInstance().getCurrentUser().getID();
+
+        bgThread.execute(() -> {
+            Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
+                profile = RunnableFullProfileUI;
+                profile_picture_url = profile.getPictureURL();
+                profile_name = profile.getName();
+                profile_email = Controller_User.getInstance().getCurrentUserEmail();
+                uiThread.post(() -> {
+                    if (profile_picture_url != null) {
+                        //TODO Giv billedet runde kanter
+                        Picasso.get().load(profile_picture_url).into(profile_picture);
+                        profile_name_textView.setText(profile_name);
+                        profile_mail_textView.setText(profile_email);
+
+                    }
+                });
+            });
+        });
     }
 
     private void addFrag(int id, Fragment fragment) {

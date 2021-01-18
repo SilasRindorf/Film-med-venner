@@ -5,7 +5,7 @@ import java.util.List;
 public class FullProfileDTO {
     private List<ProfileDTO> friends;
     private List<ReviewDTO> reviews;
-    private List<String> mvGPrefs;
+    private String mvGPrefs;
     private String pictureURL;
     private String ID;
     private String name;
@@ -14,11 +14,11 @@ public class FullProfileDTO {
         return pictureURL;
     }
 
-    public List<String> getMvGPrefs() {
+    public String getmvGPrefs() {
         return mvGPrefs;
     }
 
-    public void setMvGPrefs(List<String> mvGPrefs) {
+    public void setmvGPrefs(String mvGPrefs) {
         this.mvGPrefs = mvGPrefs;
     }
 
