@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.login_main);
         /**
          * https://developers.facebook.com/docs/android/getting-started#sig
+         * Søg på "KeyHash" i Run. Tag det key der er blevet lavet, og smæk det ind her: https://developers.facebook.com/settings/developer/sample-app/
          */
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
