@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 
@@ -43,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         auth = Controller_User.getInstance();
-
+        // Force logout in case of error
+        /*try {
+            auth.logOut(() ->{});
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+        }*/
 
         //Comment out to not skip log in screen
         if (Controller_User.getInstance().getCurrentUser() != null || Controller_User.getInstance().isFacebookUserLoginValid()) {
@@ -101,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
                                     if (object.has("email")){
                                         email = object.getString("email");
                                     }
-                                    String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
+                                    String image_url = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    //String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
                                     Log.e("IMAGE_URL", image_url);
                                     //TODO Tilføj fb bruger i db måske vha. param bundle?
                                     IProfile profile = new Profile(name,id);
@@ -141,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields","id, name, email");
+                        parameters.putString("fields","id, name, email,picture.type(large)");
                         request.setParameters(parameters);
                         request.executeAsync();
                         Log.e("requestAsyncStuff",parameters.toString());

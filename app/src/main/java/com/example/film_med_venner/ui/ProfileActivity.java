@@ -94,11 +94,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 String url = profile.getPictureURL();
                 //Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
-                    Log.e("ImageURL: ", url);
                     setupProfileInfo();
-                    //TODO Set profile picture in profile
-                    Picasso.get().load(url).into(profile_picture);
-                    //profile_picture.setImageBitmap(picture);
+                    if (url != null){
+                        Log.e("ImageURL: ", url);
+                        Picasso.get().load(url).into(profile_picture);
+                    }
+
                 });
             });
         });

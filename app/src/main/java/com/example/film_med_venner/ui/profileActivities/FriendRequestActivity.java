@@ -48,7 +48,7 @@ public class FriendRequestActivity extends AppCompatActivity {
         ctx = this;
         gridView = findViewById(R.id.gridView);
 
-       bgThread.execute(() -> {
+       /*bgThread.execute(() -> {
             try {
                 Controller_Friends.getInstance().getFriendRequests((RunnableProfileUI) friendRequest -> {
                     List<IProfile> friendList = Arrays.asList(friendRequest);
@@ -62,7 +62,7 @@ public class FriendRequestActivity extends AppCompatActivity {
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
-        });
+        });*/
     }
 
     private void addFrag(int id, Fragment fragment) {
