@@ -66,6 +66,15 @@ public class Controller_User implements IController {
         }
     }
 
+    public String getCurrentUserEmail() {
+        FirebaseUser user = mAuh.getCurrentUser();
+        try {
+            return  user.getEmail();
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
