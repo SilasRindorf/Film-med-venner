@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
-import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
@@ -194,7 +193,7 @@ public class Database implements IDatabase {
 
 
     public void getCurrentUser(RunnableFullProfileUI runnableFullProfileUI) {
-        getFullProfile(mAuh.getCurrentUser().getUid(),runnableFullProfileUI);
+        getFullProfile(mAuh.getCurrentUser().getUid(), runnableFullProfileUI);
     }
 
     public void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI) {
@@ -550,13 +549,13 @@ public class Database implements IDatabase {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
                     .collection("watched_list")
                     .get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
                     List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
                     runnableWatchListUI.run(watchItems.toArray(toWatchList));
                 }
-        });
+            });
         } catch (Exception e) {
             throw new DatabaseException("Error creating watch item", e);
         }
@@ -567,12 +566,12 @@ public class Database implements IDatabase {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
                     .collection("to_watch_list")
                     .get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()){
+                if (task.isSuccessful()) {
 
-                            IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
-                            List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
-                            runnableWatchListUI.run(watchItems.toArray(toWatchList));
-                        }
+                    IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
+                    List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
+                    runnableWatchListUI.run(watchItems.toArray(toWatchList));
+                }
             });
         } catch (Exception e) {
             throw new DatabaseException("Error creating watch item", e);
@@ -605,6 +604,19 @@ public class Database implements IDatabase {
             db.collection("users").document(id).collection("friends")
                     .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    String[] uIDs = new String[task.getResult().size()];
+                    int i = 0;
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        uIDs[i] = (String) doc.get("requester");
+                        i++;
+                    }
+                    db.collection("users").document()
+                            .get().addOnCompleteListener(task1 -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult()) {
+                            }
+                        }
+                    });
                     IProfile[] friends = new Profile[task.getResult().size()];
                     List<Profile> friendz = task.getResult().toObjects(Profile.class);
                     runnableUI.run(friendz.toArray(friends));
@@ -615,6 +627,31 @@ public class Database implements IDatabase {
             throw new DatabaseException("Error getting friend request", e);
         }
     }
+    public void getFriendRequests(RunnableProfileUI runnableProfileUI) throws DatabaseException {
+        String id = mAuh.getCurrentUser().getUid();
+
+        try {
+            db.collection("users").document(id).collection("friends")
+                    .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        String uId = (String) doc.get("requester");
+                        db.collection("users").document(uId).get()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()){
+                                        runnableProfileUI.run(task1.getResult().toObject(Profile.class));
+                                    }
+                        });
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            throw new DatabaseException("Error getting friend request", e);
+        }
+    }
+
 
     public void respondToFriendRequest(String friendID, int accept, RunnableUI runnableUI) throws DatabaseException {
         HashMap<String, Object> status = new HashMap<>();
