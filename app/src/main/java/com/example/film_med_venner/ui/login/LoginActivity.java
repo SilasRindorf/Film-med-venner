@@ -1,4 +1,4 @@
-package com.example.film_med_venner.ui;
+package com.example.film_med_venner.ui.login;
 
 import android.app.Activity;
 import android.os.Bundle;

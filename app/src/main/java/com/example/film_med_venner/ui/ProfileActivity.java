@@ -6,11 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,15 +20,11 @@ import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
+import com.example.film_med_venner.ui.profileActivities.SettingsActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -136,9 +129,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
         }
         else if (view == imageView_settings){
-            setContentView(R.layout.settings_main);
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+            if (Controller_User.getInstance().isFacebookUserLoginValid() == false){
+                setContentView(R.layout.settings_main);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+            } else {
+
+            }
         }
     }
 
