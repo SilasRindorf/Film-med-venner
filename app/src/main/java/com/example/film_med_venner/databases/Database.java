@@ -568,7 +568,7 @@ public class Database implements IDatabase {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("requester", selfID);
-        user.put("status", null);
+        user.put("status", 0);
         try {
             db.collection("users").document(friendID).collection("friends").document(selfID)
                     .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
@@ -585,7 +585,8 @@ public class Database implements IDatabase {
         String id = mAuh.getCurrentUser().getUid();
 
         try {
-            db.collection("users").document(id).collection("friends").whereEqualTo("status", null).get().addOnCompleteListener(task -> {
+            db.collection("users").document(id).collection("friends")
+                    .whereEqualTo("status", 0).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     IProfile[] friends = new Profile[task.getResult().size()];
                     List<Profile> friendz = task.getResult().toObjects(Profile.class);
@@ -598,7 +599,7 @@ public class Database implements IDatabase {
         }
     }
 
-    public void respondToFriendRequest(String friendID, boolean accept, RunnableUI runnableUI) throws DatabaseException {
+    public void respondToFriendRequest(String friendID, int accept, RunnableUI runnableUI) throws DatabaseException {
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", accept);
@@ -621,12 +622,9 @@ public class Database implements IDatabase {
 
     public void getFriends(RunnableProfilesUI runnableUI) throws DatabaseException {
         String id = mAuh.getCurrentUser().getUid();
-        //TODO Skal der ikke være et friendship ID ift. den path den lige ligesom tager? Jeg ser umiddelbart at at stykket mellem collectionpath "friends" og status tingelingen der er der et doc id som ikke bliver hentet
-        //Doc ID'et er friendship ID'et
-        String friendshipID;
-        //IE String friendshipID = doc.getID() //Fra et for each loop ( for (DocumentSnapshot doc : task.getResult().getDocuments()) )
         try {
-            db.collection("users").document(id).collection("friends").whereEqualTo("status", true).get().addOnCompleteListener(task -> {
+            db.collection("users").document(id).collection("friends")
+                    .whereEqualTo("status", 1).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     IProfile[] friends = new Profile[task.getResult().size()];
                     List<Profile> friendz = task.getResult().toObjects(Profile.class);
