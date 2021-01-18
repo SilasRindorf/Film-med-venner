@@ -25,6 +25,7 @@ import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IProfile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -79,15 +80,16 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         bgThread.execute(() -> {
+            List<IProfile> friendList = new ArrayList<>();
             try {
                 Controller_Friends.getInstance().getFriends(friends -> {
-                    List<IProfile> friendList = Arrays.asList(friends);
+                    friendList.add(friends);
                     System.out.println("Friends" + Arrays.toString(friends));
-                    uiThread.post(() -> {
-                        friendAdapter = new FriendAdapter(ctx, friendList);
-                        gridView.setAdapter(friendAdapter);
-                        gridView.setVisibility(View.VISIBLE);
-                    });
+                });
+                uiThread.post(() -> {
+                    friendAdapter = new FriendAdapter(ctx, friendList);
+                    gridView.setAdapter(friendAdapter);
+                    gridView.setVisibility(View.VISIBLE);
                 });
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();

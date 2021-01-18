@@ -49,16 +49,16 @@ public class FriendRequestActivity extends AppCompatActivity {
         gridView = findViewById(R.id.gridView);
 
         bgThread.execute(() -> {
-
+            List<IProfile> friendList = new ArrayList<>();
             try {
                 Controller_Friends.getInstance().getFriendRequests(friendRequest -> {
-                    List<IProfile> friendList = Arrays.asList(friendRequest);
-                    System.out.println("FriendRequest" + Arrays.toString(friendRequest));
-                    uiThread.post(() -> {
-                        friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
-                        gridView.setAdapter(friendRequestAdapter);
-                        gridView.setVisibility(View.VISIBLE);
-                    });
+                    friendList.add(friendRequest);
+                    System.out.println("FriendRequest" + Arrays.toString(friendList));
+                });
+                uiThread.post(() -> {
+                    friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
+                    gridView.setAdapter(friendRequestAdapter);
+                    gridView.setVisibility(View.VISIBLE);
                 });
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();

@@ -72,6 +72,7 @@ public class Controller_Friends implements IProfileController {
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             profileList.add(task1.getResult().toObject(Profile.class));
+                                            System.out.println("Profile : " + task1.getResult());
                                         }
                                     });
                         }
