@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.databases.Database;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -42,6 +43,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Intent intent;
     private LinearLayout l_layout_rating;
     private LinearLayout l_layout_to_watchlist;
     private LinearLayout l_layout_watchedlist;
@@ -83,44 +86,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //TODO userID skal også kunne være en af dine venners
 
-        /* if (bundle(userID) != null)
-                userID = bundle(userID);
-           else
-                userID = Database.getInstance().getCurrentUser().getID();
+        intent = getIntent();
 
-         */
+        String userID;
 
+        if (intent.getStringExtra("userID") != null)
+            userID = intent.getStringExtra("userID");
+        else
+            userID = Database.getInstance().getCurrentUser().getID();
 
-        // Virker åbenbart ikke :/
         bgThread.execute(() -> {
-            Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
+            Database.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 String url = RunnableFullProfileUI.getPictureURL();
+                Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
-                    profile_picture.setImageBitmap(getBitmapFromURL(url));
+                    System.out.println("ImageURL: " + url);
+                    setupProfileInfo(RunnableFullProfileUI);
+                    //TODO Set profile picture in profile
+                    profile_picture.setImageBitmap(picture);
                 });
             });
-            String userID = Database.getInstance().getCurrentUser().getID();
-            try {
-                Database.getInstance().getProfile(userID, profile1 -> {
-                    profile = (Profile) profile1;
-                    uiThread.post(() -> {
-                        if (profile != null){
-                            setupProfileInfo();
-                        } else {
-                            return;
-                        }
-                    });
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-            }
         });
-
-        // Det som den anden skal gøre (virker kun med currentUser)
-
-        //profile = (Profile) Database.getInstance().getCurrentUser();
-        //setupProfileInfo();
-
 
     }
 
@@ -160,41 +146,47 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void setupProfileInfo() {
+    private void setupProfileInfo(FullProfileDTO profile) {
         profileName.setText(profile.getName());
         //genrePref.setText(profile.getMvgPrefs().toString());
-
-        if (profile.getFriendIDs().length == 0) {
-            friends.setText("You do not have any friends yet");
-        } else if (profile.getFriendIDs().length == 1) {
-            friends.setText("You have " + profile.getFriendIDs().length + " friend");
+        String user;
+        if (profile.getID() == Database.getInstance().getCurrentUser().getID()) {
+            user = "You have ";
         } else {
-            friends.setText("You have " + profile.getFriendIDs().length + " friends");
+            user = profile.getName() + " has ";
         }
 
-        if (profile.getReviewedMovies().length == 0) {
-            rated.setText("You have not rated any movies yet");
-        } else if (profile.getReviewedMovies().length == 1) {
-            rated.setText("You have rated " + profile.getReviewedMovies().length + " movie");
+        if (profile.getFriends().size() == 0) {
+            friends.setText(user + "not gotten any friends yet");
+        } else if (profile.getFriends().size() == 1) {
+            friends.setText(user + profile.getFriends().size() + " friend");
         } else {
-            rated.setText("You have rated " + profile.getReviewedMovies().length + " movies");
+            friends.setText(user + profile.getFriends().size() + " friends");
         }
 
-        if (profile.getMoviesOnToWatchList().length == 0) {
-            watchList.setText("You have 0 movies on your watch list");
+        if (profile.getReviews().size() == 0) {
+            rated.setText(user + "not rated any movies yet");
+        } else if (profile.getReviews().size() == 1) {
+            rated.setText(user + "rated " + profile.getReviews().size() + " movie");
+        } else {
+            rated.setText(user + "rated " + profile.getReviews().size() + " movies");
+        }
+
+        /*if (profile.getMoviesOnToWatchList().length == 0) {
+            watchList.setText(user + "not put any movies on watch list");
         } else if (profile.getMoviesOnToWatchList().length == 1) {
-            watchList.setText("You have " + profile.getMoviesOnToWatchList().length + " movie on your watch list");
+            watchList.setText(user + profile.getMoviesOnToWatchList().length + " movie on watch list");
         } else {
-            watchList.setText("You have " + profile.getMoviesOnToWatchList().length + " movies on your watch list");
+            watchList.setText(user + profile.getMoviesOnToWatchList().length + " movies on watch list");
         }
 
         if (profile.getMoviesOnWatchedList().length == 0) {
-            watched.setText("You have 0 movies on your watch list");
+            watched.setText(user + "not watched any movies yet");
         } else if (profile.getMoviesOnWatchedList().length == 1) {
-            watched.setText("You have watched" + profile.getMoviesOnWatchedList().length + " movie");
+            watched.setText(user + "watched " + profile.getMoviesOnWatchedList().length + " movie");
         } else {
-            watched.setText("You have watched " + profile.getMoviesOnWatchedList().length + " movies");
-        }
+            watched.setText(user + "watched " + profile.getMoviesOnWatchedList().length + " movies");
+        }*/
     }
 
     public static Bitmap getBitmapFromURL(String src) {
