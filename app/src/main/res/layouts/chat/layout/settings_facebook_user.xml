@@ -80,13 +80,13 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Top genre: "
                     android:textColor="#DDFFFFFF"/>
-                <TextView
+                <EditText
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Documentaries, romance, thriller"
+                    android:hint="Documentaries, romance, thriller"
                     android:fontFamily="sans-serif-medium"
-                    android:textColor="#DDFFFFFF"/>
+                    android:textColorHint="#DDFFFFFF"/>
             </LinearLayout>
             <!-- PROFILE PICTURE -->
             <LinearLayout

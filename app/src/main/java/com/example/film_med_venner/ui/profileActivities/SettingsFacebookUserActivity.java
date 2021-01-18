@@ -31,7 +31,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_main);
+        setContentView(R.layout.settings_facebook_user);
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
         findViews();

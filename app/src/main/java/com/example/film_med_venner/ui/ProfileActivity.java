@@ -24,6 +24,7 @@ import com.example.film_med_venner.ui.profileActivities.SettingsActivity;
 import com.example.film_med_venner.ui.profileActivities.SettingsFacebookUserActivity;
 import com.example.film_med_venner.ui.profileActivities.ToWatchlistActivity;
 import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
+import com.google.protobuf.StringValue;
 import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.Executor;
@@ -40,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView profile_picture;
     private TextView profileName, genrePref, friends, rated, watchList, watched;
     private FullProfileDTO profile;
+    private String url;
 
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -85,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bgThread.execute(() -> {
             Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
-                String url = profile.getPictureURL();
+                url = profile.getPictureURL();
                 //Bitmap picture = getBitmapFromURL(url);
                 uiThread.post(() -> {
                     setupProfileInfo();
@@ -130,13 +132,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
         }
         else if (view == imageView_settings){
-            if (Controller_User.getInstance().isFacebookUserLoginValid() == false){
+            System.out.println("FacebookTokenStuff: " + Controller_User.getInstance().isFacebookUserLoginValid());
+            System.out.println("NotFacebookTokenStuff: " + !Controller_User.getInstance().isFacebookUserLoginValid());
+            if (!Controller_User.getInstance().isFacebookUserLoginValid()){
                 setContentView(R.layout.settings_main);
                 Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("profilePicUrl",url);
                 startActivity(intent);
-            } else if (Controller_User.getInstance().isFacebookUserLoginValid() == true){
+            } else {
                 setContentView(R.layout.settings_facebook_user);
                 Intent intent = new Intent(this, SettingsFacebookUserActivity.class);
+                intent.putExtra("profilePicUrl",url);
                 startActivity(intent);
             }
         }
