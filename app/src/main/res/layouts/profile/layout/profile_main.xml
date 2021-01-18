@@ -132,7 +132,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/icon_rated" />
+                    app:srcCompat="@drawable/icon_reviewed" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -157,45 +157,6 @@
             </LinearLayout>
 
             <!--Reviewed-->
-            <LinearLayout
-                android:id="@+id/linearLayout_review"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <ImageView
-                    android:id="@+id/imageView_reviewed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/icon_reviewed" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView_reviewed_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/reviewed"
-                        android:textColor="@color/colorTextView" />
-
-                    <TextView
-                        android:id="@+id/textView_reviewed_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sampletext_reviewed_description"
-                        android:textColor="@color/colorTextView" />
-                </LinearLayout>
-            </LinearLayout>
 
             <!--ToWatchList-->
             <LinearLayout

@@ -6,8 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,20 +33,20 @@ import com.example.film_med_venner.ui.profileActivities.WatchedlistActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    LinearLayout l_layout_review;
-    LinearLayout l_layout_rating;
-    LinearLayout l_layout_to_watchlist;
-    LinearLayout l_layout_watchedlist;
-    LinearLayout l_layout_friends;
-    ImageView imageView_settings;
-    ShapeableImageView profile_picture;
-    TextView profileName, genrePref, friends, rated, watchList, watched;
-    Profile profile;
+    private LinearLayout l_layout_rating;
+    private LinearLayout l_layout_to_watchlist;
+    private LinearLayout l_layout_watchedlist;
+    private LinearLayout l_layout_friends;
+    private ImageView imageView_settings;
+    private ShapeableImageView profile_picture;
+    private TextView profileName, genrePref, friends, rated, watchList, watched;
+    private Profile profile;
 
     private Executor bgThread = Executors.newSingleThreadExecutor();
     private Handler uiThread = new Handler();
@@ -55,8 +59,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         addFrag(R.id.nav_bar_container,frag);
 
         //TODO Vi skal lave det her på den smarte måde som Silas har vist og Sejr har glemt.
-        l_layout_review = findViewById(R.id.linearLayout_review);
-        l_layout_review.setOnClickListener(this);
         l_layout_rating = findViewById(R.id.linearLayout_rating);
         l_layout_rating.setOnClickListener(this);
         l_layout_to_watchlist = findViewById(R.id.linearLayout_to_watchlist);
@@ -90,9 +92,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bgThread.execute(() -> {
             Database.getInstance().getCurrentUser(RunnableFullProfileUI -> {
                 String url = RunnableFullProfileUI.getPictureURL();
+                Bitmap picture = downloadPP(url);
                 uiThread.post(() -> {
                     System.out.println("ImageURL: " + url);
-                    Picasso.get().load(url).into(profile_picture);
+                    //Picasso.get().
+                    //TODO Set profile picture in profile
+                    profile_picture.setImageBitmap(picture);
                 });
             });
             String userID = Database.getInstance().getCurrentUser().getID();
@@ -191,5 +196,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             watched.setText("You have watched " + profile.getMoviesOnWatchedList().length + " movies");
         }
+    }
+
+    /**
+     * Credits to https://www.tutorialspoint.com/how-to-download-image-from-url-in-android
+     * @param URL
+     * @return
+     */
+    private Bitmap downloadPP(String... URL){
+        //TODO Farlige ting
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String imageURL = URL[0];
+        Bitmap bitmap = null;
+        try {
+            // Download Image from URL
+            InputStream input = new java.net.URL(imageURL).openStream();
+            // Decode Bitmap
+            bitmap = BitmapFactory.decodeStream(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }
