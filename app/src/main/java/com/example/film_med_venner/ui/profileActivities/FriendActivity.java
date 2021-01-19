@@ -5,22 +5,29 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Layout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.ui.LoadingScreen;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
@@ -44,6 +51,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Bundle bundle = new Bundle();
     private List<FullProfileDTO> friendList = new ArrayList<>();
     private String userID;
+    private int amountOfFriendRequest;
     //private TextView profile_id;
 
 
@@ -64,10 +72,10 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         if (v == see_friendrequest_btn) {
             setContentView(R.layout.activity_friend_request);
             Intent intent = new Intent(this, FriendRequestActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivityIfNeeded(intent, 0);
         }
-        if (v == add_friend_btn){
+        if (v == add_friend_btn) {
             try {
                 AddFriend();
             } catch (IDatabase.DatabaseException e) {
@@ -95,13 +103,14 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
+
     private void AddFriend() throws IDatabase.DatabaseException {
         Controller_Friends.getInstance().sendFriendRequestByMail(searchField.getText().toString());
         searchField.setText("");
         Utility.hideKeyboard(FriendActivity.this);
     }
 
-    private void findViews(){
+    private void findViews() {
         //profile_id = findViewById(R.id.profile_id);
         gridView = findViewById(R.id.gridView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
@@ -121,7 +130,14 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             l_layout_buttons.getLayoutParams().height = 0;
             //profile_id.setText(userID);
         }
-
+        amountOfFriendRequest = intent.getIntExtra("friendRequests",0);
+        if (amountOfFriendRequest == 0){
+            see_friendrequest_btn.setText("You have 0 new friend requests");
+        } else if (amountOfFriendRequest == 1){
+            see_friendrequest_btn.setText("You have 1 new friend requests");
+        } else if (amountOfFriendRequest > 1){
+            see_friendrequest_btn.setText("You have " + amountOfFriendRequest  + " new friend requests");
+        }
 
         see_friendrequest_btn.setOnClickListener(this);
         add_friend_btn.setOnClickListener(this);
