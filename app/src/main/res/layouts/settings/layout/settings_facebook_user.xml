@@ -31,58 +31,65 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal">
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-medium"
                     android:text="Navn: "
                     android:textColor="#DDFFFFFF"/>
                 <TextView
                     android:id="@+id/profile_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
                     android:text="Skriv dit navn her..."
                     android:fontFamily="sans-serif-medium"
-                    android:textColor="#DDFFFFFF"/>
+                    android:textColor="?attr/editTextColor"
+                    android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                    android:background="?attr/editTextBackground"/>
             </LinearLayout>
 
             <!-- MAIL -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal">
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-medium"
                     android:text="Mail: "
                     android:textColor="#DDFFFFFF"/>
                 <TextView
                     android:id="@+id/profile_mail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="Skriv din mail her"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:text="Skriv din mail her..."
                     android:fontFamily="sans-serif-medium"
-                    android:textColor="#DDFFFFFF"/>
+                    android:textColor="?attr/editTextColor"
+                    android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                    android:background="?attr/editTextBackground"/>
             </LinearLayout>
 
             <!-- TOP GENRE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal">
                 <TextView
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
@@ -95,43 +102,52 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
+                    android:hint="Write your favourite genres here..."
                     android:fontFamily="sans-serif-medium"
-                    android:hint="Choose your favorite genres"
-                    android:textColor="#DDFFFFFF"
-                    android:textColorHint="#B1B1B1"
-                    android:layout_weight="3" />
+                    android:textColor="?attr/editTextColor"
+                    android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                    android:background="?attr/editTextBackground"
+                    android:textColorHint="?attr/editTextColor"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <!-- PROFILE PICTURE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal">
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
                     android:fontFamily="sans-serif-medium"
-                    android:layout_weight="7"
+                    android:layout_weight="1"
                     android:text="Profilbillede: "
                     android:textColor="#DDFFFFFF"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profile_picture"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     app:srcCompat="@drawable/icon_default_profilepicture"
                     app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
                 <Button
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/change_profile_picture"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:layout_marginStart="20dp"
                     android:text="Skift profilbillede"/>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- HOMEFEED SETTINGS -->
@@ -165,17 +181,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switch_ratings" />
 
-            <Switch
-                android:id="@+id/switch_ratings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:text="@string/switch_ratings"
-                android:textColor="#DDFFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"

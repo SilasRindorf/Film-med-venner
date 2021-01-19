@@ -67,7 +67,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                         Picasso.get().load(profile_picture_url).into(profile_picture);
                         profile_name_textView.setText(profile_name);
                         profile_mail_textView.setText(profile_email);
-                        profile_top_genre_edit_text.setHint(profile_mvgPref);
+                        profile_top_genre_edit_text.setText(profile_mvgPref);
                         //profile_id.setText(userID);
                     }
                 });
