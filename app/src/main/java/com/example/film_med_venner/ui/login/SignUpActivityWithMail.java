@@ -16,6 +16,7 @@ import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.HomeActivity;
+import com.example.film_med_venner.ui.profileActivities.FriendRequestActivity;
 
 public class SignUpActivityWithMail extends Activity implements OnClickListener{
     private Button sign_up_btn, go_back_btn;
@@ -29,8 +30,10 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
         EditText firstName = findViewById(R.id.input_firstname);
         EditText surname = findViewById(R.id.input_surname);
         EditText email = findViewById(R.id.input_username);
-        Button btnc = findViewById(R.id.btn_signup);
-        btnc.setOnClickListener(view -> {
+        go_back_btn = findViewById(R.id.btn_go_back);
+        go_back_btn.setOnClickListener(this);
+        sign_up_btn = findViewById(R.id.btn_signup);
+        sign_up_btn.setOnClickListener(view -> {
             try {
                 if ( !(
                         ((EditText) findViewById(R.id.input_password)).getText().toString().equals(
@@ -81,13 +84,9 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
             System.out.println("You succesfully created an account. Now go back and login or something.");
         }
         else if (view == go_back_btn){
-            switchActivity(LoginActivity.class);
+            setContentView(R.layout.login_main);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
-    }
-
-    public void switchActivity(Class activity) {
-        Intent intent = new Intent(this, activity);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
     }
 }

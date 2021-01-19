@@ -102,7 +102,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         fragmentTransaction.commit();
     }
     private void AddFriend() throws IDatabase.DatabaseException {
-        Controller_Friends.getInstance().sendFriendRequest(searchField.getText().toString());
+        Controller_Friends.getInstance().sendFriendRequestByMail(searchField.getText().toString());
         searchField.setText("");
         Utility.hideKeyboard(FriendActivity.this);
     }
