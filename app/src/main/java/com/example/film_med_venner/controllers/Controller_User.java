@@ -102,17 +102,7 @@ public class Controller_User implements IController {
                 .addOnFailureListener(e -> Log.w(TAG, "Error sending email ", e));
     }
 
-    public void addUser(IProfile profile) {
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(profile.getName())
-                .build();
-        mAuh.getCurrentUser().updateProfile(profileUpdates);
-        ProfileDTO prof = new ProfileDTO(profile);
-        prof.setPictureURL("https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png");
-        db.collection("users").document(profile.getID()).set(prof)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + profile.getID()))
-                .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
-    }
+
 
     public void logIn(String email, String password, RunnableUI runnableUI) throws IDatabase.DatabaseException {
         try {
@@ -156,6 +146,21 @@ public class Controller_User implements IController {
         }
     }
 
+    public void addUser(IProfile profile, String pictureURL) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(profile.getName())
+                .build();
+        mAuh.getCurrentUser().updateProfile(profileUpdates);
+        ProfileDTO prof = new ProfileDTO(profile);
+        if (pictureURL == null)
+            prof.setPictureURL("https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png");
+        else
+            prof.setPictureURL(pictureURL);
+        db.collection("users").document(profile.getID()).set(prof)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + profile.getID()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
+    }
+
     public void createUser(String email, String password, IProfile profile, RunnableErrorUI runnableUI) throws IDatabase.DatabaseException {
         try {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -163,7 +168,7 @@ public class Controller_User implements IController {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
                     profile.setID(mAuh.getCurrentUser().getUid());
-                    addUser(profile);
+                    addUser(profile,null);
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -200,19 +205,10 @@ public class Controller_User implements IController {
                     .setPhotoUri(Uri.parse(profilePictureURL))
                     .build();
             mAuh.getCurrentUser().updateProfile(profileUpdates);
-            ProfileDTO u = new ProfileDTO(facebookProfile);
-            u.setPictureURL(profilePictureURL);
-            db.collection("users")
-                    .document(mAuh.getCurrentUser().getUid()).set(u)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("id", mAuh.getCurrentUser().getUid());
-                            data.put("pictureURL", profilePictureURL);
-                            db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
-                            runnableUI.run();
-                        }
-                    });
+            facebookProfile.setID(mAuh.getCurrentUser().getUid());
+            facebookProfile.setEmail(email);
+            addUser(facebookProfile,profilePictureURL);
+            runnableUI.run();
         } catch (Exception e) {
             runnableUI.handleError(new IDatabase.DatabaseException("Error creating Facebook user", e));
         }
@@ -246,13 +242,13 @@ public class Controller_User implements IController {
     public void updateUserPassword(String passwordOld, String passwordNew, RunnableErrorUI runnableUI) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    // Get auth credentials from the user for re-authentication. The example below shows
-    // email and password credentials but there are multiple possible providers,
-    // such as GoogleAuthProvider or FacebookAuthProvider.
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
         AuthCredential credential = EmailAuthProvider
                 .getCredential(user.getEmail(), passwordOld);
 
-    // Prompt the user to re-provide their sign-in credentials
+        // Prompt the user to re-provide their sign-in credentials
         user.reauthenticate(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -293,7 +289,7 @@ public class Controller_User implements IController {
                             checks[0] = true;
                             fullProfileDTO.setFriends(friends);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
-                        } catch (IDatabase.DatabaseException e) {
+                        } catch (IDatabase.DatabaseException | NullPointerException e) {
                             Log.e("FullProfile", e.getMessage());
                         }
                     }
@@ -310,7 +306,7 @@ public class Controller_User implements IController {
                             checks[1] = true;
                             fullProfileDTO.setReviews(reviews);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
-                        } catch (IDatabase.DatabaseException e) {
+                        } catch (IDatabase.DatabaseException | NullPointerException e) {
                             Log.e("FullProfile", e.getMessage());
                         }
                     }
@@ -327,7 +323,7 @@ public class Controller_User implements IController {
                             checks[2] = true;
                             fullProfileDTO.setWatchedList(watched_list);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
-                        } catch (IDatabase.DatabaseException e) {
+                        } catch (IDatabase.DatabaseException | NullPointerException e) {
                             Log.e("FullProfile", e.getMessage());
                         }
                     }
@@ -344,7 +340,7 @@ public class Controller_User implements IController {
                             checks[3] = true;
                             fullProfileDTO.setToWatchList(to_watch_list);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
-                        } catch (IDatabase.DatabaseException e) {
+                        } catch (IDatabase.DatabaseException | NullPointerException e) {
                             Log.e("FullProfile", e.getMessage());
                         }
                     }

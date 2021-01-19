@@ -7,6 +7,7 @@ public class ProfileDTO {
     private String name;
     private String pictureURL;
     private String mvGPrefs;
+    private String email;
 
 
     public ProfileDTO() {
@@ -18,6 +19,15 @@ public class ProfileDTO {
         this.ID = profile.getID();
         this.name = profile.getName();
         this.mvGPrefs = profile.getmvGPrefs();
+        this.email = profile.getEmail();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPictureURL() {

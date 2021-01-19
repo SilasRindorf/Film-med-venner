@@ -9,6 +9,7 @@ public class Profile implements IProfile {
 
     private String ID;
     private String name;
+    private String email;
     private String mvGPrefs;
     private List<String> friends;
     private List<String> movieReviewedIDs;
@@ -41,6 +42,16 @@ public class Profile implements IProfile {
         this.moviesOnToWatchList = moviesOnToWatchList;
         this.moviesOnWatchedList = moviesOnWatchedList;
     }*/
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String setEmail(String email) {
+        return this.email = email;
+    }
 
     @Override
     public String getID() {

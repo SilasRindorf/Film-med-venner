@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
         }
         auth = Controller_User.getInstance();
         // Force logout in case of error
-        /*try {
+        try {
             auth.logOut(() ->{});
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
-        }*/
+        }
 
         //Comment out to not skip log in screen
         if (Controller_User.getInstance().getCurrentUser() != null || Controller_User.getInstance().isFacebookUserLoginValid()) {

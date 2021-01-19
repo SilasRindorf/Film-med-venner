@@ -13,6 +13,15 @@ public class FullProfileDTO {
     private String pictureURL;
     private String ID;
     private String name;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public List<IWatchItem> getToWatchList() {
         return toWatchList;
