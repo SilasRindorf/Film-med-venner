@@ -18,11 +18,12 @@ import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendRequestAdapter extends BaseAdapter {
         private Context ctx;
-        private List<FullProfileDTO> profileItems;
+        private List<FullProfileDTO> profileItems = new ArrayList<>();
 
         public FriendRequestAdapter(Context ctx, List<FullProfileDTO> profileItems) {
                 this.ctx = ctx;
@@ -54,53 +55,24 @@ public class FriendRequestAdapter extends BaseAdapter {
                 }
 
                 TextView friend_request_name = gridView.findViewById(R.id.textView_fr_name);
-                friend_request_name.setText(item.getName());
-
-                ImageButton accept_btn = gridView.findViewById(R.id.btn_accept);
-                accept_btn.setOnClickListener(v -> {
-                        try {
-                                Controller_Friends.getInstance().respondToFriendRequest(item.getID(), 1, () -> {
-                                        removeItem(position);
-                                        Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show();
-                                });
-                        } catch (IDatabase.DatabaseException e) {
-                                e.printStackTrace();
-                                Toast.makeText(ctx, "Error accepting friend request", Toast.LENGTH_LONG).show();
-                        }
-                });
-
-                ImageButton decline_btn = gridView.findViewById(R.id.btn_decline);
-                decline_btn.setOnClickListener(v -> {
-                        try {
-                                Controller_Friends.getInstance().respondToFriendRequest(item.getID(), -1, () -> {
-                                        removeItem(position);
-                                        Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show();
-                                });
-                        } catch (IDatabase.DatabaseException e) {
-                                e.printStackTrace();
-                                Toast.makeText(ctx, "Error declining friend request", Toast.LENGTH_LONG).show();
-                        }
-                });
-
                 ImageView profilePicture = gridView.findViewById(R.id.imageView_profile);
 
 
-                //TODO Det her skal hente profilbilledet senere, men i det at vi ikke implementeret noget SOME ish endnu giver det først mening at lave senere.
-                try {
-                        Picasso.get().load(item.getPictureURL()).into(profilePicture);
-                        friend_request_name.setText(item.getName());
-                } catch (NullPointerException e){
-                        System.out.println(e);
-                }
+                friend_request_name.setText(item.getName());
+                //Picasso.get().load(item.getPictureURL()).into(profilePicture);
+
+
+
                 return gridView;
         }
+
 
         public void addItem(FullProfileDTO p) {
                 profileItems.add(p);
                 this.notifyDataSetChanged();
         }
 
-        private void removeItem(int position) {
+        public void removeItem(int position) {
                 profileItems.remove(position);
                 this.notifyDataSetChanged();
         }
