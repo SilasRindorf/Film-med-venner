@@ -18,12 +18,11 @@ import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FriendRequestAdapter extends BaseAdapter {
         private Context ctx;
-        private List<FullProfileDTO> profileItems = new ArrayList<>();
+        private List<FullProfileDTO> profileItems;
 
         public FriendRequestAdapter(Context ctx, List<FullProfileDTO> profileItems) {
                 this.ctx = ctx;
@@ -59,13 +58,12 @@ public class FriendRequestAdapter extends BaseAdapter {
 
 
                 friend_request_name.setText(item.getName());
-                //Picasso.get().load(item.getPictureURL()).into(profilePicture);
+                Picasso.get().load(item.getPictureURL()).into(profilePicture);
 
 
 
                 return gridView;
         }
-
 
         public void addItem(FullProfileDTO p) {
                 profileItems.add(p);

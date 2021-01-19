@@ -3,7 +3,6 @@ package com.example.film_med_venner.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,14 +30,16 @@ import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Intent intent;
     private LinearLayout l_layout_rating;
     private LinearLayout l_layout_to_watchlist;
     private LinearLayout l_layout_watchedlist;
     private LinearLayout l_layout_friends;
     private ImageView imageView_settings;
     private ImageView profile_picture;
-    private TextView profileName, genrePref, friends, rated, watchList, watched;
+    private TextView profileName;
+    private TextView genrePref;
+    private TextView friends;
+    private TextView rated;
     private FullProfileDTO profile;
     private String url, userID;
 
@@ -56,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //TODO userID skal også kunne være en af dine venners
 
-        intent = getIntent();
+        Intent intent = getIntent();
 
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
             userID = Controller_User.getInstance().getCurrentUser().getID();
@@ -88,36 +89,43 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+
         if (view == l_layout_rating) {
             setContentView(R.layout.activity_rating);
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("userID", userID);
-            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         } else if (view == l_layout_to_watchlist) {
             setContentView(R.layout.activity_to_watchlist);
             Intent intent = new Intent(this, ToWatchlistActivity.class);
             intent.putExtra("userID", userID);
-            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         } else if (view == l_layout_watchedlist) {
             setContentView(R.layout.activity_watchedlist);
             Intent intent = new Intent(this, WatchedlistActivity.class);
             intent.putExtra("userID", userID);
-            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         } else if (view == l_layout_friends) {
             Intent intent = new Intent(this, FriendActivity.class);
             intent.putExtra("userID", userID);
-            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         }
 
     }
 
     public void onClickSettings(View view) {
         if (!Controller_User.getInstance().isFacebookUserLoginValid()) {
-            Intent newIntent = new Intent(this, SettingsActivity.class);
-            startActivity(newIntent);
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         } else {
-            Intent newIntent = new Intent(this, SettingsFacebookUserActivity.class);
-            startActivity(newIntent);
+            Intent intent = new Intent(this, SettingsFacebookUserActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         }
     }
 
@@ -166,7 +174,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         genrePref = findViewById(R.id.profileGenrePref);
         friends = findViewById(R.id.textView_friends_description);
         rated = findViewById(R.id.textView_rated_description);
-        watchList = findViewById(R.id.textView_want_to_watch_description);
-        watched = findViewById(R.id.textView_watchedlist_description);
+        TextView watchList = findViewById(R.id.textView_want_to_watch_description);
+        TextView watched = findViewById(R.id.textView_watchedlist_description);
     }
 }

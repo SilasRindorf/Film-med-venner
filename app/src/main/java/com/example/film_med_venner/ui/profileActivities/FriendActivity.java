@@ -93,11 +93,9 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         bgThread.execute(() -> {
-            uiThread.post(() -> {
-                friendAdapter = new FriendAdapter(ctx, friendList);
-                gridView.setAdapter(friendAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            });
+            friendAdapter = new FriendAdapter(ctx, friendList);
+            gridView.setAdapter(friendAdapter);
+            gridView.setVisibility(View.VISIBLE);
             try {
                 Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
                     friendAdapter.addItem(friends);
@@ -113,7 +111,8 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         if (v == see_friendrequest_btn) {
             setContentView(R.layout.activity_friend_request);
             Intent intent = new Intent(this, FriendRequestActivity.class);
-            startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         }
         if (v == add_friend_btn){
             try {
@@ -128,7 +127,8 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         int position = gridView.getPositionForView(view);
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("userID", friendList.get(position).getID());
-        startActivity(intent);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
     }
 
     private void addFrag(int id, Fragment fragment) {
