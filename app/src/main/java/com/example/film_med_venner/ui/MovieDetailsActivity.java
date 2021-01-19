@@ -107,7 +107,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         for (IReview review : reviews) {
                             temp += review.getRating();
                         }
-                        temp = temp / reviews.length;
+                        if (reviews.length != 0){
+                            temp = temp / reviews.length;
+                        }
+
                         avgRating = temp;
                         uiThread.post(() -> {
                             if (avgRating != 0) {
