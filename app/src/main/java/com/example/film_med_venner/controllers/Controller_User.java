@@ -3,6 +3,9 @@ package com.example.film_med_venner.controllers;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
@@ -28,10 +31,14 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -296,6 +303,26 @@ public class Controller_User implements IController {
                         });
                     });
                     newThread.start();
+                }
+            });
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void getFullProfile2(String uID, RunnableFullProfileUI runnableFullProfileUI) {
+        try {
+            db.runTransaction(new Transaction.Function<Void>() {
+                @Nullable
+                @Override
+                public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                    DocumentReference documentReference = db.collection("users").document(uID);
+                    FullProfileDTO fullProfileDTO = transaction.get(documentReference).toObject(FullProfileDTO.class);
+
+                    //documentReference = db.collection("users").document(uID).collection("friends");
+                    //FullProfileDTO[] friends = transaction.get(documentReference).toObject(FullProfileDTO.class);
+
+                    runnableFullProfileUI.run(fullProfileDTO);
+                    return null;
                 }
             });
         } catch (Exception ignored) {
