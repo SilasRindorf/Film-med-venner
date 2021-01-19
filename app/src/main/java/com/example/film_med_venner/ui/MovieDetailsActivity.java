@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
@@ -48,7 +49,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private GridView gridView;
+    private GridView gridView, gridView_containing_all;
     private Context ctx;
     private TextView yourReview;
     private ImageView star1;
@@ -66,7 +67,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int raters;
     private int avgRating;
     private List<IReview> reviewList = new ArrayList<>();
-    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
 
         ctx = this;
-        scrollView = findViewById(R.id.scrollview);
+        //gridView_containing_all = findViewById(R.id.gridView_containing_all);
         gridView = findViewById(R.id.gridView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
@@ -136,7 +136,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                 Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
                                 setGridViewHeight(gridView,1);
-                                scrollView.setLayoutParams(new LinearLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+                                //setGridViewHeight(gridView_containing_all,1);
                             });
                         }
 
@@ -185,7 +185,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
-    public static void setGridViewHeight(GridView gridView, int columns) {
+    private void setGridViewHeight(GridView gridView, int columns) {
         ListAdapter adapter = gridView.getAdapter();
         int count = adapter.getCount();
         int row = count / columns;
