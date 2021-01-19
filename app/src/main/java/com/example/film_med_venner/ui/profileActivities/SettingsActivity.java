@@ -9,8 +9,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
+    private Switch switch_lists, switch_reviews;
     /*private TextView profile_id;
     private Context ctx;*/
 
@@ -131,7 +134,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(SettingsActivity.this, "The new passwords need to be the same", Toast.LENGTH_LONG).show();
             }
         } else if (view == change_profile_picture_btn) {
-            Toast.makeText(SettingsActivity.this, "Unfortunately this has not been implemented yet.", Toast.LENGTH_LONG).show();
+            Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
         } /*else if (view == copy_id_btn) {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Your ID", userID);
@@ -162,6 +165,27 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         profile_picture = findViewById(R.id.profile_picture);
         // TEXTVIEW
         //profile_id = findViewById(R.id.profile_id);
+        // SWITCHES
+        switch_lists = findViewById(R.id.switch_lists);
+        switch_lists.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        switch_reviews = findViewById(R.id.switch_reviews);
+        switch_reviews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 }
