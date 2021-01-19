@@ -102,6 +102,7 @@
                     android:id="@+id/textView_friends_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/friends"
                     android:textColor="@color/colorTextView" />
 
@@ -145,6 +146,7 @@
                     android:id="@+id/textView_rated_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/rated"
                     android:textColor="@color/colorTextView" />
 
@@ -188,6 +190,7 @@
                     android:id="@+id/textView_want_to_watch_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/wantToWatch"
                     android:textColor="@color/colorTextView" />
 
@@ -217,7 +220,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_watched" />
+                app:srcCompat="@drawable/icon_add_to_list" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -229,6 +232,7 @@
                     android:id="@+id/textView_watchedlist_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/watched"
                     android:textColor="@color/colorTextView" />
 
