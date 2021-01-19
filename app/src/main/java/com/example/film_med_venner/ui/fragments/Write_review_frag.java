@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Review;
@@ -226,6 +227,4 @@ public class Write_review_frag extends DialogFragment {
             yourStar5.setImageResource(R.drawable.icon_filled_star);
         }
     }
-
-
 }

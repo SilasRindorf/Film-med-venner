@@ -10,12 +10,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
@@ -45,6 +47,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Bundle bundle = new Bundle();
     private List<FullProfileDTO> friendList = new ArrayList<>();
     private String userID;
+    private TextView profile_id;
 
 
     @Override
@@ -55,6 +58,48 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
 
+        findViews();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v == see_friendrequest_btn) {
+            setContentView(R.layout.activity_friend_request);
+            Intent intent = new Intent(this, FriendRequestActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
+        }
+        if (v == add_friend_btn){
+            try {
+                AddFriend();
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void itemOnClick(View view) {
+        int position = gridView.getPositionForView(view);
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("userID", friendList.get(position).getID());
+        startActivity(intent);
+    }
+
+    private void addFrag(int id, Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(id, fragment);
+        fragmentTransaction.commit();
+    }
+    private void AddFriend() throws IDatabase.DatabaseException {
+        Controller_Friends.getInstance().sendFriendRequest(searchField.getText().toString());
+        searchField.setText("");
+        Utility.hideKeyboard(FriendActivity.this);
+    }
+
+    private void findViews(){
+        profile_id = findViewById(R.id.profile_id);
         gridView = findViewById(R.id.gridView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         searchField = findViewById(R.id.searchField);
@@ -67,10 +112,13 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
 
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
             userID = Controller_User.getInstance().getCurrentUser().getID();
+            profile_id.setText(userID);
         } else {
             userID = intent.getStringExtra("userID");
             l_layout_buttons.getLayoutParams().height = 0;
+            profile_id.setText(userID);
         }
+
 
         see_friendrequest_btn.setOnClickListener(this);
         add_friend_btn.setOnClickListener(this);
@@ -104,42 +152,5 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == see_friendrequest_btn) {
-            setContentView(R.layout.activity_friend_request);
-            Intent intent = new Intent(this, FriendRequestActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
-        }
-        if (v == add_friend_btn){
-            try {
-                AddFriend();
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void itemOnClick(View view) {
-        int position = gridView.getPositionForView(view);
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("userID", friendList.get(position).getID());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
-    }
-
-    private void addFrag(int id, Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(id, fragment);
-        fragmentTransaction.commit();
-    }
-    private void AddFriend() throws IDatabase.DatabaseException {
-        Controller_Friends.getInstance().sendFriendRequest(searchField.getText().toString());
-        searchField.setText("");
-        Utility.hideKeyboard(FriendActivity.this);
     }
 }

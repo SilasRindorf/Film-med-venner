@@ -5,61 +5,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
-    android:orientation="vertical"
-    android:background="@color/item_background">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/friend_name"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:background="@color/item_background">
+        <ImageView
+            android:id="@+id/moviePoster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="This person has rated the movie"
-            android:textColor="@color/colorTextView" />
-
+            android:layout_weight="3"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/mp"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/profile_pic"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/movieTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_default_profilepicture"
-                android:layout_marginEnd="5dp"/>
+                android:layout_weight="1"
+                android:text="Movie Title "
+                android:textColor="@color/colorTextView"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/review_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz."
+                android:text="This is where you review goes. If no review is found. Then you will see this text"
                 android:textColor="@color/colorTextView" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
             <LinearLayout
                 android:id="@+id/linearLayout_your_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:padding="10dp">
-
                 <ImageView
                     android:id="@+id/ImageView_star_1"
                     android:layout_width="0dp"
@@ -107,6 +102,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
