@@ -113,7 +113,7 @@ public class MovieDetailsAdapter extends BaseAdapter {
             star5.setImageResource(R.drawable.icon_filled_star);
         }
     }
-    public void addItem(Review review) {
+    public void addItem(IReview review) {
         ratingItems.add(review);
         this.notifyDataSetChanged();
     }
