@@ -17,8 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
-import com.example.film_med_venner.controllers.Controller_Movie;
-import com.example.film_med_venner.controllers.Controller_MovieDetails;
+
 import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Search;
