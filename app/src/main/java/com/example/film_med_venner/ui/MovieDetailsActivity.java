@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -75,7 +76,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
 
         ctx = this;
-        scrollView = findViewById(R.id.scrollview);
+        scrollView = findViewById(R.id.scrollView);
         gridView = findViewById(R.id.gridView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
@@ -136,10 +137,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                 Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
                                 setGridViewHeight(gridView,1);
-                                scrollView.setLayoutParams(new LinearLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+                                scrollView.setLayoutParams(new ConstraintLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
                             });
                         }
-
                         @Override
                         public void run() {
                         }
@@ -148,6 +148,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                     e.printStackTrace();
                 }
             });
+
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
         }
