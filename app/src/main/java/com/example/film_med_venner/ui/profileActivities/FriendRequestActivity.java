@@ -16,9 +16,7 @@ import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_User;
-import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.ui.adapters.FriendRequestAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
@@ -57,7 +55,7 @@ public class FriendRequestActivity extends AppCompatActivity {
             gridView.setVisibility(View.VISIBLE);
 
             try {
-                Controller_Friends.getInstance().getFriendRequest(userID,0, friendRequest -> {
+                Controller_Friends.getInstance().getFriendType(userID,0, friendRequest -> {
                     friendRequestAdapter.addItem(friendRequest);
                 });
             } catch (IDatabase.DatabaseException e) {
