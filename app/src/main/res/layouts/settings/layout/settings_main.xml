@@ -89,10 +89,10 @@
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Documentaries, romance, thriller"
                     android:fontFamily="sans-serif-medium"
-                    android:textColorHint="#DDFFFFFF"
-                    android:textColor="#DDFFFFFF"/>
+                    android:hint="Choose your favorite genres"
+                    android:textColor="#DDFFFFFF"
+                    android:textColorHint="#B1B1B1"/>
             </LinearLayout>
             <!-- PROFILE PICTURE -->
             <LinearLayout
@@ -102,23 +102,27 @@
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
+                    android:layout_weight="7"
                     android:text="Profilbillede: "
                     android:textColor="#DDFFFFFF"/>
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profile_picture"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    app:srcCompat="@drawable/icon_profilepicture"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="2"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:layout_weight="1"/>
+                    app:srcCompat="@drawable/icon_profilepicture"
+                    app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
                 <Button
                     android:id="@+id/change_profile_picture"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_marginStart="20dp"
                     android:text="Skift profilbillede"/>
             </LinearLayout>
 

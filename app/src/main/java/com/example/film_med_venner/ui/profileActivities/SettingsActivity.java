@@ -2,6 +2,7 @@ package com.example.film_med_venner.ui.profileActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,13 +23,19 @@ import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.login.MainActivity;
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
     private EditText profile_name_edit_text, profile_phone_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
     private ImageView profile_picture;
     private FullProfileDTO profile;
-    private Intent intent;
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
+    private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
 
     //TODO Switches i settings?
     @Override
@@ -39,21 +46,26 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         addFrag(R.id.nav_bar_container, frag);
         findViews();
 
-        intent = getIntent();
+        userID = Controller_User.getInstance().getCurrentUser().getID();
 
-        profile = intent.getParcelableExtra("profile");
-        profile_name_edit_text.setText(profile.getName(), TextView.BufferType.EDITABLE);
-        profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUserEmail(), TextView.BufferType.EDITABLE);
-
-        try {
-            Controller_User.getInstance().getCurrentUserWithmvGPrefs(profile -> {
-                profile_top_genre_edit_text.setText(profile.getmvGPrefs(), TextView.BufferType.EDITABLE);
+        bgThread.execute(() -> {
+            Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
+                profile = RunnableFullProfileUI;
+                profile_picture_url = profile.getPictureURL();
+                profile_name = profile.getName();
+                profile_email = Controller_User.getInstance().getCurrentUserEmail();
+                profile_mvgPref = profile.getmvGPrefs();
+                uiThread.post(() -> {
+                    if (profile_picture_url != null) {
+                        //TODO Giv billedet runde kanter
+                        Picasso.get().load(profile_picture_url).into(profile_picture);
+                        profile_name_edit_text.setText(profile_name, TextView.BufferType.EDITABLE);
+                        profile_mail_edit_text.setText(profile_email, TextView.BufferType.EDITABLE);
+                        profile_top_genre_edit_text.setText(profile_mvgPref, TextView.BufferType.EDITABLE);
+                    }
+                });
             });
-
-        } catch (NullPointerException | IDatabase.DatabaseException ignored) {
-
-        }
-
+        });
     }
 
     private void addFrag(int id, Fragment fragment) {
