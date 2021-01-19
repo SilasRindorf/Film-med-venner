@@ -2,11 +2,14 @@ package com.example.film_med_venner.DTO;
 
 import com.example.film_med_venner.interfaces.IWatchItem;
 
+import java.util.Date;
+
 public class WatchItemDTO implements IWatchItem {
     private String username;
     private String movieID;
     private String watchItemID;
     private String uID;
+    private Date creationDate;
 
     public WatchItemDTO(){
 
@@ -44,6 +47,15 @@ public class WatchItemDTO implements IWatchItem {
     public String getWatchItemID() {
         return watchItemID;
     }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate= creationDate;
+    }
+
 
     public void setWatchItemID(String watchItemID) {
         this.watchItemID = watchItemID;
