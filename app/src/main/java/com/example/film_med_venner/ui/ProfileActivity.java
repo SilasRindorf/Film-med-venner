@@ -147,13 +147,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         if (profile.getReviews().size() == 0) {
-            full = user + "not rated any movies yet";
+            full = user + "not reviewed any movies yet";
             rated.setText(full);
         } else if (profile.getReviews().size() == 1) {
-            full = user + "rated " + profile.getReviews().size() + " movie";
+            full = user + "reviewed " + profile.getReviews().size() + " movie";
             rated.setText(full);
         } else {
-            full = user + "rated " + profile.getReviews().size() + " movies";
+            full = user + "reviewed " + profile.getReviews().size() + " movies";
             rated.setText(full);
         }
 
@@ -164,7 +164,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             full = user + profile.getToWatchList().size() + " movie on " + extra + "watch list";
             watchList.setText(full);
         } else {
-            full = user + "rated " + profile.getToWatchList().size() + " movies on " + extra + "watch list";
+            full = user + "reviewed " + profile.getToWatchList().size() + " movies on " + extra + "watch list";
             watchList.setText(full);
         }
 
