@@ -40,6 +40,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
     private final Handler uiThread = new Handler();
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
     private FullProfileDTO profile;
+
     //private Context ctx;
 
     //TODO Switches i settings?

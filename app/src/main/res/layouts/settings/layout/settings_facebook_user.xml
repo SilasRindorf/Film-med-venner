@@ -159,27 +159,22 @@
                 android:textSize="24sp"
                 android:textColor="#DDFFFFFF"/>
             <Switch
-                android:id="@+id/switch_watchList"
+                android:checked="true"
+                android:id="@+id/switch_lists"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:text="@string/switch_watchList"
-                android:textColor="#DDFFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switch_reviews" />
+                android:textColor="#DDFFFFFF"/>
 
             <Switch
+                android:checked="true"
                 android:id="@+id/switch_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:text="@string/switch_review"
-                android:textColor="#DDFFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switch_ratings" />
+                android:textColor="#DDFFFFFF"/>
 
 
 
@@ -195,19 +190,15 @@
                     android:text="See posts from all your friends"
                     android:textColor="#DDFFFFFF"
                     android:layout_weight="8"
-                    android:layout_gravity="center_vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
+                    android:layout_gravity="center_vertical"/>
 
                 <CheckBox
+                    android:checked="true"
                     android:id="@+id/checkBox_mark_all"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_weight="1"
-                    android:layout_gravity="center"
-
-                    app:layout_constraintTop_toBottomOf="@+id/switch_watchList" />
+                    android:layout_gravity="center" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
