@@ -1,30 +1,25 @@
 package com.example.film_med_venner.interfaces;
 
-import java.util.ArrayList;
-
 public interface IProfile {
-    //TODO Obs. på at det er ens egne reviews, ratings, to watch list, watched list, og friends man skal se når man klikker ind på en vilkårlig kategori.
     String getID();
 
-    int getAmountOfMoviesReviewed();
+    String[] getMoviesOnToWatchList();
 
-    int getAmountOfMoviesOnToWatchList();
+    String[] getMoviesOnWatchedList();
 
-    int getAmountOfMoviesOnWatchedList();
+    String[] getReviewedMovies();
 
     String getName();
 
     void setName(String name);
 
-    String[] getMvgPrefs();
+    void setID(String id);
 
-    void addMvgPref(String pref);
+    String getmvGPrefs();
 
-    void setMvgPrefs(ArrayList<String> mvgPrefs);
+    void setmvGPrefs(String mvGPrefs);
 
     String[] getFriendIDs();
 
-    int getAmountOfFriends();
 
-    void addFriend(String id);
 }

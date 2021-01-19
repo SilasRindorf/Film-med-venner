@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profileActivities.FriendRequestActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/gradient">
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"

@@ -1,12 +1,21 @@
 package com.example.film_med_venner.controllers;
 
+import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.interfaces.IController.IController_Movie;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
+import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Controller_Movie implements IController_Movie {
-    private IDatabase database;
+    private final FirebaseFirestore db;
+    private final FirebaseAuth mAuh;
     private static Controller_Movie instance;
     public static Controller_Movie getInstance(){
         if (instance == null){
@@ -16,19 +25,34 @@ public class Controller_Movie implements IController_Movie {
     }
 
     private Controller_Movie(){
-        database = IDatabase.getInstance();
+        db = FirebaseFirestore.getInstance();
+        mAuh = FirebaseAuth.getInstance();
     }
+    //----------------------------------MOVIES----------------------------------
 
-    public IMovie[] getMovies(){return database.getMovies();}
 
-    public int getMovieAvgReview(int movieID){
-        int avgReview = 0;
-        for (int i = 0; i <   database.getMovies().length; i++) {
-//            avgReview += database.getReview()[database.getMovies()[i].getID()].getReview();
+    public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws IDatabase.DatabaseException {
+        //Get all movies and check for movies with genrer
+        try {
+            db.collection("movies")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            List<IMovie> movies = new ArrayList<>();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                //If the movie has the specified genre
+                                if (doc.getData().get("genre").equals(genre)) {
+                                    //Add a Movie
+                                    movies.add(doc.toObject(Movie.class));
+                                }
+                            }
+                            IMovie[] mvs = new Movie[movies.size()];
+                            runnable.run(movies.toArray(mvs));
+                        }
+                    });
+        } catch (Exception e) {
+            throw new IDatabase.DatabaseException("Error getting moves with " + genre, e);
         }
-        if (avgReview != 0)
-            return avgReview / database.getMovies().length;
-        else return 0;
     }
 
 }

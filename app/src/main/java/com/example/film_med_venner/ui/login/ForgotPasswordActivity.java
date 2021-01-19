@@ -1,4 +1,4 @@
-package com.example.film_med_venner.ui;
+package com.example.film_med_venner.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.databases.Database;
+import com.example.film_med_venner.controllers.Controller_User;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnreset;
-    Button btnback;
-    EditText editText;
+    private Button btnreset;
+    private Button btnback;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         if (view == btnreset) {
             try {
                 if (editText.getText().toString() != null) {
-                    Database.getInstance().sendPasswordEmail(editText.getText().toString());
+                    Controller_User.getInstance().sendPasswordEmail(editText.getText().toString());
                     Toast.makeText(ForgotPasswordActivity.this, "Email is sent", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
@@ -45,7 +45,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             }
         } else {
             Intent intent = new Intent(ForgotPasswordActivity.this, MainActivity.class);
-            startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         }
 
 

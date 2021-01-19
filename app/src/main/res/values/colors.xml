@@ -6,4 +6,10 @@
     <color name="colorTextView">#FFF6EB</color>
     <color name="colorNavBar">#000000 </color>
     <color name="colorTransparent">#00FFFFFF </color>
+    <color name="item_background">#66000000</color>
+    <color name="nav_bar">#000000</color>
+    <color name="bg_top">#000000</color>
+    <color name="bg_center">#FA1130</color>
+    <color name="bg_bottom">#000000</color>
+    <color name="write_review">#CBFFFFFF</color>
 </resources>

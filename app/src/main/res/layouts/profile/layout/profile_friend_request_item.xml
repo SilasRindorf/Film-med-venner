@@ -7,17 +7,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="100dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/item_background">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView_profile"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_height="80dp"
+            android:layout_weight="13"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             app:srcCompat="@drawable/icon_profilepicture"
             app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
 
@@ -27,31 +30,34 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="10"
-            android:text="Christian Jensen"
+            android:text="Ukendt bruger"
+            android:textColor="@color/colorBackground"
             android:textSize="18sp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"/>
 
         <ImageButton
             android:id="@+id/btn_accept"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_width="20dp"
+            android:layout_height="55dp"
+            android:layout_weight="6"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/check"
             android:layout_gravity="center_vertical"
             android:onClick="onClickAccept"
+            android:backgroundTint="@color/colorTransparent"
             android:layout_marginEnd="10dp"/>
 
         <ImageButton
             android:id="@+id/btn_decline"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_width="20dp"
+            android:layout_height="55dp"
+            android:layout_weight="5"
             app:srcCompat="@android:drawable/ic_delete"
             android:layout_gravity="center_vertical"
             android:onClick="onClickDecline"
+            android:backgroundTint="@color/colorTransparent"
             android:layout_marginEnd="10dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

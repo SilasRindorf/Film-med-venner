@@ -4,6 +4,8 @@
     package="com.example.film_med_venner">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,18 +20,18 @@
             android:value="@string/facebook_app_id"/>
 
         <activity android:name=".ui.profileActivities.FriendRequestActivity"></activity>
-        <activity android:name=".ui.ForgotPasswordActivity"></activity>
+        <activity android:name=".ui.login.ForgotPasswordActivity"></activity>
         <activity android:name=".ui.MovieDetailsActivity" />
         <activity android:name=".ui.ReviewedItemActivity" />
         <activity android:name=".ui.profileActivities.FriendActivity" />
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
         <activity android:name=".ui.profileActivities.ToWatchlistActivity" />
         <activity android:name=".ui.profileActivities.ReviewActivity" />
-
+        <activity android:name=".ui.profileActivities.SettingsFacebookUserActivity"/>
         <activity android:name=".ui.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".ui.login.MainActivity" />
         </activity>
         <activity android:name=".ui.ProfileActivity">
             <meta-data
@@ -41,7 +43,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.HomeActivity" />
         </activity>
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name=".ui.login.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.HomeActivity" />
@@ -51,19 +53,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.HomeActivity" />
         </activity>
-        <activity android:name=".ui.SettingsActivity">
+        <activity android:name=".ui.profileActivities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.HomeActivity" />
         </activity>
-        <activity android:name=".ui.SignUpActivityWithMail">
+        <activity android:name=".ui.login.SignUpActivityWithMail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.HomeActivity" />
         </activity>
 
         <activity
-            android:name="com.example.film_med_venner.ui.MainActivity"
+            android:name="com.example.film_med_venner.ui.login.MainActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name">
             <intent-filter>

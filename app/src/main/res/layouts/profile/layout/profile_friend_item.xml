@@ -9,19 +9,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/item_background">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
+            android:orientation="horizontal"
+            android:onClick="itemOnClick">
+
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView_profile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_profilepicture"
-                android:layout_weight="3"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:adjustViewBounds="true" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+
+                app:srcCompat="@drawable/icon_profilepicture"
+                app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,10 +46,10 @@
                     android:textColor="#FFFFFF"
                     />
                 <TextView
-                    android:id="@+id/profile_reviews"
+                    android:id="@+id/profile_friends"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sampletext_reviewed_description"
+                    android:text="@string/sampletext_friends_description"
                     android:textColor="#FFFFFF"
                     />
                 <TextView
@@ -66,12 +76,6 @@
 
             </LinearLayout>
         </LinearLayout>
-        <Button
-            android:id="@+id/add_friend_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Add dude"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

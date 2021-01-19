@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/gradient">
 
 
     <!-- TODO Den har en fixet højde, og vil derfor ikke være pæn på alle skærme. Laver vi dog en dynamisk størrelse, så springer den ud af skærmen -->
@@ -29,13 +28,14 @@
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
-        android:background="#000000"
+        android:background="@color/colorTransparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        >
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
