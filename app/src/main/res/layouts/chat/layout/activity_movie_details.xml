@@ -143,7 +143,7 @@
                             android:adjustViewBounds="true"
                             android:backgroundTint="@color/colorTransparent"
                             android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/icon_wanttowatch" />
+                            app:srcCompat="@drawable/icon_add_to_list" />
 
                         <ImageButton
                             android:id="@+id/image_btn_review"
@@ -162,6 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Your rating :"
+                        android:textStyle="bold"
                         android:textColor="@color/colorTextView" />
 
                     <LinearLayout
@@ -222,6 +223,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Average friend rating:"
+                        android:textStyle="bold"
                         android:textColor="@color/colorTextView" />
 
                     <LinearLayout
@@ -283,6 +285,7 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="Your review: "
+                        android:textStyle="bold"
                         android:textColor="@color/colorTextView" />
 
                     <TextView
@@ -292,26 +295,28 @@
                         android:padding="10dp"
                         android:text="You haven't written a review yet"
                         android:textColor="@color/colorTextView"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Friends reviews: "
-                        android:textColor="@color/colorTextView" />
-
-                    <GridView
-                        android:id="@+id/gridView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:columnWidth="100dp"
-                        android:numColumns="1"
-                        android:padding="10dp"
-
-                        android:stretchMode="columnWidth"
-                        android:verticalSpacing="10dp" />
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:text="Friends reviews: "
+                android:textColor="@color/colorTextView" />
+
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="550dp"
+
+                android:layout_weight="1"
+                android:columnWidth="100dp"
+                android:numColumns="1"
+                android:padding="10dp"
+
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
         </LinearLayout>
     </ScrollView>
 
