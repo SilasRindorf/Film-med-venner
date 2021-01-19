@@ -10,9 +10,12 @@ import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
+import com.example.film_med_venner.DTO.WatchItemDTO;
 import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
@@ -41,6 +44,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -280,7 +284,7 @@ public class Controller_User implements IController {
         getFullProfile(mAuh.getCurrentUser().getUid(), runnableFullProfileUI);
     }
 
-    public void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI) {
+    public void getFullProfile2(String uID, RunnableFullProfileUI runnableFullProfileUI) {
         try {
             db.collection("users").document(uID).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -310,22 +314,95 @@ public class Controller_User implements IController {
         }
     }
 
-    public void getFullProfile2(String uID, RunnableFullProfileUI runnableFullProfileUI) {
+    public void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI) {
         try {
             db.runTransaction((Transaction.Function<Void>) transaction -> {
+                boolean[] checks = {false,false,false,false};
                 DocumentReference documentReference = db.collection("users").document(uID);
                 FullProfileDTO fullProfileDTO = transaction.get(documentReference).toObject(FullProfileDTO.class);
 
-                //documentReference = db.collection("users").document(uID).collection("friends");
-                //FullProfileDTO[] friends = transaction.get(documentReference).toObject(FullProfileDTO.class);
+               db.collection("users").document(uID).collection("friends").get().addOnCompleteListener(task -> {
+                   if (task.isSuccessful()){
+                       List<ProfileDTO> friends = new ArrayList<>();
+                       for (DocumentSnapshot doc : task.getResult()) {
+                           friends.add(doc.toObject(ProfileDTO.class));
+                       }
+                       try {
+                           checks[0] = true;
+                           fullProfileDTO.setFriends(friends);
+                           check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                       } catch (IDatabase.DatabaseException e) {
+                           Log.e("FullProfile",e.getMessage());
+                       }
+                   }
+               });
 
 
-                Query q = db.collection("users").document(uID).collection("friends");
-                //q.
-                runnableFullProfileUI.run(fullProfileDTO);
+                db.collection("users").document(uID).collection("reviews").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        List<ReviewDTO> reviews = new ArrayList<>();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            reviews.add(doc.toObject(ReviewDTO.class));
+                        }
+                        try {
+                            checks[1] = true;
+                            fullProfileDTO.setReviews(reviews);
+                            check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                        } catch (IDatabase.DatabaseException e) {
+                            Log.e("FullProfile",e.getMessage());
+                        }
+                    }
+                });
+
+
+                db.collection("users").document(uID).collection("watched_list").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        List<IWatchItem> watched_list = new ArrayList<>();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            watched_list.add(doc.toObject(WatchItemDTO.class));
+                        }
+                        try {
+                            checks[2] = true;
+                            fullProfileDTO.setWatchedList(watched_list);
+                            check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                        } catch (IDatabase.DatabaseException e) {
+                            Log.e("FullProfile",e.getMessage());
+                        }
+                    }
+                });
+
+
+                db.collection("users").document(uID).collection("to_watch_list").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        List<IWatchItem> to_watch_list = new ArrayList<>();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            to_watch_list.add(doc.toObject(WatchItemDTO.class));
+                        }
+                        try {
+                            checks[3] = true;
+                            fullProfileDTO.setToWatchList(to_watch_list);
+                            check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                        } catch (IDatabase.DatabaseException e) {
+                            Log.e("FullProfile",e.getMessage());
+                        }
+                    }
+                });
                 return null;
             });
         } catch (Exception ignored) {
+        }
+    }
+    
+    private void check(boolean[] checks, RunnableUI runnableUI) throws IDatabase.DatabaseException {
+        boolean succeeded = true;
+        for (boolean check :
+                checks) {
+            if (!check){
+                succeeded = false;
+            }
+        }
+        if (succeeded) {
+            runnableUI.run();
         }
     }
 
