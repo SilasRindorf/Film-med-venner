@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_User;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.ui.login.MainActivity;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.SettingsActivity;
@@ -38,9 +38,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout l_layout_friends;
     private ImageView imageView_settings;
     private ImageView profile_picture;
-    private TextView profileName, genrePref, friends, rated, watchList, watchedList;
+    private TextView profileName, genrePref, friends, reviewed, watchList, watchedList;
     private FullProfileDTO profile;
     private String url, userID;
+    private int friendCount, friendRequestCount;
+    private boolean isUser = true;
 
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
@@ -63,15 +65,33 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             userID = intent.getStringExtra("userID");
             imageView_settings.setVisibility(View.INVISIBLE);
+            isUser = false;
         }
 
         bgThread.execute(() -> {
             runLoadScreen(true);
+            friendCount = 0;
+            friendRequestCount = 0;
+            try {
+                Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
+                    friendCount++;
+                    uiThread.post(() -> setupFriendsInfo());
+                });
+                if (isUser) {
+                    Controller_Friends.getInstance().getFriendRequest(userID, 0, friends -> {
+                        friendRequestCount++;
+                        uiThread.post(() -> setupFriendsInfo());
+                    });
+                }
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
 
             Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 url = profile.getPictureURL();
                 uiThread.post(() -> {
+                    System.out.println("hvem kommer først?");
                     setupProfileInfo();
                     if (url != null) {
                         Picasso.get().load(url).into(profile_picture);
@@ -132,6 +152,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void setupFriendsInfo() {
+        String user;
+        String full;
+
+        if (profile.getID().equals(Controller_User.getInstance().getCurrentUser().getID())) {
+            user = "You have ";
+        } else {
+            user = profile.getName() + " has ";
+        }
+
+        switch (friendCount) {
+            case 0: full = user + "not gotten any friends yet"; break;
+            case 1: full = user + friendCount + " friend"; break;
+            default:full = user + friendCount + " friends";
+        }
+
+        switch (friendRequestCount) {
+            case 0: break;
+            case 1: full += " and " + friendRequestCount + " friend request"; break;
+            default:full += " and " + friendRequestCount + " friend requests";
+        }
+        friends.setText(full);
+
+    }
 
     private void setupProfileInfo() {
         profileName.setText(profile.getName());
@@ -148,49 +192,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             extra = "their";
         }
 
-        if (profile.getFriends().size() == 0) {
-            full = user + "not gotten any friends yet";
-            friends.setText(full);
-        } else if (profile.getFriends().size() == 1) {
-            full = user + profile.getFriends().size() + " friend";
-            friends.setText(full);
-        } else {
-            full = user + profile.getFriends().size() + " friends";
-            friends.setText(full);
+        switch (profile.getReviews().size()) {
+            case 0: full = user + "not reviewed any movies yet"; break;
+            case 1: full = user + "reviewed " + profile.getReviews().size() + " movie"; break;
+            default:full = user + "reviewed " + profile.getReviews().size() + " movies";
         }
+        reviewed.setText(full);
 
-        if (profile.getReviews().size() == 0) {
-            full = user + "not reviewed any movies yet";
-            rated.setText(full);
-        } else if (profile.getReviews().size() == 1) {
-            full = user + "reviewed " + profile.getReviews().size() + " movie";
-            rated.setText(full);
-        } else {
-            full = user + "reviewed " + profile.getReviews().size() + " movies";
-            rated.setText(full);
+        switch (profile.getToWatchList().size()) {
+            case 0: full = user + "no movies on " + extra + " watch list yet"; break;
+            case 1: full = user + profile.getToWatchList().size() + " movie on " + extra + " watch list"; break;
+            default:full = user + profile.getToWatchList().size() + " movies on " + extra + " watch list";
         }
+        watchList.setText(full);
 
-        if (profile.getToWatchList().size() == 0) {
-            full = user + "no movies on " + extra + " watch list yet";
-            watchList.setText(full);
-        } else if (profile.getToWatchList().size() == 1) {
-            full = user + profile.getToWatchList().size() + " movie on " + extra + " watch list";
-            watchList.setText(full);
-        } else {
-            full = user + profile.getToWatchList().size() + " movies on " + extra + " watch list";
-            watchList.setText(full);
-        }
 
-        if (profile.getWatchedList().size() == 0) {
-            full = user + "not watched any movies yet";
-            watchedList.setText(full);
-        } else if (profile.getWatchedList().size() == 1) {
-            full = user + "watched " + profile.getWatchedList().size() + " movie";
-            watchedList.setText(full);
-        } else {
-            full = user + "watched " + profile.getWatchedList().size() + " movies";
-            watchedList.setText(full);
+        switch (profile.getWatchedList().size()) {
+            case 0: full = user + "not watched any movies yet"; break;
+            case 1: full = user + "watched " + profile.getWatchedList().size() + " movie"; break;
+            default:full = user + "watched " + profile.getWatchedList().size() + " movies";
         }
+        watchedList.setText(full);
     }
 
     private void findViews() {
@@ -208,7 +230,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileName = findViewById(R.id.text_profileName);
         genrePref = findViewById(R.id.profileGenrePref);
         friends = findViewById(R.id.textView_friends_description);
-        rated = findViewById(R.id.textView_rated_description);
+        reviewed = findViewById(R.id.textView_rated_description);
         watchList = findViewById(R.id.textView_want_to_watch_description);
         watchedList = findViewById(R.id.textView_watchedlist_description);
     }
