@@ -59,13 +59,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int totalRating;
     private int raters;
     private int avgRating;
-    private List<IReview> reviews = new ArrayList<>();
+    private List<IReview> reviewList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         Intent intent = getIntent();
+
+        ctx = this;
+
+        gridView = findViewById(R.id.gridView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
@@ -106,7 +110,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviews);
+        movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
         gridView.setAdapter(movieDetailsAdapter);
         gridView.setVisibility(View.VISIBLE);
 
