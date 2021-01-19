@@ -128,41 +128,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             e.printStackTrace();
         }
 
-/*             Controller_Review.getInstance().getFriendReviews(movie.getImdbID(),new RunnableReviewsLoadUI() {
-                    @Override
-                    public void run() {
-                        runLoadScreen(MovieDetailsActivity.this,false);
-                    }
 
-                    @Override
-                    public void run(IReview[] ratings) {
-                        reviews = Controller_Review.getInstance().reviewDTOtoIReview((ReviewDTO[]) ratings);
-                        int temp = 0;
-                        for (IReview review : reviews) {
-                            temp += review.getRating();
-                        }
-                        if (reviews.length != 0){
-
-                            temp = temp / reviews.length;
-                        }
-
-                        avgRating = temp;
-                        uiThread.post(() -> {
-                            if (avgRating != 0) {
-                                starFestFriends(avgRating);
-                            }
-
-                        });
-                        runLoadScreen(MovieDetailsActivity.this,false);
-
-                    }
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-            }
-
-        });
-*/
 
         write_review_btn = findViewById(R.id.image_btn_review);
         write_review_btn.setOnClickListener(this);
