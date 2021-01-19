@@ -87,6 +87,8 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
+        } else if (view == change_profile_picture_btn){
+            Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this has not been implemented yet.", Toast.LENGTH_LONG).show();
         } else if (view == save_changes_btn) {
             try {
                 Controller_User.getInstance().updateUser(profile_name_textView.getText().toString(), profile_mail_textView.getText().toString(), profile_top_genre_edit_text.getText().toString(), new RunnableErrorUI() {
