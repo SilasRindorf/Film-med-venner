@@ -136,10 +136,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         if (view == addToWatch){
             try {
                 Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
-                Toast.makeText(ctx, "Added movie to watch list", Toast.LENGTH_LONG).show();
+                Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
-                Toast.makeText(ctx, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
+                Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
             }
         }
     }

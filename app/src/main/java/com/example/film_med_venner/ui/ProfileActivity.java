@@ -153,30 +153,31 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             full = user + "rated " + profile.getReviews().size() + " movie";
             rated.setText(full);
         } else {
-            rated.setText(user + "rated " + profile.getReviews().size() + " movies");
+            full = user + "rated " + profile.getReviews().size() + " movies";
+            rated.setText(full);
         }
 
-        /*if (profile.getWatchList().size() == 0) {
+        if (profile.getToWatchList().size() == 0) {
             full = user + "no movies on " + extra + " watch list yet";
-            rated.setText(full);
-        } else if (profile.getWatchList().size() == 1) {
-            full = user + profile.getWatchList().size() + " movie on " + extra + "watch list";
-            rated.setText(full);
+            watchList.setText(full);
+        } else if (profile.getToWatchList().size() == 1) {
+            full = user + profile.getToWatchList().size() + " movie on " + extra + "watch list";
+            watchList.setText(full);
         } else {
-            full = user + "rated " + profile.getWatchList().size() + " movies on " + extra + "watch list";
-            rated.setText(full);
+            full = user + "rated " + profile.getToWatchList().size() + " movies on " + extra + "watch list";
+            watchList.setText(full);
         }
 
         if (profile.getWatchedList().size() == 0) {
             full = user + "not watched any movies yet";
-            rated.setText(full);
+            watchedList.setText(full);
         } else if (profile.getWatchedList().size() == 1) {
             full = user + "watched " + profile.getWatchedList().size() + " movie";
-            rated.setText(full);
+            watchedList.setText(full);
         } else {
             full = user + "watched " + profile.getWatchedList().size() + " movies";
-            rated.setText(full);
-        }*/
+            watchedList.setText(full);
+        }
     }
 
     private void findViews() {
