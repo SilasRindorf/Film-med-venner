@@ -43,12 +43,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         search = findViewById(R.id.searchField);
         search.setOnKeyListener((view, keyCode, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_ENTER:
-                        setupGridView();
-                        return true;
-                    default:
-                        break;
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    setupGridView();
+                    return true;
                 }
             }
             return false;
