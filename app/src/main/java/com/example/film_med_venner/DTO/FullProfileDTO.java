@@ -28,11 +28,6 @@ public class FullProfileDTO {
         this.watchedList = watchedList;
     }
 
-    public String getmvgprefs() {
-        return mvGPrefs;
-    }
-
-
     public String getPictureURL() {
         return pictureURL;
     }
