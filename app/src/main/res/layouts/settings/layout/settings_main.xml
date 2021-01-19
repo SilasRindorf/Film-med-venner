@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.profileActivities.SettingsActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/gradient">
 
     <!-- TODO Ubehagelig fixed højde. Der er en midlertidig løsning pt. så den ikke gemmer sig bag ved navbar.-->
     <ScrollView

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profileActivities.ToWatchlistActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/gradient">
     <!-- TODO Den har en fixet højde, og vil derfor ikke være pæn på alle skærme. Laver vi dog en dynamisk størrelse, så springer den ud af skærmen -->
     <!-- TODO Kan godt have noget at gøre med HomeAdapter inflater med 2 parameter "null"-->
     <GridView

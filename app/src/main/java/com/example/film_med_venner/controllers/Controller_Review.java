@@ -1,7 +1,5 @@
 package com.example.film_med_venner.controllers;
 
-import android.util.Log;
-
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IController.IController_Review;
@@ -67,7 +65,8 @@ public class Controller_Review implements IController_Review {
 
     public void getReviews(RunnableReviewsUI runnableReviewsUI) throws IDatabase.DatabaseException {
         try {
-            db.collection("users")
+            db.collection("users").document().collection("reviews")
+                    .orderBy("creationDate")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -116,7 +115,7 @@ public class Controller_Review implements IController_Review {
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(userID)
-                    .collection("reviews")
+                    .collection("reviews").orderBy("creationDate")
                     .whereEqualTo("movieIDStr", movieID)
                     .get()
                     .addOnCompleteListener(task -> {
@@ -144,7 +143,8 @@ public class Controller_Review implements IController_Review {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
                         db.collection("users").document(
-                                doc.getId()).collection("reviews").get().addOnCompleteListener(task1 -> {
+                                doc.getId()).collection("reviews").orderBy("creationDate")
+                                .get().addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 //Could be split to multiple lines for easier readability. But I'm lazy
                                 runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
