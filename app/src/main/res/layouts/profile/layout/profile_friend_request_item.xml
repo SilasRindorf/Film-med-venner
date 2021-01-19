@@ -21,7 +21,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
-            app:srcCompat="@drawable/icon_profilepicture"
+            app:srcCompat="@drawable/icon_default_profilepicture"
             app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"/>
 
         <TextView
