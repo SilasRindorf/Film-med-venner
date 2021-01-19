@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
+import com.example.film_med_venner.ui.login.MainActivity;
 import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.example.film_med_venner.ui.profileActivities.ReviewActivity;
 import com.example.film_med_venner.ui.profileActivities.SettingsActivity;
@@ -64,6 +66,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         bgThread.execute(() -> {
+            runLoadScreen(true);
+
             Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 url = profile.getPictureURL();
@@ -72,9 +76,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     if (url != null) {
                         Picasso.get().load(url).into(profile_picture);
                     }
+                    runLoadScreen(false);
                 });
             });
         });
+    }
+
+    private void runLoadScreen(boolean keep) {
+        Intent ld = new Intent(ProfileActivity.this, LoadingScreen.class);
+        ld.putExtra("finished", keep);
+        ld.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        ld.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(ld);
     }
 
     private void addFrag(int id, Fragment fragment) {

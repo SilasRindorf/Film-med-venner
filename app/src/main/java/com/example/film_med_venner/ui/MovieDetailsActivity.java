@@ -67,6 +67,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         star5 = findViewById(R.id.ImageView_star_5);
 
         bgThread.execute(() -> {
+            runLoadScreen(true);
             try {
                 Controller_Review.getInstance().getReview(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
                     rating = (Review) rating1;
@@ -77,6 +78,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             starFest(rating.getRating());
                             yourReview.setText(rating.getReview());
                         }
+                        runLoadScreen(false);
                     });
                 });
             } catch (IDatabase.DatabaseException e) {
@@ -172,6 +174,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 star5.setImageResource(R.drawable.icon_filled_star);
                 break;
         }
+    }
+
+    private void runLoadScreen(boolean keep) {
+        Intent ld = new Intent(MovieDetailsActivity.this, LoadingScreen.class);
+        ld.putExtra("finished", keep);
+        ld.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        ld.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(ld);
     }
 
 }

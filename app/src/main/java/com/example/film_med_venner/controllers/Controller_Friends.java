@@ -79,8 +79,7 @@ public class Controller_Friends implements IProfileController {
         try {
             db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    for (DocumentSnapshot doc :
-                            task.getResult()) {
+                    for (DocumentSnapshot doc : task.getResult()) {
                         doc.getId();
                         db.collection("users").document(doc.getId()).collection("friends").document(selfID)
                                 .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
@@ -93,7 +92,29 @@ public class Controller_Friends implements IProfileController {
         } catch (Exception e) {
             runnableErrorUI.handleError(new IDatabase.DatabaseException("Error adding friend", e));
         }
+    }
 
+    public void sendFriendRequestByMail(String email) throws IDatabase.DatabaseException {
+        HashMap<String, Object> user = new HashMap<>();
+        String selfID = mAuh.getCurrentUser().getUid();
+        user.put("requester", selfID);
+        user.put("status", 0);
+        try {
+            db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        doc.getId();
+                        db.collection("users").document(doc.getId()).collection("friends").document(selfID)
+                                .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
+                                Log.d(TAG, "Friend request send to ID: " + doc.getId()))
+                                .addOnFailureListener(e ->
+                                        Log.w(TAG, "Error sending friend request", e));
+                    }
+                }
+            });
+        } catch (Exception e) {
+            throw new IDatabase.DatabaseException("Error adding friend", e);
+        }
     }
 
     /**

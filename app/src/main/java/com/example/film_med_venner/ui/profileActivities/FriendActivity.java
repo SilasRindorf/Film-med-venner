@@ -27,6 +27,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.ui.LoadingScreen;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;

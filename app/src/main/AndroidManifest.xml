@@ -23,6 +23,7 @@
         <activity android:name=".ui.profileActivities.FriendRequestActivity"></activity>
         <activity android:name=".ui.login.ForgotPasswordActivity"></activity>
         <activity android:name=".ui.MovieDetailsActivity" />
+        <activity android:name=".ui.LoadingScreen" />
         <activity android:name=".ui.ReviewedItemActivity" />
         <activity android:name=".ui.profileActivities.FriendActivity" />
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
