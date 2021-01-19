@@ -42,6 +42,12 @@ public class Controller_Friends implements IProfileController {
 
 
     //----------------------------------FRIENDS----------------------------------
+
+    /**
+     * Send a request to the database to add a friend
+     * @param friendID friends ID string
+     * @throws IDatabase.DatabaseException
+     */
     public void sendFriendRequest(String friendID) throws IDatabase.DatabaseException {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
@@ -61,13 +67,11 @@ public class Controller_Friends implements IProfileController {
 
     /**
      *
-     * @param status Requester status
-     * @param runnableFullProfileUI
+     * @param status Requester status, -1 rejected friends, 0 friend request, 1 friends
+     * @param runnableFullProfileUI method to run on complete
      * @throws IDatabase.DatabaseException
      */
     public void getFriendRequest(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
-        //String id = mAuh.getCurrentUser().getUid();
-
         try {
             db.collection("users").document(userID).collection("friends")
                     .whereEqualTo("status", status).get().addOnCompleteListener(task -> {
@@ -77,7 +81,6 @@ public class Controller_Friends implements IProfileController {
                             db.collection("users").document(uId).get()
                                     .addOnCompleteListener(task1 -> {
                                         Controller_User.getInstance().getFullProfile(uId, runnableFullProfileUI);
-                                        //runnableFullProfileUI.run(task1.getResult().toObject(FullProfileDTO.class));
                                     });
                         }
 

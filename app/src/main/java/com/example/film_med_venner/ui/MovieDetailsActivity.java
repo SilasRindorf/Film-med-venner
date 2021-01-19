@@ -124,6 +124,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 bundle.putBoolean("status",true);
                 bundle.putInt("starReview",rating.getRating());
                 bundle.putString("review",rating.getReview());
+
             }
             Fragment review_frag = new Write_review_frag();
             review_frag.setArguments(bundle);

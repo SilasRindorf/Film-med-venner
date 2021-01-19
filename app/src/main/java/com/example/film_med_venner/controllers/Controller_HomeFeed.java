@@ -28,7 +28,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
     }
 
     //----------------------------------WATCHLIST----------------------------------
-    public void addToWatchList(IWatchItem watchItem) throws IDatabase.DatabaseException {
+    public void addToWatchListItem(IWatchItem watchItem) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
                     .collection("to_watch_list")
@@ -38,7 +38,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
         }
     }
 
-    public void addWatchedList(IWatchItem watchItem) throws IDatabase.DatabaseException {
+    public void addWatchedListItem(IWatchItem watchItem) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
                     .collection("watched_list")
