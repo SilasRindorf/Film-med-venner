@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
@@ -17,6 +18,7 @@ import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.ui.MovieDetailsActivity;
 import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Friends;
@@ -80,6 +82,11 @@ public class ReviewActivity extends AppCompatActivity {
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
-
-
+    public void itemOnClick(View view) {
+        int position = gridView.getPositionForView(view);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra("Id", items.get(position).getMovieIDStr());
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
 }
