@@ -36,10 +36,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout l_layout_friends;
     private ImageView imageView_settings;
     private ImageView profile_picture;
-    private TextView profileName;
-    private TextView genrePref;
-    private TextView friends;
-    private TextView rated;
+    private TextView profileName, genrePref, friends, rated, watchList, watchedList;
     private FullProfileDTO profile;
     private String url, userID;
 
@@ -134,27 +131,58 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileName.setText(profile.getName());
         genrePref.setText(profile.getmvGPrefs());
         String user;
+        String extra;
+        String full;
 
         if (profile.getID().equals(Controller_User.getInstance().getCurrentUser().getID())) {
             user = "You have ";
+            extra = "your";
         } else {
             user = profile.getName() + " has ";
+            extra = "their";
         }
 
         if (profile.getFriends().size() == 0) {
-            friends.setText(user + "not gotten any friends yet");
+            full = user + "not gotten any friends yet";
+            friends.setText(full);
         } else if (profile.getFriends().size() == 1) {
-            friends.setText(user + profile.getFriends().size() + " friend");
+            full = user + profile.getFriends().size() + " friend";
+            friends.setText(full);
         } else {
-            friends.setText(user + profile.getFriends().size() + " friends");
+            full = user + profile.getFriends().size() + " friends";
+            friends.setText(full);
         }
 
         if (profile.getReviews().size() == 0) {
-            rated.setText(user + "not rated any movies yet");
+            full = user + "not rated any movies yet";
+            rated.setText(full);
         } else if (profile.getReviews().size() == 1) {
-            rated.setText(user + "rated " + profile.getReviews().size() + " movie");
+            full = user + "rated " + profile.getReviews().size() + " movie";
+            rated.setText(full);
         } else {
             rated.setText(user + "rated " + profile.getReviews().size() + " movies");
+        }
+
+        if (profile.getWatchList().size() == 0) {
+            full = user + "no movies on " + extra + " watch list yet";
+            rated.setText(full);
+        } else if (profile.getWatchList().size() == 1) {
+            full = user + profile.getWatchList().size() + " movie on " + extra + "watch list";
+            rated.setText(full);
+        } else {
+            full = user + "rated " + profile.getWatchList().size() + " movies on " + extra + "watch list";
+            rated.setText(full);
+        }
+
+        if (profile.getWatchedList().size() == 0) {
+            full = user + "not watched any movies yet";
+            rated.setText(full);
+        } else if (profile.getWatchedList().size() == 1) {
+            full = user + "watched " + profile.getWatchedList().size() + " movie";
+            rated.setText(full);
+        } else {
+            full = user + "watched " + profile.getWatchedList().size() + " movies";
+            rated.setText(full);
         }
     }
 
@@ -174,7 +202,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         genrePref = findViewById(R.id.profileGenrePref);
         friends = findViewById(R.id.textView_friends_description);
         rated = findViewById(R.id.textView_rated_description);
-        TextView watchList = findViewById(R.id.textView_want_to_watch_description);
-        TextView watched = findViewById(R.id.textView_watchedlist_description);
+        watchList = findViewById(R.id.textView_want_to_watch_description);
+        watchedList = findViewById(R.id.textView_watchedlist_description);
     }
 }

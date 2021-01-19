@@ -15,10 +15,13 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
@@ -131,7 +134,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             addFrag(R.id.write_review_container, review_frag);
         }
         if (view == addToWatch){
-            //TODO DO SOMETHING PLEASE
+            try {
+                Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
+                Toast.makeText(ctx, "Added movie to watch list", Toast.LENGTH_LONG).show();
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+                Toast.makeText(ctx, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
