@@ -5,29 +5,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Layout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.ui.LoadingScreen;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
@@ -155,7 +148,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             gridView.setAdapter(friendAdapter);
             gridView.setVisibility(View.VISIBLE);
             try {
-                Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
+                Controller_Friends.getInstance().getFriendType(userID,1, friends -> {
                     friendAdapter.addItem(friends);
                 });
             } catch (IDatabase.DatabaseException e) {
