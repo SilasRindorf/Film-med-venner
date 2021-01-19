@@ -8,8 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Movie;
+import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.List;
@@ -44,7 +47,7 @@ public class ReviewAdapter extends BaseAdapter {
         IReview item = ratingItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            gridView = inflater.inflate(R.layout.profile_rating_item, null);
+            gridView = inflater.inflate(R.layout.item_review, null);
         }
         TextView ratingText = gridView.findViewById(R.id.ratingtext);
         //TODO ((Review) item).getMovie() Virker ikke optimalt. Når man kører den kommer der ikke det som forventes.
@@ -55,6 +58,11 @@ public class ReviewAdapter extends BaseAdapter {
         ImageView star3 = gridView.findViewById(R.id.ImageView_star_3);
         ImageView star4 = gridView.findViewById(R.id.ImageView_star_4);
         ImageView star5 = gridView.findViewById(R.id.ImageView_star_5);
+
+        Movie movie = Controller_MovieDetails.getInstance().getMovie(item.getMovieIDStr());
+
+
+
 
         System.out.println("Rating er nu: "+item.getRating());
         if (item.getRating() == 0){

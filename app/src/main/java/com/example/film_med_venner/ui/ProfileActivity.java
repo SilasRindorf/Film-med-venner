@@ -56,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent intent = getIntent();
 
+        System.out.println(intent.getStringExtra("userID"));
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
             userID = Controller_User.getInstance().getCurrentUser().getID();
         } else {
@@ -88,28 +89,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
 
         if (view == l_layout_rating) {
-            setContentView(R.layout.activity_rating);
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("userID", userID);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
         } else if (view == l_layout_to_watchlist) {
-            setContentView(R.layout.activity_to_watchlist);
             Intent intent = new Intent(this, ToWatchlistActivity.class);
             intent.putExtra("userID", userID);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
         } else if (view == l_layout_watchedlist) {
-            setContentView(R.layout.activity_watchedlist);
             Intent intent = new Intent(this, WatchedlistActivity.class);
             intent.putExtra("userID", userID);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
         } else if (view == l_layout_friends) {
             Intent intent = new Intent(this, FriendActivity.class);
             intent.putExtra("userID", userID);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
         }
 
     }
@@ -163,7 +157,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             rated.setText(user + "rated " + profile.getReviews().size() + " movies");
         }
 
-        if (profile.getWatchList().size() == 0) {
+        /*if (profile.getWatchList().size() == 0) {
             full = user + "no movies on " + extra + " watch list yet";
             rated.setText(full);
         } else if (profile.getWatchList().size() == 1) {
@@ -183,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             full = user + "watched " + profile.getWatchedList().size() + " movies";
             rated.setText(full);
-        }
+        }*/
     }
 
     private void findViews() {

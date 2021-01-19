@@ -106,6 +106,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+
     @Override
     public void onClick(View v) {
         if (v == see_friendrequest_btn) {
@@ -127,8 +128,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         int position = gridView.getPositionForView(view);
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("userID", friendList.get(position).getID());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+        startActivity(intent);
     }
 
     private void addFrag(int id, Fragment fragment) {
