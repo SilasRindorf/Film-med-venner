@@ -6,9 +6,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +66,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int raters;
     private int avgRating;
     private List<IReview> reviewList = new ArrayList<>();
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +75,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
 
         ctx = this;
-
+        scrollView = findViewById(R.id.scrollview);
         gridView = findViewById(R.id.gridView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
@@ -126,7 +133,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             avgRating = totalRating / raters;
                             movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
+                                Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
+                                setGridViewHeight(gridView,1);
+                                scrollView.setLayoutParams(new LinearLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
                             });
                         }
 
@@ -175,6 +185,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
+    public static void setGridViewHeight(GridView gridView, int columns) {
+        ListAdapter adapter = gridView.getAdapter();
+        int count = adapter.getCount();
+        int row = count / columns;
+        row = (count % columns) == 0 ? row : (row + 1);
+        int totalHeight = 0;
+        for (int i = 0; i < row; i++) {
+            View view = adapter.getView(i, null, gridView);
+            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams layoutParams = gridView.getLayoutParams();
+        layoutParams.height = totalHeight + (gridView.getVerticalSpacing() * (row - 1));
+        gridView.setLayoutParams(layoutParams);
+    }
+
 
     @Override
     public void onClick(View view) {
