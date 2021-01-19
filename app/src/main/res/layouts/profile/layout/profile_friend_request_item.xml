@@ -14,9 +14,9 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView_profile"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_weight="13"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:layout_gravity="center_vertical"
@@ -26,34 +26,32 @@
 
         <TextView
             android:id="@+id/textView_fr_name"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="10"
             android:text="Ukendt bruger"
             android:textColor="@color/colorBackground"
             android:textSize="18sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginStart="10dp" />
 
         <ImageButton
             android:id="@+id/btn_accept"
-            android:layout_width="20dp"
+            android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_weight="6"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/check"
             android:layout_gravity="center_vertical"
             android:onClick="onClickAccept"
-            android:backgroundTint="@color/colorTransparent"
-            android:layout_marginEnd="10dp"/>
+            android:backgroundTint="@color/colorTransparent" />
 
         <ImageButton
             android:id="@+id/btn_decline"
-            android:layout_width="20dp"
+            android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_weight="5"
+            android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_delete"
             android:layout_gravity="center_vertical"
             android:onClick="onClickDecline"
