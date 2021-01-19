@@ -159,4 +159,19 @@ public class Controller_Review implements IController_Review {
         }
     }
 
+    public IReview reviewDTOtoIReview(ReviewDTO reviewDTO){
+        return new Review(reviewDTO.getRating(),
+                reviewDTO.getUsername(),reviewDTO.getMovieIDStr(),
+                reviewDTO.getReview(), reviewDTO.getUserID());
+    }
+    public IReview[] reviewDTOtoIReview(ReviewDTO[] reviewDTOs){
+        IReview[] reviews = new Review[reviewDTOs.length];
+        for (int i = 0; i < reviewDTOs.length; i++) {
+            reviews[i] =  new Review(reviewDTOs[i].getRating(),
+                    reviewDTOs[i].getUsername(),reviewDTOs[i].getMovieIDStr(),
+                    reviewDTOs[i].getReview(), reviewDTOs[i].getUserID());
+        }
+        return reviews;
+    }
+
 }

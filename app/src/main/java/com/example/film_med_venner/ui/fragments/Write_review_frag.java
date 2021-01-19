@@ -14,11 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.ui.MovieDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
@@ -35,7 +38,6 @@ public class Write_review_frag extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.frag_write_review,container,false);
-        System.out.println(getArguments().getString("review"));
         /**
          * Getting arguments from MovieDetailsActivity in the form of a "Bundle"
          */
@@ -146,6 +148,7 @@ public class Write_review_frag extends DialogFragment {
                     if (status == true){
                         try {
                             Controller_Review.getInstance().updateReviews(newReview);
+
                             Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                         } catch (IDatabase.DatabaseException e){
                             e.printStackTrace();
@@ -154,6 +157,8 @@ public class Write_review_frag extends DialogFragment {
                     } else {
                     try {
                         Controller_Review.getInstance().createReview(newReview);
+                        Controller_HomeFeed.getInstance().removeToWatchListItem(movieID);
+                        Controller_HomeFeed.getInstance().addWatchedListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getName(), movieID));
                     } catch (IDatabase.DatabaseException e) {
                         e.printStackTrace();
                         Toast.makeText(getActivity(), "Failed to create review", Toast.LENGTH_LONG).show();

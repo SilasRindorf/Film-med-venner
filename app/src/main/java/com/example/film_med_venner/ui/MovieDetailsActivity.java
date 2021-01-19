@@ -78,12 +78,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             starFest(rating.getRating());
                             yourReview.setText(rating.getReview());
                         }
-                        runLoadScreen(false);
                     });
                 });
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
+            runLoadScreen(false);
         });
 
 
@@ -146,7 +146,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void starFest(int starReview) {
+    public void starFest(int starReview) {
         switch (starReview) {
             case  1:
                 star1.setImageResource(R.drawable.icon_filled_star);
