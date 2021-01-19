@@ -33,14 +33,16 @@ import java.util.concurrent.Executors;
 public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private GridView gridView;
     private Context ctx;
-    private Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
-    private Controller_Review rController = Controller_Review.getInstance();
-    private Intent intent;
-    private Executor bgThread = Executors.newSingleThreadExecutor();
-    private Handler uiThread = new Handler();
+    private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
 
-    private TextView title, plot, director, runtime, actors, yourReview;
-    private ImageView moviePoster, star1, star2, star3, star4, star5;
+    private TextView yourReview;
+    private ImageView star1;
+    private ImageView star2;
+    private ImageView star3;
+    private ImageView star4;
+    private ImageView star5;
     private ImageButton addToWatch, write_review_btn;
 
     private Movie movie;
@@ -51,7 +53,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        intent = getIntent();
+        Intent intent = getIntent();
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
@@ -86,18 +88,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         addToWatch = findViewById(R.id.image_btn_add_to_watch_list);
         addToWatch.setOnClickListener(this);
 
-        moviePoster = findViewById(R.id.moviePoster);
+        ImageView moviePoster = findViewById(R.id.moviePoster);
         Picasso.get().load(movie.getPoster()).into(moviePoster);
 
-        title = findViewById(R.id.textView_title);
+        TextView title = findViewById(R.id.textView_title);
         title.setText(movie.getTitle());
-        plot = findViewById(R.id.textView_plot);
+        TextView plot = findViewById(R.id.textView_plot);
         plot.setText(movie.getPlot());
-        director = findViewById(R.id.textView_director);
+        TextView director = findViewById(R.id.textView_director);
         director.setText(movie.getDirector());
-        runtime = findViewById(R.id.textView_runtime);
+        TextView runtime = findViewById(R.id.textView_runtime);
         runtime.setText(movie.getRuntime());
-        actors = findViewById(R.id.textView_actors);
+        TextView actors = findViewById(R.id.textView_actors);
         actors.setText(movie.getActors());
 
 
@@ -133,47 +135,32 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void starFest(int starReview) {
-        if (starReview == 0){
-            star1.setImageResource(R.drawable.icon_empty_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (starReview == 1){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (starReview == 2){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (starReview == 3){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (starReview == 4){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (starReview == 5){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_filled_star);
+        switch (starReview) {
+            case  1:
+                star1.setImageResource(R.drawable.icon_filled_star);
+                break;
+            case 2:
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                break;
+            case 3:
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_filled_star);
+                break;
+            case 4:
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_filled_star);
+                star4.setImageResource(R.drawable.icon_filled_star);
+                break;
+            case 5:
+                star1.setImageResource(R.drawable.icon_filled_star);
+                star2.setImageResource(R.drawable.icon_filled_star);
+                star3.setImageResource(R.drawable.icon_filled_star);
+                star4.setImageResource(R.drawable.icon_filled_star);
+                star5.setImageResource(R.drawable.icon_filled_star);
+                break;
         }
     }
 

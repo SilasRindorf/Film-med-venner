@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -15,26 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Friends;
-import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_Review;
-import com.example.film_med_venner.interfaces.IController.IController_HomeFeed;
-import com.example.film_med_venner.interfaces.IController.IController_Review;
-import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
-import com.example.film_med_venner.ui.adapters.FriendRequestAdapter;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.interfaces.IHomeFeedItems;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -44,8 +28,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private HomeAdapter homeAdapter;
     private Context ctx;
     private View v;
-    private Executor bgThread = Executors.newSingleThreadExecutor();
-    private Handler uiThread = new Handler();
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
     Controller_Review controller = Controller_Review.getInstance();
 
     @Override
@@ -53,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ctx = this;
+        Context ctx = this;
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
@@ -80,7 +64,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         setContentView(R.layout.feed_rated_item_description);
         Intent intent = new Intent(this, ReviewedItemActivity.class);
-        startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(intent, 0);
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -92,7 +77,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClickPoster(View view) {
 
-        System.out.println("DEEEEEEEET VIIIIIRKKKKEEEEEEEEEEER");
 
     }
 
@@ -113,7 +97,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println(clickedReviewDescription);
         intent.putExtra("reviewDescription",clickedReviewDescription);
 
-        startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(intent, 0);
 
     }
 

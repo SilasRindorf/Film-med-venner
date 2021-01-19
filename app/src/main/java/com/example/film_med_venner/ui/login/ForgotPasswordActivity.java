@@ -45,7 +45,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             }
         } else {
             Intent intent = new Intent(ForgotPasswordActivity.this, MainActivity.class);
-            startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         }
 
 
