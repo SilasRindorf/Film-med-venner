@@ -5,10 +5,36 @@ import java.util.List;
 public class FullProfileDTO {
     private List<ProfileDTO> friends;
     private List<ReviewDTO> reviews;
+    private List<WatchItemDTO> toWatchList;
+    private List<WatchItemDTO> watchedList;
     private String mvGPrefs;
     private String pictureURL;
     private String ID;
     private String name;
+
+    public List<WatchItemDTO> getToWatchList() {
+        return toWatchList;
+    }
+
+    public void setToWatchList(List<WatchItemDTO> toWatchList) {
+        this.toWatchList = toWatchList;
+    }
+
+    public List<WatchItemDTO> getWatchedList() {
+        return watchedList;
+    }
+
+    public void setWatchedList(List<WatchItemDTO> watchedList) {
+        this.watchedList = watchedList;
+    }
+
+    public String getMvGPrefs() {
+        return mvGPrefs;
+    }
+
+    public void setMvGPrefs(String mvGPrefs) {
+        this.mvGPrefs = mvGPrefs;
+    }
 
     public String getPictureURL() {
         return pictureURL;
