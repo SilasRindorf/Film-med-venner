@@ -36,6 +36,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
@@ -311,19 +312,18 @@ public class Controller_User implements IController {
 
     public void getFullProfile2(String uID, RunnableFullProfileUI runnableFullProfileUI) {
         try {
-            db.runTransaction(new Transaction.Function<Void>() {
-                @Nullable
-                @Override
-                public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                    DocumentReference documentReference = db.collection("users").document(uID);
-                    FullProfileDTO fullProfileDTO = transaction.get(documentReference).toObject(FullProfileDTO.class);
+            db.runTransaction((Transaction.Function<Void>) transaction -> {
+                DocumentReference documentReference = db.collection("users").document(uID);
+                FullProfileDTO fullProfileDTO = transaction.get(documentReference).toObject(FullProfileDTO.class);
 
-                    //documentReference = db.collection("users").document(uID).collection("friends");
-                    //FullProfileDTO[] friends = transaction.get(documentReference).toObject(FullProfileDTO.class);
+                //documentReference = db.collection("users").document(uID).collection("friends");
+                //FullProfileDTO[] friends = transaction.get(documentReference).toObject(FullProfileDTO.class);
 
-                    runnableFullProfileUI.run(fullProfileDTO);
-                    return null;
-                }
+
+                Query q = db.collection("users").document(uID).collection("friends");
+                //q.
+                runnableFullProfileUI.run(fullProfileDTO);
+                return null;
             });
         } catch (Exception ignored) {
         }
