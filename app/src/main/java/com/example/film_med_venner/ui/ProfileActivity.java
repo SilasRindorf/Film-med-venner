@@ -88,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
 
         if (view == l_layout_rating) {
-            setContentView(R.layout.activity_rating);
+            setContentView(R.layout.activity_review);
             Intent intent = new Intent(this, ReviewActivity.class);
             intent.putExtra("userID", userID);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
