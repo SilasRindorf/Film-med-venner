@@ -9,8 +9,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,8 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
     private final Handler uiThread = new Handler();
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
     private FullProfileDTO profile;
+    private Switch switch_lists, switch_reviews;
+    private CheckBox checkBox_mark_all;
     //private Context ctx;
 
     //TODO Switches i settings?
@@ -67,7 +72,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                         Picasso.get().load(profile_picture_url).into(profile_picture);
                         profile_name_textView.setText(profile_name);
                         profile_mail_textView.setText(profile_email);
-                        profile_top_genre_edit_text.setHint(profile_mvgPref);
+                        profile_top_genre_edit_text.setText(profile_mvgPref);
                         //profile_id.setText(userID);
                     }
                 });
@@ -95,7 +100,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                 e.printStackTrace();
             }
         } else if (view == change_profile_picture_btn){
-            Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this has not been implemented yet.", Toast.LENGTH_LONG).show();
+            Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
         } else if (view == save_changes_btn) {
             try {
                 Controller_User.getInstance().updateUser(profile_name_textView.getText().toString(), profile_mail_textView.getText().toString(), profile_top_genre_edit_text.getText().toString(), new RunnableErrorUI() {
@@ -141,5 +146,40 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         profile_picture = findViewById(R.id.profile_picture);
         // TEXTVIEW
         //profile_id = findViewById(R.id.profile_id);
+        // SWITCHES
+        switch_lists = findViewById(R.id.switch_lists);
+        switch_lists.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        switch_reviews = findViewById(R.id.switch_reviews);
+        switch_reviews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        // CHECKBOX
+        checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
+        checkBox_mark_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        });
     }
 }

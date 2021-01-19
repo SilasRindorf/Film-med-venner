@@ -16,7 +16,7 @@
         // Switches
         <string name="switch_ratings">See friends newly added movie/series ratings in home feed</string>
         <string name="switch_review">See friends newly added movie/series reviews in home feed</string>
-        <string name="switch_watchList">See friends newly added movie/series to watch lists in home feed</string>
+        <string name="switch_watchList">See friends newly added movie/series to lists in home feed</string>
 
         // Buttons
         <string name="btn_login_usign_mail">Login with mail</string>

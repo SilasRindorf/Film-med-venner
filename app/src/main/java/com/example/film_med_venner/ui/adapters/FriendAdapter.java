@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.controllers.Controller_Friends;
+import com.example.film_med_venner.interfaces.IDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FriendAdapter extends BaseAdapter {
     private final Context ctx;
@@ -39,7 +41,6 @@ public class FriendAdapter extends BaseAdapter {
         return i;
     }
 
-    //TODO Pt. henter den bare sample data. Den skal have fat på Databasen, og se hvem der har sent request til en.
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
@@ -51,18 +52,17 @@ public class FriendAdapter extends BaseAdapter {
 
         ImageView profilePicture = gridView.findViewById(R.id.imageView_profile);
         TextView profileName = gridView.findViewById(R.id.profile_name);
-        TextView profileFriends = gridView.findViewById(R.id.profile_friends);
         TextView profileRatings = gridView.findViewById(R.id.profile_ratings);
         TextView profileToWatchlist = gridView.findViewById(R.id.profile_to_watch_list);
         TextView profileWatchedlist = gridView.findViewById(R.id.profile_watched_list);
 
-        //TODO Det her skal hente profilbilledet senere, men i det at vi ikke implementeret noget SOME ish endnu giver det først mening at lave senere.
+
+
         Picasso.get().load(item.getPictureURL()).into(profilePicture);
         profileName.setText(item.getName());
-        profileFriends.setText("- " + item.getFriends().size() + " friends");
-        profileRatings.setText("- " + item.getReviews().size() + " reviewed movies.");
-        //profileToWatchlist.setText("- " + item.().length + " movies on their to watchlist.");
-        //profileWatchedlist.setText("- " + item.getMoviesOnWatchedList().length + " movies on their watched list.");
+        profileRatings.setText(item.getReviews().size() + " reviewed movies.");
+        profileToWatchlist.setText(item.getToWatchList().size() + " movies on their to watchlist.");
+        profileWatchedlist.setText(item.getWatchedList().size() + " movies on their watched list.");
         return gridView;
     }
 
@@ -70,4 +70,5 @@ public class FriendAdapter extends BaseAdapter {
         profileItems.add(p);
         this.notifyDataSetChanged();
     }
+
 }

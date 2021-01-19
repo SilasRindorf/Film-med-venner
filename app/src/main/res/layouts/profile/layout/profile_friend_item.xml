@@ -38,24 +38,20 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1">
+
                 <TextView
                     android:id="@+id/profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profileName"
                     android:textColor="#FFFFFF"
-                    />
-                <TextView
-                    android:id="@+id/profile_friends"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sampletext_friends_description"
-                    android:textColor="#FFFFFF"
-                    />
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/profile_ratings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:text="@string/sampletext_rated_description"
                     android:textColor="#FFFFFF"
                     />
@@ -63,6 +59,7 @@
                     android:id="@+id/profile_to_watch_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:text="@string/sampletext_want_to_watch_description"
                     android:textColor="#FFFFFF"
                     />
@@ -70,6 +67,7 @@
                     android:id="@+id/profile_watched_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:text="@string/sampletext_watchedlist_description"
                     android:textColor="#FFFFFF"
                     />
