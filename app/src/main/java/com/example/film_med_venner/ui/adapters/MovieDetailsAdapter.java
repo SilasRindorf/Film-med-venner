@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.interfaces.IReview;
 
@@ -110,5 +112,9 @@ public class MovieDetailsAdapter extends BaseAdapter {
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_filled_star);
         }
+    }
+    public void addItem(Review review) {
+        ratingItems.add(review);
+        this.notifyDataSetChanged();
     }
 }
