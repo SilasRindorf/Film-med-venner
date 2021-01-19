@@ -8,6 +8,7 @@ import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
@@ -70,7 +71,7 @@ public class Controller_Friends implements IProfileController {
      * @param email friends email string
      * @throws IDatabase.DatabaseException
      */
-    public void sendFriendRequestByMail(String email) throws IDatabase.DatabaseException {
+    public void sendFriendRequestByMail(String email, RunnableErrorUI runnableErrorUI)  {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("requester", selfID);
@@ -89,9 +90,8 @@ public class Controller_Friends implements IProfileController {
                     }
                 }
             });
-
         } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error adding friend", e);
+            runnableErrorUI.handleError(new IDatabase.DatabaseException("Error adding friend", e));
         }
 
     }
