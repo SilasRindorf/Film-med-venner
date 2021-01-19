@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
@@ -39,7 +42,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private FriendAdapter friendAdapter;
     private Context ctx;
     private Intent intent;
-    private Button see_friendrequest_btn, add_friend_btn;
+    private Button see_friendrequest_btn, add_friend_btn, copy_id_btn;
     private EditText searchField;
     private LinearLayout l_layout_buttons;
     private Executor bgThread = Executors.newSingleThreadExecutor();
@@ -76,6 +79,12 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
             }
+        }
+        if (v == copy_id_btn){
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Your ID", userID);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -152,5 +161,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         });
+        copy_id_btn = findViewById(R.id.copy_id_btn);
+        copy_id_btn.setOnClickListener(this);
     }
 }

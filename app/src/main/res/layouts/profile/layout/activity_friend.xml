@@ -84,6 +84,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="Your ID: " />
                     <Button
+                        android:id="@+id/copy_id_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Copy ID"/>

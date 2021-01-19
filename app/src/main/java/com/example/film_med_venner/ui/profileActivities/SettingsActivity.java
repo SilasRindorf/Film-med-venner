@@ -1,5 +1,8 @@
 package com.example.film_med_venner.ui.profileActivities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,13 +32,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
+    private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn, copy_id_btn;
     private EditText profile_name_edit_text, profile_phone_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
     private ImageView profile_picture;
     private FullProfileDTO profile;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
+    private TextView profile_id;
+    private Context ctx;
 
     //TODO Switches i settings?
     @Override
@@ -44,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.settings_main);
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
+        ctx = this;
         findViews();
 
         userID = Controller_User.getInstance().getCurrentUser().getID();
@@ -62,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         profile_name_edit_text.setText(profile_name, TextView.BufferType.EDITABLE);
                         profile_mail_edit_text.setText(profile_email, TextView.BufferType.EDITABLE);
                         profile_top_genre_edit_text.setText(profile_mvgPref, TextView.BufferType.EDITABLE);
+                        profile_id.setText(userID);
                     }
                 });
             });
@@ -81,8 +88,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             try {
                 Controller_User.getInstance().logOut(() -> {
                     Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
@@ -123,12 +130,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 Toast.makeText(SettingsActivity.this, "The new passwords need to be the same", Toast.LENGTH_LONG).show();
             }
-        } else if (view == change_profile_picture_btn){
+        } else if (view == change_profile_picture_btn) {
             Toast.makeText(SettingsActivity.this, "Unfortunately this has not been implemented yet.", Toast.LENGTH_LONG).show();
+        } else if (view == copy_id_btn) {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Your ID", userID);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void findViews(){
+    public void findViews() {
         // BUTTONS
         change_profile_picture_btn = findViewById(R.id.change_profile_picture);
         change_profile_picture_btn.setOnClickListener(this);
@@ -138,6 +150,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         save_changes_btn.setOnClickListener(this);
         log_out_btn = findViewById(R.id.btn_log_out);
         log_out_btn.setOnClickListener(this);
+        copy_id_btn = findViewById(R.id.copy_id_btn);
         // EDITTEXT
         profile_name_edit_text = findViewById(R.id.profile_name);
         profile_mail_edit_text = findViewById(R.id.profile_mail);
@@ -147,5 +160,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         profile_repeat_new_password_edit_text = findViewById(R.id.profile_repeat_new_password);
         // IMAGEVIEW
         profile_picture = findViewById(R.id.profile_picture);
+        // TEXTVIEW
+        profile_id = findViewById(R.id.profile_id);
+
     }
 }

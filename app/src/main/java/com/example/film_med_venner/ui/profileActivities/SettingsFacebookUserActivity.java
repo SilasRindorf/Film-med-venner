@@ -1,5 +1,8 @@
 package com.example.film_med_venner.ui.profileActivities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,14 +32,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class SettingsFacebookUserActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button change_profile_picture_btn, save_changes_btn, log_out_btn;
+    private Button change_profile_picture_btn, save_changes_btn, log_out_btn, copy_id_btn;
     private EditText profile_top_genre_edit_text;
-    private TextView profile_name_textView, profile_mail_textView;
+    private TextView profile_name_textView, profile_mail_textView, profile_id;
     private ImageView profile_picture;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
     private FullProfileDTO profile;
+    private Context ctx;
 
     //TODO Switches i settings?
     @Override
@@ -45,6 +49,8 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         setContentView(R.layout.settings_facebook_user);
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
+        ctx = this;
+
         findViews();
         userID = Controller_User.getInstance().getCurrentUser().getID();
 
@@ -62,6 +68,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                         profile_name_textView.setText(profile_name);
                         profile_mail_textView.setText(profile_email);
                         profile_top_genre_edit_text.setHint(profile_mvgPref);
+                        profile_id.setText(userID);
                     }
                 });
             });
@@ -108,6 +115,11 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
 
             }
 
+        } else if (view == copy_id_btn) {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Your ID", userID);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -119,11 +131,15 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         save_changes_btn.setOnClickListener(this);
         log_out_btn = findViewById(R.id.btn_log_out);
         log_out_btn.setOnClickListener(this);
+        copy_id_btn = findViewById(R.id.copy_id_btn);
+        copy_id_btn.setOnClickListener(this);
         // EDITTEXT
         profile_name_textView = findViewById(R.id.profile_name);
         profile_mail_textView = findViewById(R.id.profile_mail);
         profile_top_genre_edit_text = findViewById(R.id.profile_top_genre);
         // IMAGEVIEW
         profile_picture = findViewById(R.id.profile_picture);
+        // TEXTVIEW
+        profile_id = findViewById(R.id.profile_id);
     }
 }
