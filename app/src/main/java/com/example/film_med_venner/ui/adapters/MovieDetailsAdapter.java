@@ -17,7 +17,7 @@ public class MovieDetailsAdapter extends BaseAdapter {
     private Context ctx;
     private List<IReview> ratingItems;
     private TextView friend_name, review_text;
-    private ImageView profile_pic;
+    private ImageView profile_pic, star1, star2, star3, star4, star5;
 
     public MovieDetailsAdapter(Context ctx, List<IReview> ratingItems) {
         this.ctx = ctx;
@@ -54,55 +54,61 @@ public class MovieDetailsAdapter extends BaseAdapter {
         friend_name.setText(item.getUsername() + " rated: ");
         review_text.setText(item.getReview());
 
-        ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
-        ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);
-        ImageView star3 = gridView.findViewById(R.id.ImageView_star_3);
-        ImageView star4 = gridView.findViewById(R.id.ImageView_star_4);
-        ImageView star5 = gridView.findViewById(R.id.ImageView_star_5);
+        star1 = gridView.findViewById(R.id.ImageView_star_1);
+        star2 = gridView.findViewById(R.id.ImageView_star_2);
+        star3 = gridView.findViewById(R.id.ImageView_star_3);
+        star4 = gridView.findViewById(R.id.ImageView_star_4);
+        star5 = gridView.findViewById(R.id.ImageView_star_5);
 
-        if (item.getRating() == 0){
+
+
+        return gridView;
+    }
+
+
+
+    private void starfest(int rating) {
+        if (rating == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 1){
+        else if (rating == 1){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_empty_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 2){
+        else if (rating == 2){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_empty_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 3){
+        else if (rating == 3){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_empty_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 4){
+        else if (rating == 4){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_empty_star);
         }
-        else if (item.getRating() == 5){
+        else if (rating == 5){
             star1.setImageResource(R.drawable.icon_filled_star);
             star2.setImageResource(R.drawable.icon_filled_star);
             star3.setImageResource(R.drawable.icon_filled_star);
             star4.setImageResource(R.drawable.icon_filled_star);
             star5.setImageResource(R.drawable.icon_filled_star);
         }
-
-        return gridView;
     }
 }

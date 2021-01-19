@@ -28,10 +28,13 @@ import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
+import com.example.film_med_venner.ui.adapters.MovieDetailsAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.fragments.Write_review_frag;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -49,13 +52,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView star5;
     private ImageView starFriend1, starFriend2, starFriend3, starFriend4, starFriend5;
     private ImageButton addToWatch, write_review_btn;
+    private MovieDetailsAdapter movieDetailsAdapter;
 
     private Movie movie;
     private Review review;
     private int totalRating;
     private int raters;
     private int avgRating;
-    private IReview[] reviews;
+    private List<IReview> reviews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
         });
+
+        movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviews);
+        gridView.setAdapter(movieDetailsAdapter);
+        gridView.setVisibility(View.VISIBLE);
+
         try {
             Controller_Review.getInstance().getFriendsWhoReviewed(movie.getImdbID(), string -> {
                 try {
@@ -111,6 +120,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             totalRating += r.getRating();
                             raters++;
                             avgRating = totalRating / raters;
+                            movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
                                 starFestFriends(avgRating);
                             });
