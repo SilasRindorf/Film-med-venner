@@ -168,6 +168,7 @@ public class Controller_User implements IController {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
                     profile.setID(mAuh.getCurrentUser().getUid());
+                    profile.setEmail(email);
                     addUser(profile,null);
                     runnableUI.run();
                 } else {
