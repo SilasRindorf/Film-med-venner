@@ -1,11 +1,6 @@
 package com.example.film_med_venner.interfaces;
 
 public interface IProfile {
-
-    String getEmail();
-
-    String setEmail(String email);
-
     String getID();
 
     String[] getMoviesOnToWatchList();

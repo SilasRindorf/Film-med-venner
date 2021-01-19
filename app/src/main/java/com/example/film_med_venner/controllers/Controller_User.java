@@ -209,7 +209,6 @@ public class Controller_User implements IController {
                             Map<String, Object> data = new HashMap<>();
                             data.put("id", mAuh.getCurrentUser().getUid());
                             data.put("pictureURL", profilePictureURL);
-                            data.put("email", email);
                             db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
                             runnableUI.run();
                         }
