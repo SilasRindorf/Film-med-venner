@@ -42,7 +42,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private FriendAdapter friendAdapter;
     private Context ctx;
     private Intent intent;
-    private Button see_friendrequest_btn, add_friend_btn, copy_id_btn;
+    private Button see_friendrequest_btn, add_friend_btn/*, copy_id_btn*/;
     private EditText searchField;
     private LinearLayout l_layout_buttons;
     private Executor bgThread = Executors.newSingleThreadExecutor();
@@ -50,7 +50,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Bundle bundle = new Bundle();
     private List<FullProfileDTO> friendList = new ArrayList<>();
     private String userID;
-    private TextView profile_id;
+    //private TextView profile_id;
 
 
     @Override
@@ -80,12 +80,12 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         }
-        if (v == copy_id_btn){
+        /*if (v == copy_id_btn){
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Your ID", userID);
             clipboard.setPrimaryClip(clip);
             Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
     public void itemOnClick(View view) {
@@ -108,7 +108,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void findViews(){
-        profile_id = findViewById(R.id.profile_id);
+        //profile_id = findViewById(R.id.profile_id);
         gridView = findViewById(R.id.gridView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         searchField = findViewById(R.id.searchField);
@@ -121,11 +121,11 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
 
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
             userID = Controller_User.getInstance().getCurrentUser().getID();
-            profile_id.setText(userID);
+            //profile_id.setText(userID);
         } else {
             userID = intent.getStringExtra("userID");
             l_layout_buttons.getLayoutParams().height = 0;
-            profile_id.setText(userID);
+            //profile_id.setText(userID);
         }
 
 
@@ -161,7 +161,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         });
-        copy_id_btn = findViewById(R.id.copy_id_btn);
-        copy_id_btn.setOnClickListener(this);
+        /*copy_id_btn = findViewById(R.id.copy_id_btn);
+        copy_id_btn.setOnClickListener(this);*/
     }
 }
