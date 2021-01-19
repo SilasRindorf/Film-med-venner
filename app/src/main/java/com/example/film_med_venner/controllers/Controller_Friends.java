@@ -4,13 +4,11 @@ package com.example.film_med_venner.controllers;
 import android.util.Log;
 
 import com.example.film_med_venner.DAO.Profile;
-import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +48,8 @@ public class Controller_Friends implements IProfileController {
      * @throws IDatabase.DatabaseException
      */
     public void sendFriendRequest(String friendID) throws IDatabase.DatabaseException {
+        if (friendID.equals(mAuh.getCurrentUser().getUid()))
+            throw new IDatabase.DatabaseException("Can't add yourself as friend");
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("requester", selfID);
@@ -80,12 +80,15 @@ public class Controller_Friends implements IProfileController {
             db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     for (DocumentSnapshot doc : task.getResult()) {
-                        doc.getId();
-                        db.collection("users").document(doc.getId()).collection("friends").document(selfID)
-                                .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
-                                Log.d(TAG, "Friend request send to ID: " + doc.getId()))
-                                .addOnFailureListener(e ->
-                                        Log.w(TAG, "Error sending friend request", e));
+                        if (doc.getId().equals(mAuh.getCurrentUser().getUid()))
+                            return;
+                        else {
+                            db.collection("users").document(doc.getId()).collection("friends").document(selfID)
+                                    .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
+                                    Log.d(TAG, "Friend request send to ID: " + doc.getId()))
+                                    .addOnFailureListener(e ->
+                                            Log.w(TAG, "Error sending friend request", e));
+                        }
                     }
                 }
             });
@@ -103,12 +106,15 @@ public class Controller_Friends implements IProfileController {
             db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     for (DocumentSnapshot doc : task.getResult()) {
-                        doc.getId();
-                        db.collection("users").document(doc.getId()).collection("friends").document(selfID)
-                                .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
-                                Log.d(TAG, "Friend request send to ID: " + doc.getId()))
-                                .addOnFailureListener(e ->
-                                        Log.w(TAG, "Error sending friend request", e));
+                        if (doc.getId().equals(selfID))
+                            return;
+                        else {
+                            db.collection("users").document(doc.getId()).collection("friends").document(selfID)
+                                    .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
+                                    Log.d(TAG, "Friend request send to ID: " + doc.getId()))
+                                    .addOnFailureListener(e ->
+                                            Log.w(TAG, "Error sending friend request", e));
+                        }
                     }
                 }
             });
