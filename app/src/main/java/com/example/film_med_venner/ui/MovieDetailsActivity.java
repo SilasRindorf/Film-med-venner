@@ -67,6 +67,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_movie_details);
         Intent intent = getIntent();
 
+        gridView = findViewById(R.id.gridView);
+        ctx = this;
+
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
         star1 = findViewById(R.id.ImageView_star_1);
