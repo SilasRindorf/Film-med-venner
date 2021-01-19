@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -33,8 +34,7 @@ public class FriendRequestActivity extends AppCompatActivity {
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
     private Context ctx;
-    private final List<IProfile> items = new ArrayList<IProfile>();
-    private final IProfileController controller = Controller_Friends.getInstance();
+    private List<FullProfileDTO> friendList = new ArrayList<>();
 
 
     @Override
@@ -51,12 +51,11 @@ public class FriendRequestActivity extends AppCompatActivity {
         gridView = findViewById(R.id.gridView);
 
         bgThread.execute(() -> {
-            List<FullProfileDTO> friendList = new ArrayList<>();
-            uiThread.post(() -> {
-                friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
-                gridView.setAdapter(friendRequestAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            });
+
+            friendRequestAdapter = new FriendRequestAdapter(ctx, friendList);
+            gridView.setAdapter(friendRequestAdapter);
+            gridView.setVisibility(View.VISIBLE);
+
             try {
                 Controller_Friends.getInstance().getFriendRequest(userID,0, friendRequest -> {
                     friendRequestAdapter.addItem(friendRequest);
@@ -65,6 +64,32 @@ public class FriendRequestActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void onClickAccept(View view) {
+        try {
+            int position = gridView.getPositionForView(view);
+            Controller_Friends.getInstance().respondToFriendRequest(friendList.get(position).getID(), 1, () -> {
+                friendRequestAdapter.removeItem(position);
+                Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show();
+            });
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+            Toast.makeText(ctx, "Error accepting friend request", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onClickDecline(View view) {
+        try {
+            int position = gridView.getPositionForView(view);
+            Controller_Friends.getInstance().respondToFriendRequest(friendList.get(position).getID(), -1, () -> {
+                friendRequestAdapter.removeItem(position);
+                Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show();
+            });
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+            Toast.makeText(ctx, "Error declining friend request", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addFrag(int id, Fragment fragment) {

@@ -93,11 +93,9 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         bgThread.execute(() -> {
-            uiThread.post(() -> {
-                friendAdapter = new FriendAdapter(ctx, friendList);
-                gridView.setAdapter(friendAdapter);
-                gridView.setVisibility(View.VISIBLE);
-            });
+            friendAdapter = new FriendAdapter(ctx, friendList);
+            gridView.setAdapter(friendAdapter);
+            gridView.setVisibility(View.VISIBLE);
             try {
                 Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
                     friendAdapter.addItem(friends);
