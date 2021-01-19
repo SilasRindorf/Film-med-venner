@@ -66,6 +66,37 @@ public class Controller_Friends implements IProfileController {
     }
 
     /**
+     * Send a request to the database to add a friend
+     * @param email friends email string
+     * @throws IDatabase.DatabaseException
+     */
+    public void sendFriendRequestByMail(String email) throws IDatabase.DatabaseException {
+        HashMap<String, Object> user = new HashMap<>();
+        String selfID = mAuh.getCurrentUser().getUid();
+        user.put("requester", selfID);
+        user.put("status", 0);
+        try {
+            db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    for (DocumentSnapshot doc :
+                            task.getResult()) {
+                        doc.getId();
+                        db.collection("users").document(doc.getId()).collection("friends").document(selfID)
+                                .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
+                                Log.d(TAG, "Friend request send to ID: " + doc.getId()))
+                                .addOnFailureListener(e ->
+                                        Log.w(TAG, "Error sending friend request", e));
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            throw new IDatabase.DatabaseException("Error adding friend", e);
+        }
+
+    }
+
+    /**
      *
      * @param status Requester status, -1 rejected friends, 0 friend request, 1 friends
      * @param runnableFullProfileUI method to run on complete
