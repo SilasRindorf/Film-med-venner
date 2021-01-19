@@ -47,11 +47,11 @@ public class ReviewAdapter extends BaseAdapter {
         IReview item = ratingItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            gridView = inflater.inflate(R.layout.item_review, null);
+            gridView = inflater.inflate(R.layout.item_your_review, null);
         }
         TextView ratingText = gridView.findViewById(R.id.ratingtext);
         //TODO ((Review) item).getMovie() Virker ikke optimalt. Når man kører den kommer der ikke det som forventes.
-        ratingText.setText("You rated " + item.getMovieIDStr() + " " + (item.getRating() +" stars"));
+        //ratingText.setText("You rated " + item.getMovieIDStr() + " " + (item.getRating() +" stars"));
 
         ImageView star1 = gridView.findViewById(R.id.ImageView_star_1);
         ImageView star2 = gridView.findViewById(R.id.ImageView_star_2);

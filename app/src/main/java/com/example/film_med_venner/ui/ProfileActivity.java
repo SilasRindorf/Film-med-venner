@@ -56,7 +56,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent intent = getIntent();
 
-        System.out.println(intent.getStringExtra("userID"));
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
             userID = Controller_User.getInstance().getCurrentUser().getID();
         } else {
