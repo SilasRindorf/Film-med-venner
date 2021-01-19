@@ -161,10 +161,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             full = user + "no movies on " + extra + " watch list yet";
             watchList.setText(full);
         } else if (profile.getToWatchList().size() == 1) {
-            full = user + profile.getToWatchList().size() + " movie on " + extra + "watch list";
+            full = user + profile.getToWatchList().size() + " movie on " + extra + " watch list";
             watchList.setText(full);
         } else {
-            full = user + "rated " + profile.getToWatchList().size() + " movies on " + extra + "watch list";
+            full = user + profile.getToWatchList().size() + " movies on " + extra + " watch list";
             watchList.setText(full);
         }
 

@@ -48,9 +48,9 @@ public class Controller_HomeFeed implements IController_HomeFeed {
         }
     }
 
-    public void getWatchedList(RunnableWatchListUI runnableWatchListUI) throws IDatabase.DatabaseException {
+    public void getWatchedList(String userID, RunnableWatchListUI runnableWatchListUI) throws IDatabase.DatabaseException {
         try {
-            db.collection("users").document(mAuh.getCurrentUser().getUid())
+            db.collection("users").document(userID)
                     .collection("watched_list")
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -65,9 +65,9 @@ public class Controller_HomeFeed implements IController_HomeFeed {
         }
     }
 
-    public void getToWatchList(RunnableWatchListUI runnableWatchListUI) throws IDatabase.DatabaseException {
+    public void getToWatchList(String userID, RunnableWatchListUI runnableWatchListUI) throws IDatabase.DatabaseException {
         try {
-            db.collection("users").document(mAuh.getCurrentUser().getUid())
+            db.collection("users").document(userID)
                     .collection("to_watch_list")
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -75,6 +75,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                     IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
                     List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
                     runnableWatchListUI.run(watchItems.toArray(toWatchList));
+                    System.out.println(watchItems);
                 }
             });
         } catch (Exception e) {
