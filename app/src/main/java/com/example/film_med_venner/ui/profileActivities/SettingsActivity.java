@@ -32,15 +32,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn, copy_id_btn;
+    private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn /*, copy_id_btn*/;
     private EditText profile_name_edit_text, profile_phone_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
     private ImageView profile_picture;
     private FullProfileDTO profile;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
-    private TextView profile_id;
-    private Context ctx;
+    /*private TextView profile_id;
+    private Context ctx;*/
 
     //TODO Switches i settings?
     @Override
@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.settings_main);
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
-        ctx = this;
+        //ctx = this;
         findViews();
 
         userID = Controller_User.getInstance().getCurrentUser().getID();
@@ -68,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         profile_name_edit_text.setText(profile_name, TextView.BufferType.EDITABLE);
                         profile_mail_edit_text.setText(profile_email, TextView.BufferType.EDITABLE);
                         profile_top_genre_edit_text.setText(profile_mvgPref, TextView.BufferType.EDITABLE);
-                        profile_id.setText(userID);
+                        //profile_id.setText(userID);
                     }
                 });
             });
@@ -132,12 +132,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
         } else if (view == change_profile_picture_btn) {
             Toast.makeText(SettingsActivity.this, "Unfortunately this has not been implemented yet.", Toast.LENGTH_LONG).show();
-        } else if (view == copy_id_btn) {
+        } /*else if (view == copy_id_btn) {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Your ID", userID);
             clipboard.setPrimaryClip(clip);
             Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
     public void findViews() {
@@ -150,7 +150,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         save_changes_btn.setOnClickListener(this);
         log_out_btn = findViewById(R.id.btn_log_out);
         log_out_btn.setOnClickListener(this);
-        copy_id_btn = findViewById(R.id.copy_id_btn);
+        //copy_id_btn = findViewById(R.id.copy_id_btn);
         // EDITTEXT
         profile_name_edit_text = findViewById(R.id.profile_name);
         profile_mail_edit_text = findViewById(R.id.profile_mail);
@@ -161,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         // IMAGEVIEW
         profile_picture = findViewById(R.id.profile_picture);
         // TEXTVIEW
-        profile_id = findViewById(R.id.profile_id);
+        //profile_id = findViewById(R.id.profile_id);
 
     }
 }
