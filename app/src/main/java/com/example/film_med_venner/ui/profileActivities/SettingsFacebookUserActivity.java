@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
     private FullProfileDTO profile;
     private Switch switch_lists, switch_reviews;
+    private CheckBox checkBox_mark_all;
     //private Context ctx;
 
     //TODO Switches i settings?
@@ -164,6 +166,20 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                     Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
                 }
             }
+        });
+        // CHECKBOX
+        checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
+        checkBox_mark_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+                }
+            }
+
         });
     }
 }
