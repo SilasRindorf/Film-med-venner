@@ -111,7 +111,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 Toast.makeText(SettingsActivity.this, "The new passwords need to be the same", Toast.LENGTH_LONG).show();
             }
-
+        } else if (view == change_profile_picture_btn){
+            Toast.makeText(SettingsActivity.this, "Unfortunately this has not been implemented yet.", Toast.LENGTH_LONG).show();
         }
     }
 

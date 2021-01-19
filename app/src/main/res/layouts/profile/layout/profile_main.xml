@@ -53,12 +53,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profileName"
+                    android:textSize="24sp"
                     android:textColor="@color/colorTextView" />
 
                 <TextView
                     android:id="@+id/profileGenrePref"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="italic"
                     android:text="@string/profileInterests"
                     android:textColor="@color/colorTextView" />
             </LinearLayout>
