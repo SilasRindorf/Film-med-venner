@@ -60,19 +60,19 @@ public class MovieDetailsAdapter extends BaseAdapter {
 
         findViews();
 
-        bgThread.execute(() -> {
-            Controller_User.getInstance().getFullProfile(item.getUserID(), fullProfileDTO -> {
-                profile = fullProfileDTO;
-                uiThread.post(() -> {
-                    if (profile.getPictureURL() != null) {
-                        Picasso.get().load(profile.getPictureURL()).into(profile_pic);
-                        friend_name.setText(item.getUsername());
-                        review_text.setText(item.getReview());
-                        starfest(item.getRating());
-                    }
-                });
+
+        Controller_User.getInstance().getFullProfile(item.getUserID(), fullProfileDTO -> {
+            profile = fullProfileDTO;
+            uiThread.post(() -> {
+                if (profile.getPictureURL() != null) {
+                    Picasso.get().load(profile.getPictureURL()).into(profile_pic);
+                }
             });
         });
+        friend_name.setText(item.getUsername());
+        review_text.setText(item.getReview());
+        starfest(item.getRating());
+
 
         return gridView;
     }

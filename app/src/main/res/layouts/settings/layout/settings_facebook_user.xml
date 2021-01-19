@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Top genre: "
+                    android:text="Profile description: "
                     android:textColor="#DDFFFFFF"
                     android:layout_weight="1" />
 
@@ -101,14 +101,12 @@
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:hint="Write your favourite genres here..."
+                    android:hint="This could for example be your favourite genres..."
                     android:fontFamily="sans-serif-medium"
                     android:textColor="?attr/editTextColor"
                     android:textAppearance="?android:attr/textAppearanceMediumInverse"
                     android:background="?attr/editTextBackground"
-                    android:textColorHint="?attr/editTextColor"
-                    android:layout_weight="1" />
+                    android:textColorHint="?attr/editTextColor" />
             </LinearLayout>
 
             <!-- PROFILE PICTURE -->

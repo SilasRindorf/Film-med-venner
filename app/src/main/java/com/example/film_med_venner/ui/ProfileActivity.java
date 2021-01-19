@@ -73,12 +73,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             friendCount = 0;
             friendRequestCount = 0;
             try {
-                Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
+                Controller_Friends.getInstance().getFriendType(userID,1, friends -> {
                     friendCount++;
                     uiThread.post(() -> setupFriendsInfo());
                 });
                 if (isUser) {
-                    Controller_Friends.getInstance().getFriendRequest(userID, 0, friends -> {
+                    Controller_Friends.getInstance().getFriendType(userID, 0, friends -> {
                         friendRequestCount++;
                         uiThread.post(() -> setupFriendsInfo());
                     });
@@ -135,6 +135,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else if (view == l_layout_friends) {
             Intent intent = new Intent(this, FriendActivity.class);
             intent.putExtra("userID", userID);
+            intent.putExtra("friendRequests", friendRequestCount);
             startActivity(intent);
         }
 
