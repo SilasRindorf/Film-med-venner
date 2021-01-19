@@ -129,7 +129,7 @@ public class Controller_Friends implements IProfileController {
      * @param runnableFullProfileUI method to run on complete
      * @throws IDatabase.DatabaseException
      */
-    public void getFriendRequest(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
+    public void getFriendType(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(userID).collection("friends")
                     .whereEqualTo("status", status).get().addOnCompleteListener(task -> {

@@ -63,7 +63,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int raters;
     private int avgRating;
     private List<IReview> reviewList = new ArrayList<>();
-    private ScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
 
         ctx = this;
-        scrollView = findViewById(R.id.scrollView);
+
         gridView = findViewById(R.id.gridView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
@@ -130,7 +130,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             avgRating = totalRating / raters;
                             movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
-                                Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
                                 setGridViewHeight(gridView,1);
                                 //scrollView.setLayoutParams(new ConstraintLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));

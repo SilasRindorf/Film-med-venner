@@ -8,14 +8,14 @@ public class WatchItemDTO implements IWatchItem {
     private String username;
     private String movieIDStr;
     private String watchItemID;
-    private String uID;
+    private String userID;
     private Date creationDate;
 
     public WatchItemDTO(){
 
     }
     public WatchItemDTO(IWatchItem watchItem){
-        this.username = username;
+        this.userID = watchItem.getUserID();
         this.movieIDStr = watchItem.getMovieIDStr();
     }
 
@@ -25,7 +25,7 @@ public class WatchItemDTO implements IWatchItem {
 
     @Override
     public String getUserID() {
-        return uID;
+        return userID;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class WatchItemDTO implements IWatchItem {
         this.movieIDStr = movieIDStr;
     }
     public void setID(String uID) {
-        this.uID = uID;
+        this.userID = uID;
     }
 
     public String getWatchItemID() {
