@@ -67,8 +67,8 @@
 
             <ImageView
                 android:id="@+id/imageView_settings"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_weight="1"
                 android:onClick="onClickSettings"
                 app:srcCompat="@drawable/icon_settings"/>
@@ -232,7 +232,6 @@
                     android:id="@+id/textView_watchedlist_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:text="@string/watched"
                     android:textColor="@color/colorTextView" />
 
