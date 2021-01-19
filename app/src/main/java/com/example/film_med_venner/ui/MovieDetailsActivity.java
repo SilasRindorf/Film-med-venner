@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
-import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
@@ -29,7 +28,6 @@ import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
-import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.fragments.Write_review_frag;
 import com.squareup.picasso.Picasso;
@@ -38,12 +36,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    private GridView gridView;
-    private Context ctx;
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-
+    private GridView gridView;
+    private Context ctx;
     private TextView yourReview;
     private ImageView star1;
     private ImageView star2;
@@ -55,6 +52,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private Movie movie;
     private Review review;
+    private int totalRating;
+    private int raters;
     private int avgRating;
     private IReview[] reviews;
 
@@ -63,7 +62,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         Intent intent = getIntent();
-        runLoadScreen(MovieDetailsActivity.this,true);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
@@ -93,15 +91,44 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                 yourReview.setText(review.getReview());
                             }
                         });
-
                     }
+
                     @Override
                     public void run() {
-
                     }
                 });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        });
+        try {
+            Controller_Review.getInstance().getFriendsWhoReviewed(movie.getImdbID(), string -> {
+                try {
+                    Controller_Review.getInstance().getReview(string, movie.getImdbID(), new RunnableReviewUI() {
+                        @Override
+                        public void run(IReview rating) {
+                            Review r = (Review) rating;
+                            totalRating += r.getRating();
+                            raters++;
+                            avgRating = totalRating / raters;
+                            uiThread.post(() -> {
+                                starFestFriends(avgRating);
+                            });
+                        }
 
-                Controller_Review.getInstance().getFriendReviews(movie.getImdbID(),new RunnableReviewsLoadUI() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                } catch (IDatabase.DatabaseException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+        }
+
+/*             Controller_Review.getInstance().getFriendReviews(movie.getImdbID(),new RunnableReviewsLoadUI() {
                     @Override
                     public void run() {
                         runLoadScreen(MovieDetailsActivity.this,false);
@@ -135,7 +162,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             }
 
         });
-
+*/
 
         write_review_btn = findViewById(R.id.image_btn_review);
         write_review_btn.setOnClickListener(this);
@@ -158,9 +185,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         actors.setText(movie.getActors());
 
 
-
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -172,20 +198,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        if (view == write_review_btn){
+        if (view == write_review_btn) {
             Bundle bundle = new Bundle();
             bundle.putString("id", movie.getImdbID());
-            if (review != null){
-                bundle.putBoolean("status",true);
-                bundle.putInt("starReview",review.getRating());
-                bundle.putString("review",review.getReview());
+            if (review != null) {
+                bundle.putBoolean("status", true);
+                bundle.putInt("starReview", review.getRating());
+                bundle.putString("review", review.getReview());
 
             }
             Fragment review_frag = new Write_review_frag();
             review_frag.setArguments(bundle);
             addFrag(R.id.write_review_container, review_frag);
         }
-        if (view == addToWatch){
+        if (view == addToWatch) {
             try {
                 Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
                 Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
@@ -198,7 +224,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public void starFest(int starReview) {
         switch (starReview) {
-            case  1:
+            case 1:
                 star1.setImageResource(R.drawable.icon_filled_star);
                 break;
             case 2:

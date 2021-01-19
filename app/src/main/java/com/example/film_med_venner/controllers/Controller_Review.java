@@ -5,10 +5,10 @@ import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IController.IController_Review;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableStringUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,20 +23,20 @@ public class Controller_Review implements IController_Review {
     private static Controller_Review instance;
     private final FirebaseFirestore db;
     private final FirebaseAuth mAuh;
-    public static Controller_Review getInstance(){
-        if (instance == null){
+
+    private Controller_Review() {
+        db = FirebaseFirestore.getInstance();
+        mAuh = FirebaseAuth.getInstance();
+    }
+
+    public static Controller_Review getInstance() {
+        if (instance == null) {
             instance = new Controller_Review();
         }
         return instance;
     }
 
-    private Controller_Review(){
-        db = FirebaseFirestore.getInstance();
-        mAuh = FirebaseAuth.getInstance();
-    }
-
     //----------------------------------REVIEWS----------------------------------
-
 
     public void updateReviews(IReview rating) throws IDatabase.DatabaseException {
         try {
@@ -127,7 +127,7 @@ public class Controller_Review implements IController_Review {
                                 crReview.setReviewID(doc.getId());
                                 runnableReviewUI.run(crReview);
                             }
-                        } else{
+                        } else {
                             runnableReviewUI.run();
                         }
                     });
@@ -137,9 +137,8 @@ public class Controller_Review implements IController_Review {
         }
     }
 
-    public void getFriendReviews(RunnableReviewsLoadUI runnableReviewsLoadUI) throws IDatabase.DatabaseException {
+    public void getFriendsWhoReviewed(String movieIDStr, RunnableStringUI runnableStringUI) throws IDatabase.DatabaseException {
         try {
-
             db.collection("users")
                     .document(mAuh.getCurrentUser().getUid())
                     .collection("friends")
@@ -147,21 +146,11 @@ public class Controller_Review implements IController_Review {
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
-                        db.collection("users").document(
-                                doc.getId()).collection("reviews").orderBy("creationDate")
-                                .get().addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                //Could be split to multiple lines for easier readability. But I'm lazy
-                                runnableReviewsLoadUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
-                            } else{
-                                runnableReviewsLoadUI.run();
-                            }
-                        });
+                        runnableStringUI.run((doc.getId()));
                     }
-                } else {
-                    runnableReviewsLoadUI.run();
                 }
             });
+
 
         } catch (Exception e) {
             throw new IDatabase.DatabaseException("Error getting friend reviews", e);
@@ -177,13 +166,16 @@ public class Controller_Review implements IController_Review {
                     .whereEqualTo("status", 1)
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    //For each friend
                     for (DocumentSnapshot doc : task.getResult()) {
+                        //That has reviewed movieIDStr
                         db.collection("users").document(
-                                doc.getId()).collection("reviews").whereEqualTo("movieIDStr",movieIDStr).orderBy("creationDate")
+                                doc.getId()).collection("reviews").whereEqualTo("movieIDStr", movieIDStr).orderBy("creationDate")
                                 .get().addOnCompleteListener(task1 -> {
+                            //If we get
                             if (task1.isSuccessful()) {
-                                //Could be split to multiple lines for easier readability. But I'm lazy
-                                runnableReviewsLoadUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
+                                ReviewDTO reviewDTO = task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()])[0];
+                                //ADD TO LIST
                             } else {
                                 runnableReviewsLoadUI.run();
                             }
@@ -200,16 +192,17 @@ public class Controller_Review implements IController_Review {
         }
     }
 
-    public IReview reviewDTOtoIReview(ReviewDTO reviewDTO){
+    public IReview reviewDTOtoIReview(ReviewDTO reviewDTO) {
         return new Review(reviewDTO.getRating(),
-                reviewDTO.getUsername(),reviewDTO.getMovieIDStr(),
+                reviewDTO.getUsername(), reviewDTO.getMovieIDStr(),
                 reviewDTO.getReview(), reviewDTO.getUserID());
     }
-    public IReview[] reviewDTOtoIReview(ReviewDTO[] reviewDTOs){
+
+    public IReview[] reviewDTOtoIReview(ReviewDTO[] reviewDTOs) {
         IReview[] reviews = new Review[reviewDTOs.length];
         for (int i = 0; i < reviewDTOs.length; i++) {
-            reviews[i] =  new Review(reviewDTOs[i].getRating(),
-                    reviewDTOs[i].getUsername(),reviewDTOs[i].getMovieIDStr(),
+            reviews[i] = new Review(reviewDTOs[i].getRating(),
+                    reviewDTOs[i].getUsername(), reviewDTOs[i].getMovieIDStr(),
                     reviewDTOs[i].getReview(), reviewDTOs[i].getUserID());
         }
         return reviews;
