@@ -5,6 +5,7 @@ import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IController.IController_Review;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
@@ -126,9 +127,12 @@ public class Controller_Review implements IController_Review {
                                 crReview.setReviewID(doc.getId());
                                 runnableReviewUI.run(crReview);
                             }
+                        } else{
+                            runnableReviewUI.run();
                         }
                     });
         } catch (Exception e) {
+            runnableReviewUI.run();
             throw new IDatabase.DatabaseException("Error getting reviews", e);
         }
     }
@@ -149,14 +153,49 @@ public class Controller_Review implements IController_Review {
                             if (task1.isSuccessful()) {
                                 //Could be split to multiple lines for easier readability. But I'm lazy
                                 runnableReviewsLoadUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
+                            } else{
+                                runnableReviewsLoadUI.run();
                             }
                         });
                     }
+                } else {
+                    runnableReviewsLoadUI.run();
                 }
-                runnableReviewsLoadUI.run();
             });
 
         } catch (Exception e) {
+            throw new IDatabase.DatabaseException("Error getting friend reviews", e);
+        }
+    }
+
+    public void getFriendReviews(String movieIDStr, RunnableReviewsLoadUI runnableReviewsLoadUI) throws IDatabase.DatabaseException {
+        try {
+
+            db.collection("users")
+                    .document(mAuh.getCurrentUser().getUid())
+                    .collection("friends")
+                    .whereEqualTo("status", 1)
+                    .get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        db.collection("users").document(
+                                doc.getId()).collection("reviews").whereEqualTo("movieIDStr",movieIDStr).orderBy("creationDate")
+                                .get().addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                //Could be split to multiple lines for easier readability. But I'm lazy
+                                runnableReviewsLoadUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
+                            } else {
+                                runnableReviewsLoadUI.run();
+                            }
+                        });
+                    }
+                } else {
+                    runnableReviewsLoadUI.run();
+                }
+            });
+
+        } catch (Exception e) {
+            runnableReviewsLoadUI.run();
             throw new IDatabase.DatabaseException("Error getting friend reviews", e);
         }
     }

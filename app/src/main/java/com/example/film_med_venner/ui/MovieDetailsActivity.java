@@ -28,6 +28,7 @@ import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.fragments.Write_review_frag;
@@ -53,7 +54,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageButton addToWatch, write_review_btn;
 
     private Movie movie;
-    private Review rating;
+    private Review review;
     private int avgRating;
     private IReview[] reviews;
 
@@ -62,7 +63,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         Intent intent = getIntent();
-        runLoadScreen(true);
+        runLoadScreen(MovieDetailsActivity.this,true);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
@@ -80,24 +81,30 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         bgThread.execute(() -> {
 
             try {
-                Controller_Review.getInstance().getReview(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
-                    rating = (Review) rating1;
-                    Log.e("uID: ", Controller_User.getInstance().getCurrentUser().getID());
-                    Log.e("movID: ", movie.getImdbID());
-                    uiThread.post(() -> {
-                        if (rating != null) {
-                            starFest(rating.getRating());
-                            yourReview.setText(rating.getReview());
-                        }
+                Controller_Review.getInstance().getReview(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID(), new RunnableReviewUI() {
+                    @Override
+                    public void run(IReview rating) {
+                        review = (Review) rating;
+                        Log.e("uID: ", Controller_User.getInstance().getCurrentUser().getID());
+                        Log.e("movID: ", movie.getImdbID());
+                        uiThread.post(() -> {
+                            if (review != null) {
+                                starFest(review.getRating());
+                                yourReview.setText(review.getReview());
+                            }
+                        });
 
-                    });
-                    runLoadScreen(false);
-                });
-
-                Controller_Review.getInstance().getFriendReviews(new RunnableReviewsLoadUI() {
+                    }
                     @Override
                     public void run() {
-                        runLoadScreen(false);
+
+                    }
+                });
+
+                Controller_Review.getInstance().getFriendReviews(movie.getImdbID(),new RunnableReviewsLoadUI() {
+                    @Override
+                    public void run() {
+                        runLoadScreen(MovieDetailsActivity.this,false);
                     }
 
                     @Override
@@ -108,6 +115,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             temp += review.getRating();
                         }
                         if (reviews.length != 0){
+
                             temp = temp / reviews.length;
                         }
 
@@ -118,7 +126,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             }
 
                         });
-                        runLoadScreen(false);
+                        runLoadScreen(MovieDetailsActivity.this,false);
+
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
@@ -166,10 +175,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         if (view == write_review_btn){
             Bundle bundle = new Bundle();
             bundle.putString("id", movie.getImdbID());
-            if (rating != null){
+            if (review != null){
                 bundle.putBoolean("status",true);
-                bundle.putInt("starReview",rating.getRating());
-                bundle.putString("review",rating.getReview());
+                bundle.putInt("starReview",review.getRating());
+                bundle.putString("review",review.getReview());
 
             }
             Fragment review_frag = new Write_review_frag();
@@ -247,8 +256,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void runLoadScreen(boolean keep) {
-        Intent ld = new Intent(MovieDetailsActivity.this, LoadingScreen.class);
+    private void runLoadScreen(Context ctx, boolean keep) {
+        Intent ld = new Intent(ctx, LoadingScreen.class);
         ld.putExtra("finished", keep);
         ld.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         ld.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
