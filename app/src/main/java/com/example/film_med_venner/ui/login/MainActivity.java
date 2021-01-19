@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         auth = Controller_User.getInstance();
         // Force logout in case of error
         /*try {
-            auth.logOut(() ->{});
+            auth.logOut(() -> {
+            });
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
         }*/
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         Button login_using_mail_btn = findViewById(R.id.btn_login_using_mail);
         TextView forget_password_textView = findViewById(R.id.textview_forgot_password);
 
+        // LOGIN
         login_using_mail_btn.setOnClickListener(view -> {
             try {
                 auth.logIn(username_input_editText.getText().toString(), password_input_editText.getText().toString(), () -> {
@@ -97,20 +99,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        login_using_mail_btn = findViewById(R.id.btn_signup_using_mail);
-        login_using_mail_btn.setOnClickListener(v -> {
+        // SIGNUP
+        Button sign_up_using_mail_btn = findViewById(R.id.btn_signup_using_mail);
+        sign_up_using_mail_btn.setOnClickListener(v -> {
+            setContentView(R.layout.signup_using_mail);
             Intent intent = new Intent(MainActivity.this, SignUpActivityWithMail.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
 
         });
 
+        // FORGOT PASSWORD
         forget_password_textView.setOnClickListener(view -> {
+            setContentView(R.layout.activity_forgotpassword);
             Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
         });
 
+
+        // FACEBOOK
         callbackManager = CallbackManager.Factory.create();
         LoginButton continue_using_fb_btn = findViewById(R.id.btn_signup_using_facebook);
         continue_using_fb_btn.setPermissions(Arrays.asList("public_profile", "email"));

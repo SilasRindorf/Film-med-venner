@@ -94,34 +94,7 @@
                     android:textColor="#DDFFFFFF"
                     android:textColorHint="#B1B1B1"/>
             </LinearLayout>
-            <!-- ID -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_gravity="fill_horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="ID: "
-                    android:textColor="#DDFFFFFF"/>
-                <TextView
-                    android:id="@+id/profile_id"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="Error in getting ID"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="#DDFFFFFF"/>
-            </LinearLayout>
-            <Button
-                android:id="@+id/copy_id_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Copy ID"/>
+
             <!-- PROFILE PICTURE -->
             <LinearLayout
                 android:layout_width="match_parent"

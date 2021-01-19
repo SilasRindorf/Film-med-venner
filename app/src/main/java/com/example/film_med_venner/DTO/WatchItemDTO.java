@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class WatchItemDTO implements IWatchItem {
     private String username;
-    private String movieID;
+    private String movieIDStr;
     private String watchItemID;
     private String uID;
     private Date creationDate;
@@ -16,7 +16,7 @@ public class WatchItemDTO implements IWatchItem {
     }
     public WatchItemDTO(IWatchItem watchItem){
         this.username = username;
-        this.movieID = watchItem.getMovieIDStr();
+        this.movieIDStr = watchItem.getMovieIDStr();
     }
 
     public String getUsername() {
@@ -30,15 +30,15 @@ public class WatchItemDTO implements IWatchItem {
 
     @Override
     public String getMovieIDStr() {
-        return movieID;
+        return movieIDStr;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setMovieID(String movieID) {
-        this.movieID = movieID;
+    public void setMovieIDStr(String movieIDStr) {
+        this.movieIDStr = movieIDStr;
     }
     public void setID(String uID) {
         this.uID = uID;
