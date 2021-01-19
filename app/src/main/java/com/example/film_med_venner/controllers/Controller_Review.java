@@ -115,7 +115,7 @@ public class Controller_Review implements IController_Review {
     public void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(userID)
-                    .collection("reviews").orderBy("creationDate")
+                    .collection("reviews")
                     .whereEqualTo("movieIDStr", movieID)
                     .get()
                     .addOnCompleteListener(task -> {

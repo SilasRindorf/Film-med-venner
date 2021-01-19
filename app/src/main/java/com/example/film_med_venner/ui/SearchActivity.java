@@ -17,8 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
-import com.example.film_med_venner.controllers.Controller_Movie;
-import com.example.film_med_venner.controllers.Controller_MovieDetails;
+
 import com.example.film_med_venner.ui.adapters.SearchAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.controllers.Controller_Search;
@@ -43,12 +42,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         search = findViewById(R.id.searchField);
         search.setOnKeyListener((view, keyCode, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_ENTER:
-                        setupGridView();
-                        return true;
-                    default:
-                        break;
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    setupGridView();
+                    return true;
                 }
             }
             return false;
@@ -75,6 +71,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         int position = gridView.getPositionForView(view);
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra("Id", items.get(position).getImdbID());
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

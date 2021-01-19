@@ -43,7 +43,8 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
                     @Override
                     public void run() {
                         Intent intent = new Intent(SignUpActivityWithMail.this, HomeActivity.class);
-                        startActivity(intent);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
                     }
 
                     @Override
@@ -86,6 +87,7 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener{
 
     public void switchActivity(Class activity) {
         Intent intent = new Intent(this, activity);
-        startActivity(intent);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
     }
 }

@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
         //Comment out to not skip log in screen
         if (Controller_User.getInstance().getCurrentUser() != null || Controller_User.getInstance().isFacebookUserLoginValid()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         }
 
 
@@ -88,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 auth.logIn(username_input_editText.getText().toString(), password_input_editText.getText().toString(), () -> {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
                 Toast.makeText(MainActivity.this, "Prøv igen!", Toast.LENGTH_LONG).show();
@@ -98,13 +100,15 @@ public class MainActivity extends AppCompatActivity {
         login_using_mail_btn = findViewById(R.id.btn_signup_using_mail);
         login_using_mail_btn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignUpActivityWithMail.class);
-            startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
 
         });
 
         forget_password_textView.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
         });
 
 
@@ -137,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                            startActivity(intent);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
                                         }
 
                                         @Override

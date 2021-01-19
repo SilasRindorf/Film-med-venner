@@ -69,7 +69,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             try {
                 Controller_User.getInstance().logOut(() -> {
                     Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
-                    startActivity(intent);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
                 e.printStackTrace();
