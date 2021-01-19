@@ -1,30 +1,32 @@
 package com.example.film_med_venner.DTO;
 
+import com.example.film_med_venner.interfaces.IWatchItem;
+
 import java.util.List;
 
 public class FullProfileDTO {
     private List<ProfileDTO> friends;
     private List<ReviewDTO> reviews;
-    private List<WatchItemDTO> toWatchList;
-    private List<WatchItemDTO> watchedList;
+    private List<IWatchItem> toWatchList;
+    private List<IWatchItem> watchedList;
     private String mvGPrefs;
     private String pictureURL;
     private String ID;
     private String name;
 
-    public List<WatchItemDTO> getToWatchList() {
+    public List<IWatchItem> getToWatchList() {
         return toWatchList;
     }
 
-    public void setToWatchList(List<WatchItemDTO> toWatchList) {
+    public void setToWatchList(List<IWatchItem> toWatchList) {
         this.toWatchList = toWatchList;
     }
 
-    public List<WatchItemDTO> getWatchedList() {
+    public List<IWatchItem> getWatchedList() {
         return watchedList;
     }
 
-    public void setWatchedList(List<WatchItemDTO> watchedList) {
+    public void setWatchedList(List<IWatchItem> watchedList) {
         this.watchedList = watchedList;
     }
 
