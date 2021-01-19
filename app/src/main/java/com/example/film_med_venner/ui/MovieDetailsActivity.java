@@ -7,19 +7,15 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -137,9 +133,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                 Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
                                 setGridViewHeight(gridView,1);
-                                scrollView.setLayoutParams(new ConstraintLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+                                //scrollView.setLayoutParams(new ConstraintLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
                             });
                         }
+
                         @Override
                         public void run() {
                         }
@@ -148,7 +145,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                     e.printStackTrace();
                 }
             });
-
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
         }
@@ -186,7 +182,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
-    public static void setGridViewHeight(GridView gridView, int columns) {
+    private void setGridViewHeight(GridView gridView, int columns) {
         ListAdapter adapter = gridView.getAdapter();
         int count = adapter.getCount();
         int row = count / columns;
