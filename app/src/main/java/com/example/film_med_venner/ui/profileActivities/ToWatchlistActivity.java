@@ -58,7 +58,6 @@ public class ToWatchlistActivity extends AppCompatActivity {
             userID = intent.getStringExtra("userID");
         }
 
-        //TODO ToWatchListActivity not working
         bgThread.execute(() -> {
             try {
                 Controller_HomeFeed.getInstance().getToWatchList(userID, watchList -> {

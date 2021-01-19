@@ -61,7 +61,6 @@ public class ReviewAdapter extends BaseAdapter {
         movieTitle.setText(movie.getTitle());
         reviewText.setText(item.getReview());
 
-        System.out.println("Rating er nu: "+item.getRating());
         if (item.getRating() == 0){
             star1.setImageResource(R.drawable.icon_empty_star);
             star2.setImageResource(R.drawable.icon_empty_star);
