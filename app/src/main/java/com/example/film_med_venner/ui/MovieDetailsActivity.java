@@ -53,13 +53,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView starFriend1, starFriend2, starFriend3, starFriend4, starFriend5;
     private ImageButton addToWatch, write_review_btn;
     private MovieDetailsAdapter movieDetailsAdapter;
-
-    private Movie movie;
+    private final List<IReview> reviewList = new ArrayList<>();
     private Review review;
     private int totalRating;
     private int raters;
     private int avgRating;
-    private List<IReview> reviewList = new ArrayList<>();
+    //private UwU for Silas
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
