@@ -10,12 +10,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
@@ -45,6 +47,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Bundle bundle = new Bundle();
     private List<FullProfileDTO> friendList = new ArrayList<>();
     private String userID;
+    private TextView profile_id;
 
 
     @Override
@@ -55,55 +58,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
 
-        gridView = findViewById(R.id.gridView);
-        see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
-        searchField = findViewById(R.id.searchField);
-        add_friend_btn = findViewById(R.id.add_friend_btn);
-        l_layout_buttons = findViewById(R.id.layout_buttons);
-
-        ctx = this;
-
-        intent = getIntent();
-
-        if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
-            userID = Controller_User.getInstance().getCurrentUser().getID();
-        } else {
-            userID = intent.getStringExtra("userID");
-            l_layout_buttons.getLayoutParams().height = 0;
-        }
-
-        see_friendrequest_btn.setOnClickListener(this);
-        add_friend_btn.setOnClickListener(this);
-
-        searchField.setOnKeyListener((view, keyCode, keyEvent) -> {
-            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_ENTER:
-                        try {
-                            AddFriend();
-                        } catch (IDatabase.DatabaseException e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    default:
-                        break;
-                }
-            }
-            return false;
-        });
-
-        bgThread.execute(() -> {
-            friendAdapter = new FriendAdapter(ctx, friendList);
-            gridView.setAdapter(friendAdapter);
-            gridView.setVisibility(View.VISIBLE);
-            try {
-                Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
-                    friendAdapter.addItem(friends);
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-            }
-        });
+        findViews();
     }
 
 
@@ -141,5 +96,61 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         Controller_Friends.getInstance().sendFriendRequest(searchField.getText().toString());
         searchField.setText("");
         Utility.hideKeyboard(FriendActivity.this);
+    }
+
+    private void findViews(){
+        profile_id = findViewById(R.id.profile_id);
+        gridView = findViewById(R.id.gridView);
+        see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
+        searchField = findViewById(R.id.searchField);
+        add_friend_btn = findViewById(R.id.add_friend_btn);
+        l_layout_buttons = findViewById(R.id.layout_buttons);
+
+        ctx = this;
+
+        intent = getIntent();
+
+        if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
+            userID = Controller_User.getInstance().getCurrentUser().getID();
+            profile_id.setText(userID);
+        } else {
+            userID = intent.getStringExtra("userID");
+            l_layout_buttons.getLayoutParams().height = 0;
+            profile_id.setText(userID);
+        }
+
+
+        see_friendrequest_btn.setOnClickListener(this);
+        add_friend_btn.setOnClickListener(this);
+
+        searchField.setOnKeyListener((view, keyCode, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_ENTER:
+                        try {
+                            AddFriend();
+                        } catch (IDatabase.DatabaseException e) {
+                            e.printStackTrace();
+                        }
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
+
+        bgThread.execute(() -> {
+            friendAdapter = new FriendAdapter(ctx, friendList);
+            gridView.setAdapter(friendAdapter);
+            gridView.setVisibility(View.VISIBLE);
+            try {
+                Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
+                    friendAdapter.addItem(friends);
+                });
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -3,9 +3,6 @@ package com.example.film_med_venner.controllers;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
@@ -14,7 +11,6 @@ import com.example.film_med_venner.DTO.WatchItemDTO;
 import com.example.film_med_venner.interfaces.IController.IController;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IProfile;
-import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.IWatchItem;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
@@ -34,12 +30,9 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
@@ -170,7 +163,6 @@ public class Controller_User implements IController {
                     mAuh.getCurrentUser().sendEmailVerification();
                     Log.d(TAG, "Create user with email: Success ");
                     profile.setID(mAuh.getCurrentUser().getUid());
-
                     addUser(profile);
                     runnableUI.run();
                 } else {
@@ -217,6 +209,7 @@ public class Controller_User implements IController {
                             Map<String, Object> data = new HashMap<>();
                             data.put("id", mAuh.getCurrentUser().getUid());
                             data.put("pictureURL", profilePictureURL);
+                            data.put("email", email);
                             db.collection("users").document(mAuh.getUid()).set(data, SetOptions.merge());
                             runnableUI.run();
                         }
@@ -254,13 +247,13 @@ public class Controller_User implements IController {
     public void updateUserPassword(String passwordOld, String passwordNew, RunnableErrorUI runnableUI) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-// Get auth credentials from the user for re-authentication. The example below shows
-// email and password credentials but there are multiple possible providers,
-// such as GoogleAuthProvider or FacebookAuthProvider.
+    // Get auth credentials from the user for re-authentication. The example below shows
+    // email and password credentials but there are multiple possible providers,
+    // such as GoogleAuthProvider or FacebookAuthProvider.
         AuthCredential credential = EmailAuthProvider
                 .getCredential(user.getEmail(), passwordOld);
 
-// Prompt the user to re-provide their sign-in credentials
+    // Prompt the user to re-provide their sign-in credentials
         user.reauthenticate(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -284,62 +277,32 @@ public class Controller_User implements IController {
         getFullProfile(mAuh.getCurrentUser().getUid(), runnableFullProfileUI);
     }
 
-    public void getFullProfile2(String uID, RunnableFullProfileUI runnableFullProfileUI) {
-        try {
-            db.collection("users").document(uID).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    FullProfileDTO fullProfileDTO = task.getResult().toObject(FullProfileDTO.class);
-                    //No  need to be in a thread
-                    Thread newThread = new Thread(() -> {
-                        db.collection("users")
-                                .document(uID).collection("friends")
-                                .get().addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                fullProfileDTO.setFriends(task1.getResult().toObjects(ProfileDTO.class));
-                                db.collection("users")
-                                        .document(uID).collection("reviews")
-                                        .get().addOnCompleteListener(task2 -> {
-                                    if (task2.isSuccessful()) {
-                                        fullProfileDTO.setReviews(task2.getResult().toObjects(ReviewDTO.class));
-                                        runnableFullProfileUI.run(fullProfileDTO);
-                                    }
-                                });
-                            }
-                        });
-                    });
-                    newThread.start();
-                }
-            });
-        } catch (Exception ignored) {
-        }
-    }
-
     public void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI) {
         try {
             db.runTransaction((Transaction.Function<Void>) transaction -> {
-                boolean[] checks = {false,false,false,false};
+                boolean[] checks = {false, false, false, false};
                 DocumentReference documentReference = db.collection("users").document(uID);
                 FullProfileDTO fullProfileDTO = transaction.get(documentReference).toObject(FullProfileDTO.class);
 
-               db.collection("users").document(uID).collection("friends").get().addOnCompleteListener(task -> {
-                   if (task.isSuccessful()){
-                       List<ProfileDTO> friends = new ArrayList<>();
-                       for (DocumentSnapshot doc : task.getResult()) {
-                           friends.add(doc.toObject(ProfileDTO.class));
-                       }
-                       try {
-                           checks[0] = true;
-                           fullProfileDTO.setFriends(friends);
-                           check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
-                       } catch (IDatabase.DatabaseException e) {
-                           Log.e("FullProfile",e.getMessage());
-                       }
-                   }
-               });
+                db.collection("users").document(uID).collection("friends").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<ProfileDTO> friends = new ArrayList<>();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            friends.add(doc.toObject(ProfileDTO.class));
+                        }
+                        try {
+                            checks[0] = true;
+                            fullProfileDTO.setFriends(friends);
+                            check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
+                        } catch (IDatabase.DatabaseException e) {
+                            Log.e("FullProfile", e.getMessage());
+                        }
+                    }
+                });
 
 
                 db.collection("users").document(uID).collection("reviews").get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         List<ReviewDTO> reviews = new ArrayList<>();
                         for (DocumentSnapshot doc : task.getResult()) {
                             reviews.add(doc.toObject(ReviewDTO.class));
@@ -347,16 +310,16 @@ public class Controller_User implements IController {
                         try {
                             checks[1] = true;
                             fullProfileDTO.setReviews(reviews);
-                            check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                            check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException e) {
-                            Log.e("FullProfile",e.getMessage());
+                            Log.e("FullProfile", e.getMessage());
                         }
                     }
                 });
 
 
                 db.collection("users").document(uID).collection("watched_list").get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         List<IWatchItem> watched_list = new ArrayList<>();
                         for (DocumentSnapshot doc : task.getResult()) {
                             watched_list.add(doc.toObject(WatchItemDTO.class));
@@ -364,16 +327,16 @@ public class Controller_User implements IController {
                         try {
                             checks[2] = true;
                             fullProfileDTO.setWatchedList(watched_list);
-                            check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                            check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException e) {
-                            Log.e("FullProfile",e.getMessage());
+                            Log.e("FullProfile", e.getMessage());
                         }
                     }
                 });
 
 
                 db.collection("users").document(uID).collection("to_watch_list").get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         List<IWatchItem> to_watch_list = new ArrayList<>();
                         for (DocumentSnapshot doc : task.getResult()) {
                             to_watch_list.add(doc.toObject(WatchItemDTO.class));
@@ -381,9 +344,9 @@ public class Controller_User implements IController {
                         try {
                             checks[3] = true;
                             fullProfileDTO.setToWatchList(to_watch_list);
-                            check(checks,() -> runnableFullProfileUI.run(fullProfileDTO));
+                            check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException e) {
-                            Log.e("FullProfile",e.getMessage());
+                            Log.e("FullProfile", e.getMessage());
                         }
                     }
                 });
@@ -392,12 +355,12 @@ public class Controller_User implements IController {
         } catch (Exception ignored) {
         }
     }
-    
+
     private void check(boolean[] checks, RunnableUI runnableUI) throws IDatabase.DatabaseException {
         boolean succeeded = true;
         for (boolean check :
                 checks) {
-            if (!check){
+            if (!check) {
                 succeeded = false;
             }
         }
