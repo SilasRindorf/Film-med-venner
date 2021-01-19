@@ -6,6 +6,7 @@ import com.example.film_med_venner.interfaces.IController.IController_Review;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableReviewsUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -132,13 +133,13 @@ public class Controller_Review implements IController_Review {
         }
     }
 
-    public void getFriendReviews(RunnableReviewsUI runnableReviewsUI) throws IDatabase.DatabaseException {
+    public void getFriendReviews(RunnableReviewsLoadUI runnableReviewsLoadUI) throws IDatabase.DatabaseException {
         try {
 
             db.collection("users")
                     .document(mAuh.getCurrentUser().getUid())
                     .collection("friends")
-                    .whereEqualTo("status", true)
+                    .whereEqualTo("status", 1)
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
@@ -147,11 +148,12 @@ public class Controller_Review implements IController_Review {
                                 .get().addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 //Could be split to multiple lines for easier readability. But I'm lazy
-                                runnableReviewsUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
+                                runnableReviewsLoadUI.run(task1.getResult().toObjects(ReviewDTO.class).toArray(new ReviewDTO[task1.getResult().size()]));
                             }
                         });
                     }
                 }
+                runnableReviewsLoadUI.run();
             });
 
         } catch (Exception e) {
