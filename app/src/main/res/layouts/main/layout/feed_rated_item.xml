@@ -27,6 +27,15 @@
             android:onClick="onClickReview" >
 
             <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Title"
+                android:textColor="@color/colorTextView"
+                android:textStyle="bold" />
+            <TextView
                 android:id="@+id/profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -36,15 +45,6 @@
                 android:text="@string/sampletext_this_person_reviewed_this_movie"
                 android:textColor="@color/colorTextView"
                 android:textStyle="italic" />
-
-            <TextView
-                android:id="@+id/movie_title"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-
-                android:text="Title"
-                android:textColor="@color/colorTextView"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_review"
