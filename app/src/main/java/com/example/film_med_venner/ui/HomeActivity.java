@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Context ctx;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private Map<Date, IReview> map = new TreeMap<>();
+    private TreeMap<Date, IReview> map = new TreeMap<>();
 
 
     @Override
@@ -56,9 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.e("Tagie",  "I here");
 
-        homeAdapter = new HomeAdapter(ctx, map);
-        listView.setAdapter(homeAdapter);
-        listView.setVisibility(View.VISIBLE);
+
 
         Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), new RunnableFullProfileUI() {
             @Override
@@ -75,6 +73,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
                         for (IReview review : ratings) {
                             map.put(review.getCreationDate(), review);
+                            homeAdapter = new HomeAdapter(ctx, map, review.getCreationDate());
+                            listView.setAdapter(homeAdapter);
+                            listView.setVisibility(View.VISIBLE);
                             Log.e("Main menu", review.getCreationDate() + "");
                         }
 

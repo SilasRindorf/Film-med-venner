@@ -9,17 +9,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Movie;
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.interfaces.IReview;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class HomeAdapter extends BaseAdapter {
     private Context ctx;
-    private Map<Date, IReview> homeFeedItems;
+    private TreeMap<Date, IReview> homeFeedItems;
     private View listView;
     private TextView profileName, review;
     private ImageView moviePoster, star1, star2, star3, star4, star5;
@@ -27,7 +32,7 @@ public class HomeAdapter extends BaseAdapter {
 
 
 
-    public HomeAdapter(Context ctx, Map<Date, IReview> items) {
+    public HomeAdapter(Context ctx, TreeMap<Date, IReview> items, Date date) {
         this.ctx = ctx;
         this.homeFeedItems = items;
     }
@@ -52,7 +57,13 @@ public class HomeAdapter extends BaseAdapter {
 
         listView = convertView;
 
-        IReview item = homeFeedItems.get(position);
+        Collection c = homeFeedItems.values();
+
+        Review[] reviews = new Review[c.size()];
+
+        c.toArray(reviews);
+
+        IReview item = reviews[position];
 
         if (listView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,6 +83,17 @@ public class HomeAdapter extends BaseAdapter {
     public void addItem(IReview review) {
         homeFeedItems.put(review.getCreationDate(), review);
         this.notifyDataSetChanged();
+    }
+
+    private void iterateMap() {
+        Set set = homeFeedItems.entrySet();
+        Iterator i = set.iterator();
+        while (i.hasNext()) {
+            Map.Entry item = (Map.Entry) i.next();
+            item.getKey();
+        }
+
+
     }
 
 
