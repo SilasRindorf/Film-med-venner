@@ -40,7 +40,7 @@ public class Controller_Review implements IController_Review {
 
     //----------------------------------REVIEWS----------------------------------
 
-    public void updateReviews(IReview rating) throws IDatabase.DatabaseException {
+    public void updateReview(IReview rating) throws IDatabase.DatabaseException {
         try {
             db.collection("users")
                     .document(rating.getUserID()).collection("reviews")
@@ -58,9 +58,8 @@ public class Controller_Review implements IController_Review {
     public void createReview(IReview rating) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(rating.getUserID())
-                    .collection("reviews")
-                    .add(new ReviewDTO(rating, new Date())).addOnCompleteListener(task -> {
-                rating.setReviewID(task.getResult().getId());
+                    .collection("reviews").document(rating.getMovieIDStr())
+                    .set(new ReviewDTO(rating, new Date())).addOnCompleteListener(task -> {
             });
         } catch (Exception e) {
             throw new IDatabase.DatabaseException("Error creating review", e);

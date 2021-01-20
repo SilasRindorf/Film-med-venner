@@ -1,6 +1,5 @@
 package com.example.film_med_venner.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,19 +38,14 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class MovieDetailsActivity extends AppCompatActivity  {
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
     private final List<IReview> reviewList = new ArrayList<>();
     private ListView gridView;
-    private Context ctx;
     private TextView yourReview;
-    private ImageView starFriend1, starFriend2, starFriend3, starFriend4, starFriend5;
-    private ImageButton addToWatch, write_review_btn;
     private MovieDetailsAdapter movieDetailsAdapter;
-    private Button showReviews_btn, leaveReviews_btn;
-    //private LinearLayout friends_reviews_container;
     private Movie movie;
     private Review review;
     private int totalRating;
@@ -68,8 +62,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
         ImageView[] stars = {findViewById(R.id.ImageView_star_1), findViewById(R.id.ImageView_star_2), findViewById(R.id.ImageView_star_3), findViewById(R.id.ImageView_star_4), findViewById(R.id.ImageView_star_5)};
         ImageView[] friendStars = {findViewById(R.id.ImageView_friend_star_1),findViewById(R.id.ImageView_friend_star_2),findViewById(R.id.ImageView_friend_star_3),findViewById(R.id.ImageView_friend_star_4),findViewById(R.id.ImageView_friend_star_5)};
-        ctx = this;
-        movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
+        movieDetailsAdapter = new MovieDetailsAdapter(this, reviewList);
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         findViews();
 
@@ -104,7 +97,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         @Override
                         public void run(IReview rating) {
                             Review r = (Review) rating;
-                            System.out.println("FUCKINGLORTEREVIEW HVEM ER DU" + r);
                             totalRating += r.getRating();
                             raters++;
                             avgRating = totalRating / raters;
@@ -137,45 +129,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == write_review_btn) {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", movie.getImdbID());
-            if (review != null) {
-                bundle.putBoolean("status", true);
-                bundle.putInt("starReview", review.getRating());
-                bundle.putString("review", review.getReview());
 
-            }
-            Fragment review_frag = new Write_review_frag();
-            review_frag.setArguments(bundle);
-            addFrag(R.id.write_review_container, review_frag);
-        } else if (view == addToWatch) {
-            try {
-                Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
-                Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-                Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
-            }
-        } else if (view == showReviews_btn) {
-            if (adapterStatus == 0) {
-                gridView.setAdapter(movieDetailsAdapter);
-                adapterStatus = 1;
-            }
-            scrollview.setVisibility(View.INVISIBLE);
-            gridView.setVisibility(View.VISIBLE);
-            leaveReviews_btn.setVisibility(View.VISIBLE);
-        } else if (view == leaveReviews_btn) {
-            scrollview.setVisibility(View.VISIBLE);
-            gridView.setVisibility(View.INVISIBLE);
-            leaveReviews_btn.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void starFest(ImageView[] stars, int starReview) {
+        public void starFest(ImageView[] stars, int starReview) {
         int starShape = R.drawable.icon_filled_star;
+        //On purpose no break;
         switch (starReview) {
             case 5:
                 stars[4].setImageResource(starShape);
@@ -192,22 +149,48 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void findViews() {
         yourReview = findViewById(R.id.textView_your_review);
-        starFriend1 = findViewById(R.id.ImageView_friend_star_1);
-        starFriend2 = findViewById(R.id.ImageView_friend_star_2);
-        starFriend3 = findViewById(R.id.ImageView_friend_star_3);
-        starFriend4 = findViewById(R.id.ImageView_friend_star_4);
-        starFriend5 = findViewById(R.id.ImageView_friend_star_5);
         gridView = findViewById(R.id.gridView);
 
-        showReviews_btn = findViewById(R.id.show_reviews_btn);
-        showReviews_btn.setOnClickListener(this);
-        leaveReviews_btn = findViewById(R.id.leave_reviews_btn);
-        leaveReviews_btn.setOnClickListener(this);
-        write_review_btn = findViewById(R.id.image_btn_review);
-        write_review_btn.setOnClickListener(this);
+        findViewById(R.id.show_reviews_btn).setOnClickListener(view->{
+            if (adapterStatus == 0) {
+                gridView.setAdapter(movieDetailsAdapter);
+                adapterStatus = 1;
+            }
+                scrollview.setVisibility(View.INVISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+                findViewById(R.id.leave_reviews_btn).setVisibility(View.VISIBLE);
 
-        addToWatch = findViewById(R.id.image_btn_add_to_watch_list);
-        addToWatch.setOnClickListener(this);
+        });
+
+        findViewById(R.id.leave_reviews_btn).setOnClickListener(view -> {
+            scrollview.setVisibility(View.VISIBLE);
+            gridView.setVisibility(View.INVISIBLE);
+            findViewById(R.id.leave_reviews_btn).setVisibility(View.INVISIBLE);
+        });
+
+        findViewById(R.id.image_btn_review).setOnClickListener(view ->{
+            Bundle bundle = new Bundle();
+            bundle.putString("id", movie.getImdbID());
+            if (review != null) {
+                bundle.putBoolean("status", true);
+                bundle.putInt("starReview", review.getRating());
+                bundle.putString("review", review.getReview());
+
+            }
+            Fragment review_frag = new Write_review_frag();
+            review_frag.setArguments(bundle);
+            addFrag(R.id.write_review_container, review_frag);
+        });
+
+        findViewById(R.id.image_btn_add_to_watch_list).setOnClickListener(view -> {
+            try {
+                Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
+                Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
+            } catch (IDatabase.DatabaseException e) {
+                e.printStackTrace();
+                Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
+            }
+        });
 
         ImageView moviePoster = findViewById(R.id.moviePoster);
         Picasso.get().load(movie.getPoster()).into(moviePoster);
@@ -223,16 +206,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         TextView actors = findViewById(R.id.textView_actors);
         actors.setText(movie.getActors());
 
-
         scrollview = findViewById(R.id.scrollView);
     }
 
-    private void runLoadScreen(Context ctx, boolean keep) {
-        Intent ld = new Intent(ctx, LoadingScreen.class);
-        ld.putExtra("finished", keep);
-        ld.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        ld.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(ld);
-    }
 
 }

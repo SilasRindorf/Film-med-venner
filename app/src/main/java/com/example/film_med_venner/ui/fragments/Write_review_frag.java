@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.film_med_venner.DAO.Review;
@@ -21,7 +20,6 @@ import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.ui.MovieDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
@@ -147,7 +145,7 @@ public class Write_review_frag extends DialogFragment {
                     IReview newReview = new Review(starReview, Controller_User.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Controller_User.getInstance().getCurrentUser().getID());
                     if (status == true){
                         try {
-                            Controller_Review.getInstance().updateReviews(newReview);
+                            Controller_Review.getInstance().updateReview(newReview);
 
                             Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
                         } catch (IDatabase.DatabaseException e){
