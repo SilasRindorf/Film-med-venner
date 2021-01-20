@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
+                Toast.makeText(MainActivity.this, "Try again!", Toast.LENGTH_LONG).show();
                 Sentry.captureException(e);
-                Toast.makeText(MainActivity.this, "Prøv igen!", Toast.LENGTH_LONG).show();
             }
         });
 
