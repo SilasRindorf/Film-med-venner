@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
-import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
@@ -47,6 +43,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
+    private final List<IReview> reviewList = new ArrayList<>();
     private ListView gridView;
     private Context ctx;
     private TextView yourReview;
@@ -66,7 +63,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int raters;
     private int avgRating;
     private int adapterStatus = 0;
-    private List<IReview> reviewList = new ArrayList<>();
     private ScrollView scrollview;
 
 
@@ -88,8 +84,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void run(IReview rating) {
                         review = (Review) rating;
-                        Log.e("uID: ", Controller_User.getInstance().getCurrentUser().getID());
-                        Log.e("movID: ", movie.getImdbID());
                         uiThread.post(() -> {
                             if (review != null) {
                                 starFest(review.getRating());
@@ -173,13 +167,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             if (adapterStatus == 0) {
                 gridView.setAdapter(movieDetailsAdapter);
                 adapterStatus = 1;
-                Toast.makeText(MovieDetailsActivity.this, "Til censor: \n Hvis du scroller op og ned her kommer friends reviews ind. Vi kunne desværre ikke få det til at virke helt optimalt. Beklager.", Toast.LENGTH_LONG).show();
-            } else {
-                scrollview.setVisibility(View.INVISIBLE);
-                gridView.setVisibility(View.VISIBLE);
-                leaveReviews_btn.setVisibility(View.VISIBLE);
-                Toast.makeText(MovieDetailsActivity.this, "Til censor: \n Hvis du scroller op og ned her kommer friends reviews ind. Vi kunne desværre ikke få det til at virke helt optimalt. Beklager.", Toast.LENGTH_LONG).show();
             }
+            scrollview.setVisibility(View.INVISIBLE);
+            gridView.setVisibility(View.VISIBLE);
+            leaveReviews_btn.setVisibility(View.VISIBLE);
+
+            Toast.makeText(MovieDetailsActivity.this, "Til censor: \n Hvis du scroller op og ned her kommer friends reviews ind. Vi kunne desværre ikke få det til at virke helt optimalt. Beklager.", Toast.LENGTH_LONG).show();
         } else if (view == leaveReviews_btn) {
             scrollview.setVisibility(View.VISIBLE);
             gridView.setVisibility(View.INVISIBLE);
