@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.DTO.FriendDTO;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
@@ -67,13 +68,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), fullProfileDTO -> {
-            Log.e(fullProfileDTO.getFriends().get(0).getID(), "AM I NULL :)?");
 
-            for (ProfileDTO p : fullProfileDTO.getFriends()) {
-                Log.e("Here", "I am");
-                Log.e(p.getID(), "AM I NULL :)?");
+            for (FriendDTO p : fullProfileDTO.getFriends()) {
                 try {
-                    Controller_Review.getInstance().getReviews(p.getID(), ratings -> {
+                    Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
                         for (IReview review : ratings) {
                             map.put(review.getCreationDate(), review);
                             Log.e("Main menu", review.getCreationDate() + "");
@@ -85,22 +83,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        //TODO Homefeed not working
-        /*bgThread.execute(() -> {
-            try {
-                List<IReview> items = new ArrayList<>();
-                controller.getReviews((RunnableReviewsUI) -> {
-                    items = controller.
-                    uiThread.post(() -> {
-                        homeAdapter = new HomeAdapter(ctx, items);
-                        listView.setAdapter(homeAdapter);
-                        listView.setVisibility(View.VISIBLE);
-                    });
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
-            }
-        });*/
+
     }
 
     @Override
