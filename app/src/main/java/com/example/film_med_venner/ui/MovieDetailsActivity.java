@@ -58,7 +58,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int totalRating;
     private int raters;
     private int avgRating;
-    //private UwU for Silas
     private Movie movie;
 
     @Override
