@@ -1,10 +1,5 @@
 package com.example.film_med_venner.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,21 +9,24 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DTO.FullProfileDTO;
+import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_Review;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.Executor;
@@ -52,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         ctx = this;
 
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
         listView = findViewById(R.id.listView);
 
         Log.e("Tagie",  "I here");
@@ -61,35 +59,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         listView.setAdapter(homeAdapter);
         listView.setVisibility(View.VISIBLE);
 
+        Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), new RunnableFullProfileUI() {
+            @Override
+            public void run(FullProfileDTO fullProfileDTO) throws IDatabase.DatabaseException {
 
-        try {
-            Controller_Friends.getInstance().getFriends(profiles -> {
-                for (IProfile p: profiles) {
-                    try {
-                        Controller_Review.getInstance().getReviews(p.getID(), new RunnableReviewsLoadUI() {
-                            @Override
-                            public void run() {
+            }
+        });
 
-                            }
 
-                            @Override
-                            public void run(IReview[] ratings) {
-                                for (IReview review : ratings) {
-                                    map.put(review.getCreationDate(), review);
-                                    Log.e("Main menu","Dato : " + review.getCreationDate());
-                                }
+        Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), fullProfileDTO -> {
+            Log.e(fullProfileDTO.getFriends().get(0).getID(), "AM I NULL :)?");
 
-                            }
-                        });
-                    } catch (IDatabase.DatabaseException e) {
-                        e.printStackTrace();
-                    }
+            for (ProfileDTO p : fullProfileDTO.getFriends()) {
+                Log.e("Here", "I am");
+                Log.e(p.getID(), "AM I NULL :)?");
+                try {
+                    Controller_Review.getInstance().getReviews(p.getID(), ratings -> {
+                        for (IReview review : ratings) {
+                            map.put(review.getCreationDate(), review);
+                            Log.e("Main menu", review.getCreationDate() + "");
+                        }
+
+                    });
+                } catch (IDatabase.DatabaseException e) {
+                    e.printStackTrace();
                 }
-            });
-        } catch (IDatabase.DatabaseException e) {
-            e.printStackTrace();
-        }
-
+            }
+        });
         //TODO Homefeed not working
         /*bgThread.execute(() -> {
             try {
