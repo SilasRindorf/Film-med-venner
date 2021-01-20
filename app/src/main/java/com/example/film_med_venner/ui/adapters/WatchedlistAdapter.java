@@ -51,7 +51,6 @@ public class WatchedlistAdapter extends BaseAdapter {
         IWatchItem item = watchedlistItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //TODO item ting nedenunder
             gridView = inflater.inflate(R.layout. profile_watched_item, null);
         }
 

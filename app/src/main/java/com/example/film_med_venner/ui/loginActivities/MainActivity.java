@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                                     String image_url = object.getJSONObject("picture").getJSONObject("data").getString("url");
                                     //String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
                                     Log.e("IMAGE_URL", image_url);
-                                    //TODO Tilføj fb bruger i db måske vha. param bundle?
                                     IProfile profile = new Profile(name, id);
                                     Controller_User.getInstance().addFacebookUser(email, image_url, profile, new RunnableErrorUI() {
                                         @Override

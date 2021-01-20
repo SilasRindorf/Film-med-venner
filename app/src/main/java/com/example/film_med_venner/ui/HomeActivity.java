@@ -82,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onClickReview(View v) {
+        // TODO make the review show up with the full review text
 //        setContentView(R.layout.frag_extended_review);
 //        Intent intent = new Intent(this, ReviewedItemActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -102,67 +103,4 @@ public class HomeActivity extends AppCompatActivity {
         c.toArray(reviews);
     }
 
-    public void goToReview(View view){
-        String clickedReviewText = getClickedReview(((TextView) view).getText().toString());
-        int clickedReviewRating = getClickedRating(((TextView) view).getText().toString());
-        String clickedReviewDescription = getClickedDescription(((TextView) view).getText().toString());
-
-        setContentView(R.layout.frag_extended_review);
-        Intent intent = new Intent(this, ReviewedItemActivity.class);
-
-        System.out.println(clickedReviewText);
-        intent.putExtra("reviewText",clickedReviewText);
-
-        System.out.println(clickedReviewRating);
-        intent.putExtra("starReview", clickedReviewRating);
-
-        System.out.println(clickedReviewDescription);
-        intent.putExtra("reviewDescription",clickedReviewDescription);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(intent, 0);
-
-    }
-
-    public String getClickedReview(String clickedText){
-        //TODO NOT WORKING
-        /*List<IHomeFeedItems> items = controller.getHomeFeedItems();
-        for (IHomeFeedItems item : items){
-            String expectedReviewText = ((Review) item).getReview();
-            if (expectedReviewText.length() > 200){
-                expectedReviewText = (expectedReviewText.substring(0,200) + "...");
-            }
-            if (expectedReviewText.equals(clickedText)){
-                return ((Review) item).getReview();
-            }
-        }*/
-        return "ERROR";
-    }
-
-    public int getClickedRating(String clickedText){
-        //TODO NOT WORKING
-        /*
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
-        for (IHomeFeedItems item : items){
-            String expectedReviewText = ((Review) item).getReview();
-            if (expectedReviewText.equals(clickedText)){
-                return (((Review) item).getRating());
-            }
-        }*/
-        return 0;
-    }
-
-    public String getClickedDescription(String clickedText){
-        //TODO NOT WORKING
-        /*
-        List<IHomeFeedItems> items = controller.getHomeFeedItems();
-        for (IHomeFeedItems item : items){
-            String expectedReviewText = ((Review) item).getReview();
-            if (expectedReviewText.equals(clickedText)){
-                return (item.getUsername() + " has rated " + item.getMovieIDStr() + " with " +
-                        ((Review) item).getRating() + " stars.");
-            }
-        }*/
-        return "ERROR";
-    }
 }

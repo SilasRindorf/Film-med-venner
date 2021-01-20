@@ -65,12 +65,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 profile_mvgPref = profile.getmvGPrefs();
                 uiThread.post(() -> {
                     if (profile_picture_url != null) {
-                        //TODO Giv billedet runde kanter
                         Picasso.get().load(profile_picture_url).into(profile_picture);
                         profile_name_edit_text.setText(profile_name, TextView.BufferType.EDITABLE);
                         profile_mail_edit_text.setText(profile_email, TextView.BufferType.EDITABLE);
                         profile_top_genre_edit_text.setText(profile_mvgPref, TextView.BufferType.EDITABLE);
-                        //profile_id.setText(userID);
                     }
                 });
             });

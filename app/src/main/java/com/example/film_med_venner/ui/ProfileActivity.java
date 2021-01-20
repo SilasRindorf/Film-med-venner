@@ -56,8 +56,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         findViews();
 
-        //TODO userID skal også kunne være en af dine venners
-
         Intent intent = getIntent();
 
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {

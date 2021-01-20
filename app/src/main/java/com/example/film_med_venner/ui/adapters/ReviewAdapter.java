@@ -52,7 +52,7 @@ public class ReviewAdapter extends BaseAdapter {
             gridView = inflater.inflate(R.layout.item_your_review, null);
         }
         reviewText = gridView.findViewById(R.id.ratingtext);
-        //TODO ((Review) item).getMovie() Virker ikke optimalt. Når man kører den kommer der ikke det som forventes.
+
 
         findViews();
         Movie movie = Controller_MovieDetails.getInstance().getMovie(item.getMovieIDStr());
