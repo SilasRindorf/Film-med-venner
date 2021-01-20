@@ -345,7 +345,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-    <LinearLayout
+    <!---LinearLayout
         android:id="@+id/friends_reviews_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -356,15 +356,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/leave_reviews_btn"
-        android:background="@drawable/gradient">
-        <ListView
-            android:id="@+id/listView"
+        android:background="@drawable/gradient"-->
+        <GridView
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnWidth="100dp"
             android:numColumns="1"
             android:padding="10dp"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp"/>
-    </LinearLayout>
+            android:verticalSpacing="10dp"
+            android:visibility="invisible"
+            android:layout_marginTop="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/leave_reviews_btn"
+            android:background="@drawable/gradient"/>
+    <!--</LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
