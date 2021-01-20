@@ -96,4 +96,5 @@ public class HomeActivity extends AppCompatActivity {
         reviews = new Review[c.size()];
         c.toArray(reviews);
     }
+
 }
