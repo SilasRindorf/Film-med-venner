@@ -2,43 +2,48 @@ package com.example.film_med_venner.DTO;
 
 import com.example.film_med_venner.interfaces.IWatchItem;
 
+import java.util.Date;
+
 public class WatchItemDTO implements IWatchItem {
     private String username;
-    private String movieID;
+    private String movieIDStr;
     private String watchItemID;
-    private String uID;
+    private String userID;
+    private Date creationDate;
 
-    public WatchItemDTO(){
+    public WatchItemDTO() {
 
     }
-    public WatchItemDTO(IWatchItem watchItem){
-        this.username = username;
-        this.movieID = watchItem.getMovieIDStr();
+
+    public WatchItemDTO(IWatchItem watchItem) {
+        this.userID = watchItem.getUserID();
+        this.movieIDStr = watchItem.getMovieIDStr();
     }
 
     public String getUsername() {
         return username;
     }
 
-    @Override
-    public String getUserID() {
-        return uID;
-    }
-
-    @Override
-    public String getMovieIDStr() {
-        return movieID;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setMovieID(String movieID) {
-        this.movieID = movieID;
+    @Override
+    public String getUserID() {
+        return userID;
     }
+
+    @Override
+    public String getMovieIDStr() {
+        return movieIDStr;
+    }
+
+    public void setMovieIDStr(String movieIDStr) {
+        this.movieIDStr = movieIDStr;
+    }
+
     public void setID(String uID) {
-        this.uID = uID;
+        this.userID = uID;
     }
 
     public String getWatchItemID() {
@@ -47,5 +52,13 @@ public class WatchItemDTO implements IWatchItem {
 
     public void setWatchItemID(String watchItemID) {
         this.watchItemID = watchItemID;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

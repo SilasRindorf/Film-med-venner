@@ -16,8 +16,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class SearchAdapter extends BaseAdapter {
-    private Context ctx;
-    private List<Movie> movie;
+    private final Context ctx;
+    private final List<Movie> movie;
 
     public SearchAdapter(Context ctx, List<Movie> search) {
         this.ctx = ctx;
@@ -47,7 +47,6 @@ public class SearchAdapter extends BaseAdapter {
         IMovie item = movie.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //TODO item ting nedenunder
             gridView = inflater.inflate(R.layout.search_item, null);
         }
 
@@ -56,7 +55,7 @@ public class SearchAdapter extends BaseAdapter {
         TextView type = gridView.findViewById(R.id.type);
         TextView year = gridView.findViewById(R.id.year);
 
-        if (item.getPoster() == "N/A") {
+        if (item.getPoster().equals("N/A")) {
             Picasso.get().load(R.drawable.mp).into(moviePoster);
         } else {
             Picasso.get().load(item.getPoster()).into(moviePoster);

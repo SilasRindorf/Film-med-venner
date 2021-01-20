@@ -2,11 +2,14 @@ package com.example.film_med_venner.ui.profileActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,14 +24,22 @@ import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.ui.login.MainActivity;
+import com.example.film_med_venner.ui.loginActivities.MainActivity;
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import io.sentry.Sentry;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
     private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
-    private EditText profile_name_edit_text, profile_phone_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
+    private EditText profile_name_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
     private ImageView profile_picture;
     private FullProfileDTO profile;
-    private Intent intent;
+    private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
 
     //TODO Switches i settings?
     @Override
@@ -39,21 +50,25 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         addFrag(R.id.nav_bar_container, frag);
         findViews();
 
-        intent = getIntent();
+        userID = Controller_User.getInstance().getCurrentUser().getID();
 
-        profile = intent.getParcelableExtra("profile");
-        profile_name_edit_text.setText(profile.getName(), TextView.BufferType.EDITABLE);
-        profile_mail_edit_text.setText(Controller_User.getInstance().getCurrentUserEmail(), TextView.BufferType.EDITABLE);
-
-        try {
-            Controller_User.getInstance().getCurrentUserWithmvGPrefs(profile -> {
-                profile_top_genre_edit_text.setText(profile.getmvGPrefs(), TextView.BufferType.EDITABLE);
+        bgThread.execute(() -> {
+            Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
+                profile = RunnableFullProfileUI;
+                profile_picture_url = profile.getPictureURL();
+                profile_name = profile.getName();
+                profile_email = Controller_User.getInstance().getCurrentUserEmail();
+                profile_mvgPref = profile.getmvGPrefs();
+                uiThread.post(() -> {
+                    if (profile_picture_url != null) {
+                        Picasso.get().load(profile_picture_url).into(profile_picture);
+                        profile_name_edit_text.setText(profile_name, TextView.BufferType.EDITABLE);
+                        profile_mail_edit_text.setText(profile_email, TextView.BufferType.EDITABLE);
+                        profile_top_genre_edit_text.setText(profile_mvgPref, TextView.BufferType.EDITABLE);
+                    }
+                });
             });
-
-        } catch (NullPointerException | IDatabase.DatabaseException ignored) {
-
-        }
-
+        });
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -69,11 +84,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             try {
                 Controller_User.getInstance().logOut(() -> {
                     Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureException(e);
             }
         } else if (view == save_changes_btn) {
 
@@ -86,13 +101,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void handleError(IDatabase.DatabaseException e) {
+                        Sentry.captureMessage("SettingsActivity->save_changes_button->getReviews(" + userID + ")" + ":  " + e.toString());
                         Toast.makeText(SettingsActivity.this, "An error has occured", Toast.LENGTH_LONG).show();
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
-                Log.e("Error", "Error in updating user");
-                e.printStackTrace();
-
+                Sentry.captureException(e);
             }
 
         } else if (view == save_password_btn) {
@@ -105,17 +119,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void handleError(IDatabase.DatabaseException e) {
+                        Sentry.captureMessage("SettingsActivity->updateUserPassword(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
                         Toast.makeText(SettingsActivity.this, "Something went wrong, check passwords and try again", Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
                 Toast.makeText(SettingsActivity.this, "The new passwords need to be the same", Toast.LENGTH_LONG).show();
             }
-
+        } else if (view == change_profile_picture_btn) {
+            Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void findViews(){
+    public void findViews() {
         // BUTTONS
         change_profile_picture_btn = findViewById(R.id.change_profile_picture);
         change_profile_picture_btn.setOnClickListener(this);
@@ -134,5 +150,33 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         profile_repeat_new_password_edit_text = findViewById(R.id.profile_repeat_new_password);
         // IMAGEVIEW
         profile_picture = findViewById(R.id.profile_picture);
+        // TEXTVIEW
+        //profile_id = findViewById(R.id.profile_id);
+        // SWITCHES
+        Switch switch_lists = findViewById(R.id.switch_lists);
+        switch_lists.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            }
+        });
+        Switch switch_reviews = findViewById(R.id.switch_reviews);
+        switch_reviews.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            }
+        });
+        // CHECKBOX
+        CheckBox checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
+        checkBox_mark_all.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked()) {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

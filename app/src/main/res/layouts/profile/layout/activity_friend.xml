@@ -64,15 +64,17 @@
                     android:inputType="textAutoComplete"
                     android:layout_weight="4"
                     android:padding="10dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_gravity="center_vertical"
                     android:text="" />
+
             </LinearLayout>
 
-            <GridView
-                android:id="@+id/gridView"
+            <ListView
+                android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
+                android:layout_height="500dp"
 
                 android:columnWidth="100dp"
                 android:numColumns="1"
@@ -88,7 +90,6 @@
         android:id="@+id/nav_bar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#000000"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

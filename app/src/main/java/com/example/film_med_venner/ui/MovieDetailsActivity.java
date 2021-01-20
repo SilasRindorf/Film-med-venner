@@ -1,52 +1,62 @@
 package com.example.film_med_venner.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
+import com.example.film_med_venner.DAO.WatchItem;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.runnable.RunnableReviewUI;
+import com.example.film_med_venner.ui.adapters.MovieDetailsAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import com.example.film_med_venner.ui.fragments.Write_review_frag;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    private GridView gridView;
-    private Context ctx;
+import io.sentry.Sentry;
+
+public class MovieDetailsActivity extends AppCompatActivity {
+    private static final String TAG = "MovieDetailsActivity";
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-
+    private final List<IReview> reviewList = new ArrayList<>();
+    private ListView gridView;
     private TextView yourReview;
-    private ImageView star1;
-    private ImageView star2;
-    private ImageView star3;
-    private ImageView star4;
-    private ImageView star5;
-    private ImageButton addToWatch, write_review_btn;
-
+    private MovieDetailsAdapter movieDetailsAdapter;
     private Movie movie;
-    private Review rating;
+    private Review review;
+    private int totalRating;
+    private int raters;
+    private int avgRating;
+    private int adapterStatus = 0;
+    private ScrollView scrollview;
+    private ImageView[] stars;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,39 +64,122 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_movie_details);
 
         Intent intent = getIntent();
+        stars =  new ImageView[5];
+        stars[0] = findViewById(R.id.ImageView_star_1);
+        stars[1] = findViewById(R.id.ImageView_star_2);
+        stars[2] = findViewById(R.id.ImageView_star_3);
+        stars[3] = findViewById(R.id.ImageView_star_4);
+        stars[4] = findViewById(R.id.ImageView_star_5);
 
+        ImageView[] friendStars = {findViewById(R.id.ImageView_friend_star_1), findViewById(R.id.ImageView_friend_star_2), findViewById(R.id.ImageView_friend_star_3), findViewById(R.id.ImageView_friend_star_4), findViewById(R.id.ImageView_friend_star_5)};
+        movieDetailsAdapter = new MovieDetailsAdapter(this, reviewList);
         movie = mdController.getMovie(intent.getStringExtra("Id"));
-        yourReview = findViewById(R.id.textView_your_review);
-        star1 = findViewById(R.id.ImageView_star_1);
-        star2 = findViewById(R.id.ImageView_star_2);
-        star3 = findViewById(R.id.ImageView_star_3);
-        star4 = findViewById(R.id.ImageView_star_4);
-        star5 = findViewById(R.id.ImageView_star_5);
+        findViews();
+        getCurrentUsersReview();
 
-        bgThread.execute(() -> {
-            try {
-                Controller_Review.getInstance().getReview(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID(), rating1 -> {
-                    rating = (Review) rating1;
-                    Log.e("uID: ",Controller_User.getInstance().getCurrentUser().getID() );
-                    Log.e("movID: ", movie.getImdbID());
-                    uiThread.post(() -> {
-                        if (rating != null){
-                            starFest(rating.getRating());
-                            yourReview.setText(rating.getReview());
+
+        try {
+            Controller_Review.getInstance().getFriendsWhoReviewed(movie.getImdbID(), string -> {
+                try {
+                    Controller_Review.getInstance().getReview(string, movie.getImdbID(), new RunnableReviewUI() {
+                        @Override
+                        public void run(IReview rating) {
+                            Review r = (Review) rating;
+                            totalRating += r.getRating();
+                            raters++;
+                            avgRating = totalRating / raters;
+                            movieDetailsAdapter.addItem(r);
+                            uiThread.post(() -> {
+                                starFest(friendStars, avgRating);
+                            });
+                        }
+
+                        @Override
+                        public void run() {
                         }
                     });
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                } catch (IDatabase.DatabaseException e) {
+                    Sentry.captureException(e);
+
+                }
+
+            });
+        } catch (IDatabase.DatabaseException e) {
+            Sentry.captureException(e);
+
+        }
+        Fragment frag = new Nav_bar_frag();
+        addFrag(R.id.nav_bar_container, frag);
+    }
+
+    private void addFrag(int id, Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(id, fragment);
+        fragmentTransaction.commit();
+    }
+
+
+    public void starFest(ImageView[] stars, int starReview) {
+        int starShape = R.drawable.icon_filled_star;
+        //On purpose no break;
+        switch (starReview) {
+            case 5:
+                stars[4].setImageResource(starShape);
+            case 4:
+                stars[3].setImageResource(starShape);
+            case 3:
+                stars[2].setImageResource(starShape);
+            case 2:
+                stars[1].setImageResource(starShape);
+            case 1:
+                stars[0].setImageResource(starShape);
+        }
+    }
+
+    private void findViews() {
+        yourReview = findViewById(R.id.textView_your_review);
+        gridView = findViewById(R.id.gridView);
+
+        findViewById(R.id.show_reviews_btn).setOnClickListener(view -> {
+            if (adapterStatus == 0) {
+                gridView.setAdapter(movieDetailsAdapter);
+                adapterStatus = 1;
             }
+            scrollview.setVisibility(View.INVISIBLE);
+            gridView.setVisibility(View.VISIBLE);
+            findViewById(R.id.leave_reviews_btn).setVisibility(View.VISIBLE);
+
         });
 
+        findViewById(R.id.leave_reviews_btn).setOnClickListener(view -> {
+            scrollview.setVisibility(View.VISIBLE);
+            gridView.setVisibility(View.INVISIBLE);
+            findViewById(R.id.leave_reviews_btn).setVisibility(View.INVISIBLE);
+        });
 
-        write_review_btn = findViewById(R.id.image_btn_review);
-        write_review_btn.setOnClickListener(this);
+        findViewById(R.id.image_btn_review).setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", movie.getImdbID());
+            if (review != null) {
+                bundle.putBoolean("status", true);
+                bundle.putInt("starReview", review.getRating());
+                bundle.putString("review", review.getReview());
+            }
+            Fragment review_frag = new Write_review_frag();
+            review_frag.setArguments(bundle);
+            addFrag(R.id.write_review_container, review_frag);
 
-        addToWatch = findViewById(R.id.image_btn_add_to_watch_list);
-        addToWatch.setOnClickListener(this);
+        });
+        findViewById(R.id.image_btn_add_to_watch_list).setOnClickListener(view -> {
+            try {
+                Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
+                Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
+            } catch (IDatabase.DatabaseException e) {
+                Sentry.captureException(e);
+                Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
+            }
+        });
 
         ImageView moviePoster = findViewById(R.id.moviePoster);
         Picasso.get().load(movie.getPoster()).into(moviePoster);
@@ -102,66 +195,44 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         TextView actors = findViewById(R.id.textView_actors);
         actors.setText(movie.getActors());
 
-
-
-        Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        scrollview = findViewById(R.id.scrollView);
     }
 
-    private void addFrag(int id, Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(id, fragment);
-        fragmentTransaction.commit();
-    }
+    public void getCurrentUsersReview(){
+        bgThread.execute(() -> {
+            try {
+                Controller_Review.getInstance().getReview(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID(), new RunnableReviewUI() {
+                    @Override
+                    public void run(IReview rating) {
+                        review = (Review) rating;
+                        uiThread.post(() -> {
+                            if (review != null) {
+                                starFest(stars, review.getRating());
+                                yourReview.setText(review.getReview());
+                            }
+                        });
+                    }
 
-    @Override
-    public void onClick(View view) {
-        if (view == write_review_btn){
-            Bundle bundle = new Bundle();
-            bundle.putString("id", movie.getImdbID());
-            if (rating != null){
-                bundle.putBoolean("status",true);
-                bundle.putInt("starReview",rating.getRating());
-                bundle.putString("review",rating.getReview());
+                    @Override
+                    public void run() {
+                    }
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Sentry.captureException(e);
             }
-            Fragment review_frag = new Write_review_frag();
-            review_frag.setArguments(bundle);
-            addFrag(R.id.write_review_container, review_frag);
-        }
-        if (view == addToWatch){
-            //TODO DO SOMETHING PLEASE
-        }
+        });
     }
 
-    private void starFest(int starReview) {
-        switch (starReview) {
-            case  1:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 2:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 3:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 4:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                star4.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 5:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                star4.setImageResource(R.drawable.icon_filled_star);
-                star5.setImageResource(R.drawable.icon_filled_star);
-                break;
-        }
-    }
+
+    public void setReview(IReview review){
+        this.review = (Review) review;
+        uiThread.post(() -> {
+            if (review != null) {
+                starFest(stars, review.getRating());
+                yourReview.setText(review.getReview());
+            }
+        });    }
+
+
 
 }

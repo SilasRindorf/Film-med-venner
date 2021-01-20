@@ -20,7 +20,7 @@ public class ReviewedItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.feed_rated_item_description);
+        setContentView(R.layout.frag_extended_review);
         Intent intent = getIntent();
 
         String review = intent.getStringExtra("reviewText");
@@ -58,31 +58,16 @@ public class ReviewedItemActivity extends AppCompatActivity {
         star5.setImageResource(R.drawable.icon_empty_star);
 
         switch (starReview) {
-            case  1:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 2:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 3:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 4:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                star4.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 5:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                star4.setImageResource(R.drawable.icon_filled_star);
+            case  5:
                 star5.setImageResource(R.drawable.icon_filled_star);
-                break;
+            case 4:
+                star4.setImageResource(R.drawable.icon_filled_star);
+            case 3:
+                star3.setImageResource(R.drawable.icon_filled_star);
+            case 2:
+                star2.setImageResource(R.drawable.icon_filled_star);
+            case 1:
+                star1.setImageResource(R.drawable.icon_filled_star);
         }
     }
 

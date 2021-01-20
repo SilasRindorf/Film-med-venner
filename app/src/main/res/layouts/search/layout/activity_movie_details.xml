@@ -9,28 +9,30 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="615dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/nav_bar_container"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/nav_bar_container">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="615dp"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorTextView"
+                android:layout_gravity="center_horizontal"
                 android:padding="10dp"
-                android:layout_gravity="center_horizontal"/>
+                android:text="Title"
+                android:textColor="@color/colorTextView"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,25 +49,25 @@
                         android:id="@+id/moviePoster"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/mp"
-                        android:padding="10dp"/>
+                        android:padding="10dp"
+                        app:srcCompat="@drawable/mp" />
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Summary :"
+                        android:textColor="@color/colorTextView"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorTextView" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView_plot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Summary : "
-                        android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Summary : "
                         android:textColor="@color/colorTextView" />
 
                     <TextView
@@ -73,17 +75,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Directors :"
+                        android:textColor="@color/colorTextView"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorTextView" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView_director"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Directors : "
-                        android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Directors : "
                         android:textColor="@color/colorTextView" />
 
                     <TextView
@@ -91,34 +93,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Runtime :"
+                        android:textColor="@color/colorTextView"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorTextView" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView_runtime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Runtime: "
-                        android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Runtime: "
                         android:textColor="@color/colorTextView" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Actors : "
+                        android:textColor="@color/colorTextView"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorTextView" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView_actors"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Actors: "
-                        android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Actors: "
                         android:textColor="@color/colorTextView" />
                 </LinearLayout>
 
@@ -143,7 +145,7 @@
                             android:adjustViewBounds="true"
                             android:backgroundTint="@color/colorTransparent"
                             android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/icon_wanttowatch" />
+                            app:srcCompat="@drawable/icon_add_to_list" />
 
                         <ImageButton
                             android:id="@+id/image_btn_review"
@@ -162,7 +164,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Your rating :"
-                        android:textColor="@color/colorTextView" />
+                        android:textColor="@color/colorTextView"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout_your_rating"
@@ -222,7 +225,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Average friend rating:"
-                        android:textColor="@color/colorTextView" />
+                        android:textColor="@color/colorTextView"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout_friends_rating"
@@ -283,7 +287,8 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="Your review: "
-                        android:textColor="@color/colorTextView" />
+                        android:textColor="@color/colorTextView"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView_your_review"
@@ -291,48 +296,82 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="You haven't written a review yet"
-                        android:textColor="@color/colorTextView"/>
+                        android:textColor="@color/colorTextView" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="Friends reviews: "
-                        android:textColor="@color/colorTextView" />
-
-                    <GridView
-                        android:id="@+id/gridView"
+                        android:textColor="@color/colorTextView"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/show_reviews_btn"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:columnWidth="100dp"
-                        android:numColumns="1"
-                        android:padding="10dp"
-
-                        android:stretchMode="columnWidth"
-                        android:verticalSpacing="10dp" />
+                        android:layout_height="match_parent"
+                        android:text="Show reviews"/>
                 </LinearLayout>
             </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/write_review_container"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="30dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/nav_bar_container"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
+    <Button
+        android:id="@+id/leave_reviews_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Leave reviews"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <!---LinearLayout
+        android:id="@+id/friends_reviews_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:layout_marginTop="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/leave_reviews_btn"
+        android:background="@drawable/gradient"-->
+        <ListView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:columnWidth="100dp"
+            android:numColumns="1"
+            android:padding="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:visibility="invisible"
+            android:layout_marginTop="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/leave_reviews_btn"
+            android:background="@drawable/gradient"/>
+    <!--</LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

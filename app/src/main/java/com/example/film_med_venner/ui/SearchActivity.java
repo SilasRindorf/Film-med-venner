@@ -26,7 +26,6 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
     private GridView gridView;
-    private SearchAdapter searchAdapter;
     private Context ctx;
     private EditText search;
     private ImageButton searchButton;
@@ -94,7 +93,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setupGridView() {
         items = Controller_Search.getInstance().getSearchItems(search.getText().toString());
-        searchAdapter = new SearchAdapter(ctx, items);
+        SearchAdapter searchAdapter = new SearchAdapter(ctx, items);
         gridView.setAdapter(searchAdapter);
         gridView.setVisibility(View.VISIBLE);
         Utility.hideKeyboard(SearchActivity.this);

@@ -9,6 +9,7 @@ public class Profile implements IProfile {
 
     private String ID;
     private String name;
+    private String email;
     private String mvGPrefs;
     private List<String> friends;
     private List<String> movieReviewedIDs;
@@ -34,13 +35,15 @@ public class Profile implements IProfile {
     }
 
 
+    @Override
+    public String getEmail() {
+        return email;
+    }
 
-    //TODO Den skal også hente profilbillede her
-    /*public Profile(String name, String ID, ArrayList<String> moviesOnToWatchList, ArrayList<String> moviesOnWatchedList) {
-        this(name, ID);
-        this.moviesOnToWatchList = moviesOnToWatchList;
-        this.moviesOnWatchedList = moviesOnWatchedList;
-    }*/
+    @Override
+    public String setEmail(String email) {
+        return this.email = email;
+    }
 
     @Override
     public String getID() {
