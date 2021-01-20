@@ -30,6 +30,8 @@ import com.squareup.picasso.Picasso;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout l_layout_rating;
@@ -55,9 +57,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         addFrag(R.id.nav_bar_container, frag);
 
         findViews();
-
-        //TODO userID skal også kunne være en af dine venners
-
         Intent intent = getIntent();
 
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
@@ -80,18 +79,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 if (isUser) {
                     Controller_Friends.getInstance().getFriendType(userID, 0, friends -> {
                         friendRequestCount++;
-                        uiThread.post(() -> setupFriendsInfo());
+                        uiThread.post(this::setupFriendsInfo);
                     });
                 }
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("ProfileActivity->onCreate(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
             }
 
             Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {
                 profile = RunnableFullProfileUI;
                 url = profile.getPictureURL();
                 uiThread.post(() -> {
-                    System.out.println("hvem kommer først?");
                     setupProfileInfo();
                     if (url != null) {
                         Picasso.get().load(url).into(profile_picture);

@@ -3,11 +3,9 @@ package com.example.film_med_venner.ui.profileActivities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -31,18 +29,18 @@ import com.squareup.picasso.Picasso;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class SettingsFacebookUserActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button change_profile_picture_btn, save_changes_btn, log_out_btn /*, copy_id_btn*/;
-    private EditText profile_top_genre_edit_text;
-    private TextView profile_name_textView, profile_mail_textView, profile_id;
-    private ImageView profile_picture;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
+    private Button change_profile_picture_btn, save_changes_btn, log_out_btn ;
+    private EditText profile_top_genre_edit_text;
+    private TextView profile_name_textView, profile_mail_textView;
+    private ImageView profile_picture;
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
     private FullProfileDTO profile;
-    private Switch switch_lists, switch_reviews;
-    private CheckBox checkBox_mark_all;
-    //private Context ctx;
+    private Switch switch_lists;
 
     //TODO Switches i settings?
     @Override
@@ -51,7 +49,6 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         setContentView(R.layout.settings_facebook_user);
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
-        //ctx = this;
 
         findViews();
         userID = Controller_User.getInstance().getCurrentUser().getID();
@@ -70,7 +67,6 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
                         profile_name_textView.setText(profile_name);
                         profile_mail_textView.setText(profile_email);
                         profile_top_genre_edit_text.setText(profile_mvgPref);
-                        //profile_id.setText(userID);
                     }
                 });
             });
@@ -90,13 +86,13 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
             try {
                 Controller_User.getInstance().logOut(() -> {
                     Intent intent = new Intent(/*org class*/this, /*Log In Screen*/MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("SettingsFacebookUserActivity->log_out_btn(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
             }
-        } else if (view == change_profile_picture_btn){
+        } else if (view == change_profile_picture_btn) {
             Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
         } else if (view == save_changes_btn) {
             try {
@@ -108,24 +104,18 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
 
                     @Override
                     public void handleError(IDatabase.DatabaseException e) {
+                        Sentry.captureMessage("SettingsFacebookUserActivity->change_profile_picture_btn->updateUser(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
                         Toast.makeText(SettingsFacebookUserActivity.this, "An error has occured", Toast.LENGTH_LONG).show();
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
-                Log.e("Error", "Error in updating user");
-                e.printStackTrace();
-
+                Sentry.captureMessage("SettingsFacebookUserActivity->updateUserPassword(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
             }
 
-        } /*else if (view == copy_id_btn) {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Your ID", userID);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
-        }*/
+        }
     }
 
-    public void findViews(){
+    public void findViews() {
         // BUTTONS
         change_profile_picture_btn = findViewById(R.id.change_profile_picture);
         change_profile_picture_btn.setOnClickListener(this);
@@ -133,8 +123,6 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         save_changes_btn.setOnClickListener(this);
         log_out_btn = findViewById(R.id.btn_log_out);
         log_out_btn.setOnClickListener(this);
-        //copy_id_btn = findViewById(R.id.copy_id_btn);
-        //copy_id_btn.setOnClickListener(this);
         // EDITTEXT
         profile_name_textView = findViewById(R.id.profile_name);
         profile_mail_textView = findViewById(R.id.profile_mail);
@@ -145,38 +133,29 @@ public class SettingsFacebookUserActivity extends AppCompatActivity implements V
         //profile_id = findViewById(R.id.profile_id);
         // SWITCHES
         switch_lists = findViewById(R.id.switch_lists);
-        switch_lists.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
+        switch_lists.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
             }
         });
-        switch_reviews = findViewById(R.id.switch_reviews);
-        switch_reviews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
+        Switch switch_reviews = findViewById(R.id.switch_reviews);
+        switch_reviews.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
             }
         });
         // CHECKBOX
-        checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
-        checkBox_mark_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isChecked()) {
-                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
+        CheckBox checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
+        checkBox_mark_all.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked()) {
+                Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsFacebookUserActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
             }
-
         });
     }
 }

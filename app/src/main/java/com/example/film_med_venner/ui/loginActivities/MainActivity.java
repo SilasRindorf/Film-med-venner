@@ -27,15 +27,14 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
-import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+
+import io.sentry.Sentry;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Sentry.captureMessage("testing SDK setup");
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.login_main);
         /**
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+            Sentry.captureMessage(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -110,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
         // FORGOT PASSWORD
         forget_password_textView.setOnClickListener(view -> {
-            setContentView(R.layout.activity_forgotpassword);
             Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+            setContentView(R.layout.activity_forgotpassword);
             startActivity(intent);
         });
 
@@ -124,70 +125,64 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Intent ld = new Intent(MainActivity.this, LoadingScreen.class);
-                ld.putExtra("finished",true);
+                ld.putExtra("finished", true);
                 ld.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ld.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(ld);
                 try {
                     Controller_User.getInstance().loginWithFacebookUser(loginResult.getAccessToken(), () -> {
-                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                try {
-                                    Log.e("JSON", "" + response.getJSONObject().toString());
-                                    String id = object.getString("id");
-                                    String name = object.getString("name");
-                                    String email = "N/A";
-                                    if (object.has("email")) {
-                                        email = object.getString("email");
-                                    }
-                                    String image_url = object.getJSONObject("picture").getJSONObject("data").getString("url");
-                                    //String image_url = "http://graph.facebook.com/" + id + "/picture?type=large&access_token=" + loginResult.getAccessToken().getToken();
-                                    Log.e("IMAGE_URL", image_url);
-                                    //TODO Tilføj fb bruger i db måske vha. param bundle?
-                                    IProfile profile = new Profile(name, id);
-                                    Controller_User.getInstance().addFacebookUser(email, image_url, profile, new RunnableErrorUI() {
-                                        @Override
-                                        public void run() {
-                                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                            startActivityIfNeeded(intent, 0);
-                                        }
-
-                                        @Override
-                                        public void handleError(IDatabase.DatabaseException e) {
-                                            switch (e.getErrorID()) {
-                                                case 101:
-                                                    Toast.makeText(MainActivity.this, "Password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
-                                                    break;
-                                                case 102:
-                                                    Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
-                                                    e.printStackTrace();
-                                                    break;
-                                                case 103:
-                                                    Toast.makeText(MainActivity.this, "There already exists an user with that email!", Toast.LENGTH_LONG).show();
-                                                    break;
-                                                case 104:
-                                                    Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_LONG).show();
-                                                    break;
-                                                default:
-                                                    Log.e("SignUp", e.toString());
-                                                    e.printStackTrace();
-                                                    break;
-                                            }
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                    Log.e("TAG", e.toString());
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), (object, response) -> {
+                            try {
+                                String id = object.getString("id");
+                                String name = object.getString("name");
+                                String email = "N/A";
+                                if (object.has("email")) {
+                                    email = object.getString("email");
                                 }
+                                String image_url = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                //TODO Tilføj fb bruger i db måske vha. param bundle?
+                                IProfile profile = new Profile(name, id);
+                                Controller_User.getInstance().addFacebookUser(email, image_url, profile, new RunnableErrorUI() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                        startActivityIfNeeded(intent, 0);
+                                    }
+
+                                    @Override
+                                    public void handleError(IDatabase.DatabaseException e) {
+                                        switch (e.getErrorID()) {
+                                            case 101:
+                                                Toast.makeText(MainActivity.this, "Password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
+                                                break;
+                                            case 102:
+                                                Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
+                                                e.printStackTrace();
+                                                break;
+                                            case 103:
+                                                Toast.makeText(MainActivity.this, "There already exists an user with that email!", Toast.LENGTH_LONG).show();
+                                                break;
+                                            case 104:
+                                                Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_LONG).show();
+                                                break;
+                                            default:
+                                                Log.e("SignUp", e.toString());
+                                                e.printStackTrace();
+                                                break;
+                                        }
+                                    }
+                                });
+                            } catch (Exception e) {
+                                Log.e("MainActivity: ", e.toString());
+                                Sentry.captureMessage("MainActivity: " + e.toString());
                             }
                         });
                         Bundle parameters = new Bundle();
                         parameters.putString("fields", "id, name, email,picture.type(large)");
                         request.setParameters(parameters);
                         request.executeAsync();
-                        Log.e("requestAsyncStuff", parameters.toString());
-                        Toast.makeText(MainActivity.this, "Succesfully logged in with your Facebook account", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Successfully logged in with your Facebook account", Toast.LENGTH_LONG).show();
                     });
                 } catch (IDatabase.DatabaseException e) {
                     Toast.makeText(MainActivity.this, "Failed to log into Facebook", Toast.LENGTH_LONG).show();
@@ -201,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
+                Sentry.captureMessage("MainActivity->Facebook-> " + error.toString());
                 Log.e("MainActFacebook", "Error on Facebook login", error);
             }
         });

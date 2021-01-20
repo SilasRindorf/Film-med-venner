@@ -44,6 +44,7 @@ public class Controller_Friends implements IProfileController {
 
     /**
      * Send a request to the database to add a friend
+     *
      * @param friendID friends ID string
      * @throws FriendException IDatabase exception
      */
@@ -72,16 +73,17 @@ public class Controller_Friends implements IProfileController {
     /**
      * Send a request to the database to add a friend
      * On Exception run handleError from RunnableErrorUI interface
+     *
      * @param email friends email string
      */
-    public void sendFriendRequestByMail(String email, RunnableErrorUI runnableErrorUI)  {
+    public void sendFriendRequestByMail(String email, RunnableErrorUI runnableErrorUI) {
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("requester", selfID);
         user.put("status", 0);
         try {
-            db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
+            db.collection("users").whereEqualTo("email", email).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
                         if (doc.getId().equals(mAuh.getCurrentUser().getUid()))
                             return;
@@ -103,8 +105,9 @@ public class Controller_Friends implements IProfileController {
     /**
      * Send a friend request to a profile identified by email
      * If a person request the same email as friend it updates the request
+     *
      * @param email email "ex@ex.ex" needs to be a valid email
-     * @throws FriendException  if profile with email is oneself
+     * @throws FriendException if profile with email is oneself
      */
     public void sendFriendRequestByMail(String email) throws FriendException {
         //Create request status 0 for friend request
@@ -115,9 +118,9 @@ public class Controller_Friends implements IProfileController {
         try {
             //Find user by email
             //Use Firebase to look through docs
-            db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
+            db.collection("users").whereEqualTo("email", email).get().addOnCompleteListener(task -> {
                 //Since we don't know doc ID we
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
                         //If email identifies oneself
                         if (doc.getId().equals(selfID))
@@ -138,7 +141,6 @@ public class Controller_Friends implements IProfileController {
     }
 
     /**
-     *
      * @param status Requester status, -1 rejected friends, 0 friend request, 1 friends
      */
     public void getFriendType(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws FriendException {
@@ -146,13 +148,13 @@ public class Controller_Friends implements IProfileController {
             db.collection("users").document(userID).collection("friends")
                     .whereEqualTo("status", status).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                        for (DocumentSnapshot doc : task.getResult()) {
-                            String uId = doc.get("requester").toString();
-                            db.collection("users").document(uId).get()
-                                    .addOnCompleteListener(task1 -> {
-                                        Controller_User.getInstance().getFullProfile(uId, runnableFullProfileUI);
-                                    });
-                        }
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        String uId = doc.get("requester").toString();
+                        db.collection("users").document(uId).get()
+                                .addOnCompleteListener(task1 -> {
+                                    Controller_User.getInstance().getFullProfile(uId, runnableFullProfileUI);
+                                });
+                    }
 
 
                 }
@@ -186,7 +188,7 @@ public class Controller_Friends implements IProfileController {
                         //Run methods if everything succeeds
                         runnableUI.run();
                     } catch (IDatabase.DatabaseException e) {
-                        Log.e(TAG,e.getMessage());
+                        Log.e(TAG, e.getMessage());
                     }
                 }
             });

@@ -11,16 +11,21 @@ public class WatchItemDTO implements IWatchItem {
     private String userID;
     private Date creationDate;
 
-    public WatchItemDTO(){
+    public WatchItemDTO() {
 
     }
-    public WatchItemDTO(IWatchItem watchItem){
+
+    public WatchItemDTO(IWatchItem watchItem) {
         this.userID = watchItem.getUserID();
         this.movieIDStr = watchItem.getMovieIDStr();
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -33,13 +38,10 @@ public class WatchItemDTO implements IWatchItem {
         return movieIDStr;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setMovieIDStr(String movieIDStr) {
         this.movieIDStr = movieIDStr;
     }
+
     public void setID(String uID) {
         this.userID = uID;
     }
@@ -48,16 +50,15 @@ public class WatchItemDTO implements IWatchItem {
         return watchItemID;
     }
 
+    public void setWatchItemID(String watchItemID) {
+        this.watchItemID = watchItemID;
+    }
+
     public Date getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
-        this.creationDate= creationDate;
-    }
-
-
-    public void setWatchItemID(String watchItemID) {
-        this.watchItemID = watchItemID;
+        this.creationDate = creationDate;
     }
 }

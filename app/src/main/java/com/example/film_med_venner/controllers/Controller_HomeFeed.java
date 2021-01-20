@@ -13,19 +13,20 @@ import java.util.List;
 
 
 public class Controller_HomeFeed implements IController_HomeFeed {
+    private static Controller_HomeFeed instance;
     private final FirebaseFirestore db;
     private final FirebaseAuth mAuh;
-    private static Controller_HomeFeed instance;
-    public static Controller_HomeFeed getInstance(){
-        if (instance == null){
+
+    private Controller_HomeFeed() {
+        db = FirebaseFirestore.getInstance();
+        mAuh = FirebaseAuth.getInstance();
+    }
+
+    public static Controller_HomeFeed getInstance() {
+        if (instance == null) {
             instance = new Controller_HomeFeed();
         }
         return instance;
-    }
-
-    private Controller_HomeFeed(){
-        db = FirebaseFirestore.getInstance();
-        mAuh = FirebaseAuth.getInstance();
     }
 
     //----------------------------------WATCHLIST----------------------------------

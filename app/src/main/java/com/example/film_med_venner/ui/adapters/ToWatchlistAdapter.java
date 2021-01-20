@@ -17,8 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ToWatchlistAdapter extends BaseAdapter {
-    private Context ctx;
-    private List<IWatchItem> watchlistItems;
+    private final Context ctx;
+    private final List<IWatchItem> watchlistItems;
     private Movie movie;
 
     public ToWatchlistAdapter(Context ctx, List<IWatchItem> watchlistItems) {

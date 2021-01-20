@@ -1,10 +1,5 @@
 package com.example.film_med_venner.ui.profileActivities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,15 +7,19 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.GridView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.IReview;
 import com.example.film_med_venner.ui.MovieDetailsActivity;
 import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-
-import com.example.film_med_venner.interfaces.IReview;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,14 +27,17 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class ReviewActivity extends AppCompatActivity {
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
     private GridView gridView;
     private ReviewAdapter reviewAdapter;
     private Context ctx;
     private List<IReview> items = new ArrayList<>();
     private String userID;
-    private final Executor bgThread = Executors.newSingleThreadExecutor();
-    private final Handler uiThread = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class ReviewActivity extends AppCompatActivity {
         }
 
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
 
         gridView = findViewById(R.id.gridView);
 
@@ -67,7 +69,7 @@ public class ReviewActivity extends AppCompatActivity {
                     });
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("ReviewActivity->getReviews(" + userID + ")" + ":  " + e.toString());
             }
         });
     }
@@ -78,6 +80,7 @@ public class ReviewActivity extends AppCompatActivity {
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
+
     public void itemOnClick(View view) {
         int position = gridView.getPositionForView(view);
         Intent intent = new Intent(this, MovieDetailsActivity.class);

@@ -9,15 +9,16 @@ import java.util.List;
 
 public class Controller_Search {
     private static Controller_Search instance;
-    private OmdbWebServiceClient omdb = new OmdbWebServiceClient();
+    private final OmdbWebServiceClient omdb = new OmdbWebServiceClient();
 
-    public static Controller_Search getInstance(){
-        if (instance == null){
+    public static Controller_Search getInstance() {
+        if (instance == null) {
             instance = new Controller_Search();
         }
         return instance;
     }
-    public List<Movie> getSearchItems(String search){
+
+    public List<Movie> getSearchItems(String search) {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

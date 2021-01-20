@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class MovieDetailsActivity extends AppCompatActivity {
     private static final String TAG = "MovieDetailsActivity";
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
@@ -214,14 +216,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("MovieDetailsActivity->getCurrentUsersReview(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
             }
         });
     }
 
 
     public void setReview(IReview review){
-        Log.e(TAG,"I was called");
         this.review = (Review) review;
         uiThread.post(() -> {
             if (review != null) {

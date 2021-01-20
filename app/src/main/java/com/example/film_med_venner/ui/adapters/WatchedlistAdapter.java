@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Movie;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.interfaces.IWatchItem;
 import com.squareup.picasso.Picasso;
@@ -18,8 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class WatchedlistAdapter extends BaseAdapter {
-    private Context ctx;
-    private List<IWatchItem> watchedlistItems;
+    private final Context ctx;
+    private final List<IWatchItem> watchedlistItems;
     private TextView title, year, type;
     private ImageView moviePoster;
     private View gridView;
@@ -52,11 +51,10 @@ public class WatchedlistAdapter extends BaseAdapter {
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //TODO item ting nedenunder
-            gridView = inflater.inflate(R.layout. profile_watched_item, null);
+            gridView = inflater.inflate(R.layout.profile_watched_item, null);
         }
 
         findViews();
-        System.out.println(item.getMovieIDStr());
         movie = Controller_MovieDetails.getInstance().getMovie(item.getMovieIDStr());
 
         Picasso.get().load(movie.getPoster()).into(moviePoster);

@@ -1,14 +1,11 @@
 package com.example.film_med_venner.ui.adapters;
 
 import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.film_med_venner.DTO.FullProfileDTO;
@@ -20,8 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class MovieDetailsAdapter extends BaseAdapter {
-    private Context ctx;
-    private List<IReview> ratingItems;
+    private final Context ctx;
+    private final List<IReview> ratingItems;
     private View gridView;
     private TextView friend_name, review_text;
     private ImageView profile_pic, star1, star2, star3, star4, star5;
@@ -65,16 +62,16 @@ public class MovieDetailsAdapter extends BaseAdapter {
             int itemRating = item.getRating();
             if (profile.getPictureURL() != null) {
                 String profilePictureUrl = profile.getPictureURL();
-                    Picasso.get().load(profilePictureUrl).into(profile_pic);
-                    friend_name.setText(friendName);
-                    review_text.setText(reviewText);
-                    starfest(itemRating);
+                Picasso.get().load(profilePictureUrl).into(profile_pic);
+                friend_name.setText(friendName);
+                review_text.setText(reviewText);
+                starfest(itemRating);
             } else {
                 int defaultPic = R.drawable.icon_default_profilepicture;
-                    Picasso.get().load(defaultPic).into(profile_pic);
-                    friend_name.setText(friendName);
-                    review_text.setText(reviewText);
-                    starfest(itemRating);
+                Picasso.get().load(defaultPic).into(profile_pic);
+                friend_name.setText(friendName);
+                review_text.setText(reviewText);
+                starfest(itemRating);
             }
         });
         return gridView;
@@ -86,42 +83,23 @@ public class MovieDetailsAdapter extends BaseAdapter {
     }
 
     private void starfest(int rating) {
-        if (rating == 0) {
-            star1.setImageResource(R.drawable.icon_empty_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        } else if (rating == 1) {
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        } else if (rating == 2) {
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        } else if (rating == 3) {
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        } else if (rating == 4) {
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        } else if (rating == 5) {
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_filled_star);
+        star1.setImageResource(R.drawable.icon_empty_star);
+        star2.setImageResource(R.drawable.icon_empty_star);
+        star3.setImageResource(R.drawable.icon_empty_star);
+        star4.setImageResource(R.drawable.icon_empty_star);
+        star5.setImageResource(R.drawable.icon_empty_star);
+        switch (rating) {
+            case 5:
+                star5.setImageResource(R.drawable.icon_filled_star);
+            case 4:
+                star4.setImageResource(R.drawable.icon_filled_star);
+            case 3:
+                star3.setImageResource(R.drawable.icon_filled_star);
+            case 2:
+                star2.setImageResource(R.drawable.icon_filled_star);
+            case 1:
+                star1.setImageResource(R.drawable.icon_filled_star);
+
         }
     }
 

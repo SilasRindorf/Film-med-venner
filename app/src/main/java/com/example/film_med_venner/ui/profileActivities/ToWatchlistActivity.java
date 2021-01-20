@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class ToWatchlistActivity extends AppCompatActivity {
     private GridView gridView;
     private ToWatchlistAdapter toWatchlistAdapter;
@@ -70,7 +72,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
                     });
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("ToWatchListActivity->getToWatchList(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
             }
         });
 
@@ -92,67 +94,7 @@ public class ToWatchlistActivity extends AppCompatActivity {
     }
 
     public void removeOnClick(View view) {
-//        int position = gridView.getPositionForView(view);
-//        try {
-//            Controller_HomeFeed.getInstance().removeToWatchListItem(items.get(position).getMovieIDStr());
-//            toWatchlistAdapter.removeItem(position);
-//            Toast.makeText(ctx, "Movie removed from watch list", Toast.LENGTH_LONG).show();
-//        } catch (IDatabase.DatabaseException e) {
-//            Toast.makeText(ctx, "Error while trying to remove movie ", Toast.LENGTH_LONG).show();
-//            e.printStackTrace();
-//        }
+
     }
 
-    /*
-    @Override
-    public void onResume() {
-        super.onResume();
-        setupHomeFeed(true);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setupHomeFeed(false);
-    }
-
-    void setupHomeFeed(boolean run) {
-        AsyncTask asyncTask = new AsyncTask() {
-
-            String errorMsg = null;
-
-            @Override
-            protected void onPreExecute() {
-            }
-
-            @Override
-            protected Object doInBackground(Object... arg0) {
-                try {
-
-                    return null;
-                } catch (Exception e) {
-                    //    errorMsg = e.getMessage();
-                    e.printStackTrace();
-                    return e;
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(Object titler) {
-
-            }
-
-        };
-
-        if (run) {
-            asyncTask.execute();
-        } else {
-            asyncTask.cancel(true);
-        }
-    }*/
 }

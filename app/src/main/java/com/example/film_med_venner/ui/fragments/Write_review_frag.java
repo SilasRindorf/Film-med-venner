@@ -69,7 +69,11 @@ public class Write_review_frag extends DialogFragment {
         btn.setOnClickListener(v -> {
             Thread newThread = new Thread(() -> {
                 if (starReview > 1 && starReview < 6) {
-                    IReview newReview = new Review(starReview, Controller_User.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(), Controller_User.getInstance().getCurrentUser().getID());
+                    IReview newReview = new Review(
+                            starReview,
+                            Controller_User.getInstance().getCurrentUser().getName(),
+                            movieID, reviewInput.getText().toString(),
+                            Controller_User.getInstance().getCurrentUser().getID());
                     if (status) {
                         try {
                             Controller_Review.getInstance().updateReview(newReview);

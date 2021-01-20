@@ -28,6 +28,7 @@ public interface IDatabase {
 
         public DatabaseException(String message, Throwable cause, int errorID) {
             super(message, cause);
+
             this.errorID = errorID;
         }
 

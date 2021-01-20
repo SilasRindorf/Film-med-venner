@@ -1,6 +1,5 @@
 package com.example.film_med_venner.DAO;
 
-import com.example.film_med_venner.interfaces.IMovie;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

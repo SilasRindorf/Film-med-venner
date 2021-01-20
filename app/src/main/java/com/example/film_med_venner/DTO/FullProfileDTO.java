@@ -43,6 +43,10 @@ public class FullProfileDTO {
         return pictureURL;
     }
 
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
     public String getmvGPrefs() {
         return mvGPrefs;
     }
@@ -65,10 +69,6 @@ public class FullProfileDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPictureURL(String pictureURL) {
-        this.pictureURL = pictureURL;
     }
 
     public List<FriendDTO> getFriends() {

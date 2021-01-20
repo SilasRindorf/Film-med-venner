@@ -2,7 +2,6 @@ package com.example.film_med_venner.ui.profileActivities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -25,14 +24,15 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class FriendRequestActivity extends AppCompatActivity {
 
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
     private GridView gridView;
     private FriendRequestAdapter friendRequestAdapter;
-    private final Executor bgThread = Executors.newSingleThreadExecutor();
-    private final Handler uiThread = new Handler();
     private Context ctx;
-    private List<FullProfileDTO> friendList = new ArrayList<>();
+    private final List<FullProfileDTO> friendList = new ArrayList<>();
 
 
     @Override
@@ -55,11 +55,12 @@ public class FriendRequestActivity extends AppCompatActivity {
             gridView.setVisibility(View.VISIBLE);
 
             try {
-                Controller_Friends.getInstance().getFriendType(userID,0, friendRequest -> {
+                Controller_Friends.getInstance().getFriendType(userID, 0, friendRequest -> {
                     friendRequestAdapter.addItem(friendRequest);
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("FriendRequestActivity->getFriendType:  " + e.toString());
+
             }
         });
     }
@@ -72,7 +73,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                 Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show();
             });
         } catch (IDatabase.DatabaseException e) {
-            e.printStackTrace();
+            Sentry.captureMessage("FriendActivity->respondToFriendRequest:  " + e.toString());
             Toast.makeText(ctx, "Error accepting friend request", Toast.LENGTH_LONG).show();
         }
     }
@@ -85,7 +86,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                 Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show();
             });
         } catch (IDatabase.DatabaseException e) {
-            e.printStackTrace();
+            Sentry.captureMessage("FriendActivity->DeclineFriend:  " + e.toString());
             Toast.makeText(ctx, "Error declining friend request", Toast.LENGTH_LONG).show();
         }
     }

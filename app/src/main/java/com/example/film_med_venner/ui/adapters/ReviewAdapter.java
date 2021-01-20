@@ -17,8 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ReviewAdapter extends BaseAdapter {
-    private Context ctx;
-    private List<IReview> ratingItems;
+    private final Context ctx;
+    private final List<IReview> ratingItems;
     private ImageView star1, star2, star3, star4, star5, moviePoster;
     private TextView movieTitle, reviewText;
     private View gridView;
@@ -61,47 +61,23 @@ public class ReviewAdapter extends BaseAdapter {
         movieTitle.setText(movie.getTitle());
         reviewText.setText(item.getReview());
 
-        if (item.getRating() == 0){
-            star1.setImageResource(R.drawable.icon_empty_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (item.getRating() == 1){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (item.getRating() == 2){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (item.getRating() == 3){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (item.getRating() == 4){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (item.getRating() == 5){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_filled_star);
+        star1.setImageResource(R.drawable.icon_empty_star);
+        star2.setImageResource(R.drawable.icon_empty_star);
+        star3.setImageResource(R.drawable.icon_empty_star);
+        star4.setImageResource(R.drawable.icon_empty_star);
+        star5.setImageResource(R.drawable.icon_empty_star);
+        switch (item.getRating()) {
+            case 5:
+                star5.setImageResource(R.drawable.icon_filled_star);
+            case 4:
+                star4.setImageResource(R.drawable.icon_filled_star);
+            case 3:
+                star3.setImageResource(R.drawable.icon_filled_star);
+            case 2:
+                star2.setImageResource(R.drawable.icon_filled_star);
+            case 1:
+                star1.setImageResource(R.drawable.icon_filled_star);
+
         }
 
         return gridView;

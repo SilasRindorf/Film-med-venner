@@ -18,10 +18,8 @@ import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
-import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -101,7 +99,6 @@ public class Controller_User implements IController {
     }
 
 
-
     public void logIn(String email, String password, RunnableUI runnableUI) throws IDatabase.DatabaseException {
         try {
             mAuh.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -167,7 +164,7 @@ public class Controller_User implements IController {
                     Log.d(TAG, "Create user with email: Success ");
                     profile.setID(mAuh.getCurrentUser().getUid());
                     profile.setEmail(email);
-                    addUser(profile,null);
+                    addUser(profile, null);
                     runnableUI.run();
                 } else {
                     Log.d(TAG, "Create user with email: Failed ");
@@ -206,7 +203,7 @@ public class Controller_User implements IController {
             mAuh.getCurrentUser().updateProfile(profileUpdates);
             facebookProfile.setID(mAuh.getCurrentUser().getUid());
             facebookProfile.setEmail(email);
-            addUser(facebookProfile,profilePictureURL);
+            addUser(facebookProfile, profilePictureURL);
             runnableUI.run();
         } catch (Exception e) {
             runnableUI.handleError(new IDatabase.DatabaseException("Error creating Facebook user", e));

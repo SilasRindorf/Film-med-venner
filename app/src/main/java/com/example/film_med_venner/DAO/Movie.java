@@ -3,13 +3,13 @@ package com.example.film_med_venner.DAO;
 import com.example.film_med_venner.interfaces.IMovie;
 
 public class Movie implements IMovie {
-    private String Title;
-    private String Year;
+    private final String Title;
+    private final String Year;
     private String Runtime;
-    private String Genre;
+    private final String Genre;
     private String Type;
-    private String Director;
-    private String Actors;
+    private final String Director;
+    private final String Actors;
     private String Plot;
     private String imdbID;
     private String Poster;
@@ -45,7 +45,9 @@ public class Movie implements IMovie {
         return Year;
     }
 
-    public String getRuntime(){return Runtime;}
+    public String getRuntime() {
+        return Runtime;
+    }
 
     public String getGenre() {
         return Genre;

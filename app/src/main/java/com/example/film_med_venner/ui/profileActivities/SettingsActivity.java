@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -31,18 +30,16 @@ import com.squareup.picasso.Picasso;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.sentry.Sentry;
+
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn /*, copy_id_btn*/;
-    private EditText profile_name_edit_text, profile_phone_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
-    private ImageView profile_picture;
-    private FullProfileDTO profile;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
+    private Button change_profile_picture_btn, save_password_btn, save_changes_btn, log_out_btn;
+    private EditText profile_name_edit_text, profile_mail_edit_text, profile_top_genre_edit_text, profile_password_edit_text, profile_new_password_edit_text, profile_repeat_new_password_edit_text;
+    private ImageView profile_picture;
+    private FullProfileDTO profile;
     private String userID, profile_picture_url, profile_name, profile_email, profile_mvgPref;
-    private Switch switch_lists, switch_reviews;
-    private CheckBox checkBox_mark_all;
-    /*private TextView profile_id;
-    private Context ctx;*/
 
     //TODO Switches i settings?
     @Override
@@ -51,7 +48,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.settings_main);
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
-        //ctx = this;
         findViews();
 
         userID = Controller_User.getInstance().getCurrentUser().getID();
@@ -70,7 +66,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         profile_name_edit_text.setText(profile_name, TextView.BufferType.EDITABLE);
                         profile_mail_edit_text.setText(profile_email, TextView.BufferType.EDITABLE);
                         profile_top_genre_edit_text.setText(profile_mvgPref, TextView.BufferType.EDITABLE);
-                        //profile_id.setText(userID);
                     }
                 });
             });
@@ -94,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureMessage("SettingsActivity->logOut(id:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
             }
         } else if (view == save_changes_btn) {
 
@@ -107,10 +102,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void handleError(IDatabase.DatabaseException e) {
+                        Sentry.captureMessage("SettingsActivity->save_changes_button->getReviews(" + userID + ")" + ":  " + e.toString());
                         Toast.makeText(SettingsActivity.this, "An error has occured", Toast.LENGTH_LONG).show();
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
+                Sentry.captureMessage("SettingsActivity->save_changes_button(id:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
                 Log.e("Error", "Error in updating user");
                 e.printStackTrace();
 
@@ -126,6 +123,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void handleError(IDatabase.DatabaseException e) {
+                        Sentry.captureMessage("SettingsActivity->updateUserPassword(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
                         Toast.makeText(SettingsActivity.this, "Something went wrong, check passwords and try again", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -134,12 +132,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
         } else if (view == change_profile_picture_btn) {
             Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-        } /*else if (view == copy_id_btn) {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Your ID", userID);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
-        }*/
+        }
     }
 
     public void findViews() {
@@ -152,7 +145,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         save_changes_btn.setOnClickListener(this);
         log_out_btn = findViewById(R.id.btn_log_out);
         log_out_btn.setOnClickListener(this);
-        //copy_id_btn = findViewById(R.id.copy_id_btn);
         // EDITTEXT
         profile_name_edit_text = findViewById(R.id.profile_name);
         profile_mail_edit_text = findViewById(R.id.profile_mail);
@@ -165,39 +157,30 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         // TEXTVIEW
         //profile_id = findViewById(R.id.profile_id);
         // SWITCHES
-        switch_lists = findViewById(R.id.switch_lists);
-        switch_lists.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
+        Switch switch_lists = findViewById(R.id.switch_lists);
+        switch_lists.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
             }
         });
-        switch_reviews = findViewById(R.id.switch_reviews);
-        switch_reviews.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
+        Switch switch_reviews = findViewById(R.id.switch_reviews);
+        switch_reviews.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
             }
         });
         // CHECKBOX
-        checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
-        checkBox_mark_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isChecked()) {
-                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
-                }
+        CheckBox checkBox_mark_all = findViewById(R.id.checkBox_mark_all);
+        checkBox_mark_all.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked()) {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(SettingsActivity.this, "Unfortunately this feature has not been implemented yet.", Toast.LENGTH_LONG).show();
             }
-
         });
     }
 }

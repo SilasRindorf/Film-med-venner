@@ -35,14 +35,6 @@ public class Profile implements IProfile {
     }
 
 
-
-    //TODO Den skal også hente profilbillede her
-    /*public Profile(String name, String ID, ArrayList<String> moviesOnToWatchList, ArrayList<String> moviesOnWatchedList) {
-        this(name, ID);
-        this.moviesOnToWatchList = moviesOnToWatchList;
-        this.moviesOnWatchedList = moviesOnWatchedList;
-    }*/
-
     @Override
     public String getEmail() {
         return email;

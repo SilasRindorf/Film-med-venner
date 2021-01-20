@@ -5,7 +5,6 @@ import com.example.film_med_venner.interfaces.IController.IController_Movie;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IMovie;
 import com.example.film_med_venner.interfaces.runnable.RunnableMovieUI;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -14,22 +13,20 @@ import java.util.List;
 
 
 public class Controller_Movie implements IController_Movie {
-    private final FirebaseFirestore db;
-    private final FirebaseAuth mAuh;
     private static Controller_Movie instance;
-    public static Controller_Movie getInstance(){
-        if (instance == null){
+    private final FirebaseFirestore db;
+
+    private Controller_Movie() {
+        db = FirebaseFirestore.getInstance();
+    }
+
+    public static Controller_Movie getInstance() {
+        if (instance == null) {
             instance = new Controller_Movie();
         }
         return instance;
     }
-
-    private Controller_Movie(){
-        db = FirebaseFirestore.getInstance();
-        mAuh = FirebaseAuth.getInstance();
-    }
     //----------------------------------MOVIES----------------------------------
-
 
     public void getMoviesWithGenre(String genre, RunnableMovieUI runnable) throws IDatabase.DatabaseException {
         //Get all movies and check for movies with genrer

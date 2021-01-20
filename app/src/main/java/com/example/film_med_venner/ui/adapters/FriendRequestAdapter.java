@@ -15,8 +15,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class FriendRequestAdapter extends BaseAdapter {
-    private Context ctx;
-    private List<FullProfileDTO> profileItems;
+    private final Context ctx;
+    private final List<FullProfileDTO> profileItems;
 
     public FriendRequestAdapter(Context ctx, List<FullProfileDTO> profileItems) {
         this.ctx = ctx;

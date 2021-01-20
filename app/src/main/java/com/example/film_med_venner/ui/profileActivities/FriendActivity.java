@@ -1,44 +1,38 @@
 package com.example.film_med_venner.ui.profileActivities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.Layout;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.Utility;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.ui.LoadingScreen;
 import com.example.film_med_venner.ui.ProfileActivity;
 import com.example.film_med_venner.ui.adapters.FriendAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Friends;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import io.sentry.Sentry;
 
 public class FriendActivity extends AppCompatActivity implements View.OnClickListener {
     private ListView gridView;
@@ -48,10 +42,10 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Button see_friendrequest_btn, add_friend_btn/*, copy_id_btn*/;
     private EditText searchField;
     private LinearLayout l_layout_buttons;
-    private Executor bgThread = Executors.newSingleThreadExecutor();
-    private Handler uiThread = new Handler();
-    private Bundle bundle = new Bundle();
-    private List<FullProfileDTO> friendList = new ArrayList<>();
+    private final Executor bgThread = Executors.newSingleThreadExecutor();
+    private final Handler uiThread = new Handler();
+    private final Bundle bundle = new Bundle();
+    private final List<FullProfileDTO> friendList = new ArrayList<>();
     private String userID;
     private int amountOfFriendRequest;
     //private TextView profile_id;
@@ -81,15 +75,10 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 AddFriend();
             } catch (IDatabase.DatabaseException e) {
-                Toast.makeText(this,"Error adding friend",Toast.LENGTH_LONG).show();
+                Sentry.captureMessage("FriendActivity->OnClick: " + e.toString());
+                Toast.makeText(this, "Error adding friend", Toast.LENGTH_LONG).show();
             }
         }
-        /*if (v == copy_id_btn){
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Your ID", userID);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(ctx, "ID: \"" + userID + " added to clipboard.", Toast.LENGTH_LONG).show();
-        }*/
     }
 
     public void itemOnClick(View view) {
@@ -113,7 +102,6 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void findViews() {
-        //profile_id = findViewById(R.id.profile_id);
         gridView = findViewById(R.id.listView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         searchField = findViewById(R.id.searchField);
@@ -126,19 +114,17 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
 
         if (intent.getStringExtra("userID") == null || intent.getStringExtra("userID").equals(Controller_User.getInstance().getCurrentUser().getID())) {
             userID = Controller_User.getInstance().getCurrentUser().getID();
-            //profile_id.setText(userID);
         } else {
             userID = intent.getStringExtra("userID");
             l_layout_buttons.getLayoutParams().height = 0;
-            //profile_id.setText(userID);
         }
-        amountOfFriendRequest = intent.getIntExtra("friendRequests",0);
-        if (amountOfFriendRequest == 0){
+        amountOfFriendRequest = intent.getIntExtra("friendRequests", 0);
+        if (amountOfFriendRequest == 0) {
             see_friendrequest_btn.setText("You have 0 new friend requests");
-        } else if (amountOfFriendRequest == 1){
+        } else if (amountOfFriendRequest == 1) {
             see_friendrequest_btn.setText("You have 1 new friend requests");
-        } else if (amountOfFriendRequest > 1){
-            see_friendrequest_btn.setText("You have " + amountOfFriendRequest  + " new friend requests");
+        } else if (amountOfFriendRequest > 1) {
+            see_friendrequest_btn.setText("You have " + amountOfFriendRequest + " new friend requests");
         }
 
         see_friendrequest_btn.setOnClickListener(this);
@@ -146,16 +132,13 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
 
         searchField.setOnKeyListener((view, keyCode, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_ENTER:
-                        try {
-                            AddFriend();
-                        } catch (IDatabase.DatabaseException e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    default:
-                        break;
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    try {
+                        AddFriend();
+                    } catch (IDatabase.DatabaseException e) {
+                        Sentry.captureMessage("FriendActivity->AddFriend:  " + e.toString());
+                    }
+                    return true;
                 }
             }
             return false;
@@ -168,14 +151,14 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         bgThread.execute(() -> {
 
             try {
-                Controller_Friends.getInstance().getFriendType(userID,1, friends -> {
+                Controller_Friends.getInstance().getFriendType(userID, 1, friends -> {
                     friendAdapter.addItem(friends);
                 });
             } catch (IDatabase.DatabaseException e) {
+                Sentry.captureMessage("FriendActivity->FriendType:  " + e.toString());
                 e.printStackTrace();
             }
         });
-        /*copy_id_btn = findViewById(R.id.copy_id_btn);
-        copy_id_btn.setOnClickListener(this);*/
+
     }
 }

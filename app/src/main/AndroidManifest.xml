@@ -15,13 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <meta-data android:name="io.sentry.dsn" android:value="https://b7c94db054674985955195410c550e4f@o508334.ingest.sentry.io/5600687" />
+
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             tools:replace="android:value"
             android:value="@string/facebook_app_id"/>
 
-        <activity android:name=".ui.profileActivities.FriendRequestActivity"></activity>
-        <activity android:name=".ui.loginActivities.ForgotPasswordActivity"></activity>
+        <activity android:name=".ui.profileActivities.FriendRequestActivity" />
+        <activity android:name=".ui.loginActivities.ForgotPasswordActivity" />
         <activity android:name=".ui.MovieDetailsActivity"
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity android:name=".ui.LoadingScreen" />

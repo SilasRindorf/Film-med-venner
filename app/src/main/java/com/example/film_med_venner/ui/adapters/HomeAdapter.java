@@ -20,13 +20,12 @@ import java.util.Date;
 import java.util.TreeMap;
 
 public class HomeAdapter extends BaseAdapter {
-    private Context ctx;
-    private TreeMap<Date, IReview> homeFeedItems;
+    private final Context ctx;
+    private final TreeMap<Date, IReview> homeFeedItems;
     private View listView;
     private TextView profileName, review, creationDate, movieTitle;
     private ImageView moviePoster, star1, star2, star3, star4, star5;
     private Movie movie;
-
 
 
     public HomeAdapter(Context ctx, TreeMap<Date, IReview> items) {
@@ -81,10 +80,6 @@ public class HomeAdapter extends BaseAdapter {
     }
 
 
-
-
-
-
     private void findViews() {
         moviePoster = listView.findViewById(R.id.moviePoster);
         profileName = listView.findViewById(R.id.profile_name);
@@ -99,47 +94,23 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     private void starfest(int rating) {
-        if (rating == 0){
-            star1.setImageResource(R.drawable.icon_empty_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (rating == 1){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_empty_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (rating == 2){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_empty_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (rating == 3){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_empty_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (rating == 4){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_empty_star);
-        }
-        else if (rating == 5){
-            star1.setImageResource(R.drawable.icon_filled_star);
-            star2.setImageResource(R.drawable.icon_filled_star);
-            star3.setImageResource(R.drawable.icon_filled_star);
-            star4.setImageResource(R.drawable.icon_filled_star);
-            star5.setImageResource(R.drawable.icon_filled_star);
+        star1.setImageResource(R.drawable.icon_empty_star);
+        star2.setImageResource(R.drawable.icon_empty_star);
+        star3.setImageResource(R.drawable.icon_empty_star);
+        star4.setImageResource(R.drawable.icon_empty_star);
+        star5.setImageResource(R.drawable.icon_empty_star);
+        switch (rating) {
+            case 5:
+                star5.setImageResource(R.drawable.icon_filled_star);
+            case 4:
+                star4.setImageResource(R.drawable.icon_filled_star);
+            case 3:
+                star3.setImageResource(R.drawable.icon_filled_star);
+            case 2:
+                star2.setImageResource(R.drawable.icon_filled_star);
+            case 1:
+                star1.setImageResource(R.drawable.icon_filled_star);
+
         }
     }
 
