@@ -1,4 +1,4 @@
-package com.example.film_med_venner.ui.login;
+package com.example.film_med_venner.ui.loginActivities;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
