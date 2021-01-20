@@ -47,11 +47,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ListView gridView;
     private Context ctx;
     private TextView yourReview;
-    private ImageView star1;
-    private ImageView star2;
-    private ImageView star3;
-    private ImageView star4;
-    private ImageView star5;
     private ImageView starFriend1, starFriend2, starFriend3, starFriend4, starFriend5;
     private ImageButton addToWatch, write_review_btn;
     private MovieDetailsAdapter movieDetailsAdapter;
@@ -71,7 +66,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         Intent intent = getIntent();
-
+        ImageView[] stars = {findViewById(R.id.ImageView_star_1), findViewById(R.id.ImageView_star_2), findViewById(R.id.ImageView_star_3), findViewById(R.id.ImageView_star_4), findViewById(R.id.ImageView_star_5)};
+        ImageView[] friendStars = {findViewById(R.id.ImageView_friend_star_1),findViewById(R.id.ImageView_friend_star_2),findViewById(R.id.ImageView_friend_star_3),findViewById(R.id.ImageView_friend_star_4),findViewById(R.id.ImageView_friend_star_5)};
         ctx = this;
         movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
         movie = mdController.getMovie(intent.getStringExtra("Id"));
@@ -86,7 +82,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         review = (Review) rating;
                         uiThread.post(() -> {
                             if (review != null) {
-                                starFest(review.getRating());
+                                starFest(stars,review.getRating());
                                 yourReview.setText(review.getReview());
                             }
                         });
@@ -114,7 +110,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             avgRating = totalRating / raters;
                             movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
-                                starFestFriends(avgRating);
+                                starFest(friendStars,avgRating);
                             });
                         }
 
@@ -171,8 +167,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             scrollview.setVisibility(View.INVISIBLE);
             gridView.setVisibility(View.VISIBLE);
             leaveReviews_btn.setVisibility(View.VISIBLE);
-
-            Toast.makeText(MovieDetailsActivity.this, "Til censor: \n Hvis du scroller op og ned her kommer friends reviews ind. Vi kunne desværre ikke få det til at virke helt optimalt. Beklager.", Toast.LENGTH_LONG).show();
         } else if (view == leaveReviews_btn) {
             scrollview.setVisibility(View.VISIBLE);
             gridView.setVisibility(View.INVISIBLE);
@@ -180,73 +174,24 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void starFest(int starReview) {
+    public void starFest(ImageView[] stars, int starReview) {
+        int starShape = R.drawable.icon_filled_star;
         switch (starReview) {
-            case 1:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 2:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 3:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 4:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                star4.setImageResource(R.drawable.icon_filled_star);
-                break;
             case 5:
-                star1.setImageResource(R.drawable.icon_filled_star);
-                star2.setImageResource(R.drawable.icon_filled_star);
-                star3.setImageResource(R.drawable.icon_filled_star);
-                star4.setImageResource(R.drawable.icon_filled_star);
-                star5.setImageResource(R.drawable.icon_filled_star);
-                break;
-        }
-    }
-
-    private void starFestFriends(int starReview) {
-        switch (starReview) {
-            case 1:
-                starFriend1.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 2:
-                starFriend1.setImageResource(R.drawable.icon_filled_star);
-                starFriend2.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 3:
-                starFriend1.setImageResource(R.drawable.icon_filled_star);
-                starFriend2.setImageResource(R.drawable.icon_filled_star);
-                starFriend3.setImageResource(R.drawable.icon_filled_star);
-                break;
+                stars[4].setImageResource(starShape);
             case 4:
-                starFriend1.setImageResource(R.drawable.icon_filled_star);
-                starFriend2.setImageResource(R.drawable.icon_filled_star);
-                starFriend3.setImageResource(R.drawable.icon_filled_star);
-                starFriend4.setImageResource(R.drawable.icon_filled_star);
-                break;
-            case 5:
-                starFriend1.setImageResource(R.drawable.icon_filled_star);
-                starFriend2.setImageResource(R.drawable.icon_filled_star);
-                starFriend3.setImageResource(R.drawable.icon_filled_star);
-                starFriend4.setImageResource(R.drawable.icon_filled_star);
-                starFriend5.setImageResource(R.drawable.icon_filled_star);
-                break;
+                stars[3].setImageResource(starShape);
+            case 3:
+                stars[2].setImageResource(starShape);
+            case 2:
+                stars[1].setImageResource(starShape);
+            case 1:
+                stars[0].setImageResource(starShape);
         }
     }
 
     private void findViews() {
         yourReview = findViewById(R.id.textView_your_review);
-        star1 = findViewById(R.id.ImageView_star_1);
-        star2 = findViewById(R.id.ImageView_star_2);
-        star3 = findViewById(R.id.ImageView_star_3);
-        star4 = findViewById(R.id.ImageView_star_4);
-        star5 = findViewById(R.id.ImageView_star_5);
         starFriend1 = findViewById(R.id.ImageView_friend_star_1);
         starFriend2 = findViewById(R.id.ImageView_friend_star_2);
         starFriend3 = findViewById(R.id.ImageView_friend_star_3);
@@ -278,7 +223,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         TextView actors = findViewById(R.id.textView_actors);
         actors.setText(movie.getActors());
 
-        //friends_reviews_container = findViewById(R.id.friends_reviews_container);
 
         scrollview = findViewById(R.id.scrollView);
     }
