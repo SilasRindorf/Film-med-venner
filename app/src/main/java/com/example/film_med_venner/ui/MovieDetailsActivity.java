@@ -11,6 +11,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +47,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private GridView gridView;
+    private ListView gridView;
     private Context ctx;
     private TextView yourReview;
     private ImageView star1;
@@ -58,12 +59,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageButton addToWatch, write_review_btn;
     private MovieDetailsAdapter movieDetailsAdapter;
     private Button showReviews_btn, leaveReviews_btn;
-    private LinearLayout friends_reviews_container;
+    //private LinearLayout friends_reviews_container;
     private Movie movie;
     private Review review;
     private int totalRating;
     private int raters;
     private int avgRating;
+    private int adapterStatus = 0;
     private List<IReview> reviewList = new ArrayList<>();
     private ScrollView scrollview;
 
@@ -75,7 +77,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
 
         ctx = this;
-
+        movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         findViews();
 
@@ -88,8 +90,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         review = (Review) rating;
                         Log.e("uID: ", Controller_User.getInstance().getCurrentUser().getID());
                         Log.e("movID: ", movie.getImdbID());
-                        Controller_User.getInstance().getFullProfile(review.getUserID(), fullProfileDTO -> {
-                            FullProfileDTO profile = fullProfileDTO;});
                         uiThread.post(() -> {
                             if (review != null) {
                                 starFest(review.getRating());
@@ -123,7 +123,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                 starFestFriends(avgRating);
                             });
                         }
-
                         @Override
                         public void run() {
                         }
@@ -131,21 +130,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 } catch (IDatabase.DatabaseException e) {
                     e.printStackTrace();
                 }
+
             });
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
         }
-
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
-
-        bgThread.execute(() -> {
-            movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
-            gridView.setAdapter(movieDetailsAdapter);
-            uiThread.post(() -> {
-                gridView.setVisibility(View.INVISIBLE);
-            });
-        });
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -178,9 +169,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
             }
         } else if (view == showReviews_btn){
+            if (adapterStatus == 0) {
+                gridView.setAdapter(movieDetailsAdapter);
+                adapterStatus = 1;
+            } else {
             scrollview.setVisibility(View.INVISIBLE);
             gridView.setVisibility(View.VISIBLE);
-            leaveReviews_btn.setVisibility(View.VISIBLE);
+            leaveReviews_btn.setVisibility(View.VISIBLE);}
         } else if (view == leaveReviews_btn){
             scrollview.setVisibility(View.VISIBLE);
             gridView.setVisibility(View.INVISIBLE);
