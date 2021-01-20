@@ -1,10 +1,5 @@
 package com.example.film_med_venner.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,20 +9,27 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DTO.FriendDTO;
+import com.example.film_med_venner.DTO.FullProfileDTO;
+import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_Review;
+import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
-import com.example.film_med_venner.interfaces.IProfile;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
+import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.Executor;
@@ -38,67 +40,50 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
-    private View v;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    Controller_Review controller = Controller_Review.getInstance();
+    private List<IReview> reviewList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Context ctx = this;
+        ctx = this;
 
         Fragment frag = new Nav_bar_frag();
-        addFrag(R.id.nav_bar_container,frag);
+        addFrag(R.id.nav_bar_container, frag);
         listView = findViewById(R.id.listView);
 
-        Log.e("Tagie",  "I here");
+        Log.e("Tagie", "I here");
         Map<Date, IReview> map = new TreeMap<>();
-        try {
-            Controller_Friends.getInstance().getFriends(profiles -> {
-                for (IProfile p: profiles) {
-                    try {
-                        Controller_Review.getInstance().getReviews(p.getID(), new RunnableReviewsLoadUI() {
-                            @Override
-                            public void run() {
 
-                            }
+        Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), new RunnableFullProfileUI() {
+            @Override
+            public void run(FullProfileDTO fullProfileDTO) throws IDatabase.DatabaseException {
 
-                            @Override
-                            public void run(IReview[] ratings) {
-                                for (IReview review : ratings) {
-                                    map.put(review.getCreationDate(),review);
-                                    Log.e("Main menu",review.getCreationDate() + "");
-                                }
-
-                            }
-                        });
-                    } catch (IDatabase.DatabaseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (IDatabase.DatabaseException e) {
-            e.printStackTrace();
-        }
-        //TODO Homefeed not working
-        /*bgThread.execute(() -> {
-            try {
-                List<IReview> items = new ArrayList<>();
-                controller.getReviews((RunnableReviewsUI) -> {
-                    items = controller.
-                    uiThread.post(() -> {
-                        homeAdapter = new HomeAdapter(ctx, items);
-                        listView.setAdapter(homeAdapter);
-                        listView.setVisibility(View.VISIBLE);
-                    });
-                });
-            } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
             }
-        });*/
+        });
+
+
+        Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), fullProfileDTO -> {
+
+            for (FriendDTO p : fullProfileDTO.getFriends()) {
+                try {
+                    Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
+                        for (IReview review : ratings) {
+                            map.put(review.getCreationDate(), review);
+                            Log.e("Main menu", review.getCreationDate() + "");
+                        }
+
+                    });
+                } catch (IDatabase.DatabaseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     @Override

@@ -18,8 +18,6 @@ import com.example.film_med_venner.interfaces.IReview;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MovieDetailsAdapter extends BaseAdapter {
     private Context ctx;
@@ -28,7 +26,6 @@ public class MovieDetailsAdapter extends BaseAdapter {
     private TextView friend_name, review_text;
     private ImageView profile_pic, star1, star2, star3, star4, star5;
     private FullProfileDTO profile;
-    private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
 
     public MovieDetailsAdapter(Context ctx, List<IReview> ratingItems) {

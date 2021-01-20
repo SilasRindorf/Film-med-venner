@@ -68,7 +68,6 @@ public class Controller_Review implements IController_Review {
     public void getReviews(String userID, RunnableReviewsUI runnableReviewsUI) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(userID).collection("reviews")
-                    .orderBy("creationDate")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
