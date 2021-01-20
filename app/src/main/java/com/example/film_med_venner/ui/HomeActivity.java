@@ -27,6 +27,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -54,9 +55,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         addFrag(R.id.nav_bar_container, frag);
         listView = findViewById(R.id.listView);
 
-        Log.e("Tagie",  "I here");
 
-
+        Map<Date, IReview> map = new TreeMap<>(Collections.reverseOrder());
 
 
 
