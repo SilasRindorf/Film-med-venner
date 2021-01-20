@@ -7,10 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
@@ -21,10 +19,8 @@ import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.ui.MovieDetailsActivity;
 import com.example.film_med_venner.ui.adapters.ReviewAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.controllers.Controller_Friends;
-import com.example.film_med_venner.interfaces.IController.IProfileController;
+
 import com.example.film_med_venner.interfaces.IReview;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +29,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ReviewActivity extends AppCompatActivity {
-    GridView gridView;
+    private GridView gridView;
     private ReviewAdapter reviewAdapter;
     private Context ctx;
     private List<IReview> items = new ArrayList<>();
