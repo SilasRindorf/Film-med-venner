@@ -137,7 +137,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             uiThread.post(() -> {
                                 Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
-                                setGridViewHeight(gridView,1);
+                                //setGridViewHeight(gridView,1);
                                 //scrollView.setLayoutParams(new ConstraintLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
                             });
                         }
