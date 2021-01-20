@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.film_med_venner.DAO.Profile;
+import com.example.film_med_venner.DTO.FriendDTO;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.DTO.ReviewDTO;
@@ -17,6 +18,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfileUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableProfilesUI;
 import com.example.film_med_venner.interfaces.runnable.RunnableUI;
+import com.example.film_med_venner.ui.profileActivities.FriendActivity;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -76,12 +78,8 @@ public class Controller_User implements IController {
     public void getCurrentUserWithmvGPrefs(RunnableProfileUI runnableProfileUI) throws IDatabase.DatabaseException {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
-            db.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    runnableProfileUI.run(documentSnapshot.toObject(Profile.class));
-                }
-            });
+            db.collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot ->
+                    runnableProfileUI.run(documentSnapshot.toObject(Profile.class)));
         } catch (Exception e) {
             throw new IDatabase.DatabaseException("Could not get movie preferences", e);
         }
@@ -282,9 +280,9 @@ public class Controller_User implements IController {
 
                 db.collection("users").document(uID).collection("friends").get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        List<ProfileDTO> friends = new ArrayList<>();
+                        List<FriendDTO> friends = new ArrayList<>();
                         for (DocumentSnapshot doc : task.getResult()) {
-                            friends.add(doc.toObject(ProfileDTO.class));
+                            friends.add(doc.toObject(FriendDTO.class));
                         }
                         try {
                             checks[0] = true;

@@ -5,7 +5,7 @@ import com.example.film_med_venner.interfaces.IWatchItem;
 import java.util.List;
 
 public class FullProfileDTO {
-    private List<ProfileDTO> friends;
+    private List<FriendDTO> friends;
     private List<ReviewDTO> reviews;
     private List<IWatchItem> toWatchList;
     private List<IWatchItem> watchedList;
@@ -71,11 +71,11 @@ public class FullProfileDTO {
         this.pictureURL = pictureURL;
     }
 
-    public List<ProfileDTO> getFriends() {
+    public List<FriendDTO> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<ProfileDTO> friends) {
+    public void setFriends(List<FriendDTO> friends) {
         this.friends = friends;
     }
 
