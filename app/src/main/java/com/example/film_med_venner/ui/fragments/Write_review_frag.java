@@ -145,11 +145,11 @@ public class Write_review_frag extends DialogFragment {
             public void onClick(View v) {
                 if (starReview == 1 || starReview == 2 || starReview == 3 || starReview == 4 || starReview == 5){
                     IReview newReview = new Review(starReview, Controller_User.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(),Controller_User.getInstance().getCurrentUser().getID());
-                    if (status == true){
+                    if (status){
                         try {
                             Controller_Review.getInstance().updateReviews(newReview);
-
                             Toast.makeText(getActivity(), "Review submitted", Toast.LENGTH_LONG).show();
+                            closefragment();
                         } catch (IDatabase.DatabaseException e){
                             e.printStackTrace();
                             Toast.makeText(getActivity(), "Failed to update review", Toast.LENGTH_LONG).show();
