@@ -11,7 +11,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,10 +106,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
         });
-        movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
-        gridView.setAdapter(movieDetailsAdapter);
-        gridView.setVisibility(View.VISIBLE);
-
 
         try {
             Controller_Review.getInstance().getFriendsWhoReviewed(movie.getImdbID(), string -> {
@@ -119,6 +114,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         @Override
                         public void run(IReview rating) {
                             Review r = (Review) rating;
+                            System.out.println("FUCKINGLORTEREVIEW HVEM ER DU" + r);
                             totalRating += r.getRating();
                             raters++;
                             avgRating = totalRating / raters;
@@ -142,6 +138,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
+
+        bgThread.execute(() -> {
+            movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
+            gridView.setAdapter(movieDetailsAdapter);
+            uiThread.post(() -> {
+                gridView.setVisibility(View.INVISIBLE);
+            });
+        });
     }
 
     private void addFrag(int id, Fragment fragment) {
@@ -175,11 +179,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         } else if (view == showReviews_btn){
             scrollview.setVisibility(View.INVISIBLE);
-            friends_reviews_container.setVisibility(View.VISIBLE);
+            gridView.setVisibility(View.VISIBLE);
             leaveReviews_btn.setVisibility(View.VISIBLE);
         } else if (view == leaveReviews_btn){
             scrollview.setVisibility(View.VISIBLE);
-            friends_reviews_container.setVisibility(View.INVISIBLE);
+            gridView.setVisibility(View.INVISIBLE);
             leaveReviews_btn.setVisibility(View.INVISIBLE);
         }
     }
@@ -282,7 +286,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         TextView actors = findViewById(R.id.textView_actors);
         actors.setText(movie.getActors());
 
-        friends_reviews_container = findViewById(R.id.friends_reviews_container);
+        //friends_reviews_container = findViewById(R.id.friends_reviews_container);
 
         scrollview = findViewById(R.id.scrollView);
     }
