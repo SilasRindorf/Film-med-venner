@@ -17,22 +17,19 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 public class HomeAdapter extends BaseAdapter {
     private Context ctx;
     private TreeMap<Date, IReview> homeFeedItems;
     private View listView;
-    private TextView profileName, review;
+    private TextView profileName, review, creationDate, movieTitle;
     private ImageView moviePoster, star1, star2, star3, star4, star5;
     private Movie movie;
 
 
 
-    public HomeAdapter(Context ctx, TreeMap<Date, IReview> items, Date date) {
+    public HomeAdapter(Context ctx, TreeMap<Date, IReview> items) {
         this.ctx = ctx;
         this.homeFeedItems = items;
     }
@@ -75,38 +72,30 @@ public class HomeAdapter extends BaseAdapter {
         movie = Controller_MovieDetails.getInstance().getMovie(item.getMovieIDStr());
         Picasso.get().load(movie.getPoster()).into(moviePoster);
         profileName.setText(item.getUsername());
+        movieTitle.setText(movie.getTitle());
         review.setText(item.getReview());
         starfest(item.getRating());
+        creationDate.setText(item.getCreationDate().toString());
 
         return listView;
     }
-    public void addItem(IReview review) {
-        homeFeedItems.put(review.getCreationDate(), review);
-        this.notifyDataSetChanged();
-    }
-
-    private void iterateMap() {
-        Set set = homeFeedItems.entrySet();
-        Iterator i = set.iterator();
-        while (i.hasNext()) {
-            Map.Entry item = (Map.Entry) i.next();
-            item.getKey();
-        }
 
 
-    }
+
 
 
 
     private void findViews() {
         moviePoster = listView.findViewById(R.id.moviePoster);
         profileName = listView.findViewById(R.id.profile_name);
+        movieTitle = listView.findViewById(R.id.movie_title);
         review = listView.findViewById(R.id.textView_review);
         star1 = listView.findViewById(R.id.ImageView_star_1);
         star2 = listView.findViewById(R.id.ImageView_star_2);
         star3 = listView.findViewById(R.id.ImageView_star_3);
         star4 = listView.findViewById(R.id.ImageView_star_4);
         star5 = listView.findViewById(R.id.ImageView_star_5);
+        creationDate = listView.findViewById(R.id.creation_date);
     }
 
     private void starfest(int rating) {

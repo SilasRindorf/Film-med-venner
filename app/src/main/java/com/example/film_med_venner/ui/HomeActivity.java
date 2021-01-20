@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.listView);
 
 
-        Map<Date, IReview> map = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<Date, IReview> map = new TreeMap<>(Collections.reverseOrder());
 
 
 
@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
                         for (IReview review : ratings) {
                             map.put(review.getCreationDate(), review);
-                            homeAdapter = new HomeAdapter(ctx, map, review.getCreationDate());
+                            homeAdapter = new HomeAdapter(ctx, map);
                             listView.setAdapter(homeAdapter);
                             listView.setVisibility(View.VISIBLE);
                             Log.e("Main menu", review.getCreationDate() + "");
