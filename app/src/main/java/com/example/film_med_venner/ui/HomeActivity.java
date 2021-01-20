@@ -70,7 +70,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             homeAdapter = new HomeAdapter(ctx, map);
                             listView.setAdapter(homeAdapter);
                             listView.setVisibility(View.VISIBLE);
-                            Log.e("Main menu", review.getCreationDate() + "");
                         }
 
                     });

@@ -45,15 +45,18 @@ public class Controller_Friends implements IProfileController {
     /**
      * Send a request to the database to add a friend
      * @param friendID friends ID string
-     * @throws IDatabase.DatabaseException
+     * @throws FriendException IDatabase exception
      */
-    public void sendFriendRequest(String friendID) throws IDatabase.DatabaseException {
+    public void sendFriendRequest(String friendID) throws FriendException {
+        //If user is oneself
         if (friendID.equals(mAuh.getCurrentUser().getUid()))
-            throw new IDatabase.DatabaseException("Can't add yourself as friend");
+            throw new FriendException("Can't add yourself as friend");
+        //Create request
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("requester", selfID);
         user.put("status", 0);
+        //Add friend
         try {
             db.collection("users").document(friendID).collection("friends").document(selfID)
                     .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
@@ -61,15 +64,15 @@ public class Controller_Friends implements IProfileController {
                     .addOnFailureListener(e ->
                             Log.w(TAG, "Error sending friend request", e));
         } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error adding friend", e);
+            throw new FriendException("Error adding friend", e);
         }
 
     }
 
     /**
      * Send a request to the database to add a friend
+     * On Exception run handleError from RunnableErrorUI interface
      * @param email friends email string
-     * @throws IDatabase.DatabaseException
      */
     public void sendFriendRequestByMail(String email, RunnableErrorUI runnableErrorUI)  {
         HashMap<String, Object> user = new HashMap<>();
@@ -97,15 +100,26 @@ public class Controller_Friends implements IProfileController {
         }
     }
 
-    public void sendFriendRequestByMail(String email) throws IDatabase.DatabaseException {
+    /**
+     * Send a friend request to a profile identified by email
+     * If a person request the same email as friend it updates the request
+     * @param email email "ex@ex.ex" needs to be a valid email
+     * @throws FriendException  if profile with email is oneself
+     */
+    public void sendFriendRequestByMail(String email) throws FriendException {
+        //Create request status 0 for friend request
         HashMap<String, Object> user = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         user.put("requester", selfID);
         user.put("status", 0);
         try {
+            //Find user by email
+            //Use Firebase to look through docs
             db.collection("users").whereEqualTo("email",email).get().addOnCompleteListener(task -> {
+                //Since we don't know doc ID we
                 if (task.isSuccessful()){
                     for (DocumentSnapshot doc : task.getResult()) {
+                        //If email identifies oneself
                         if (doc.getId().equals(selfID))
                             return;
                         else {
@@ -119,17 +133,15 @@ public class Controller_Friends implements IProfileController {
                 }
             });
         } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error adding friend", e);
+            throw new FriendException("Error adding friend", e);
         }
     }
 
     /**
      *
      * @param status Requester status, -1 rejected friends, 0 friend request, 1 friends
-     * @param runnableFullProfileUI method to run on complete
-     * @throws IDatabase.DatabaseException
      */
-    public void getFriendType(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws IDatabase.DatabaseException {
+    public void getFriendType(String userID, int status, RunnableFullProfileUI runnableFullProfileUI) throws FriendException {
         try {
             db.collection("users").document(userID).collection("friends")
                     .whereEqualTo("status", status).get().addOnCompleteListener(task -> {
@@ -146,34 +158,41 @@ public class Controller_Friends implements IProfileController {
                 }
             });
         } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error getting friend request", e);
+            throw new FriendException("Error getting friend request", e);
         }
     }
 
 
-    public void respondToFriendRequest(String friendID, int reqStatus, RunnableUI runnableUI) throws IDatabase.DatabaseException {
+    public void respondToFriendRequest(String friendID, int reqStatus, RunnableUI runnableUI) throws FriendException {
+        //Set own friend to the status
         HashMap<String, Object> status = new HashMap<>();
         String selfID = mAuh.getCurrentUser().getUid();
         status.put("status", reqStatus);
         status.put("requester", friendID);
 
         try {
+            //By accessing the database, merge to not overwrite extra data( if there is any)
             db.collection("users").document(selfID).collection("friends")
                     .document(friendID).set(status, SetOptions.merge()).addOnCompleteListener(task -> {
+                //If changing own friend to status succeeded change friends status of you
                 if (task.isSuccessful()) {
+                    //Replace requester ID with self ID
+                    //So not to add friend to himself
                     status.replace("requester", mAuh.getCurrentUser().getUid());
+                    //Merge to not overwrite extra data
                     db.collection("users").document(friendID).collection("friends")
                             .document(selfID).set(status, SetOptions.merge());
                     try {
+                        //Run methods if everything succeeds
                         runnableUI.run();
                     } catch (IDatabase.DatabaseException e) {
-                        e.printStackTrace();
+                        Log.e(TAG,e.getMessage());
                     }
                 }
             });
 
         } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error getting friend request", e);
+            throw new FriendException("Error getting friend request", e);
         }
     }
 
@@ -190,7 +209,7 @@ public class Controller_Friends implements IProfileController {
             });
 
         } catch (Exception e) {
-            throw new IDatabase.DatabaseException("Error getting friends", e);
+            throw new FriendException("Error getting friends", e);
         }
     }
 

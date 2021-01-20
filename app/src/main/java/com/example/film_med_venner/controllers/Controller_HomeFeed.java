@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import org.w3c.dom.Document;
 
@@ -36,8 +37,8 @@ public class Controller_HomeFeed implements IController_HomeFeed {
     public void addToWatchListItem(IWatchItem watchItem) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
-                    .collection("to_watch_list")
-                    .add(new WatchItemDTO(watchItem));
+                    .collection("to_watch_list").document(watchItem.getMovieIDStr())
+                    .set(new WatchItemDTO(watchItem), SetOptions.merge());
         } catch (Exception e) {
             throw new IDatabase.DatabaseException("Error creating watch item", e);
         }
@@ -46,13 +47,9 @@ public class Controller_HomeFeed implements IController_HomeFeed {
     public void removeToWatchListItem(String movieIDStr) throws IDatabase.DatabaseException {
         try {
             db.collection("users").document(mAuh.getCurrentUser().getUid())
-                    .collection("to_watch_list")
-                    .whereEqualTo("movieIDStr", movieIDStr).get().addOnSuccessListener(queryDocumentSnapshots -> {
-                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots ) {
-                            db.collection("users").document(mAuh.getCurrentUser().getUid())
-                                    .collection("to_watch_list")
-                                    .document(doc.getId()).delete();
-                        }
+                    .collection("to_watch_list").document(movieIDStr)
+                    .delete()
+                    .addOnCompleteListener(task -> {
                     });
         } catch (Exception e) {
             throw new IDatabase.DatabaseException("Error creating watch item", e);
@@ -69,7 +66,6 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                     IWatchItem[] toWatchList = new WatchItemDTO[task.getResult().size()];
                     List<WatchItemDTO> watchItems = task.getResult().toObjects(WatchItemDTO.class);
                     runnableWatchListUI.run(watchItems.toArray(toWatchList));
-                    System.out.println(watchItems);
                 }
             });
         } catch (Exception e) {

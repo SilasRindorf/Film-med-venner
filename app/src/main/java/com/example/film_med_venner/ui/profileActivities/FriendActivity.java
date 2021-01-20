@@ -81,7 +81,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 AddFriend();
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Toast.makeText(this,"Error adding friend",Toast.LENGTH_LONG).show();
             }
         }
         /*if (v == copy_id_btn){
