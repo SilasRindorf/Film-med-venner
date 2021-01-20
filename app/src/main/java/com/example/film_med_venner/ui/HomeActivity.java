@@ -27,6 +27,7 @@ import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,14 +58,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.listView);
 
         Log.e("Tagie", "I here");
-        Map<Date, IReview> map = new TreeMap<>();
+        Map<Date, IReview> map = new TreeMap<>(Collections.reverseOrder());
 
-        Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), new RunnableFullProfileUI() {
-            @Override
-            public void run(FullProfileDTO fullProfileDTO) throws IDatabase.DatabaseException {
-
-            }
-        });
 
 
         Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), fullProfileDTO -> {
