@@ -7,245 +7,250 @@
     android:background="@drawable/gradient"
     tools:context=".ui.ProfileActivity">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-    <!--Linear layout for all the categories being shown-->
-    <LinearLayout
-        android:id="@+id/category_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="5"
-        android:layout_marginTop="20dp">
-        <!--Profile container-->
+        app:layout_constraintBottom_toTopOf="@id/nav_bar_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--Linear layout for all the categories being shown-->
         <LinearLayout
-            android:id="@+id/profile_container"
+            android:id="@+id/category_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imageView_profile"
-                android:layout_width="40dp"
+            android:orientation="vertical"
+            android:weightSum="5"
+            android:layout_marginTop="20dp">
+            <!--Profile container-->
+            <LinearLayout
+                android:id="@+id/profile_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageView_profile"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"
+                        app:srcCompat="@drawable/icon_default_profilepicture" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text_profileName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profileName"
+                            android:textSize="24sp"
+                            android:textColor="@color/colorTextView" />
+
+                        <TextView
+                            android:id="@+id/profileGenrePref"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="italic"
+                            android:text="@string/profileInterests"
+                            android:textColor="@color/colorTextView" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView_settings"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:onClick="onClickSettings"
+                    app:srcCompat="@drawable/icon_settings"/>
+            </LinearLayout>
+            <!--Friends-->
+            <LinearLayout
+                android:id="@+id/linearLayout_friends"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"
-                app:srcCompat="@drawable/icon_default_profilepicture" />
+                android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="2"
-                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/imageView_friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/icon_friends" />
 
-                <TextView
-                    android:id="@+id/text_profileName"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profileName"
-                    android:textSize="24sp"
-                    android:textColor="@color/colorTextView" />
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/profileGenrePref"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="italic"
-                    android:text="@string/profileInterests"
-                    android:textColor="@color/colorTextView" />
+                    <TextView
+                        android:id="@+id/textView_friends_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/friends"
+                        android:textColor="@color/colorTextView" />
+
+                    <TextView
+                        android:id="@+id/textView_friends_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sampletext_friends_description"
+                        android:textColor="@color/colorTextView" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView_settings"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+            <!--Reviewed-->
+            <LinearLayout
+                android:id="@+id/linearLayout_rating"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
-                android:onClick="onClickSettings"
-                app:srcCompat="@drawable/icon_settings"/>
-        </LinearLayout>
-        <!--Friends-->
-        <LinearLayout
-            android:id="@+id/linearLayout_friends"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView_friends"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_friends" />
+                <ImageView
+                    android:id="@+id/imageView_rated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/icon_reviewed" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView_friends_title"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/friends"
-                    android:textColor="@color/colorTextView" />
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView_friends_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sampletext_friends_description"
-                    android:textColor="@color/colorTextView" />
+                    <TextView
+                        android:id="@+id/textView_rated_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/rated"
+                        android:textColor="@color/colorTextView" />
 
+                    <TextView
+                        android:id="@+id/textView_rated_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sampletext_rated_description"
+                        android:textColor="@color/colorTextView" />
+                </LinearLayout>
             </LinearLayout>
 
-        </LinearLayout>
+            <!--Reviewed-->
 
-        <!--Reviewed-->
-        <LinearLayout
-            android:id="@+id/linearLayout_rating"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView_rated"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_reviewed" />
-
+            <!--ToWatchList-->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
+                android:id="@+id/linearLayout_to_watchlist"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView_rated_title"
+                <ImageView
+                    android:id="@+id/imageView_to_watch_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/icon_add_to_list" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/rated"
-                    android:textColor="@color/colorTextView" />
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView_rated_description"
+                    <TextView
+                        android:id="@+id/textView_want_to_watch_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/wantToWatch"
+                        android:textColor="@color/colorTextView" />
+
+                    <TextView
+                        android:id="@+id/textView_want_to_watch_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sampletext_want_to_watch_description"
+                        android:textColor="@color/colorTextView" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--WatchedList-->
+            <LinearLayout
+                android:id="@+id/linearLayout_watchedlist"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView_watched_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/icon_add_to_list" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sampletext_rated_description"
-                    android:textColor="@color/colorTextView" />
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView_watchedlist_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/watched"
+                        android:textColor="@color/colorTextView" />
+
+                    <TextView
+                        android:id="@+id/textView_watchedlist_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sampletext_watchedlist_description"
+                        android:textColor="@color/colorTextView" />
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-        <!--Reviewed-->
-
-        <!--ToWatchList-->
-        <LinearLayout
-            android:id="@+id/linearLayout_to_watchlist"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView_to_watch_list"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_add_to_list" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView_want_to_watch_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/wantToWatch"
-                    android:textColor="@color/colorTextView" />
-
-                <TextView
-                    android:id="@+id/textView_want_to_watch_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sampletext_want_to_watch_description"
-                    android:textColor="@color/colorTextView" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!--WatchedList-->
-        <LinearLayout
-            android:id="@+id/linearLayout_watchedlist"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView_watched_list"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_add_to_list" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView_watchedlist_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/watched"
-                    android:textColor="@color/colorTextView" />
-
-                <TextView
-                    android:id="@+id/textView_watchedlist_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sampletext_watchedlist_description"
-                    android:textColor="@color/colorTextView" />
-
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
 
 
 
