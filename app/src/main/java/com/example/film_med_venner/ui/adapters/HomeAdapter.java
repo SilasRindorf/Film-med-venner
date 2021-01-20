@@ -14,6 +14,10 @@ import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.interfaces.IReview;
 import com.squareup.picasso.Picasso;
 
+import com.example.film_med_venner.controllers.Controller_MovieDetails;
+import com.example.film_med_venner.interfaces.IReview;
+import com.squareup.picasso.Picasso;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +73,10 @@ public class HomeAdapter extends BaseAdapter {
         starfest(item.getRating());
 
         return listView;
+    }
+    public void addItem(IReview review) {
+        homeFeedItems.add(review);
+        this.notifyDataSetChanged();
     }
 
 
