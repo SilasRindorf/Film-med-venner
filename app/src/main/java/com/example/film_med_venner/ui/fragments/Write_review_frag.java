@@ -66,11 +66,9 @@ public class Write_review_frag extends DialogFragment {
         //Creating the onClickListener for submit_review_btn and giving adding the intent for switching to another activity as well.
         reviewInput = view.findViewById(R.id.review_input_editText);
         btn = (Button) view.findViewById(R.id.submit_review_btn);
-        Log.e("Star-senpai", "I'm " + starReview + " oWo");
         btn.setOnClickListener(v -> {
             Thread newThread = new Thread(() -> {
                 if (starReview > 1 && starReview < 6) {
-                    Log.e("review-chan", "I was " + starReview + " here UwU");
                     IReview newReview = new Review(starReview, Controller_User.getInstance().getCurrentUser().getName(), movieID, reviewInput.getText().toString(), Controller_User.getInstance().getCurrentUser().getID());
                     if (status) {
                         try {

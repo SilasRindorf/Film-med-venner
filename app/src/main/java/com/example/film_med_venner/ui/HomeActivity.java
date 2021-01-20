@@ -3,8 +3,6 @@ package com.example.film_med_venner.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,25 +14,18 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DTO.FriendDTO;
-import com.example.film_med_venner.DTO.FullProfileDTO;
-import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
-import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.IReview;
-import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -91,10 +82,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onClickReview(View v) {
-        setContentView(R.layout.feed_rated_item_description);
-        Intent intent = new Intent(this, ReviewedItemActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(intent, 0);
+//        setContentView(R.layout.frag_extended_review);
+//        Intent intent = new Intent(this, ReviewedItemActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        startActivityIfNeeded(intent, 0);
     }
 
     public void onClickPoster(View view) {
@@ -116,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
         int clickedReviewRating = getClickedRating(((TextView) view).getText().toString());
         String clickedReviewDescription = getClickedDescription(((TextView) view).getText().toString());
 
-        setContentView(R.layout.feed_rated_item_description);
+        setContentView(R.layout.frag_extended_review);
         Intent intent = new Intent(this, ReviewedItemActivity.class);
 
         System.out.println(clickedReviewText);
