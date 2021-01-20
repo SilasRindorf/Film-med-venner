@@ -26,8 +26,10 @@ import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.Executor;
@@ -38,24 +40,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
-    private View v;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    Controller_Review controller = Controller_Review.getInstance();
+    private Map<Date, IReview> map = new TreeMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Context ctx = this;
+        ctx = this;
 
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
         listView = findViewById(R.id.listView);
 
         Log.e("Tagie",  "I here");
-        Map<Date, IReview> map = new TreeMap<>();
+
+        homeAdapter = new HomeAdapter(ctx, map);
+        listView.setAdapter(homeAdapter);
+        listView.setVisibility(View.VISIBLE);
+
+
         try {
             Controller_Friends.getInstance().getFriends(profiles -> {
                 for (IProfile p: profiles) {
@@ -69,8 +76,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void run(IReview[] ratings) {
                                 for (IReview review : ratings) {
-                                    map.put(review.getCreationDate(),review);
-                                    Log.e("Main menu",review.getCreationDate() + "");
+                                    map.put(review.getCreationDate(), review);
+                                    Log.e("Main menu","Dato : " + review.getCreationDate());
                                 }
 
                             }
@@ -83,6 +90,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IDatabase.DatabaseException e) {
             e.printStackTrace();
         }
+
         //TODO Homefeed not working
         /*bgThread.execute(() -> {
             try {

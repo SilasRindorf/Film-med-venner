@@ -11,7 +11,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton
-            android:id="@+id/imageView_moviePoster"
+            android:id="@+id/moviePoster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -19,6 +19,7 @@
             android:backgroundTint="@color/colorTransparent"
             android:onClick="onClickPoster"
             android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical"
             app:srcCompat="@drawable/mp" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,18 +28,29 @@
             android:layout_weight="3"
             >
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/profile_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBackground"
+                android:layout_height="0dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorTextView"
                 android:text="@string/sampletext_this_person_reviewed_this_movie"
                 android:layout_weight="2"
                 />
+
+            <TextView
+                android:id="@+id/textView_review"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="3"
+                android:text="JEG KAN RIGTIG GODT LIDE BATMAN DET ER MIN YNGLINGS FILM JEG ELSKER DEN BARE SÅ MEGET!"
+                android:textColor="@color/colorBackground" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="4">
                 <ImageView
                     android:id="@+id/ImageView_star_1"
                     android:layout_width="0dp"
@@ -85,14 +97,7 @@
                     android:layout_weight="3"
                     />
             </LinearLayout>
-            <TextView
-                android:onClick="goToReview"
-                android:id="@+id/textView_review_short"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:textColor="@color/colorBackground"
-                android:text="JEG KAN RIGTIG GODT LIDE BATMAN DET ER MIN YNGLINGS FILM JEG ELSKER DEN BARE SÅ MEGET!"/>
+
         </LinearLayout>
     </LinearLayout>
 

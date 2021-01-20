@@ -1,5 +1,7 @@
 package com.example.film_med_venner.controllers;
 
+import android.util.Log;
+
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DTO.ReviewDTO;
 import com.example.film_med_venner.interfaces.IController.IController_Review;
@@ -83,6 +85,7 @@ public class Controller_Review implements IController_Review {
                         }
                     });
         } catch (Exception e) {
+            Log.e("user : ", userID);
             throw new IDatabase.DatabaseException("Error getting reviews", e);
         }
     }
