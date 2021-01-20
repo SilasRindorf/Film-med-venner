@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DAO.WatchItem;
+import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.R;
 import com.example.film_med_venner.controllers.Controller_HomeFeed;
 import com.example.film_med_venner.controllers.Controller_MovieDetails;
@@ -58,13 +57,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView starFriend1, starFriend2, starFriend3, starFriend4, starFriend5;
     private ImageButton addToWatch, write_review_btn;
     private MovieDetailsAdapter movieDetailsAdapter;
-
+    private Button showReviews_btn, leaveReviews_btn;
+    private LinearLayout friends_reviews_container;
     private Movie movie;
     private Review review;
     private int totalRating;
     private int raters;
     private int avgRating;
     private List<IReview> reviewList = new ArrayList<>();
+    private ScrollView scrollview;
 
 
     @Override
@@ -75,20 +76,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         ctx = this;
 
-        gridView = findViewById(R.id.listView);
-
         movie = mdController.getMovie(intent.getStringExtra("Id"));
-        yourReview = findViewById(R.id.textView_your_review);
-        star1 = findViewById(R.id.ImageView_star_1);
-        star2 = findViewById(R.id.ImageView_star_2);
-        star3 = findViewById(R.id.ImageView_star_3);
-        star4 = findViewById(R.id.ImageView_star_4);
-        star5 = findViewById(R.id.ImageView_star_5);
-        starFriend1 = findViewById(R.id.ImageView_friend_star_1);
-        starFriend2 = findViewById(R.id.ImageView_friend_star_2);
-        starFriend3 = findViewById(R.id.ImageView_friend_star_3);
-        starFriend4 = findViewById(R.id.ImageView_friend_star_4);
-        starFriend5 = findViewById(R.id.ImageView_friend_star_5);
+        findViews();
 
         bgThread.execute(() -> {
 
@@ -99,6 +88,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                         review = (Review) rating;
                         Log.e("uID: ", Controller_User.getInstance().getCurrentUser().getID());
                         Log.e("movID: ", movie.getImdbID());
+                        Controller_User.getInstance().getFullProfile(review.getUserID(), fullProfileDTO -> {
+                            FullProfileDTO profile = fullProfileDTO;});
                         uiThread.post(() -> {
                             if (review != null) {
                                 starFest(review.getRating());
@@ -115,7 +106,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
         });
-
         movieDetailsAdapter = new MovieDetailsAdapter(ctx, reviewList);
         gridView.setAdapter(movieDetailsAdapter);
         gridView.setVisibility(View.VISIBLE);
@@ -134,7 +124,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
                                 starFestFriends(avgRating);
-                                //setListViewHeightBasedOnChildren(gridView);
                             });
                         }
 
@@ -150,29 +139,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             e.printStackTrace();
         }
 
-
-
-        write_review_btn = findViewById(R.id.image_btn_review);
-        write_review_btn.setOnClickListener(this);
-
-        addToWatch = findViewById(R.id.image_btn_add_to_watch_list);
-        addToWatch.setOnClickListener(this);
-
-        ImageView moviePoster = findViewById(R.id.moviePoster);
-        Picasso.get().load(movie.getPoster()).into(moviePoster);
-
-        TextView title = findViewById(R.id.textView_title);
-        title.setText(movie.getTitle());
-        TextView plot = findViewById(R.id.textView_plot);
-        plot.setText(movie.getPlot());
-        TextView director = findViewById(R.id.textView_director);
-        director.setText(movie.getDirector());
-        TextView runtime = findViewById(R.id.textView_runtime);
-        runtime.setText(movie.getRuntime());
-        TextView actors = findViewById(R.id.textView_actors);
-        actors.setText(movie.getActors());
-
-
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
     }
@@ -183,23 +149,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
-    private void setGridViewHeight(GridView gridView, int columns) {
-        ListAdapter adapter = gridView.getAdapter();
-        int count = adapter.getCount();
-        int row = count / columns;
-        row = (count % columns) == 0 ? row : (row + 1);
-        int totalHeight = 0;
-        for (int i = 0; i < row; i++) {
-            View view = adapter.getView(i, null, gridView);
-            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams layoutParams = gridView.getLayoutParams();
-        layoutParams.height = totalHeight + (gridView.getVerticalSpacing() * (row - 1));
-        gridView.setLayoutParams(layoutParams);
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -215,8 +164,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             Fragment review_frag = new Write_review_frag();
             review_frag.setArguments(bundle);
             addFrag(R.id.write_review_container, review_frag);
-        }
-        if (view == addToWatch) {
+        } else if (view == addToWatch) {
             try {
                 Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
                 Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
@@ -224,27 +172,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
                 Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
             }
+        } else if (view == showReviews_btn){
+            scrollview.setVisibility(View.INVISIBLE);
+            friends_reviews_container.setVisibility(View.VISIBLE);
+            leaveReviews_btn.setVisibility(View.VISIBLE);
+        } else if (view == leaveReviews_btn){
+            scrollview.setVisibility(View.VISIBLE);
+            friends_reviews_container.setVisibility(View.INVISIBLE);
+            leaveReviews_btn.setVisibility(View.INVISIBLE);
         }
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
     }
 
     public void starFest(int starReview) {
@@ -305,6 +241,49 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 starFriend5.setImageResource(R.drawable.icon_filled_star);
                 break;
         }
+    }
+
+    private void findViews(){
+        yourReview = findViewById(R.id.textView_your_review);
+        star1 = findViewById(R.id.ImageView_star_1);
+        star2 = findViewById(R.id.ImageView_star_2);
+        star3 = findViewById(R.id.ImageView_star_3);
+        star4 = findViewById(R.id.ImageView_star_4);
+        star5 = findViewById(R.id.ImageView_star_5);
+        starFriend1 = findViewById(R.id.ImageView_friend_star_1);
+        starFriend2 = findViewById(R.id.ImageView_friend_star_2);
+        starFriend3 = findViewById(R.id.ImageView_friend_star_3);
+        starFriend4 = findViewById(R.id.ImageView_friend_star_4);
+        starFriend5 = findViewById(R.id.ImageView_friend_star_5);
+        gridView = findViewById(R.id.listView);
+
+        showReviews_btn = findViewById(R.id.show_reviews_btn);
+        showReviews_btn.setOnClickListener(this);
+        leaveReviews_btn = findViewById(R.id.leave_reviews_btn);
+        leaveReviews_btn.setOnClickListener(this);
+        write_review_btn = findViewById(R.id.image_btn_review);
+        write_review_btn.setOnClickListener(this);
+
+        addToWatch = findViewById(R.id.image_btn_add_to_watch_list);
+        addToWatch.setOnClickListener(this);
+
+        ImageView moviePoster = findViewById(R.id.moviePoster);
+        Picasso.get().load(movie.getPoster()).into(moviePoster);
+
+        TextView title = findViewById(R.id.textView_title);
+        title.setText(movie.getTitle());
+        TextView plot = findViewById(R.id.textView_plot);
+        plot.setText(movie.getPlot());
+        TextView director = findViewById(R.id.textView_director);
+        director.setText(movie.getDirector());
+        TextView runtime = findViewById(R.id.textView_runtime);
+        runtime.setText(movie.getRuntime());
+        TextView actors = findViewById(R.id.textView_actors);
+        actors.setText(movie.getActors());
+
+        friends_reviews_container = findViewById(R.id.friends_reviews_container);
+
+        scrollview = findViewById(R.id.scrollView);
     }
 
     private void runLoadScreen(Context ctx, boolean keep) {

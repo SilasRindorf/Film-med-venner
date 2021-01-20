@@ -14,11 +14,12 @@ import com.example.film_med_venner.controllers.Controller_MovieDetails;
 import com.example.film_med_venner.interfaces.IReview;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.Date;
+import java.util.Map;
 
 public class HomeAdapter extends BaseAdapter {
     private Context ctx;
-    private List<IReview> homeFeedItems;
+    private Map<Date, IReview> homeFeedItems;
     private View listView;
     private TextView profileName, review;
     private ImageView moviePoster, star1, star2, star3, star4, star5;
@@ -26,7 +27,7 @@ public class HomeAdapter extends BaseAdapter {
 
 
 
-    public HomeAdapter(Context ctx, List<IReview> items) {
+    public HomeAdapter(Context ctx, Map<Date, IReview> items) {
         this.ctx = ctx;
         this.homeFeedItems = items;
     }
@@ -68,11 +69,12 @@ public class HomeAdapter extends BaseAdapter {
 
         return listView;
     }
-
     public void addItem(IReview review) {
-        homeFeedItems.add(review);
+        homeFeedItems.put(review.getCreationDate(), review);
         this.notifyDataSetChanged();
     }
+
+
 
     private void findViews() {
         moviePoster = listView.findViewById(R.id.moviePoster);

@@ -18,6 +18,7 @@ import com.example.film_med_venner.DTO.FriendDTO;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_Review;
 import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -29,8 +30,6 @@ import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.Executor;
@@ -43,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Context ctx;
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private List<IReview> reviewList = new ArrayList<>();
+    private Map<Date, IReview> map = new TreeMap<>();
 
 
     @Override
