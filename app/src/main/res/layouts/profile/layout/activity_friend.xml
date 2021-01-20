@@ -71,10 +71,10 @@
 
             </LinearLayout>
 
-            <GridView
-                android:id="@+id/gridView"
+            <ListView
+                android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
+                android:layout_height="500dp"
 
                 android:columnWidth="100dp"
                 android:numColumns="1"

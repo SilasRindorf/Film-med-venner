@@ -14,11 +14,13 @@ import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +41,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class FriendActivity extends AppCompatActivity implements View.OnClickListener {
-    private GridView gridView;
+    private ListView gridView;
     private FriendAdapter friendAdapter;
     private Context ctx;
     private Intent intent;
@@ -112,7 +114,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
 
     private void findViews() {
         //profile_id = findViewById(R.id.profile_id);
-        gridView = findViewById(R.id.gridView);
+        gridView = findViewById(R.id.listView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
         searchField = findViewById(R.id.searchField);
         add_friend_btn = findViewById(R.id.add_friend_btn);
@@ -159,10 +161,12 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             return false;
         });
 
+        friendAdapter = new FriendAdapter(ctx, friendList);
+        gridView.setAdapter(friendAdapter);
+        gridView.setVisibility(View.VISIBLE);
+
         bgThread.execute(() -> {
-            friendAdapter = new FriendAdapter(ctx, friendList);
-            gridView.setAdapter(friendAdapter);
-            gridView.setVisibility(View.VISIBLE);
+
             try {
                 Controller_Friends.getInstance().getFriendType(userID,1, friends -> {
                     friendAdapter.addItem(friends);

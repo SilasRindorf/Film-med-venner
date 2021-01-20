@@ -19,14 +19,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_pic"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 app:srcCompat="@drawable/icon_default_profilepicture"
-                android:layout_marginEnd="5dp"/>
+                app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,12 +40,13 @@
                     android:textStyle="italic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="This person has rated the movie"
                     android:textColor="@color/colorTextView" />
                 <TextView
                     android:id="@+id/review_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz."
                     android:textColor="@color/colorTextView" />

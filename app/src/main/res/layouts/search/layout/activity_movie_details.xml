@@ -9,6 +9,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/nav_bar_container"
@@ -297,6 +298,7 @@
                 </LinearLayout>
             </LinearLayout>
             <TextView
+                android:id="@+id/friends_review_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -304,20 +306,22 @@
                 android:text="Friends reviews: "
                 android:textColor="@color/colorTextView" />
 
-            <GridView
-                android:id="@+id/gridView"
+            <ListView
+                android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:columnWidth="100dp"
                 android:numColumns="1"
                 android:padding="10dp"
-
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="10dp" />
+
         </LinearLayout>
     </ScrollView>
+
+
+
 
     <LinearLayout
         android:id="@+id/write_review_container"

@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +47,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private GridView gridView;
+    private ListView gridView;
     private Context ctx;
     private TextView yourReview;
     private ImageView star1;
@@ -53,12 +58,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView starFriend1, starFriend2, starFriend3, starFriend4, starFriend5;
     private ImageButton addToWatch, write_review_btn;
     private MovieDetailsAdapter movieDetailsAdapter;
-    private final List<IReview> reviewList = new ArrayList<>();
+
+    private Movie movie;
     private Review review;
     private int totalRating;
     private int raters;
     private int avgRating;
-    private Movie movie;
+    private List<IReview> reviewList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +75,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         ctx = this;
 
-        gridView = findViewById(R.id.gridView);
+        gridView = findViewById(R.id.listView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
         yourReview = findViewById(R.id.textView_your_review);
@@ -113,6 +120,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         gridView.setAdapter(movieDetailsAdapter);
         gridView.setVisibility(View.VISIBLE);
 
+
         try {
             Controller_Review.getInstance().getFriendsWhoReviewed(movie.getImdbID(), string -> {
                 try {
@@ -126,6 +134,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
                                 starFestFriends(avgRating);
+                                //setListViewHeightBasedOnChildren(gridView);
                             });
                         }
 
@@ -174,6 +183,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
+    private void setGridViewHeight(GridView gridView, int columns) {
+        ListAdapter adapter = gridView.getAdapter();
+        int count = adapter.getCount();
+        int row = count / columns;
+        row = (count % columns) == 0 ? row : (row + 1);
+        int totalHeight = 0;
+        for (int i = 0; i < row; i++) {
+            View view = adapter.getView(i, null, gridView);
+            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams layoutParams = gridView.getLayoutParams();
+        layoutParams.height = totalHeight + (gridView.getVerticalSpacing() * (row - 1));
+        gridView.setLayoutParams(layoutParams);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -199,6 +225,26 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
     public void starFest(int starReview) {
