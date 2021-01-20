@@ -357,8 +357,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/leave_reviews_btn"
         android:background="@drawable/gradient">
-        <ListView
-            android:id="@+id/listView"
+        <GridView
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnWidth="100dp"

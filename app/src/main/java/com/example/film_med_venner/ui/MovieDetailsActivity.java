@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +47,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private final Controller_MovieDetails mdController = Controller_MovieDetails.getInstance();
     private final Executor bgThread = Executors.newSingleThreadExecutor();
     private final Handler uiThread = new Handler();
-    private ListView gridView;
+    private GridView gridView;
     private Context ctx;
     private TextView yourReview;
     private ImageView star1;
@@ -255,7 +256,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         starFriend3 = findViewById(R.id.ImageView_friend_star_3);
         starFriend4 = findViewById(R.id.ImageView_friend_star_4);
         starFriend5 = findViewById(R.id.ImageView_friend_star_5);
-        gridView = findViewById(R.id.listView);
+        gridView = findViewById(R.id.gridView);
 
         showReviews_btn = findViewById(R.id.show_reviews_btn);
         showReviews_btn.setOnClickListener(this);
