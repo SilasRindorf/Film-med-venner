@@ -17,6 +17,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
+import io.sentry.Sentry;
+
 public class OmdbWebServiceClient {
 
     public static final String URL = "http://www.omdbapi.com/?apikey=a25b01e1";
@@ -43,10 +45,8 @@ public class OmdbWebServiceClient {
             buffer.close();
             connection.disconnect();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            Sentry.captureException(e);
         }
 
         return response.toString();
@@ -56,7 +56,8 @@ public class OmdbWebServiceClient {
         try {
             id = URLEncoder.encode(id, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Sentry.captureException(e);
+
         }
         String requestUrl = URL + "&i=" + id;
 
@@ -74,7 +75,8 @@ public class OmdbWebServiceClient {
         try {
             title = URLEncoder.encode(title, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Sentry.captureException(e);
+
         }
         String requestUrl = URL + "&s=" + title;
         String response = sendGetRequest(requestUrl);

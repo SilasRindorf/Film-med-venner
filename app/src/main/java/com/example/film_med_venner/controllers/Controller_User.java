@@ -42,6 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.sentry.Sentry;
+
 import static android.content.ContentValues.TAG;
 
 
@@ -79,6 +81,7 @@ public class Controller_User implements IController {
             db.collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot ->
                     runnableProfileUI.run(documentSnapshot.toObject(Profile.class)));
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getCurrentUserWithmvGPrefs(RunnableProfileUI runnableProfileUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Could not get movie preferences", e);
         }
     }
@@ -87,15 +90,16 @@ public class Controller_User implements IController {
         FirebaseUser user = mAuh.getCurrentUser();
         try {
             return user.getEmail();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Sentry.addBreadcrumb("Called String getCurrentUserEmail():  ", e.getMessage());
             return null;
         }
     }
 
     public void sendPasswordEmail(String email) {
         mAuh.sendPasswordResetEmail(email)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Sent email for resetting password"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error sending email ", e));
+                .addOnSuccessListener(aVoid -> { })
+                .addOnFailureListener(e -> Sentry.addBreadcrumb("Called void sendPasswordEmail(String email):  ", e.getMessage()));
     }
 
 
@@ -111,6 +115,7 @@ public class Controller_User implements IController {
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void logIn(String email, String password, RunnableUI runnableUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error logging in", e);
         }
     }
@@ -131,12 +136,13 @@ public class Controller_User implements IController {
                     try {
                         runnableUI.run();
                     } catch (IDatabase.DatabaseException e) {
-                        e.printStackTrace();
+                        Sentry.addBreadcrumb("Called void loginWithFacebookUser(AccessToken token, RunnableUI runnableUI)->runnableUI.run():  ", e.getMessage());
                     }
                 }
             });
 
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void loginWithFacebookUser(AccessToken token, RunnableUI runnableUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error logging in", e);
         }
     }
@@ -152,8 +158,8 @@ public class Controller_User implements IController {
         else
             prof.setPictureURL(pictureURL);
         db.collection("users").document(profile.getID()).set(prof)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "User added with ID: " + profile.getID()))
-                .addOnFailureListener(e -> Log.w(TAG, "Error adding user", e));
+                .addOnSuccessListener(aVoid -> {})
+                .addOnFailureListener(e -> Sentry.addBreadcrumb("Called vvoid addUser(IProfile profile, String pictureURL):  ", e.getMessage()));
     }
 
     public void createUser(String email, String password, IProfile profile, RunnableErrorUI runnableUI) throws IDatabase.DatabaseException {
@@ -161,31 +167,28 @@ public class Controller_User implements IController {
             mAuh.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     mAuh.getCurrentUser().sendEmailVerification();
-                    Log.d(TAG, "Create user with email: Success ");
                     profile.setID(mAuh.getCurrentUser().getUid());
                     profile.setEmail(email);
                     addUser(profile, null);
                     runnableUI.run();
                 } else {
-                    Log.d(TAG, "Create user with email: Failed ");
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
                         runnableUI.handleError(new IDatabase.DatabaseException("Weak Password", e, 101));
                     } catch (FirebaseAuthInvalidCredentialsException e) {
                         runnableUI.handleError(new IDatabase.DatabaseException("Invalid Credentials", e, 102));
-
                     } catch (FirebaseAuthUserCollisionException e) {
                         runnableUI.handleError(new IDatabase.DatabaseException("User Collision", e, 103));
                     } catch (FirebaseAuthEmailException e) {
                         runnableUI.handleError(new IDatabase.DatabaseException("Invalid email", e, 104));
                     } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
+                        Sentry.addBreadcrumb("Called void createUser(String email, String password, IProfile profile, RunnableErrorUI runnableUI)->runnableUI.run():  ", e.getMessage());
                     }
-
                 }
             });
         } catch (IllegalArgumentException e) {
+            Sentry.addBreadcrumb("Called void createUser(String email, String password, IProfile profile, RunnableErrorUI runnableUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating user", e);
         }
 
@@ -206,6 +209,7 @@ public class Controller_User implements IController {
             addUser(facebookProfile, profilePictureURL);
             runnableUI.run();
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void addFacebookUser(String email, String profilePictureURL, IProfile facebookProfile, RunnableErrorUI runnableUI):  ", e.getMessage());
             runnableUI.handleError(new IDatabase.DatabaseException("Error creating Facebook user", e));
         }
 
@@ -221,17 +225,19 @@ public class Controller_User implements IController {
                 if (task.isSuccessful()) {
                     runnableUI.run();
                 } else {
-                    Log.d(TAG, "Error happened in updating name or top genres");
+                    Sentry.addBreadcrumb("Called void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI)->runnableUI.run():  Error updating user");
                 }
             });
             mAuh.getCurrentUser().updateEmail(email).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     runnableUI.run();
                 } else {
-                    Log.d(TAG, "Error happened in updating email");
+                    Sentry.addBreadcrumb("Called void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI)->runnableUI.run():  Error updating email");
                 }
             });
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void updateUser(String name, String email, String topGenres, RunnableErrorUI runnableUI):  ", e.getMessage());
+            throw new IDatabase.DatabaseException("Error updating user",e);
         }
     }
 
@@ -249,14 +255,11 @@ public class Controller_User implements IController {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         runnableUI.run();
-                        Log.d(TAG, "User re-authenticated.");
                         user.updatePassword(passwordNew);
                     } else {
-                        Log.d(TAG, "Error moine froiund");
+                        Sentry.addBreadcrumb("Called void updateUserPassword(String passwordOld, String passwordNew, RunnableErrorUI runnableUI):  Error updating password");
                     }
-
                 });
-
     }
 
     public boolean isFacebookUserLoginValid() {
@@ -286,7 +289,7 @@ public class Controller_User implements IController {
                             fullProfileDTO.setFriends(friends);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException | NullPointerException e) {
-                            Log.e("FullProfile", e.getMessage());
+                            Sentry.addBreadcrumb("Called void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI)->runnableFullProfileUI.run(fullProfileDTO)->friends:  ", e.getMessage());
                         }
                     }
                 });
@@ -303,7 +306,7 @@ public class Controller_User implements IController {
                             fullProfileDTO.setReviews(reviews);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException | NullPointerException e) {
-                            Log.e("FullProfile", e.getMessage());
+                            Sentry.addBreadcrumb("Called void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI)->runnableFullProfileUI.run(fullProfileDTO)->reviews:  ", e.getMessage());
                         }
                     }
                 });
@@ -320,7 +323,7 @@ public class Controller_User implements IController {
                             fullProfileDTO.setWatchedList(watched_list);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException | NullPointerException e) {
-                            Log.e("FullProfile", e.getMessage());
+                            Sentry.addBreadcrumb("Called void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI)->runnableFullProfileUI.run(fullProfileDTO)->watched_list:  ", e.getMessage());
                         }
                     }
                 });
@@ -337,13 +340,14 @@ public class Controller_User implements IController {
                             fullProfileDTO.setToWatchList(to_watch_list);
                             check(checks, () -> runnableFullProfileUI.run(fullProfileDTO));
                         } catch (IDatabase.DatabaseException | NullPointerException e) {
-                            Log.e("FullProfile", e.getMessage());
+                            Sentry.addBreadcrumb("Called void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI)->runnableFullProfileUI.run(fullProfileDTO)->to_watch_list:  ", e.getMessage());
                         }
                     }
                 });
                 return null;
             });
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getFullProfile(String uID, RunnableFullProfileUI runnableFullProfileUI)->runnableFullProfileUI.run(fullProfileDTO):  ", e.getMessage());
         }
     }
 
@@ -353,6 +357,7 @@ public class Controller_User implements IController {
                 checks) {
             if (!check) {
                 succeeded = false;
+                break;
             }
         }
         if (succeeded) {
@@ -373,6 +378,7 @@ public class Controller_User implements IController {
                         }
                     });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getProfiles(RunnableProfilesUI runnable):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error getting users", e);
         }
     }
@@ -398,6 +404,7 @@ public class Controller_User implements IController {
                         }
                     });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getProfile(String id, RunnableProfileUI runnable):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error getting user", e);
         }
     }

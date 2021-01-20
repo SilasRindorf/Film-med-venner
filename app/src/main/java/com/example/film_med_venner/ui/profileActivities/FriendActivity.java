@@ -75,7 +75,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 AddFriend();
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("FriendActivity->OnClick: " + e.toString());
+                Sentry.captureException(e);
                 Toast.makeText(this, "Error adding friend", Toast.LENGTH_LONG).show();
             }
         }
@@ -136,7 +136,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         AddFriend();
                     } catch (IDatabase.DatabaseException e) {
-                        Sentry.captureMessage("FriendActivity->AddFriend:  " + e.toString());
+                        Sentry.captureException(e);
                     }
                     return true;
                 }
@@ -155,7 +155,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
                     friendAdapter.addItem(friends);
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("FriendActivity->FriendType:  " + e.toString());
+                Sentry.captureException(e);
                 e.printStackTrace();
             }
         });

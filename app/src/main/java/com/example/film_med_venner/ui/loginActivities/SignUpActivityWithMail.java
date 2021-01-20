@@ -17,6 +17,8 @@ import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.HomeActivity;
 
+import io.sentry.Sentry;
+
 public class SignUpActivityWithMail extends Activity implements OnClickListener {
     private Button sign_up_btn, go_back_btn;
 
@@ -72,6 +74,7 @@ public class SignUpActivityWithMail extends Activity implements OnClickListener 
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
+                Sentry.captureException(e);
                 Toast.makeText(SignUpActivityWithMail.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

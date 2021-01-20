@@ -69,7 +69,7 @@ public class WatchedlistActivity extends AppCompatActivity {
                     });
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("WatchedListActivity->getWatchedList(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
+                Sentry.captureException(e);
 
             }
         });

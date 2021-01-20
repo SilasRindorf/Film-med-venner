@@ -17,6 +17,8 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 import java.util.List;
 
+import io.sentry.Sentry;
+
 public class Controller_Friends implements IProfileController {
     private static Controller_Friends instance;
     private final FirebaseFirestore db;
@@ -58,6 +60,7 @@ public class Controller_Friends implements IProfileController {
             db.collection("users").document(friendID).collection("friends").document(selfID)
                     .set(user, SetOptions.merge());
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called  void sendFriendRequest(String friendID):  ", e.getMessage());
             throw new FriendException("Error adding friend", e);
         }
 
@@ -86,12 +89,14 @@ public class Controller_Friends implements IProfileController {
                                     .addOnSuccessListener(aVoid -> {
                                     })
                                     .addOnFailureListener(e -> {
+                                        Sentry.addBreadcrumb("Called  void sendFriendRequestByMail(String email, RunnableErrorUI runnableErrorUI)->addOnFailureListener:  ", e.getMessage());
                                     });
                         }
                     }
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called  void sendFriendRequestByMail(String email, RunnableErrorUI runnableErrorUI):  ", e.getMessage());
             runnableErrorUI.handleError(new IDatabase.DatabaseException("Error adding friend", e));
         }
     }
@@ -125,12 +130,14 @@ public class Controller_Friends implements IProfileController {
                                     .addOnSuccessListener(aVoid -> {
                                     })
                                     .addOnFailureListener(e -> {
+                                        Sentry.addBreadcrumb("Called  void sendFriendRequestByMail(String email)->addOnFailureListener:  ", e.getMessage());
                                     });
                         }
                     }
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called  void sendFriendRequestByMail(String email):  ", e.getMessage());
             throw new FriendException("Error adding friend", e);
         }
     }
@@ -150,11 +157,10 @@ public class Controller_Friends implements IProfileController {
                                     Controller_User.getInstance().getFullProfile(uId, runnableFullProfileUI);
                                 });
                     }
-
-
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getFriendType(String userID, int status, RunnableFullProfileUI runnableFullProfileUI):  ", e.getMessage());
             throw new FriendException("Error getting friend request", e);
         }
     }
@@ -182,13 +188,15 @@ public class Controller_Friends implements IProfileController {
                     try {
                         //Run methods if everything succeeds
                         runnableUI.run();
-                    } catch (IDatabase.DatabaseException ignored) {
+                    } catch (IDatabase.DatabaseException e) {
+                        Sentry.addBreadcrumb("Called void respondToFriendRequest(String friendID, int reqStatus, RunnableUI runnableUI)->runnableUI.run(): ", e.getMessage());
 
                     }
                 }
             });
 
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void respondToFriendRequest(String friendID, int reqStatus, RunnableUI runnableUI)");
             throw new FriendException("Error getting friend request", e);
         }
     }
@@ -206,6 +214,7 @@ public class Controller_Friends implements IProfileController {
             });
 
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getFriends(RunnableProfilesUI runnableUI)");
             throw new FriendException("Error getting friends", e);
         }
     }

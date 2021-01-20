@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     });
                 }
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("ProfileActivity->onCreate(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
+                Sentry.captureException(e);
             }
 
             Controller_User.getInstance().getFullProfile(userID, RunnableFullProfileUI -> {

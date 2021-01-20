@@ -11,6 +11,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.sentry.Sentry;
+
 
 public class Controller_Movie implements IController_Movie {
     private static Controller_Movie instance;
@@ -48,6 +50,7 @@ public class Controller_Movie implements IController_Movie {
                         }
                     });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getMoviesWithGenre(String genre, RunnableMovieUI runnable):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error getting moves with " + genre, e);
         }
     }

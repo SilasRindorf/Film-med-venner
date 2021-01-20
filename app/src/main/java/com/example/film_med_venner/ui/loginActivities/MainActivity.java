@@ -59,11 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            Sentry.captureMessage(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
+            Sentry.captureException(e);
+
         }
         auth = Controller_User.getInstance();
         // Force logout in case of error
@@ -96,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
+                Sentry.captureException(e);
                 Toast.makeText(MainActivity.this, "Prøv igen!", Toast.LENGTH_LONG).show();
             }
         });
@@ -174,8 +173,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
                             } catch (Exception e) {
-                                Log.e("MainActivity: ", e.toString());
-                                Sentry.captureMessage("MainActivity: " + e.toString());
+                                Sentry.captureException(e);
                             }
                         });
                         Bundle parameters = new Bundle();
@@ -185,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Successfully logged in with your Facebook account", Toast.LENGTH_LONG).show();
                     });
                 } catch (IDatabase.DatabaseException e) {
+                    Sentry.captureException(e);
                     Toast.makeText(MainActivity.this, "Failed to log into Facebook", Toast.LENGTH_LONG).show();
                 }
             }
@@ -196,8 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Sentry.captureMessage("MainActivity->Facebook-> " + error.toString());
-                Log.e("MainActFacebook", "Error on Facebook login", error);
+                Sentry.captureException(error);
             }
         });
 

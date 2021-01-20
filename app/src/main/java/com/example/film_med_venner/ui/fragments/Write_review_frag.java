@@ -26,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
+import io.sentry.Sentry;
+
 public class Write_review_frag extends DialogFragment {
     private ImageView yourStar1, yourStar2, yourStar3, yourStar4, yourStar5;
     private int starReview;
@@ -81,7 +83,7 @@ public class Write_review_frag extends DialogFragment {
                             ((MovieDetailsActivity) getActivity()).setReview(newReview);
                             closefragment();
                         } catch (IDatabase.DatabaseException e) {
-                            e.printStackTrace();
+                            Sentry.captureException(e);
                             //writeToast("Failed to update review");
                         }
                     } else {
@@ -90,7 +92,8 @@ public class Write_review_frag extends DialogFragment {
                             Controller_HomeFeed.getInstance().removeToWatchListItem(movieID);
                             Controller_HomeFeed.getInstance().addWatchedListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getName(), movieID));
                         } catch (IDatabase.DatabaseException e) {
-                            e.printStackTrace();
+
+
                             //writeToast("Failed to create review");
                         }
                         //writeToast("Review submitted");

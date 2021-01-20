@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     startActivityIfNeeded(intent, 0);
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("SettingsActivity->logOut(id:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
+                Sentry.captureException(e);
             }
         } else if (view == save_changes_btn) {
 
@@ -106,10 +106,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("SettingsActivity->save_changes_button(id:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
-                Log.e("Error", "Error in updating user");
-                e.printStackTrace();
-
+                Sentry.captureException(e);
             }
 
         } else if (view == save_password_btn) {

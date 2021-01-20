@@ -41,7 +41,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     Toast.makeText(ForgotPasswordActivity.this, "Email is sent", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
-                Sentry.captureMessage("ForgotPasswordActivity->OnClick: " + e.toString());
+                Sentry.captureException(e);
                 Toast.makeText(ForgotPasswordActivity.this, "Something went wrong try again", Toast.LENGTH_LONG).show();
             }
         } else {

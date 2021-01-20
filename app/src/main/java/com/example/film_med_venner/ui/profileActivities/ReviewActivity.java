@@ -69,7 +69,7 @@ public class ReviewActivity extends AppCompatActivity {
                     });
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("ReviewActivity->getReviews(" + userID + ")" + ":  " + e.toString());
+                Sentry.captureException(e);
             }
         });
     }

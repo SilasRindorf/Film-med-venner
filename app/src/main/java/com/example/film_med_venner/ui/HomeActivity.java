@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     });
                 } catch (IDatabase.DatabaseException e) {
-                    Sentry.captureMessage("HomeActivity->getToWatchList(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
+                    Sentry.captureException(e);
                 }
             }
         });

@@ -11,6 +11,8 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.List;
 
+import io.sentry.Sentry;
+
 
 public class Controller_HomeFeed implements IController_HomeFeed {
     private static Controller_HomeFeed instance;
@@ -36,6 +38,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                     .collection("to_watch_list").document(watchItem.getMovieIDStr())
                     .set(new WatchItemDTO(watchItem), SetOptions.merge());
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void addToWatchListItem(IWatchItem watchItem):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating watch item", e);
         }
     }
@@ -48,6 +51,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                     .addOnCompleteListener(task -> {
                     });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void removeToWatchListItem(String movieIDStr):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating watch item", e);
         }
     }
@@ -65,6 +69,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getToWatchList(String userID, RunnableWatchListUI runnableWatchListUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating watch item", e);
         }
     }
@@ -75,6 +80,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                     .collection("watched_list")
                     .add(new WatchItemDTO(watchItem));
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void addWatchedListItem(IWatchItem watchItem):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating watch item", e);
         }
     }
@@ -92,6 +98,7 @@ public class Controller_HomeFeed implements IController_HomeFeed {
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getWatchedList(String userID, RunnableWatchListUI runnableWatchListUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating watch item", e);
         }
     }

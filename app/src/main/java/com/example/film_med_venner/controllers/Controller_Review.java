@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.sentry.Sentry;
+
 public class Controller_Review implements IController_Review {
     private static Controller_Review instance;
     private final FirebaseFirestore db;
@@ -53,6 +55,7 @@ public class Controller_Review implements IController_Review {
                 }
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void updateReview(IReview rating):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error updating review", e);
         }
     }
@@ -64,6 +67,7 @@ public class Controller_Review implements IController_Review {
                     .set(new ReviewDTO(rating, new Date())).addOnCompleteListener(task -> {
             });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void createReview(IReview rating):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error creating review", e);
         }
     }
@@ -85,7 +89,7 @@ public class Controller_Review implements IController_Review {
                         }
                     });
         } catch (Exception e) {
-            Log.e("user : ", userID);
+            Sentry.addBreadcrumb("Called void getReviews(String userID, RunnableReviewsUI runnableReviewsUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error getting reviews", e);
         }
     }
@@ -113,6 +117,7 @@ public class Controller_Review implements IController_Review {
                         }
                     });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getReview(String reviewID, RunnableReviewUI runnableReviewUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error getting reviews", e);
         }
     }
@@ -135,6 +140,7 @@ public class Controller_Review implements IController_Review {
                         }
                     });
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getReview(String userID, String movieID, RunnableReviewUI runnableReviewUI):  ", e.getMessage());
             runnableReviewUI.run();
             throw new IDatabase.DatabaseException("Error getting reviews", e);
         }
@@ -156,10 +162,12 @@ public class Controller_Review implements IController_Review {
 
 
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getFriendsWhoReviewed(String movieIDStr, RunnableStringUI runnableStringUI):  ", e.getMessage());
             throw new IDatabase.DatabaseException("Error getting friend reviews", e);
         }
     }
 
+    //Doesn't work
     public void getFriendReviews(String movieIDStr, RunnableReviewsLoadUI runnableReviewsLoadUI) throws IDatabase.DatabaseException {
         try {
 
@@ -190,6 +198,7 @@ public class Controller_Review implements IController_Review {
             });
 
         } catch (Exception e) {
+            Sentry.addBreadcrumb("Called void getFriendReviews(String movieIDStr, RunnableReviewsLoadUI runnableReviewsLoadUI):  ", e.getMessage());
             runnableReviewsLoadUI.run();
             throw new IDatabase.DatabaseException("Error getting friend reviews", e);
         }

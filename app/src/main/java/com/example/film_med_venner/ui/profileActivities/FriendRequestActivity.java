@@ -59,8 +59,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                     friendRequestAdapter.addItem(friendRequest);
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("FriendRequestActivity->getFriendType:  " + e.toString());
-
+                Sentry.captureException(e);
             }
         });
     }
@@ -73,7 +72,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                 Toast.makeText(ctx, "Friend request accepted", Toast.LENGTH_LONG).show();
             });
         } catch (IDatabase.DatabaseException e) {
-            Sentry.captureMessage("FriendActivity->respondToFriendRequest:  " + e.toString());
+            Sentry.captureException(e);
             Toast.makeText(ctx, "Error accepting friend request", Toast.LENGTH_LONG).show();
         }
     }
@@ -86,7 +85,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                 Toast.makeText(ctx, "Friend request decline", Toast.LENGTH_LONG).show();
             });
         } catch (IDatabase.DatabaseException e) {
-            Sentry.captureMessage("FriendActivity->DeclineFriend:  " + e.toString());
+            Sentry.captureException(e);
             Toast.makeText(ctx, "Error declining friend request", Toast.LENGTH_LONG).show();
         }
     }

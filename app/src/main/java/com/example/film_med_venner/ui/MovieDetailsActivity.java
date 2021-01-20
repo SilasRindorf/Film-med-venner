@@ -99,12 +99,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         }
                     });
                 } catch (IDatabase.DatabaseException e) {
-                    e.printStackTrace();
+                    Sentry.captureException(e);
+
                 }
 
             });
         } catch (IDatabase.DatabaseException e) {
-            e.printStackTrace();
+            Sentry.captureException(e);
+
         }
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container, frag);
@@ -174,7 +176,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 Controller_HomeFeed.getInstance().addToWatchListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getID(), movie.getImdbID()));
                 Toast.makeText(MovieDetailsActivity.this, "Added movie to watch list", Toast.LENGTH_LONG).show();
             } catch (IDatabase.DatabaseException e) {
-                e.printStackTrace();
+                Sentry.captureException(e);
                 Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
             }
         });
@@ -216,7 +218,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     }
                 });
             } catch (IDatabase.DatabaseException e) {
-                Sentry.captureMessage("MovieDetailsActivity->getCurrentUsersReview(uId:" + Controller_User.getInstance().getCurrentUser().getID() + ")" + ":  " + e.toString());
+                Sentry.captureException(e);
             }
         });
     }
