@@ -26,7 +26,6 @@ public class MovieDetailsAdapter extends BaseAdapter {
     private TextView friend_name, review_text;
     private ImageView profile_pic, star1, star2, star3, star4, star5;
     private FullProfileDTO profile;
-    private final Handler uiThread = new Handler();
 
     public MovieDetailsAdapter(Context ctx, List<IReview> ratingItems) {
         this.ctx = ctx;
@@ -66,20 +65,16 @@ public class MovieDetailsAdapter extends BaseAdapter {
             int itemRating = item.getRating();
             if (profile.getPictureURL() != null) {
                 String profilePictureUrl = profile.getPictureURL();
-                uiThread.post(() -> {
                     Picasso.get().load(profilePictureUrl).into(profile_pic);
                     friend_name.setText(friendName);
                     review_text.setText(reviewText);
                     starfest(itemRating);
-                });
             } else {
                 int defaultPic = R.drawable.icon_default_profilepicture;
-                uiThread.post(() -> {
                     Picasso.get().load(defaultPic).into(profile_pic);
                     friend_name.setText(friendName);
                     review_text.setText(reviewText);
                     starfest(itemRating);
-                });
             }
         });
         return gridView;

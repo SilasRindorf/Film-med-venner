@@ -58,12 +58,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), new RunnableFullProfileUI() {
-            @Override
-            public void run(FullProfileDTO fullProfileDTO) throws IDatabase.DatabaseException {
-
-            }
-        });
 
 
         Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), fullProfileDTO -> {
