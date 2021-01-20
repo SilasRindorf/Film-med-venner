@@ -46,7 +46,7 @@ public class Controller_Review implements IController_Review {
                     .document(rating.getUserID()).collection("reviews")
                     .document(rating.getMovieIDStr()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    db.collection("reviews").document(task.getResult().getId())
+                    db.collection("users").document(rating.getUserID()).collection("reviews").document(rating.getMovieIDStr())
                             .set(new ReviewDTO(rating, new Date()), SetOptions.merge());
                 }
             });
