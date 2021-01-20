@@ -25,7 +25,9 @@
         <activity android:name=".ui.MovieDetailsActivity" />
         <activity android:name=".ui.LoadingScreen" />
         <activity android:name=".ui.ReviewedItemActivity" />
-        <activity android:name=".ui.profileActivities.FriendActivity" />
+        <activity android:name=".ui.profileActivities.FriendActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            />
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
         <activity android:name=".ui.profileActivities.ToWatchlistActivity" />
         <activity android:name=".ui.profileActivities.ReviewActivity" />
