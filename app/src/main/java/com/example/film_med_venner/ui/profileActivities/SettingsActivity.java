@@ -1,8 +1,5 @@
 package com.example.film_med_venner.ui.profileActivities;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +25,7 @@ import com.example.film_med_venner.controllers.Controller_User;
 import com.example.film_med_venner.interfaces.IDatabase;
 import com.example.film_med_venner.interfaces.runnable.RunnableErrorUI;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
-import com.example.film_med_venner.ui.login.MainActivity;
+import com.example.film_med_venner.ui.loginActivities.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.Executor;
