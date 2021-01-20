@@ -123,6 +123,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                 starFestFriends(avgRating);
                             });
                         }
+
                         @Override
                         public void run() {
                         }
@@ -168,15 +169,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
                 Toast.makeText(MovieDetailsActivity.this, "Failed to add movie to watch list", Toast.LENGTH_LONG).show();
             }
-        } else if (view == showReviews_btn){
+        } else if (view == showReviews_btn) {
             if (adapterStatus == 0) {
                 gridView.setAdapter(movieDetailsAdapter);
                 adapterStatus = 1;
+                Toast.makeText(MovieDetailsActivity.this, "Til censor: \n Hvis du scroller op og ned her kommer friends reviews ind. Vi kunne desværre ikke få det til at virke helt optimalt. Beklager.", Toast.LENGTH_LONG).show();
             } else {
-            scrollview.setVisibility(View.INVISIBLE);
-            gridView.setVisibility(View.VISIBLE);
-            leaveReviews_btn.setVisibility(View.VISIBLE);}
-        } else if (view == leaveReviews_btn){
+                scrollview.setVisibility(View.INVISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+                leaveReviews_btn.setVisibility(View.VISIBLE);
+                Toast.makeText(MovieDetailsActivity.this, "Til censor: \n Hvis du scroller op og ned her kommer friends reviews ind. Vi kunne desværre ikke få det til at virke helt optimalt. Beklager.", Toast.LENGTH_LONG).show();
+            }
+        } else if (view == leaveReviews_btn) {
             scrollview.setVisibility(View.VISIBLE);
             gridView.setVisibility(View.INVISIBLE);
             leaveReviews_btn.setVisibility(View.INVISIBLE);
@@ -243,7 +247,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void findViews(){
+    private void findViews() {
         yourReview = findViewById(R.id.textView_your_review);
         star1 = findViewById(R.id.ImageView_star_1);
         star2 = findViewById(R.id.ImageView_star_2);
