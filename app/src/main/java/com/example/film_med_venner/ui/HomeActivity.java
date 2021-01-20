@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.listView);
 
         Log.e("Tagie", "I here");
-        Map<Date, IReview> map = new TreeMap<>();
+        Map<Date, IReview> map = new TreeMap<>(Collections.reverseOrder());
 
 
 
