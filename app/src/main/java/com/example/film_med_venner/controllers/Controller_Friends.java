@@ -1,8 +1,6 @@
 package com.example.film_med_venner.controllers;
 
 
-import android.util.Log;
-
 import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.interfaces.IController.IProfileController;
 import com.example.film_med_venner.interfaces.IDatabase;
@@ -18,8 +16,6 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class Controller_Friends implements IProfileController {
     private static Controller_Friends instance;
@@ -60,10 +56,7 @@ public class Controller_Friends implements IProfileController {
         //Add friend
         try {
             db.collection("users").document(friendID).collection("friends").document(selfID)
-                    .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
-                    Log.d(TAG, "Friend request send to ID: " + friendID))
-                    .addOnFailureListener(e ->
-                            Log.w(TAG, "Error sending friend request", e));
+                    .set(user, SetOptions.merge());
         } catch (Exception e) {
             throw new FriendException("Error adding friend", e);
         }
@@ -89,10 +82,11 @@ public class Controller_Friends implements IProfileController {
                             return;
                         else {
                             db.collection("users").document(doc.getId()).collection("friends").document(selfID)
-                                    .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
-                                    Log.d(TAG, "Friend request send to ID: " + doc.getId()))
-                                    .addOnFailureListener(e ->
-                                            Log.w(TAG, "Error sending friend request", e));
+                                    .set(user, SetOptions.merge())
+                                    .addOnSuccessListener(aVoid -> {
+                                    })
+                                    .addOnFailureListener(e -> {
+                                    });
                         }
                     }
                 }
@@ -127,10 +121,11 @@ public class Controller_Friends implements IProfileController {
                             return;
                         else {
                             db.collection("users").document(doc.getId()).collection("friends").document(selfID)
-                                    .set(user, SetOptions.merge()).addOnSuccessListener(aVoid ->
-                                    Log.d(TAG, "Friend request send to ID: " + doc.getId()))
-                                    .addOnFailureListener(e ->
-                                            Log.w(TAG, "Error sending friend request", e));
+                                    .set(user, SetOptions.merge())
+                                    .addOnSuccessListener(aVoid -> {
+                                    })
+                                    .addOnFailureListener(e -> {
+                                    });
                         }
                     }
                 }
@@ -187,8 +182,8 @@ public class Controller_Friends implements IProfileController {
                     try {
                         //Run methods if everything succeeds
                         runnableUI.run();
-                    } catch (IDatabase.DatabaseException e) {
-                        Log.e(TAG, e.getMessage());
+                    } catch (IDatabase.DatabaseException ignored) {
+
                     }
                 }
             });
