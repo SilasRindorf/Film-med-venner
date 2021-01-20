@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.film_med_venner.DTO.WatchItemDTO;
 import com.example.film_med_venner.R;
@@ -88,6 +89,18 @@ public class ToWatchlistActivity extends AppCompatActivity {
         intent.putExtra("Id", items.get(position).getMovieIDStr());
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+    }
+
+    public void removeOnClick(View view) {
+//        int position = gridView.getPositionForView(view);
+//        try {
+//            Controller_HomeFeed.getInstance().removeToWatchListItem(items.get(position).getMovieIDStr());
+//            toWatchlistAdapter.removeItem(position);
+//            Toast.makeText(ctx, "Movie removed from watch list", Toast.LENGTH_LONG).show();
+//        } catch (IDatabase.DatabaseException e) {
+//            Toast.makeText(ctx, "Error while trying to remove movie ", Toast.LENGTH_LONG).show();
+//            e.printStackTrace();
+//        }
     }
 
     /*

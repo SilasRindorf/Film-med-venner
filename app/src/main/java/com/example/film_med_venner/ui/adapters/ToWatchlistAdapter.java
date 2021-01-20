@@ -19,9 +19,6 @@ import java.util.List;
 public class ToWatchlistAdapter extends BaseAdapter {
     private Context ctx;
     private List<IWatchItem> watchlistItems;
-    private TextView title, year, type;
-    private ImageView moviePoster;
-    private View gridView;
     private Movie movie;
 
     public ToWatchlistAdapter(Context ctx, List<IWatchItem> watchlistItems) {
@@ -46,15 +43,18 @@ public class ToWatchlistAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        gridView = convertView;
+        View gridView = convertView;
         IWatchItem item = watchlistItems.get(position);
         if (gridView == null) {
             LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             gridView = inflater.inflate(R.layout.profile_to_watch_item, null);
         }
 
-        findViews();
-        System.out.println(item.getMovieIDStr());
+        ImageView moviePoster = gridView.findViewById(R.id.moviePoster);
+        TextView title = gridView.findViewById(R.id.title);
+        TextView year = gridView.findViewById(R.id.year);
+        TextView type = gridView.findViewById(R.id.type);
+
         movie = Controller_MovieDetails.getInstance().getMovie(item.getMovieIDStr());
 
         Picasso.get().load(movie.getPoster()).into(moviePoster);
@@ -65,10 +65,8 @@ public class ToWatchlistAdapter extends BaseAdapter {
         return gridView;
     }
 
-    private void findViews() {
-        moviePoster = gridView.findViewById(R.id.moviePoster);
-        title = gridView.findViewById(R.id.title);
-        year = gridView.findViewById(R.id.year);
-        type = gridView.findViewById(R.id.type);
+    public void removeItem(int position) {
+        watchlistItems.remove(position);
+        this.notifyDataSetChanged();
     }
 }
