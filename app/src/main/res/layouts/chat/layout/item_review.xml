@@ -41,14 +41,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="This person has rated the movie"
+                    android:text="An error occured and on person was found."
                     android:textColor="@color/colorTextView" />
                 <TextView
                     android:id="@+id/review_text"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz."
+                    android:text="An error occured and no review was found."
                     android:textColor="@color/colorTextView" />
             </LinearLayout>
         </LinearLayout>
