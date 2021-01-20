@@ -51,6 +51,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
     private Bundle bundle = new Bundle();
     private List<FullProfileDTO> friendList = new ArrayList<>();
     private String userID;
+    private int amountOfFriendRequest;
     //private TextView profile_id;
 
 
@@ -71,10 +72,10 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         if (v == see_friendrequest_btn) {
             setContentView(R.layout.activity_friend_request);
             Intent intent = new Intent(this, FriendRequestActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivityIfNeeded(intent, 0);
         }
-        if (v == add_friend_btn){
+        if (v == add_friend_btn) {
             try {
                 AddFriend();
             } catch (IDatabase.DatabaseException e) {
@@ -102,13 +103,14 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         fragmentTransaction.add(id, fragment);
         fragmentTransaction.commit();
     }
+
     private void AddFriend() throws IDatabase.DatabaseException {
         Controller_Friends.getInstance().sendFriendRequestByMail(searchField.getText().toString());
         searchField.setText("");
         Utility.hideKeyboard(FriendActivity.this);
     }
 
-    private void findViews(){
+    private void findViews() {
         //profile_id = findViewById(R.id.profile_id);
         gridView = findViewById(R.id.gridView);
         see_friendrequest_btn = findViewById(R.id.see_friendrequest_btn);
@@ -128,7 +130,14 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             l_layout_buttons.getLayoutParams().height = 0;
             //profile_id.setText(userID);
         }
-
+        amountOfFriendRequest = intent.getIntExtra("friendRequests",0);
+        if (amountOfFriendRequest == 0){
+            see_friendrequest_btn.setText("You have 0 new friend requests");
+        } else if (amountOfFriendRequest == 1){
+            see_friendrequest_btn.setText("You have 1 new friend requests");
+        } else if (amountOfFriendRequest > 1){
+            see_friendrequest_btn.setText("You have " + amountOfFriendRequest  + " new friend requests");
+        }
 
         see_friendrequest_btn.setOnClickListener(this);
         add_friend_btn.setOnClickListener(this);
@@ -155,7 +164,7 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
             gridView.setAdapter(friendAdapter);
             gridView.setVisibility(View.VISIBLE);
             try {
-                Controller_Friends.getInstance().getFriendRequest(userID,1, friends -> {
+                Controller_Friends.getInstance().getFriendType(userID,1, friends -> {
                     friendAdapter.addItem(friends);
                 });
             } catch (IDatabase.DatabaseException e) {

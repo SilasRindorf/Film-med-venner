@@ -17,7 +17,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
             <!-- PROFILE SETTINGS -->
             <TextView
                 android:layout_width="match_parent"
@@ -86,13 +88,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Top genre: "
+                    android:text="Profile description: "
                     android:textColor="#DDFFFFFF"/>
                 <EditText
                     android:id="@+id/profile_top_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Write your favourite genres here..."
+                    android:hint="This could for example be your favourite genres..."
                     android:fontFamily="sans-serif-medium"
                     android:textColor="?attr/editTextColor"
                     android:textAppearance="?android:attr/textAppearanceMediumInverse"

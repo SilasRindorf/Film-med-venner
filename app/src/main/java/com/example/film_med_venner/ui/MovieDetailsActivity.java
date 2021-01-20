@@ -7,23 +7,18 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.film_med_venner.DAO.Movie;
 import com.example.film_med_venner.DAO.Review;
@@ -68,7 +63,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private int raters;
     private int avgRating;
     private List<IReview> reviewList = new ArrayList<>();
-    private ScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +72,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
 
         ctx = this;
-        scrollView = findViewById(R.id.scrollView);
+
         gridView = findViewById(R.id.gridView);
 
         movie = mdController.getMovie(intent.getStringExtra("Id"));
@@ -135,7 +130,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                             avgRating = totalRating / raters;
                             movieDetailsAdapter.addItem(r);
                             uiThread.post(() -> {
-                                Log.e("HowManyTimesDoIRun", "FUCKING TISSEMYRLORTEGRIDVIEW");
                                 starFestFriends(avgRating);
                                 //setGridViewHeight(gridView,1);
                                 //scrollView.setLayoutParams(new ConstraintLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));

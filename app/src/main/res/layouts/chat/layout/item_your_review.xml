@@ -12,7 +12,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
-        android:background="@color/item_background">
+        android:background="@color/item_background"
+        android:onClick="itemOnClick">
         <ImageView
             android:id="@+id/moviePoster"
             android:layout_width="match_parent"

@@ -2,6 +2,8 @@ package com.example.film_med_venner.DAO;
 
 import com.example.film_med_venner.interfaces.IReview;
 
+import java.util.Date;
+
 public class Review implements IReview {
     private int rating;
     private String username;
@@ -9,7 +11,7 @@ public class Review implements IReview {
     private String review;
     private String movieIDStr;
     private String reviewIDStr;
-
+    private Date creationDate;
     public Review(){
 
     }
@@ -73,5 +75,15 @@ public class Review implements IReview {
     @Override
     public String getMovieIDStr() {
         return movieIDStr;
+    }
+
+    @Override
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

@@ -9,16 +9,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.film_med_venner.DAO.Profile;
 import com.example.film_med_venner.R;
+import com.example.film_med_venner.controllers.Controller_Friends;
 import com.example.film_med_venner.controllers.Controller_Review;
+import com.example.film_med_venner.interfaces.IDatabase;
+import com.example.film_med_venner.interfaces.IProfile;
+import com.example.film_med_venner.interfaces.IReview;
+import com.example.film_med_venner.interfaces.runnable.RunnableReviewsLoadUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -42,6 +53,36 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Fragment frag = new Nav_bar_frag();
         addFrag(R.id.nav_bar_container,frag);
         listView = findViewById(R.id.listView);
+
+        Log.e("Tagie",  "I here");
+        Map<Date, IReview> map = new TreeMap<>();
+        try {
+            Controller_Friends.getInstance().getFriends(profiles -> {
+                for (IProfile p: profiles) {
+                    try {
+                        Controller_Review.getInstance().getReviews(p.getID(), new RunnableReviewsLoadUI() {
+                            @Override
+                            public void run() {
+
+                            }
+
+                            @Override
+                            public void run(IReview[] ratings) {
+                                for (IReview review : ratings) {
+                                    map.put(review.getCreationDate(),review);
+                                    Log.e("Main menu",review.getCreationDate() + "");
+                                }
+
+                            }
+                        });
+                    } catch (IDatabase.DatabaseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (IDatabase.DatabaseException e) {
+            e.printStackTrace();
+        }
         //TODO Homefeed not working
         /*bgThread.execute(() -> {
             try {
