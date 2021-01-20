@@ -20,7 +20,7 @@ public class ReviewedItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.feed_rated_item_description);
+        setContentView(R.layout.frag_extended_review);
         Intent intent = getIntent();
 
         String review = intent.getStringExtra("reviewText");
