@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.film_med_venner.DAO.Review;
 import com.example.film_med_venner.DTO.FriendDTO;
 import com.example.film_med_venner.DTO.FullProfileDTO;
 import com.example.film_med_venner.DTO.ProfileDTO;
@@ -27,6 +28,7 @@ import com.example.film_med_venner.interfaces.runnable.RunnableFullProfileUI;
 import com.example.film_med_venner.ui.adapters.HomeAdapter;
 import com.example.film_med_venner.ui.fragments.Nav_bar_frag;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -35,13 +37,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends AppCompatActivity {
     ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
-    private final Executor bgThread = Executors.newSingleThreadExecutor();
-    private final Handler uiThread = new Handler();
     private TreeMap<Date, IReview> map = new TreeMap<>();
+    private Review[] reviews;
 
 
     @Override
@@ -67,6 +68,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
                         for (IReview review : ratings) {
                             map.put(review.getCreationDate(), review);
+                            arrangeReviews(map);
                             homeAdapter = new HomeAdapter(ctx, map);
                             listView.setAdapter(homeAdapter);
                             listView.setVisibility(View.VISIBLE);
@@ -81,14 +83,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @Override
-    public void onClick(View v) {
-        setContentView(R.layout.feed_rated_item_description);
-        Intent intent = new Intent(this, ReviewedItemActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(intent, 0);
-    }
-
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -96,9 +90,25 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.commit();
     }
 
+    public void onClickReview(View v) {
+        setContentView(R.layout.feed_rated_item_description);
+        Intent intent = new Intent(this, ReviewedItemActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(intent, 0);
+    }
+
     public void onClickPoster(View view) {
+        int position = listView.getPositionForView(view);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra("Id", reviews[position].getMovieIDStr());
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
 
-
+    private void arrangeReviews(TreeMap<Date, IReview> items) {
+        Collection c = items.values();
+        reviews = new Review[c.size()];
+        c.toArray(reviews);
     }
 
     public void goToReview(View view){
