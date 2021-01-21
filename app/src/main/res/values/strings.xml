@@ -1,6 +1,6 @@
     <resources>
         // Titles
-        <string name="app_name">Film-med-venner</string>
+        <string name="app_name">C6 Film Med Venner</string>
         <string name="welcome">Velkommen til film med venner app\en!</string>
         <string name="chatTitle">Chat</string>
         <string name="settings">Settings</string>
