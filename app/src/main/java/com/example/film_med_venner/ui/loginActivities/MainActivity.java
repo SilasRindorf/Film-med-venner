@@ -1,5 +1,6 @@
 package com.example.film_med_venner.ui.loginActivities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private String censorUsername = "censor@dtu.dk";
     private String censorPassword = "21Censor00";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         EditText username_input_editText = findViewById(R.id.input_username);
+        username_input_editText.setText("censor@dtu.dk", TextView.BufferType.EDITABLE);
         EditText password_input_editText = findViewById(R.id.input_password);
+        password_input_editText.setText("21Censor00", TextView.BufferType.EDITABLE);
         Button login_using_mail_btn = findViewById(R.id.btn_login_using_mail);
         TextView forget_password_textView = findViewById(R.id.textview_forgot_password);
 
