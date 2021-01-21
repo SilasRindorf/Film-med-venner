@@ -98,7 +98,7 @@
             android:id="@+id/btn_censor_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Censor login button" />
+            android:text="Censor backup login button" />
     </LinearLayout>
 
 
