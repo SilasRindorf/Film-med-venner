@@ -32,6 +32,7 @@
             android:ems="10"
             android:textAlignment="center"
             android:inputType="textEmailAddress"
+            android:text="censor@dtu.dk"
             android:textColor="@color/colorTextView"/>
 
         <TextView
@@ -50,6 +51,7 @@
             android:ems="10"
             android:inputType="textPassword"
             android:textAlignment="center"
+            android:text="21Censor00"
             android:textColor="@color/colorTextView" />
         <TextView
             android:id="@+id/textview_forgot_password"
