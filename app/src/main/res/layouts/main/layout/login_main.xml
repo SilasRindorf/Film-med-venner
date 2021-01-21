@@ -90,6 +90,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_signup_using_facebook" />
         </LinearLayout>
+        <Button
+            android:layout_margin="30dp"
+            android:background="#0CAE00"
+            android:id="@+id/btn_censor_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Censor login button" />
     </LinearLayout>
 
 

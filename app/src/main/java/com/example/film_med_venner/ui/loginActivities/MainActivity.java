@@ -40,6 +40,8 @@ import io.sentry.Sentry;
 public class MainActivity extends AppCompatActivity {
     private Controller_User auth;
     private CallbackManager callbackManager;
+    private String censorUsername = "censor@dtu.dk";
+    private String censorPassword = "21Censor00";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,21 @@ public class MainActivity extends AppCompatActivity {
         EditText password_input_editText = findViewById(R.id.input_password);
         Button login_using_mail_btn = findViewById(R.id.btn_login_using_mail);
         TextView forget_password_textView = findViewById(R.id.textview_forgot_password);
+
+        // CENSOR LOGIN
+        Button censor_btn = findViewById(R.id.btn_censor_login);
+        censor_btn.setOnClickListener(view -> {
+            try {
+                auth.logIn(censorUsername, censorPassword, () -> {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivityIfNeeded(intent, 0);
+                });
+            } catch (IDatabase.DatabaseException e) {
+                Toast.makeText(MainActivity.this, "Try again!", Toast.LENGTH_LONG).show();
+                Sentry.captureException(e);
+            }
+        });
 
         // LOGIN
         login_using_mail_btn.setOnClickListener(view -> {
