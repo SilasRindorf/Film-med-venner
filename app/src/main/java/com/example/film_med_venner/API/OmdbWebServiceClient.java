@@ -21,7 +21,7 @@ import io.sentry.Sentry;
 
 public class OmdbWebServiceClient {
 
-    public static final String URL = "http://www.omdbapi.com/?apikey=a25b01e1";
+    public static final String URL = "https://www.omdbapi.com/?apikey=a25b01e1";
 
     public OmdbWebServiceClient() {
     }
