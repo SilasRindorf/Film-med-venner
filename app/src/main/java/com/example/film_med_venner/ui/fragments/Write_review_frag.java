@@ -69,8 +69,6 @@ public class Write_review_frag extends DialogFragment {
         reviewInput = view.findViewById(R.id.review_input_editText);
         btn = (Button) view.findViewById(R.id.submit_review_btn);
         btn.setOnClickListener(v -> {
-            Log.e("Here I am", "I ran");
-            Log.e("Here I am", starReview + "");
             Thread newThread = new Thread(() -> {
                 if (starReview > 0 && starReview < 6) {
                     IReview newReview = new Review(
@@ -86,7 +84,6 @@ public class Write_review_frag extends DialogFragment {
                             closefragment();
                         } catch (IDatabase.DatabaseException e) {
                             Sentry.captureException(e);
-                            Log.e("review",e.getMessage());
                             //writeToast("Failed to update review");
                         }
                     } else {
@@ -95,7 +92,6 @@ public class Write_review_frag extends DialogFragment {
                             Controller_HomeFeed.getInstance().removeToWatchListItem(movieID);
                             Controller_HomeFeed.getInstance().addWatchedListItem(new WatchItem(Controller_User.getInstance().getCurrentUser().getName(), movieID));
                         } catch (IDatabase.DatabaseException e) {
-                            Log.e("review",e.getMessage());
                             Sentry.captureException(e);
                             //writeToast("Failed to create review");
                         }
@@ -105,9 +101,9 @@ public class Write_review_frag extends DialogFragment {
                     }
                 } else {
                     Sentry.captureMessage("Write_review_frag stars null or under 1 or above 5");
-                    Log.e("review","e.getMessage()");
                     //Toast.makeText(getActivity(), "No rating given", Toast.LENGTH_LONG).show();
                 }
+
             });
             newThread.start();
         });

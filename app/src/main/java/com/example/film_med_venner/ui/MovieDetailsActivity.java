@@ -122,6 +122,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     public void starFest(ImageView[] stars, int starReview) {
         int starShape = R.drawable.icon_filled_star;
+        for (int i = 0; i < 5; i++) {
+            stars[i].setImageResource(R.drawable.icon_empty_star);
+        }
         //On purpose no break;
         switch (starReview) {
             case 5:

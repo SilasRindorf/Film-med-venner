@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     ListView listView;
     private HomeAdapter homeAdapter;
     private Context ctx;
-    private TreeMap<Date, IReview> map = new TreeMap<>();
+    private final TreeMap<Date, IReview> map = new TreeMap<>();
     private Review[] reviews;
 
 
@@ -53,24 +53,26 @@ public class HomeActivity extends AppCompatActivity {
         Controller_User.getInstance().getFullProfile(Controller_User.getInstance().getCurrentUser().getID(), fullProfileDTO -> {
 
             for (FriendDTO p : fullProfileDTO.getFriends()) {
-                try {
-                    Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
-                        for (IReview review : ratings) {
-                            map.put(review.getCreationDate(), review);
-                            arrangeReviews(map);
-                            homeAdapter = new HomeAdapter(ctx, map);
-                            listView.setAdapter(homeAdapter);
-                            listView.setVisibility(View.VISIBLE);
-                        }
+                if (p.getStatus() == 1) {
+                    try {
+                        Controller_Review.getInstance().getReviews(p.getRequester(), ratings -> {
+                            for (IReview review : ratings) {
+                                map.put(review.getCreationDate(), review);
+                                arrangeReviews(map);
+                                homeAdapter = new HomeAdapter(ctx, map);
+                                listView.setAdapter(homeAdapter);
+                                listView.setVisibility(View.VISIBLE);
+                            }
 
-                    });
-                } catch (IDatabase.DatabaseException e) {
-                    Sentry.captureException(e);
+                        });
+                    } catch (IDatabase.DatabaseException e) {
+                        Sentry.captureException(e);
+                    }
                 }
             }
         });
-
     }
+
 
     private void addFrag(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
