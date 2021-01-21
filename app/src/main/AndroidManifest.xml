@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.film_med_venner"
-    >
+    package="com.example.film_med_venner">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,26 +14,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <meta-data android:name="io.sentry.dsn" android:value="https://b7c94db054674985955195410c550e4f@o508334.ingest.sentry.io/5600687" />
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="https://b7c94db054674985955195410c550e4f@o508334.ingest.sentry.io/5600687" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
 
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
-            android:value="@string/facebook_app_id"/>
-
-        <activity android:name=".ui.profileActivities.FriendRequestActivity" />
+        <activity android:name=".ui.profileActivities.FriendRequestActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ProfileActivity" />
+        </activity>
         <activity android:name=".ui.loginActivities.ForgotPasswordActivity" />
-        <activity android:name=".ui.MovieDetailsActivity"
+        <activity
+            android:name=".ui.MovieDetailsActivity"
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity android:name=".ui.LoadingScreen" />
         <activity android:name=".ui.ReviewedItemActivity" />
-        <activity android:name=".ui.profileActivities.FriendActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            />
+        <activity
+            android:name=".ui.profileActivities.FriendActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity android:name=".ui.profileActivities.WatchedlistActivity" />
         <activity android:name=".ui.profileActivities.ToWatchlistActivity" />
         <activity android:name=".ui.profileActivities.ReviewActivity" />
-        <activity android:name=".ui.profileActivities.SettingsFacebookUserActivity"/>
+        <activity android:name=".ui.profileActivities.SettingsFacebookUserActivity" />
         <activity android:name=".ui.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -76,7 +81,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.facebook.FacebookActivity"
+        <activity
+            android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name">
 
@@ -88,8 +94,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>

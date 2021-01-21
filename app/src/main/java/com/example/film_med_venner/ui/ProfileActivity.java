@@ -74,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 Controller_Friends.getInstance().getFriendType(userID,1, friends -> {
                     friendCount++;
-                    uiThread.post(() -> setupFriendsInfo());
+                    uiThread.post(this::setupFriendsInfo);
                 });
                 if (isUser) {
                     Controller_Friends.getInstance().getFriendType(userID, 0, friends -> {

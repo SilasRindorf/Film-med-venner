@@ -68,8 +68,8 @@ public class FriendActivity extends AppCompatActivity implements View.OnClickLis
         if (v == see_friendrequest_btn) {
             setContentView(R.layout.activity_friend_request);
             Intent intent = new Intent(this, FriendRequestActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivityIfNeeded(intent, 0);
+            startActivity(intent);
+            finish(); // if the activity running has it's own context
         }
         if (v == add_friend_btn) {
             try {
